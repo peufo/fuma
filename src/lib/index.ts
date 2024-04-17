@@ -3,7 +3,7 @@
 // export * from './table'
 // export * from './media'
 export { default as Icon } from './Icon.svelte'
-// export { default as Card } from './Card.svelte'
+export { default as Card } from './Card.svelte'
 // export { default as CardFullScreen } from './CardFullScreen.svelte'
 // export { default as CardLink } from './CardLink.svelte'
 // export { default as CardBasic } from './CardBasic.svelte'

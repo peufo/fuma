@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { mdiArrowLeft } from '@mdi/js'
-	import { Icon } from '.'
+	import { Icon } from './index.js'
 
 	let klass = ''
 	export { klass as class }
