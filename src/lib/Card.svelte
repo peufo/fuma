@@ -8,10 +8,9 @@
 	export let headerClass = ''
 	export let returnUrl = ''
 	export let style = ''
-	export let n = 42
 </script>
 
-<div class="card bg-base-100 shadow-lg border bordered {klass}" {style} on:click={() => n++}>
+<div class="card bg-base-100 shadow-lg border bordered {klass}" {style}>
 	<slot name="top" />
 
 	<div class="card-body p-2 sm:p-8 {bodyClass}">

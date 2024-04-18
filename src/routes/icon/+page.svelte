@@ -1,6 +1,11 @@
 <script lang="ts">
-	import { Icon } from '$lib/index.js'
 	import { mdiAbacus } from '@mdi/js'
+	import Meta from '$lib/Meta.svelte'
+	import { Icon } from '$lib/index.js'
+
+	let icon: Icon
 </script>
 
-<Icon path={mdiAbacus} />
+<Meta component={icon}>
+	<Icon bind:this={icon} path={mdiAbacus} />
+</Meta>
