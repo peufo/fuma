@@ -3,6 +3,7 @@
 	import { Card } from './index.js'
 
 	export let name = ''
+	export let description = ''
 	export let component: SvelteComponent
 
 	type Props = { name: string; value: unknown }[]
@@ -25,8 +26,9 @@
 	}
 </script>
 
-<Card class="mx-auto max-w-4xl">
+<Card class="mx-auto max-w-4xl mt-6">
 	<svelte:fragment slot="title">{name}</svelte:fragment>
+	<svelte:fragment slot="subtitle">{description}</svelte:fragment>
 
 	<slot />
 

@@ -18,17 +18,14 @@
 	</Card>
 </Meta>
 
-<br />
 <Meta component={cardBasic} name="CardBasic">
 	<CardBasic bind:this={cardBasic} title="Title">Default slot</CardBasic>
 </Meta>
 
-<br />
 <Meta component={cardLink} name="CardLink">
 	<CardLink bind:this={cardLink} title="Title" href="#">Default slot</CardLink>
 </Meta>
 
-<br />
 <Meta component={cardFullScreen} name="CardFullScreen">
 	<CardFullScreen bind:this={cardFullScreen}>
 		<h2 slot="title">Slot "title"</h2>
