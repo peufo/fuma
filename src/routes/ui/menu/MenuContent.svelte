@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { mdiGoogle, mdiFacebook, mdiInstagram } from '@mdi/js'
 
-	import Icon from '$lib/Icon.svelte'
+	import { Icon } from '$lib/index.js'
 </script>
 
 <ul>

@@ -1,0 +1,1 @@
+Sélectioner un composant

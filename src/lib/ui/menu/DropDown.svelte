@@ -19,7 +19,7 @@
 	import { onMount } from 'svelte'
 	import { browser } from '$app/environment'
 	import { beforeNavigate } from '$app/navigation'
-	import '$lib/menu/dropdown.css'
+	import './dropdown.css'
 
 	export let tippyProps: Partial<TippyProps> = {}
 	let klass = ''
@@ -102,7 +102,7 @@
 
 		<div class="hidden">
 			<div
-				class="{klass} border rounded-lg p-1 bg-base-100 shadow-lg max-h-80 overflow-auto"
+				class="{klass} max-h-80 overflow-auto rounded-lg border bg-base-100 p-1 shadow-lg"
 				bind:this={content}
 			>
 				<slot />

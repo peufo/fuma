@@ -14,8 +14,8 @@
 <Toaster />
 
 <div class="flex gap-4">
-	<div class="menu flex flex-col p-4 min-h-full w-min">
-		<div class="flex items-center gap-4 mb-4">
+	<div class="menu flex min-h-full w-min flex-col p-4">
+		<div class="mb-4 flex items-center gap-4">
 			<h2 class="title min-w-36">Mat</h2>
 			<ToggleMode />
 		</div>
