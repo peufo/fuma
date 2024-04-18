@@ -1,11 +1,11 @@
 <script lang="ts">
-	import { onMount, afterUpdate, type SvelteComponent } from 'svelte'
+	import { type SvelteComponent } from 'svelte'
 	import { Card } from './index.js'
 
+	export let name = ''
 	export let component: SvelteComponent
 
 	type Props = { name: string; value: unknown }[]
-
 	let props: Props = []
 
 	$: initMeta(component)
@@ -26,9 +26,11 @@
 </script>
 
 <Card class="mx-auto max-w-4xl">
+	<svelte:fragment slot="title">{name}</svelte:fragment>
+
 	<slot />
 
-	<div class="divider" />
+	<div class="my-10" />
 
 	<table>
 		<thead>
