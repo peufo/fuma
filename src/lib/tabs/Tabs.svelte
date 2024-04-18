@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/stores'
-	import type { Tab } from '$lib/types'
-	import { Icon } from '$lib/material'
+	import type { Tab } from './index.js'
+	import { Icon } from '$lib/index.js'
 
 	export let tabs: Tab[]
 	let klass = ''
@@ -10,7 +10,7 @@
 
 <div
 	class="
-	sticky top-0 bg-base-100 shadow-sm z-20 flex gap-2 p-2 border-b bordered rounded-t-2xl
+	bordered sticky top-0 z-20 flex gap-2 rounded-t-2xl border-b bg-base-100 p-2 shadow-sm
 	{klass}
 	"
 >
@@ -19,13 +19,13 @@
 		<a
 			href={tab.href}
 			class="
-        menu-item grow justify-center flex-col gap-0 text-sm py-2
-        lg:flex-row lg:text-base lg:gap-3 rounded-lg
+        menu-item grow flex-col justify-center gap-0 rounded-lg py-2
+        text-sm lg:flex-row lg:gap-3 lg:text-base
       "
 			class:active
 		>
 			<Icon path={tab.icon} size={20} class="opacity-70" />
-			<span class="whitespace-nowrap hidden sm:block">{tab.label}</span>
+			<span class="hidden whitespace-nowrap sm:block">{tab.label}</span>
 		</a>
 	{/each}
 </div>

@@ -1,8 +1,9 @@
 <script lang="ts">
-	import { Icon, parseOptions, type Options, type Option } from '$lib/material'
-	import { urlParam } from '$lib/store'
 	import { page } from '$app/stores'
 	import { onMount } from 'svelte'
+
+	import { urlParam } from '$lib/store/index.js'
+	import { Icon, parseOptions, type Options, type Option } from '$lib/index.js'
 
 	export let options: Options
 	export let showLabel = false
@@ -19,7 +20,7 @@
 	function getOptions(url: URL) {
 		return parseOptions(options).map((option) => ({
 			...option,
-			isActive: getIsActive(option, url),
+			isActive: getIsActive(option, url)
 		}))
 	}
 	function getIsActive(option: Option, { searchParams }: URL) {
@@ -29,13 +30,13 @@
 	}
 </script>
 
-<div class="flex items-center rounded-lg gap-[3px] p-1 bg-base-200">
+<div class="flex items-center gap-[3px] rounded-lg bg-base-200 p-1">
 	{#each _options as { value, label, icon, isActive }}
 		<a
 			href={$urlParam.with({ [key]: value })}
 			data-sveltekit-noscroll
 			data-sveltekit-replacestate
-			class="h-6 p-1 flex items-center justify-center gap-2 rounded"
+			class="flex h-6 items-center justify-center gap-2 rounded p-1"
 			class:px-2={showLabel}
 			class:w-6={icon && !showLabel}
 			class:whitespace-nowrap={showLabel}

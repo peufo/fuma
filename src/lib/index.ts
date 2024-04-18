@@ -1,5 +1,6 @@
-// export * from './display'
+export * from './utils/index.js'
 export * from './menu/index.js'
+export * from './tabs/index.js'
 // export * from './input'
 // export * from './media'
 // export * from './table'
@@ -20,5 +21,3 @@ export { default as Pagination } from './Pagination.svelte'
 export { default as DialogConfirm } from './DialogConfirm.svelte'
 
 // export { default as ImagePlaceholder } from './ImagePlaceholder.svelte'
-// export { default as Tabs } from './Tabs.svelte'
-// export { default as TabsSmall } from './TabsSmall.svelte'
