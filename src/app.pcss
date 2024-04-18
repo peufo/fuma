@@ -1,4 +1,53 @@
-/* Write your global styles here, in PostCSS syntax */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+	.menu-item {
+		@apply flex cursor-pointer items-center gap-3 text-ellipsis whitespace-nowrap rounded-md px-3 py-[5px] hover:bg-base-200;
+	}
+	.menu-item.active {
+		@apply bg-base-300/80;
+	}
+	.menu-item.disabled {
+		@apply cursor-default bg-base-200/50 hover:bg-base-200/50;
+	}
+
+	.title {
+		@apply text-xl font-semibold text-base-content/70;
+	}
+
+	.title-sm {
+		@apply text-xs font-bold text-base-content/60;
+	}
+
+	.title-md {
+		@apply font-semibold text-base-content/60;
+	}
+
+	.btn-primary {
+		@apply fill-white/90 text-white;
+	}
+
+	.tiptap .ProseMirror-selectednode {
+		@apply rounded outline outline-2 outline-primary;
+	}
+
+	.suggestion {
+		@apply mx-1 inline-block !whitespace-nowrap rounded border px-2 text-sm shadow;
+	}
+}
+
+mark {
+	border-radius: 0.25em;
+	box-decoration-break: clone;
+	padding: 0.125em 0;
+}
+
+.tiptap p.is-editor-empty:first-child::before {
+	color: #adb5bd;
+	content: attr(data-placeholder);
+	float: left;
+	height: 0;
+	pointer-events: none;
+}

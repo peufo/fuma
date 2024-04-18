@@ -5,6 +5,6 @@
 	let card: Card
 </script>
 
-<Meta component={card} />
-
-<Card bind:this={card} class="prout">YOLO</Card>
+<Meta component={card}>
+	<Card bind:this={card} class="prout">YOLO</Card>
+</Meta>

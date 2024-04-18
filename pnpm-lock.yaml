@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      mode-watcher:
+        specifier: ^0.3.0
+        version: 0.3.0(svelte@4.2.15)
       tippy.js:
         specifier: ^6.3.7
         version: 6.3.7
@@ -1296,6 +1299,11 @@ packages:
 
   mlly@1.6.1:
     resolution: {integrity: sha512-vLgaHvaeunuOXHSmEbZ9izxPx3USsk8KCQ8iC+aTlp5sKRSoZvwhHh5L9VbKSaVC6sJDqbyohIS76E2VmHIPAA==}
+
+  mode-watcher@0.3.0:
+    resolution: {integrity: sha512-k8jjuTx94HaaRKWO6JDf8wL761hFatrTIHJKl+E+3JWcnv+GnMBH062zcLsy0lbCI3n7RZxxHaWi66auFnUO4g==}
+    peerDependencies:
+      svelte: ^4.0.0
 
   mri@1.2.0:
     resolution: {integrity: sha512-tzzskb3bG8LvYGFF/mDTpq3jpI6Q9wc3LEmBaghu+DdCssd1FakN7Bc0hVNmEyGq1bq3RgfkCb3cmQLpNPOroA==}
@@ -3267,6 +3275,10 @@ snapshots:
       pathe: 1.1.2
       pkg-types: 1.0.3
       ufo: 1.5.3
+
+  mode-watcher@0.3.0(svelte@4.2.15):
+    dependencies:
+      svelte: 4.2.15
 
   mri@1.2.0: {}
 

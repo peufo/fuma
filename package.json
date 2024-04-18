@@ -59,6 +59,7 @@
 	"types": "./dist/index.d.ts",
 	"type": "module",
 	"dependencies": {
+		"mode-watcher": "^0.3.0",
 		"tippy.js": "^6.3.7"
 	}
 }

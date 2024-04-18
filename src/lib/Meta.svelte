@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onMount, afterUpdate, type SvelteComponent } from 'svelte'
+	import { Card } from './index.js'
 
 	export let component: SvelteComponent
 
@@ -24,21 +25,27 @@
 	}
 </script>
 
-<table>
-	<thead>
-		<tr>
-			<th>Props</th>
-			<th>Type</th>
-			<th>Value</th>
-		</tr>
-	</thead>
-	<tbody>
-		{#each props as { name, value }}
+<Card class="mx-auto max-w-4xl">
+	<slot />
+
+	<div class="divider" />
+
+	<table>
+		<thead>
 			<tr>
-				<td>{name}</td>
-				<td>{typeof value}</td>
-				<td>{JSON.stringify(value)}</td>
+				<th>Props</th>
+				<th>Type</th>
+				<th>Value</th>
 			</tr>
-		{/each}
-	</tbody>
-</table>
+		</thead>
+		<tbody>
+			{#each props as { name, value }}
+				<tr>
+					<td>{name}</td>
+					<td>{typeof value}</td>
+					<td>{JSON.stringify(value)}</td>
+				</tr>
+			{/each}
+		</tbody>
+	</table>
+</Card>
