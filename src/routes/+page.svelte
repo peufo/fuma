@@ -1,1 +1,1 @@
-<p>Run "pn story" instead "pn dev"</p>
+<p>Select a component</p>

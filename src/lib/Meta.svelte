@@ -1,0 +1,44 @@
+<script lang="ts">
+	import { onMount, afterUpdate, type SvelteComponent } from 'svelte'
+
+	export let component: SvelteComponent
+
+	type Props = { name: string; value: unknown }[]
+
+	let props: Props = []
+
+	$: initMeta(component)
+
+	function initMeta(c: SvelteComponent | undefined) {
+		if (!c) return
+		props = getProps(c)
+		component.$$.after_update.push(() => (props = getProps(c)))
+	}
+
+	function getProps(c: SvelteComponent): Props {
+		const { ctx, props: propsIndex } = component?.$$ || { ctx: [], props: {} }
+		return Object.entries(propsIndex as Record<string, number>).map(([name, index]) => ({
+			name,
+			value: ctx[index]
+		}))
+	}
+</script>
+
+<table>
+	<thead>
+		<tr>
+			<th>Props</th>
+			<th>Type</th>
+			<th>Value</th>
+		</tr>
+	</thead>
+	<tbody>
+		{#each props as { name, value }}
+			<tr>
+				<td>{name}</td>
+				<td>{typeof value}</td>
+				<td>{JSON.stringify(value)}</td>
+			</tr>
+		{/each}
+	</tbody>
+</table>
