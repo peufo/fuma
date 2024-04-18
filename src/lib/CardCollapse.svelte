@@ -1,9 +1,10 @@
 <script lang="ts">
+	import { onDestroy } from 'svelte'
 	import { slide } from 'svelte/transition'
 	import { mdiChevronRight } from '@mdi/js'
-	import { Icon } from '$lib/material'
-	import { urlParam } from '$lib/store'
-	import { onDestroy } from 'svelte'
+
+	import { Icon } from '$lib/index.js'
+	import { urlParam } from '$lib/store/index.js'
 
 	export let value: string
 	let klass = ''
@@ -17,7 +18,9 @@
 	function handleClick() {
 		timeout = setTimeout(() => {
 			if (!card) return
-			window.scrollTo({ top: card.offsetTop - 20, behavior: 'smooth' })
+			const bound = card.getBoundingClientRect()
+
+			window.scrollTo({ top: bound.top, behavior: 'smooth' })
 		}, 250)
 	}
 
@@ -26,20 +29,20 @@
 	})
 </script>
 
-<div class="card bg-base-100 border bordered shadow-md {klass}" bind:this={card}>
+<div class="card bordered border bg-base-100 shadow-md {klass}" bind:this={card}>
 	<div class="flex gap-2">
 		<slot name="logo" />
 
 		<a
 			id={value}
-			class="grow p-2 md:p-8 min-w-0 {$$slots.logo ? 'pl-0 md:pl-0' : ''}"
+			class="min-w-0 grow p-2 md:p-8 {$$slots.logo ? 'pl-0 md:pl-0' : ''}"
 			href={$urlParam.toggle({ section: value })}
 			data-sveltekit-noscroll
 			data-sveltekit-replacestate
 			on:click={handleClick}
 		>
 			<div class="flex gap-2">
-				<div class="title overflow-hidden text-ellipsis min-w-0">
+				<div class="title min-w-0 overflow-hidden text-ellipsis">
 					<slot name="title" />
 				</div>
 				<Icon
@@ -49,7 +52,7 @@
 			</div>
 
 			{#if $$slots.subtitle}
-				<div class="text-sm opacity-80 mt-2">
+				<div class="mt-2 text-sm opacity-80">
 					<slot name="subtitle" />
 				</div>
 			{/if}
