@@ -13,13 +13,14 @@
 
 	function initMeta(c: SvelteComponent | undefined) {
 		if (!c) return
-		props = getProps(c)
-		component.$$.after_update.push(() => (props = getProps(c)))
+		updateComponentMeta(c)
+		component.$$.after_update.push(() => updateComponentMeta(c))
 	}
 
-	function getProps(c: SvelteComponent): Props {
-		const { ctx, props: propsIndex } = component?.$$ || { ctx: [], props: {} }
-		return Object.entries(propsIndex as Record<string, number>).map(([name, index]) => ({
+	function updateComponentMeta(c: SvelteComponent) {
+		const ctx = c.$$.ctx
+		const propsIndex = Object.entries<number>(c.$$.props)
+		props = propsIndex.map(([name, index]) => ({
 			name,
 			value: ctx[index]
 		}))

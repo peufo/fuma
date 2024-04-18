@@ -14,7 +14,8 @@ export { default as CardLink } from './CardLink.svelte'
 export { default as Placeholder } from './Placeholder.svelte'
 export { default as Icon } from './Icon.svelte'
 
-// export { default as Dialog } from './Dialog.svelte'
+export { default as Dialog } from './Dialog.svelte'
+
 // export { default as DropDown } from './DropDown.svelte'
 // export { default as Pagination } from './Pagination.svelte'
 // export { default as SectionCollapse } from './SectionCollapse.svelte'

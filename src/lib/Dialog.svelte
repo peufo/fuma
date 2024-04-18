@@ -1,8 +1,8 @@
 <script lang="ts">
-	import { createEventDispatcher } from 'svelte'
+	import { createEventDispatcher, onMount } from 'svelte'
 	import { mdiClose } from '@mdi/js'
-	import { Icon } from '$lib/material'
-	import { onMount } from 'svelte'
+	import { Icon } from '$lib/index.js'
+
 	export let dialog: HTMLDialogElement
 	export let hideCloseButton = false
 	let klass = ''
