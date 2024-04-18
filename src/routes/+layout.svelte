@@ -3,12 +3,15 @@
 
 	import Tree from './Tree.svelte'
 	import ToggleMode from './ToggleMode.svelte'
+	import { Toaster } from 'svelte-sonner'
 
 	let tree = Object.keys(import.meta.glob('./**/+page.svelte'))
 		.map((p) => p.replace('./', '').replace(/\/?\+page.svelte/, ''))
 		.filter(Boolean)
 		.map((link) => link.split('/'))
 </script>
+
+<Toaster />
 
 <div class="flex gap-4">
 	<div class="menu flex flex-col p-4 min-h-full w-min">

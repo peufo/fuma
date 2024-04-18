@@ -60,6 +60,7 @@
 	"type": "module",
 	"dependencies": {
 		"mode-watcher": "^0.3.0",
+		"svelte-sonner": "^0.3.22",
 		"tippy.js": "^6.3.7"
 	}
 }

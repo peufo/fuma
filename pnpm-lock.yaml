@@ -11,6 +11,9 @@ importers:
       mode-watcher:
         specifier: ^0.3.0
         version: 0.3.0(svelte@4.2.15)
+      svelte-sonner:
+        specifier: ^0.3.22
+        version: 0.3.22(svelte@4.2.15)
       tippy.js:
         specifier: ^6.3.7
         version: 6.3.7
@@ -1809,6 +1812,11 @@ packages:
         optional: true
       typescript:
         optional: true
+
+  svelte-sonner@0.3.22:
+    resolution: {integrity: sha512-1AEBl7rTP4oeMAmBmkcvoHNOwB8gPzz73RYApcY8pyDwbjBewU8ATnXV8N42omV1sQvtSX/X0o5A1nfkN3T6cg==}
+    peerDependencies:
+      svelte: '>=3 <5'
 
   svelte2tsx@0.7.6:
     resolution: {integrity: sha512-awHvYsakyiGjRqqSOhb2F+qJ6lUT9klQe0UQofAcdHNaKKeDHA8kEZ8zYKGG3BiDPurKYMGvH5/lZ+jeIoG7yQ==}
@@ -3705,6 +3713,10 @@ snapshots:
       postcss: 8.4.38
       postcss-load-config: 5.0.3(jiti@1.21.0)(postcss@8.4.38)
       typescript: 5.4.5
+
+  svelte-sonner@0.3.22(svelte@4.2.15):
+    dependencies:
+      svelte: 4.2.15
 
   svelte2tsx@0.7.6(svelte@4.2.15)(typescript@5.4.5):
     dependencies:
