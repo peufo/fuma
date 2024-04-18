@@ -1,8 +1,9 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte'
-	import { Dialog, DropDown } from '$lib/material'
-	import { isMobile } from '$lib/store'
 	import type { Props as TippyProps } from 'tippy.js'
+
+	import { Dialog, DropDown } from '$lib/index.js'
+	import { isSmallScreen } from '$lib/store/index.js'
 
 	export let tippyProps: Partial<TippyProps> = {}
 	let klass = ''
@@ -14,13 +15,13 @@
 	let dialog: HTMLDialogElement
 
 	export function show(event: MouseEvent) {
-		if ($isMobile) {
+		if ($isSmallScreen) {
 			dialog?.showModal()
 		} else {
 			const target = event.target as HTMLElement
 			if (!target || !(target instanceof HTMLElement)) return
 			dropdown?.setTippyProps({
-				getReferenceClientRect: () => new DOMRect(event.clientX, event.clientY),
+				getReferenceClientRect: () => new DOMRect(event.clientX, event.clientY)
 			})
 			dropdown?.show()
 		}
@@ -29,13 +30,13 @@
 	}
 
 	export function hide() {
-		if ($isMobile) dialog?.close()
+		if ($isSmallScreen) dialog?.close()
 		else dropdown?.hide()
 		dispatch('hide')
 	}
 </script>
 
-{#if $isMobile}
+{#if $isSmallScreen}
 	<Dialog bind:dialog class={klass}>
 		<div slot="header" class="contents">
 			<slot name="header" />

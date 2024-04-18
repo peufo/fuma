@@ -19,7 +19,7 @@
 	import { onMount } from 'svelte'
 	import { browser } from '$app/environment'
 	import { beforeNavigate } from '$app/navigation'
-	import '$lib/dropdown/dropdown.css'
+	import '$lib/menu/dropdown.css'
 
 	export let tippyProps: Partial<TippyProps> = {}
 	let klass = ''
