@@ -1,7 +1,7 @@
 import { get } from 'svelte/store'
-import { urlParam } from '$lib/store'
+import debounce from 'debounce'
+import { urlParam } from '$lib/index.js'
 import { goto } from '$app/navigation'
-import { debounce } from '$lib/debounce'
 
 type BindOptions = {
 	bindEnable?: boolean
@@ -16,7 +16,7 @@ export function bindValueWithParams(
 		bindEnable = false,
 		debounceTime = 200,
 		initValue = (initalValue: string) => (node.value = initalValue),
-		listenerType = 'input',
+		listenerType = 'input'
 	}: BindOptions
 ) {
 	const { name } = node
@@ -42,7 +42,7 @@ export function bindValueWithParams(
 	return {
 		destroy() {
 			node.removeEventListener(listenerType, handleInput)
-		},
+		}
 	}
 }
 
@@ -52,7 +52,7 @@ export function bindCheckedWithParams(
 		bindEnable = false,
 		listenerType = 'input',
 		debounceTime = 0,
-		initValue = (initalValue: string) => (node.checked = node.value === initalValue),
+		initValue = (initalValue: string) => (node.checked = node.value === initalValue)
 	}: BindOptions
 ) {
 	const { name } = node
@@ -79,6 +79,6 @@ export function bindCheckedWithParams(
 	return {
 		destroy: () => {
 			node.removeEventListener(listenerType, handleInput)
-		},
+		}
 	}
 }

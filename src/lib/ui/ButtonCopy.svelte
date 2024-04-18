@@ -2,7 +2,7 @@
 	import { mdiClipboardTextOutline } from '@mdi/js'
 	import { toast } from 'svelte-sonner'
 
-	import { Icon } from '$lib/index.js'
+	import { Icon } from '$lib/ui/index.js'
 
 	export let value: string
 	export let title: string
