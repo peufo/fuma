@@ -2,6 +2,11 @@
 	import { page } from '$app/stores'
 	export let tree: string[][]
 	export let level = 0
+
+	function capitalise(text: string): string {
+		if (!text) return ''
+		return text[0].toUpperCase() + text.slice(1)
+	}
 </script>
 
 <ul class="flex flex-col gap-1">
@@ -12,7 +17,7 @@
 
 		<li>
 			<a href="/{pathname}" class:bg-primary={isActive} class:text-white={isActive}>
-				{path.at(-1)}
+				{capitalise(path.at(-1) || '')}
 			</a>
 
 			{#if children.length}
