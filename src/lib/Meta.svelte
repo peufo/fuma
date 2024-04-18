@@ -27,7 +27,7 @@
 	}
 </script>
 
-<Card class="mx-auto max-w-4xl mt-6">
+<Card class="mx-auto mt-6 max-w-4xl">
 	<svelte:fragment slot="title">{name}</svelte:fragment>
 	<svelte:fragment slot="subtitle">{description}</svelte:fragment>
 
@@ -48,7 +48,7 @@
 				<tr>
 					<td>{name}</td>
 					<td>{typeof value}</td>
-					<td>{JSON.stringify(value)}</td>
+					<td>{value}</td>
 				</tr>
 			{/each}
 		</tbody>
