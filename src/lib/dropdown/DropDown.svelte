@@ -7,8 +7,8 @@
 				arrow: false,
 				moveTransition: 'transform 0.1s ease-out',
 				interactive: true,
-				interactiveDebounce: 50,
-		  })
+				interactiveDebounce: 50
+			})
 		: null
 
 	const tips: TippyInstance[] = []
@@ -19,7 +19,7 @@
 	import { onMount } from 'svelte'
 	import { browser } from '$app/environment'
 	import { beforeNavigate } from '$app/navigation'
-	import '$lib/material/dropdown.css'
+	import '$lib/dropdown/dropdown.css'
 
 	export let tippyProps: Partial<TippyProps> = {}
 	let klass = ''
@@ -60,10 +60,10 @@
 			onShown() {
 				if (autofocus) focusables[0]?.select()
 			},
-			...tippyProps,
+			...tippyProps
 		})
 
-		if (useSingleton) {
+		if (useSingleton && tip) {
 			tips.push(tip)
 			sigleton?.setInstances(tips)
 		}

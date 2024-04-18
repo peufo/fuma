@@ -1,4 +1,5 @@
 // export * from './display'
+export * from './dropdown/index.js'
 // export * from './input'
 // export * from './media'
 // export * from './table'
@@ -16,7 +17,6 @@ export { default as Icon } from './Icon.svelte'
 
 export { default as Dialog } from './Dialog.svelte'
 
-// export { default as DropDown } from './DropDown.svelte'
 // export { default as Pagination } from './Pagination.svelte'
 // export { default as SectionCollapse } from './SectionCollapse.svelte'
 // export { default as ContextMenu } from './ContextMenu.svelte'
