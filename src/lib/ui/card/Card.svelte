@@ -13,7 +13,7 @@
 <div class="card bordered border bg-base-100 shadow-lg {klass}" {style}>
 	<slot name="top" />
 
-	<div class="card-body p-2 sm:p-8 {bodyClass}">
+	<div class="card-body rounded-b-2xl p-2 sm:p-8 {bodyClass}">
 		{#if $$slots.title || $$slots.action}
 			<div class="flex flex-wrap items-center gap-2 {headerClass}">
 				{#if returnUrl}

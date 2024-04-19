@@ -10,7 +10,7 @@
 </script>
 
 <Meta component={card} name="Card">
-	<Card bind:this={card}>
+	<Card bind:this={card} class="bg-red-500" bodyClass="bg-green-400">
 		<div slot="top">slot="top"</div>
 		<h2 slot="title">slot="title"</h2>
 		<h3 slot="subtitle">slot="subtitle"</h3>

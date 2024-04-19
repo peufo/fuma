@@ -1,12 +1,12 @@
 <script lang="ts">
 	import { type SvelteComponent } from 'svelte'
-	import { Card } from './index.js'
+	import { Card, Table } from './index.js'
 
 	export let name = ''
 	export let description = ''
 	export let component: SvelteComponent
 
-	type Props = { name: string; value: unknown }[]
+	type Props = { id: string; value: string }[]
 	let props: Props = []
 
 	$: initMeta(component)
@@ -20,9 +20,9 @@
 	function updateComponentMeta(c: SvelteComponent) {
 		const ctx = c.$$.ctx
 		const propsIndex = Object.entries<number>(c.$$.props)
-		props = propsIndex.map(([name, index]) => ({
-			name,
-			value: ctx[index]
+		props = propsIndex.map(([id, index]) => ({
+			id,
+			value: ctx[index] as string
 		}))
 	}
 </script>
@@ -35,22 +35,26 @@
 
 	<div class="my-10" />
 
-	<table>
-		<thead>
-			<tr>
-				<th>Props</th>
-				<th>Type</th>
-				<th>Value</th>
-			</tr>
-		</thead>
-		<tbody>
-			{#each props as { name, value }}
-				<tr>
-					<td>{name}</td>
-					<td>{typeof value}</td>
-					<td>{value}</td>
-				</tr>
-			{/each}
-		</tbody>
-	</table>
+	<Table
+		items={props}
+		fields={[
+			{
+				key: 'name',
+				label: 'Prop',
+				getCell: (p) => p.id,
+				locked: true
+			},
+			{
+				key: 'type',
+				label: 'Type',
+				getCell: (p) => typeof p.value
+			},
+			{
+				key: 'value',
+				label: 'Value',
+				getCell: (p) => p.value,
+				visible: true
+			}
+		]}
+	></Table>
 </Card>
