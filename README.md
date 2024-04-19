@@ -19,7 +19,11 @@ sed -i 's|"singleQuote": true,|"singleQuote": true,\n\t"semi": false,|g' .pretti
 pn i prisma
 px prisma init --datasource-provider mysql
 
-# TODO: copy prisma/schema.prisma src/server/prisma.ts
+mkdir -p ./src/lib/server
+source="https://raw.githubusercontent.com/peufo/fuma/main"
+wget "$source/prisma/schema.prisma" -O ./prisma/schema.prisma
+wget "$source/src/lib/server/prisma.ts" -O ./src/lib/server/prisma.ts
+
 echo "DATABASE_URL=\"mysql://$mysql_username@localhost:3306/$project_name\"" > .env
 cp .env .env.example
 px prisma migrate dev --name init
@@ -34,13 +38,14 @@ node -e "\
 
 # Authentication
 pn i lucia oslo @lucia-auth/adapter-prisma
-# TODO: Copy src/app.d.ts src/hooks.server.ts src/lib/server/auth.ts src/routes/auth
-
-
-
-
-
-
+auth="src/routes/auth"
+mkdir -p "./$auth"
+wget "$source/src/app.d.ts" -O ./src/app.d.ts
+wget "$source/src/hooks.server.ts" -O ./src/hooks.server.ts
+wget "$source/src/lib/server/auth.ts" -O ./src/lib/server/auth.ts
+wget "$source/$auth/+page.svelte" -O "./$auth/+page.svelte"
+wget "$source/$auth/+layout.svelte" -O "./$auth/+layout.svelte"
+wget "$source/$auth/+page.server.ts" -O "./$auth/+page.server.ts"
 
 
 git init && git add -A && git commit -m "Initial commit"
