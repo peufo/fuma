@@ -1,11 +1,11 @@
 <script lang="ts">
+	import { createEventDispatcher } from 'svelte'
 	import type { Editor } from '@tiptap/core'
 	import { mdiPlus, mdiMinus, mdiImageOutline, mdiYoutube, mdiAt } from '@mdi/js'
 
 	import { Icon } from '$lib/ui/index.js'
 	import ToolMenu from './ToolMenu.svelte'
-	import { suggestionItems } from './suggestion'
-	import { createEventDispatcher } from 'svelte'
+	import { suggestionItems } from './suggestion.js'
 
 	export let editor: Editor
 

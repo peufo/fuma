@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Icon } from '$lib/ui/index.js'
-	import { tip } from '$lib/action'
+	import { tip } from '$lib/action/tip.js'
 
 	export let icon: string
 	export let label: string

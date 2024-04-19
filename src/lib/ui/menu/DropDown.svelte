@@ -1,5 +1,5 @@
 <script lang="ts" context="module">
-	import { createSingleton, type Instance as TippyInstance } from 'tippy.js'
+	import { createSingleton, type TippyInstance } from '$lib/utils/tippy.js'
 
 	const sigleton = browser
 		? createSingleton([], {
@@ -15,7 +15,7 @@
 </script>
 
 <script lang="ts">
-	import tippy, { type Props as TippyProps } from 'tippy.js'
+	import { tippy, type TippyProps } from '$lib/utils/tippy.js'
 	import { onMount } from 'svelte'
 	import { browser } from '$app/environment'
 	import { beforeNavigate } from '$app/navigation'

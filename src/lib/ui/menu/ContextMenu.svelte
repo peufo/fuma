@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte'
-	import type { Props as TippyProps } from 'tippy.js'
+	import type { TippyProps } from '$lib/utils/tippy.js'
 
 	import { Dialog, DropDown } from '$lib/index.js'
 	import { isSmallScreen } from '$lib/store/index.js'

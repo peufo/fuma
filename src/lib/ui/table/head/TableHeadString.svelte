@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Instance as TippyInstance } from 'tippy.js'
+	import type { TippyInstance } from '$lib/utils/tippy.js'
 	import { mdiMagnify } from '@mdi/js'
 	import { page } from '$app/stores'
 

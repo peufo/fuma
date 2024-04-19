@@ -1,11 +1,11 @@
 <script lang="ts">
 	import { createEventDispatcher, onMount } from 'svelte'
 	import { Editor } from '@tiptap/core'
+	import debounce from 'debounce'
 
-	import { debounce } from '$lib/debounce'
 	import { jsonParse } from '$lib/utils/jsonParse.js'
-	import { extensions } from './extensions'
 	import ToolsBar from './ToolsBar.svelte'
+	import { extensions } from './extensions.js'
 
 	export let value = ''
 	export let key = ''

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte'
-	import type { Instance as TippyInstance } from 'tippy.js'
+	import type { TippyInstance } from '$lib/utils/tippy.js'
 	import debounce from 'debounce'
 	import { goto } from '$app/navigation'
 	import { page } from '$app/stores'

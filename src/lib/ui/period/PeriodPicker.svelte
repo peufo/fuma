@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onMount, onDestroy, createEventDispatcher } from 'svelte'
 	import dayjs from 'dayjs'
-	import type Litepicker from 'litepicker'
+	import type { Litepicker } from 'litepicker'
 
 	import type { Period } from './index.js'
 
@@ -25,7 +25,7 @@
 	})
 
 	async function initTimePicker() {
-		const _Litepicker = (await import('litepicker')).default
+		const _Litepicker = (await import('litepicker')).Litepicker
 		picker?.destroy()
 		picker = new _Litepicker({
 			element: startElement,

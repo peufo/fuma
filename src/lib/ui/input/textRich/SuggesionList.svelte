@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { SuggestionProps } from '@tiptap/suggestion'
-	import { SelectorList } from '$lib/material/input'
-	import type { SuggestionItem } from './suggestion'
+	import { SelectorList } from '$lib/ui/input/index.js'
+	import type { SuggestionItem } from './suggestion.js'
 
 	export let props: SuggestionProps<SuggestionItem>
 	export let keyDownEvent: KeyboardEvent | undefined = undefined

@@ -3,7 +3,7 @@
 	import debounce from 'debounce'
 	import { toast } from 'svelte-sonner'
 	import { mdiClose } from '@mdi/js'
-	import type { Props as TippyProps } from 'tippy.js'
+	import type { TippyProps } from '$lib/utils/tippy.js'
 
 	import { FormControl, DropDown, Icon, SelectorList } from '$lib/ui/index.js'
 	import RelationAfter from './RelationAfter.svelte'

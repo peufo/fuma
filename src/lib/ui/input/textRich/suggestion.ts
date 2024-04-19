@@ -1,8 +1,9 @@
 import type { SuggestionOptions } from '@tiptap/suggestion'
-import tippy, { type Instance as TippyInstance } from 'tippy.js'
 import { writable, get } from 'svelte/store'
+import { tippy, type TippyInstance } from '$lib/utils/tippy.js'
+
 import SuggesionList from './SuggesionList.svelte'
-import '$lib/material/dropdown.css'
+import '$lib/ui/menu/dropdown.css'
 
 export type SuggestionItem = { id: string; label: string }
 export let suggestionItems = writable<SuggestionItem[]>([])
@@ -31,7 +32,7 @@ export const suggestion: Omit<SuggestionOptions<SuggestionItem>, 'editor'> = {
 					interactive: true,
 					trigger: 'manual',
 					placement: 'bottom-start',
-					theme: 'dropdown-border',
+					theme: 'dropdown-border'
 				})
 			},
 
@@ -40,7 +41,7 @@ export const suggestion: Omit<SuggestionOptions<SuggestionItem>, 'editor'> = {
 				if (!props.clientRect) return
 
 				popup.setProps({
-					getReferenceClientRect: props.clientRect as () => DOMRect,
+					getReferenceClientRect: props.clientRect as () => DOMRect
 				})
 			},
 
@@ -59,7 +60,7 @@ export const suggestion: Omit<SuggestionOptions<SuggestionItem>, 'editor'> = {
 			onExit() {
 				popup?.destroy()
 				component?.$destroy()
-			},
+			}
 		}
-	},
+	}
 }

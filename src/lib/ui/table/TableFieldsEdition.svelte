@@ -7,7 +7,7 @@
 		mdiDrag,
 		mdiPlus
 	} from '@mdi/js'
-	import type { Instance as TippyInstance } from 'tippy.js'
+	import type { TippyInstance } from '$lib/utils/tippy.js'
 	import { goto } from '$app/navigation'
 	import { page } from '$app/stores'
 	import { urlParam } from '$lib/store/param.js'

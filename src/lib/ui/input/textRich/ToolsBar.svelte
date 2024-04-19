@@ -1,8 +1,8 @@
 <script lang="ts">
 	import type { Editor } from '@tiptap/core'
 	import { mdiFormatBold, mdiFormatColorFill, mdiFormatColorText, mdiFormatItalic } from '@mdi/js'
+	import { toast } from 'svelte-sonner'
 
-	import { SelectMedia } from '$lib/ui/index.js'
 	import ToolMenuNode from './ToolMenuNode.svelte'
 	import ToolMark from './ToolMark.svelte'
 	import ToolMarkColor from './ToolMarkColor.svelte'
@@ -13,8 +13,6 @@
 	export let editor: Editor
 	let klass = ''
 	export { klass as class }
-
-	let selectMedia: SelectMedia
 </script>
 
 <div
@@ -58,14 +56,9 @@
 
 		<div class="mx-1 my-auto h-6 border border-y-0 border-l-0" />
 
-		<ToolMenuInsert {editor} on:insertMedia={() => selectMedia.show()} />
+		<ToolMenuInsert
+			{editor}
+			on:insertMedia={() => toast.warning('TODO: import SelectMedia like benev.io')}
+		/>
 	</div>
 </div>
-
-<SelectMedia
-	bind:this={selectMedia}
-	on:select={({ detail }) => {
-		const src = `/media/${detail.id}`
-		editor.commands.setImage({ src, alt: detail.name })
-	}}
-/>

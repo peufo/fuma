@@ -1,7 +1,6 @@
 <script lang="ts">
-	import tippy, { type Props as TippyProps, type Instance as TippyInstance } from 'tippy.js'
+	import { tippy, type TippyProps, type TippyInstance } from '$lib/utils/tippy.js'
 	import { onMount } from 'svelte'
-	import 'tippy.js/dist/tippy.css'
 
 	export let path: string
 	export let title = ''

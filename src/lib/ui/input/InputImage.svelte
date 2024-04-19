@@ -5,8 +5,9 @@
 <script lang="ts">
 	import { onMount, createEventDispatcher } from 'svelte'
 	import Cropper from 'svelte-easy-crop'
-	import type { Instance as TippyInstance } from 'tippy.js'
 	import { mdiTrayArrowUp } from '@mdi/js'
+
+	import type { TippyInstance } from '$lib/utils/tippy.js'
 	import { Dialog, DropDown, Icon } from '$lib/ui/index.js'
 
 	export let aspect = 1

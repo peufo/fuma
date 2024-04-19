@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { createEventDispatcher, tick } from 'svelte'
 	import { slide } from 'svelte/transition'
+	import { toast } from 'svelte-sonner'
 	import { mdiClose } from '@mdi/js'
 	import debounce from 'debounce'
 
@@ -30,7 +31,7 @@
 	let isError = false
 	let focusIndex = 0
 	let searchValue = ''
-	const notify = useNotify()
+
 	let dropdown: DropDown
 	const dispatch = createEventDispatcher<{ input: { value: string[]; items: RelationItem[] } }>()
 	let inputSearch: HTMLInputElement
@@ -62,7 +63,7 @@
 			const currentIds = items?.map(({ id }) => id) || []
 			proposedItems = res.filter(({ id }) => !currentIds.includes(id))
 		} catch (error) {
-			notify.error('Erreur')
+			toast.error('Erreur')
 			isError = true
 			console.error(error)
 		} finally {

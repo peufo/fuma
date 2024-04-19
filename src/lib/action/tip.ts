@@ -1,5 +1,4 @@
-import tippy, { type Props as TippyProps } from 'tippy.js'
-import 'tippy.js/dist/tippy.css'
+import { tippy, type TippyProps } from '$lib/utils/tippy.js'
 
 export function tip(
 	node: HTMLElement,
@@ -11,6 +10,6 @@ export function tip(
 	return {
 		destroy() {
 			_tip.destroy()
-		},
+		}
 	}
 }

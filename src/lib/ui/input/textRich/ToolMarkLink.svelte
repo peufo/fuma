@@ -1,9 +1,9 @@
 <script lang="ts">
 	import type { Editor } from '@tiptap/core'
 	import { mdiLinkVariant } from '@mdi/js'
-	import { Dialog, InputText } from '$lib/ui/index.js'
 
-	import { z } from '$lib/validation'
+	import { Dialog, InputText } from '$lib/ui/index.js'
+	import { z } from '$lib/validation/zod.js'
 	import ToolMark from './ToolMark.svelte'
 
 	export let editor: Editor
