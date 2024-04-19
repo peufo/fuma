@@ -2,11 +2,11 @@
 	import { goto } from '$app/navigation'
 	import { page } from '$app/stores'
 	import { mdiClose } from '@mdi/js'
-	import FormControl from './FormControl.svelte'
-	import { type InputProps, type Options, parseOptions } from '.'
-	import { DropDown, Icon } from '$lib/material'
-	import { urlParam } from '$lib/store'
-	import { jsonParse } from '$lib/jsonParse'
+
+	import { urlParam } from '$lib/store/index.js'
+	import { jsonParse, type Options, parseOptions } from '$lib/utils/index.js'
+	import { DropDown, Icon } from '$lib/ui/index.js'
+	import { FormControl, type InputProps } from './index.js'
 
 	type $$Props = InputProps<string[]> & {
 		key: string
@@ -55,14 +55,14 @@
 
 <DropDown bind:this={dropdown} tippyProps={{ onHide: handleSubmit }} wrapperClass="mb-[-2px]">
 	<div class="join" class:ml-2={value.length} slot="activator">
-		<button class="btn btn-sm join-item indicator {btnClass || ''}">
+		<button class="btn indicator join-item btn-sm {btnClass || ''}">
 			<slot name="label">
 				<span>{label}</span>
 			</slot>
 			{#if value.length > 0}
 				<span
 					class="
-						indicator-item indicator-start badge badge-sm
+						badge indicator-item badge-sm indicator-start
 						{badgePrimary ? 'badge-primary' : 'badge-outline bg-base-100'}
 					"
 				>
@@ -71,7 +71,7 @@
 			{/if}
 		</button>
 		{#if value.length}
-			<button class="btn btn-sm btn-square join-item" on:click={handleReset}>
+			<button class="btn btn-square join-item btn-sm" on:click={handleReset}>
 				<Icon path={mdiClose} class="fill-base-content" />
 			</button>
 		{/if}
@@ -84,7 +84,7 @@
 				let:key
 				label={option.label}
 				prefixFor={index}
-				class="flex-row-reverse justify-end items-center gap-2 whitespace-nowrap"
+				class="flex-row-reverse items-center justify-end gap-2 whitespace-nowrap"
 			>
 				<input
 					bind:group={value}

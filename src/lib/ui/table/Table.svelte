@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { afterNavigate } from '$app/navigation'
-	import { Placeholder } from '$lib/material'
-	import type { ComponentAndProps } from '$lib/utils'
+	import { Placeholder } from '$lib/ui/index.js'
+	import type { ComponentAndProps } from '$lib/utils/component.js'
 
 	import {
 		type TableField,
@@ -9,8 +9,8 @@
 		TableBody,
 		context,
 		createKeys,
-		syncFieldsWithParams,
-	} from '$lib/material/table'
+		syncFieldsWithParams
+	} from '$lib/ui/table/index.js'
 
 	type Item = $$Generic<{ id: string }>
 	export let key = 'table'
@@ -26,7 +26,7 @@
 	context.set(key, {
 		KEY_FIELDS_VISIBLE,
 		KEY_FIELDS_HIDDEN,
-		KEY_FIELDS_ORDER,
+		KEY_FIELDS_ORDER
 	})
 
 	const initFields = () => (fields = syncFieldsWithParams(key, fields))
@@ -34,7 +34,7 @@
 	afterNavigate(initFields)
 </script>
 
-<div class="overflow-x-auto border rounded-lg bg-base-100" class:min-h-[320px]={!hideBody}>
+<div class="overflow-x-auto rounded-lg border bg-base-100" class:min-h-[320px]={!hideBody}>
 	<table class="table relative">
 		<TableHead {fields} {key} {onCreateField} />
 		{#if !hideBody && items.length}

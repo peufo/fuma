@@ -1,14 +1,11 @@
 <script lang="ts">
+	import { createEventDispatcher, tick } from 'svelte'
+	import debounce from 'debounce'
+	import { toast } from 'svelte-sonner'
 	import { mdiClose } from '@mdi/js'
 	import type { Props as TippyProps } from 'tippy.js'
 
-	import { createEventDispatcher, tick } from 'svelte'
-	import { debounce } from '$lib/debounce'
-
-	import { useNotify } from '$lib/notify'
-	import { DropDown, Icon } from '$lib/material'
-	import FormControl from './FormControl.svelte'
-	import SelectorList from './SelectorList.svelte'
+	import { FormControl, DropDown, Icon, SelectorList } from '$lib/ui/index.js'
 	import RelationAfter from './RelationAfter.svelte'
 
 	type RelationItem = $$Generic<{ id: string }>
@@ -36,7 +33,6 @@
 	let isError = false
 	let focusIndex = 0
 	let searchValue = ''
-	const notify = useNotify()
 
 	const dispatch = createEventDispatcher<{ input: { value: RelationItem } }>()
 
@@ -59,7 +55,7 @@
 			focusIndex = 0
 			proposedItems = await search(searchValue)
 		} catch (error) {
-			notify.error('Erreur')
+			toast.error('Erreur')
 			isError = true
 			console.error(error)
 		} finally {
@@ -81,7 +77,7 @@
 	<div class="contents" slot="activator">
 		<FormControl {key} {label} {error} class={klass} let:key>
 			<div class="flex grow gap-2" class:hidden={item}>
-				<div class="flex grow gap-2 items-center relative">
+				<div class="relative flex grow items-center gap-2">
 					<input
 						type="text"
 						id={key}
@@ -93,7 +89,7 @@
 						on:blur={handleBlur}
 						autocomplete="off"
 						{placeholder}
-						class="input-bordered input grow"
+						class="input input-bordered grow"
 					/>
 
 					<RelationAfter {isLoading} {createUrl} {createTitle} />
@@ -102,7 +98,7 @@
 			</div>
 
 			{#if item}
-				<div class="rounded-lg border flex items-center h-12 pl-4 pr-2 gap-2">
+				<div class="flex h-12 items-center gap-2 rounded-lg border pl-4 pr-2">
 					<div class="grow">
 						<slot name="item" {item}>
 							{item.id}

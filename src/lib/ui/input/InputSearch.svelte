@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { mdiClose } from '@mdi/js'
-	import { Icon, InputText } from '$lib/material'
 	import { browser } from '$app/environment'
 	import { page } from '$app/stores'
+	import { Icon, InputText } from '$lib/ui/index.js'
 
 	let klass = ''
 	export { klass as class }
@@ -26,7 +26,7 @@
 		class: 'input-sm pr-8',
 		placeholder: 'Recherche',
 		autocomplete: 'fuck-off',
-		inputmode: 'search',
+		inputmode: 'search'
 	}}
 	wrapperClass="relative {klass}"
 >

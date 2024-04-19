@@ -3,7 +3,7 @@
 	import { Editor } from '@tiptap/core'
 
 	import { debounce } from '$lib/debounce'
-	import { jsonParse } from '$lib/jsonParse'
+	import { jsonParse } from '$lib/utils/jsonParse.js'
 	import { extensions } from './extensions'
 	import ToolsBar from './ToolsBar.svelte'
 
@@ -30,33 +30,32 @@
 			content: valueAsHtml ? value : jsonParse(value, undefined),
 			editorProps: {
 				attributes: {
-					class: 'prose max-w-[210mm] mx-auto focus:outline-none',
-				},
+					class: 'prose max-w-[210mm] mx-auto focus:outline-none'
+				}
 			},
 			extensions,
 			onTransaction() {
 				editor = editor
 				updateValue()
-			},
+			}
 		})
 	}
 
 	const updateValue = debounce(() => {
-			if (!editor) return
-			const newValue = JSON.stringify(editor.getJSON())
-			console.log(newValue)
-			if (newValue === value) return
-			value = newValue
-			dispatch('change')
-		}, 120)
-
+		if (!editor) return
+		const newValue = JSON.stringify(editor.getJSON())
+		console.log(newValue)
+		if (newValue === value) return
+		value = newValue
+		dispatch('change')
+	}, 120)
 </script>
 
-<div class="border bordered rounded-lg relative">
+<div class="bordered relative rounded-lg border">
 	{#if editor}
-		<ToolsBar {editor} class={classToolbar}  />
+		<ToolsBar {editor} class={classToolbar} />
 	{/if}
-	<div bind:this={element} class="p-4 pb-10 min-h-[20rem]" />
+	<div bind:this={element} class="min-h-[20rem] p-4 pb-10" />
 </div>
 
 {#if key}

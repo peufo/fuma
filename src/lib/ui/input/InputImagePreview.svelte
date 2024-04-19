@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { InputImage, ImagePlaceholder } from '$lib/material'
-	import type { Crop } from '$lib/material/input/InputImage.svelte'
+	import { InputImage, type Crop } from './index.js'
+	import { PlaceholderImage } from '$lib/ui/index.js'
 
 	export let key = ''
 	export let src = ''
@@ -27,7 +27,7 @@
 <InputImage {key} {title} {aspect} on:submit={({ detail }) => handleSubmit(detail)}>
 	{#if crop && image}
 		<div
-			class="relative overflow-hidden border rounded-lg"
+			class="relative overflow-hidden rounded-lg border"
 			style:width="{x}px"
 			style:height="{y}px"
 		>
@@ -42,19 +42,19 @@
 			/>
 		</div>
 	{:else if src}
-		<div class="relative group">
+		<div class="group relative">
 			<span
 				class="
-				font-medium bg-base-300/30 backdrop-blur-sm
-				transition-opacity opacity-0 group-hover:opacity-100
-				absolute inset-[1px] grid place-content-center rounded-lg
+				absolute inset-[1px] grid
+				place-content-center rounded-lg bg-base-300/30
+				font-medium opacity-0 backdrop-blur-sm transition-opacity group-hover:opacity-100
 			"
 			>
 				{title}
 			</span>
-			<img class="{klass} border rounded-lg" {src} {alt} width={x} height={y} />
+			<img class="{klass} rounded-lg border" {src} {alt} width={x} height={y} />
 		</div>
 	{:else}
-		<ImagePlaceholder {x} {y}>{title}</ImagePlaceholder>
+		<PlaceholderImage {x} {y}>{title}</PlaceholderImage>
 	{/if}
 </InputImage>

@@ -3,13 +3,11 @@
 </script>
 
 <script lang="ts">
-	import { createEventDispatcher } from 'svelte'
+	import { onMount, createEventDispatcher } from 'svelte'
 	import Cropper from 'svelte-easy-crop'
 	import type { Instance as TippyInstance } from 'tippy.js'
 	import { mdiTrayArrowUp } from '@mdi/js'
-
-	import { Dialog, DropDown, Icon } from '$lib/material'
-	import { onMount } from 'svelte'
+	import { Dialog, DropDown, Icon } from '$lib/ui/index.js'
 
 	export let aspect = 1
 	export let title = 'Image'
@@ -56,16 +54,20 @@
 	<button
 		slot="activator"
 		type="button"
-		class="rounded-lg hover:shadow-lg transition-shadow overflow-hidden block"
+		class="block overflow-hidden rounded-lg transition-shadow hover:shadow-lg"
 		on:click={handleClickActivator}
 	>
 		<slot>image</slot>
 	</button>
 	{#if $$slots.actions}
 		<div class="flex flex-col">
-			<button type="button" class="relative menu-item" on:click={() => {
-				inputFile.click()
-			}}>
+			<button
+				type="button"
+				class="menu-item relative"
+				on:click={() => {
+					inputFile.click()
+				}}
+			>
 				<Icon path={mdiTrayArrowUp} class="opacity-70" size={20} />
 				<span>Charger une image</span>
 			</button>
@@ -79,7 +81,7 @@
 		{title}
 	</h2>
 
-	<div class="relative rounded-lg overflow-hidden aspect-square">
+	<div class="relative aspect-square overflow-hidden rounded-lg">
 		<Cropper
 			{image}
 			{aspect}
@@ -88,7 +90,7 @@
 			on:cropcomplete={(e) => (crop = e.detail.pixels)}
 		/>
 	</div>
-	<div class="flex justify-end mt-2">
+	<div class="mt-2 flex justify-end">
 		<input type="hidden" name="{key ? `${key}_` : ''}crop" value={JSON.stringify(crop)} />
 		<input
 			class="hidden"

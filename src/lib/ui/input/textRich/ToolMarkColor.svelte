@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Icon } from '$lib/material'
+	import { Icon } from '$lib/ui/index.js'
 	import { tip } from '$lib/action'
 
 	export let icon: string
@@ -20,14 +20,14 @@
 		type="color"
 		tabindex="-1"
 		bind:value={color}
-		class="w-0 h-0 border-none outline-none opacity-0 translate-y-8"
+		class="h-0 w-0 translate-y-8 border-none opacity-0 outline-none"
 		bind:this={inputColor}
 		on:input={() => setColor(color)}
 	/>
 	<button type="button" class="menu-item gap-2" on:click={handleClick} use:tip={{ content: label }}>
 		<div class="indicator">
 			<span
-				class="indicator-item badge badge-xs border transition-none scale-75"
+				class="badge indicator-item badge-xs scale-75 border transition-none"
 				style:background={color}
 			/>
 			<Icon path={icon} size={19} class="opacity-70" />

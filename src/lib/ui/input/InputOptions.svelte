@@ -1,9 +1,10 @@
 <script lang="ts">
-	import { mdiPlus, mdiTrashCanOutline } from '@mdi/js'
-	import { Icon } from '$lib/material'
 	import { slide } from 'svelte/transition'
-	import { useNotify } from '$lib/notify'
-	import { listEditable } from '$lib/action'
+	import { mdiPlus, mdiTrashCanOutline } from '@mdi/js'
+	import { toast } from 'svelte-sonner'
+
+	import { Icon } from '$lib/ui/index.js'
+	import { listEditable } from '$lib/action/list/index.js'
 
 	export let key: string
 	export let value = '[]'
@@ -11,8 +12,6 @@
 	let options: string[] = JSON.parse(value)
 	let newOption = ''
 	let optionInput: HTMLInputElement
-
-	const notify = useNotify()
 
 	function handleKeyDown(e: KeyboardEvent) {
 		if (e.key === 'Enter') {
@@ -23,7 +22,7 @@
 
 	function createOption() {
 		if (!newOption) return
-		if (options.includes(newOption)) return notify.warning('Cette option éxiste déjà !')
+		if (options.includes(newOption)) return toast.warning('Cette option éxiste déjà !')
 		options = [...options, newOption]
 		newOption = ''
 		value = JSON.stringify(options)
@@ -47,10 +46,10 @@
 	<span class="label-text">Options</span>
 </div>
 
-<div class="border bordered rounded-box p-2">
+<div class="bordered rounded-box border p-2">
 	<div use:listEditable={{ items: options, onChange }}>
 		{#each options as option, index (option)}
-			<div class="flex gap-2 items-center" transition:slide={{ duration: 200 }}>
+			<div class="flex items-center gap-2" transition:slide={{ duration: 200 }}>
 				<div class="grow pl-4">
 					{option}
 				</div>
@@ -70,7 +69,7 @@
 			bind:this={optionInput}
 			type="text"
 			placeholder="Nouvelle option"
-			class="input input-bordered grow join-item"
+			class="input join-item input-bordered grow"
 			bind:value={newOption}
 			on:keydown={handleKeyDown}
 		/>

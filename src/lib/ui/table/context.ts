@@ -9,9 +9,9 @@ export type TableContext = {
 export const createKeys = (key: string) => ({
 	KEY_FIELDS_VISIBLE: `${key}_fields_visible`,
 	KEY_FIELDS_HIDDEN: `${key}_fields_hidden`,
-	KEY_FIELDS_ORDER: `${key}_fields_order`,
+	KEY_FIELDS_ORDER: `${key}_fields_order`
 })
 export const context = {
 	set: setContext<TableContext>,
-	get: getContext<TableContext>,
+	get: getContext<TableContext>
 }

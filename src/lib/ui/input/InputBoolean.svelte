@@ -1,8 +1,7 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte'
-	import FormControl from './FormControl.svelte'
-	import type { InputProps } from '.'
-	import { bindCheckedWithParams } from './action'
+	import { FormControl, type InputProps, bindCheckedWithParams } from './index.js'
+
 	type $$Props = InputProps<boolean>
 	$: ({ input, value: _value, bindWithParams, label, ...props } = $$props as $$Props)
 	export let value = _value

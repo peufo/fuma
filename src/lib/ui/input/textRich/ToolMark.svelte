@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { Editor } from '@tiptap/core'
-	import { Icon } from '$lib/material'
+	import { Icon } from '$lib/ui/index.js'
 	import { tip } from '$lib/action'
 
 	export let editor: Editor

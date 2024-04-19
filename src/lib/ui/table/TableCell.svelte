@@ -3,10 +3,9 @@
 		TableCellArray,
 		TableCellBoolean,
 		TableCellNumber,
-		TableCellString,
-	} from '$lib/material/table/cell'
-
-	import type { TableField } from '$lib/material/table'
+		TableCellString
+	} from '$lib/ui/table/cell/index.js'
+	import type { TableField } from '$lib/ui/table/index.js'
 
 	type Item = $$Generic<{ id: string }>
 	export let item: Item

@@ -1,6 +1,7 @@
 <script lang="ts">
-	import { Icon, parseOptions, type Options } from '$lib/material'
-	import { urlParam } from '$lib/store'
+	import { Icon } from '$lib/ui/index.js'
+	import { parseOptions, type Options } from '$lib/utils/options.js'
+	import { urlParam } from '$lib/store/param.js'
 
 	let klass = ''
 	export { klass as class }
@@ -16,7 +17,7 @@
 		{@const active = $urlParam.hasValue(key, opt.value)}
 		<a
 			href={$urlParam.toggle({ [key]: opt.value }, ...removeKeys)}
-			class="join-item btn btn-sm"
+			class="btn join-item btn-sm"
 			class:btn-primary={active}
 			class:w-9={opt.icon}
 		>

@@ -1,9 +1,11 @@
 <script lang="ts">
-	import { page } from '$app/stores'
-	import { jsonParse } from '$lib/jsonParse'
-	import { type Options, type TableField, parseOptions, DropDown, Icon } from '$lib/material'
-	import { urlParam } from '$lib/store'
 	import { derived } from 'svelte/store'
+	import { page } from '$app/stores'
+
+	import { jsonParse } from '$lib/utils/jsonParse.js'
+	import { type TableField, DropDown, Icon } from '$lib/ui/index.js'
+	import { type Options, parseOptions } from '$lib/utils/options.js'
+	import { urlParam } from '$lib/store/param.js'
 
 	export let field: TableField
 	export let options: Options
@@ -23,7 +25,7 @@
 
 		return parseOptions(options).map((option) => ({
 			...option,
-			isActive: getActive(option.value),
+			isActive: getActive(option.value)
 		}))
 	}
 
@@ -41,7 +43,7 @@
 
 <th class="p-1">
 	<DropDown hideOnBlur hideOnNav={!multiSelect} tippyProps={{ appendTo: () => document.body }}>
-		<button slot="activator" class="menu-item w-full flex-wrap gap-y-1 min-h-8">
+		<button slot="activator" class="menu-item min-h-8 w-full flex-wrap gap-y-1">
 			<span>{field.label}</span>
 
 			{#if _options.filter((option) => option.isActive).length}

@@ -1,8 +1,8 @@
 <script lang="ts">
+	import { component, type ComponentAndProps } from '$lib/utils/component.js'
+	import { type TableField, TableFieldsEdition } from '$lib/ui/table/index.js'
+	import { tableHeadComponent } from '$lib/ui/table/head/index.js'
 	import TableHeadDefault from './head/TableHeadDefault.svelte'
-	import { tableHeadComponent } from '$lib/material/table/head'
-	import { component, type ComponentAndProps } from '$lib/utils'
-	import { type TableField, TableFieldsEdition } from '$lib/material/table'
 
 	type Item = $$Generic<{ id: string }>
 	export let fields: TableField<Item>[]

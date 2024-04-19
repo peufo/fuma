@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { Editor } from '@tiptap/core'
 	import { mdiChevronDown } from '@mdi/js'
-	import { Icon, DropDown } from '$lib/material'
+	import { Icon, DropDown } from '$lib/ui/index.js'
 
 	type Tool = {
 		key?: string
@@ -37,7 +37,7 @@
 		<slot name="activator">
 			<Icon path={toolSelected.icon} size={20} class="opacity-70" />
 			{#if !hideLabel}
-				<span class="font-light text-sm">{toolSelected.label}</span>
+				<span class="text-sm font-light">{toolSelected.label}</span>
 			{/if}
 		</slot>
 		<Icon path={mdiChevronDown} size={20} class="translate-y-[1px] opacity-70" />

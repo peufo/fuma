@@ -1,7 +1,6 @@
 <script lang="ts">
-	import FormControl from './FormControl.svelte'
-	import type { InputProps } from './types.js'
-	import { bindValueWithParams } from './action.js'
+	import { FormControl, bindValueWithParams, type InputProps } from './index.js'
+
 	type $$Props = InputProps
 	$: ({ input, value: _value, wrapperClass, bindWithParams, ...props } = $$props as $$Props)
 	export let value = _value

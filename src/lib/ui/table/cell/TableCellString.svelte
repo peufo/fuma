@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { TableField } from '$lib/material/table'
+	import type { TableField } from '$lib/ui/table/index.js'
 
 	export let value: string
 	export let field: TableField

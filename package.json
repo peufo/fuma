@@ -63,7 +63,9 @@
 		"dayjs": "^1.11.10",
 		"debounce": "^2.0.0",
 		"devalue": "^4.3.2",
+		"litepicker": "^2.0.12",
 		"mode-watcher": "^0.3.0",
+		"svelte-easy-crop": "^2.0.3",
 		"svelte-sonner": "^0.3.22",
 		"tippy.js": "^6.3.7",
 		"zod": "^3.22.4"

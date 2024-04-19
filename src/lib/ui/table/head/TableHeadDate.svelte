@@ -1,12 +1,12 @@
 <script lang="ts">
 	import { goto } from '$app/navigation'
-	import { DropDown, InputTime, type TableField } from '$lib/material'
-	import { PeriodPicker } from '$lib/period'
-
-	import { formatRange } from '$lib/formatRange'
 	import { page } from '$app/stores'
-	import { urlParam } from '$lib/store'
-	import { jsonParse } from '$lib/jsonParse'
+	import { DropDown, InputTime, type TableField } from '$lib/ui/index.js'
+
+	import { formatRange } from '$lib/utils/formatRange.js'
+	import { PeriodPicker } from '$lib/ui/period/index.js'
+	import { urlParam } from '$lib/store/param.js'
+	import { jsonParse } from '$lib/utils/jsonParse.js'
 
 	type Period = { start: string; end: string }
 
@@ -22,11 +22,11 @@
 
 	let period = {
 		start: start[0] || '',
-		end: end[0] || '',
+		end: end[0] || ''
 	}
 	let time = {
 		start: start[1] || '00:00',
-		end: end[1] || '23:59',
+		end: end[1] || '23:59'
 	}
 
 	$: isValidPeriod = period.start && period.end && time.start && time.start
@@ -34,7 +34,7 @@
 	function getLabel(_period: Period, _time: Period) {
 		return formatRange({
 			start: new Date(`${_period.start}T${_time.start}`),
-			end: new Date(`${_period.end}T${_time.end}`),
+			end: new Date(`${_period.end}T${_time.end}`)
 		})
 	}
 
@@ -46,8 +46,8 @@
 				{
 					[field.key]: JSON.stringify({
 						start: `${period.start}T${time.start || '00:00'}`,
-						end: `${period.end}T${time.end || '23:59'}`,
-					}),
+						end: `${period.end}T${time.end || '23:59'}`
+					})
 				},
 				'skip',
 				'take'
@@ -71,7 +71,7 @@
 		tippyProps={{ appendTo: () => document.body }}
 		class="max-h-none"
 	>
-		<button slot="activator" class="menu-item w-full flex-wrap gap-y-1 min-h-8">
+		<button slot="activator" class="menu-item min-h-8 w-full flex-wrap gap-y-1">
 			<span>{field.label}</span>
 			{#if isValidPeriod}
 				<span class="badge badge-primary badge-xs text-[0.7rem] font-normal text-white">
@@ -95,12 +95,12 @@
 			/>
 			<input class="hidden" type="text" name="end" value="{period.end}T{time.end || '23:59'}" />
 
-			<div class="flex gap-2 m-2">
+			<div class="m-2 flex gap-2">
 				<InputTime label="A partir de" bind:value={time.start} enhanceDisabled class="grow" />
 				<InputTime label="Jusqu'à" bind:value={time.end} enhanceDisabled class="grow" />
 			</div>
 
-			<div class="flex flex-row-reverse gap-2 m-2">
+			<div class="m-2 flex flex-row-reverse gap-2">
 				<button class="btn"> Valider </button>
 				<button class="btn btn-ghost" type="button" on:click={handleReset}>Effacer</button>
 			</div>

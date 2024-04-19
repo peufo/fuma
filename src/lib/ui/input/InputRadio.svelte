@@ -1,10 +1,11 @@
 <script lang="ts">
 	import { onMount } from 'svelte'
 	import { slide } from 'svelte/transition'
-	import FormControl from './FormControl.svelte'
-	import { type InputProps, type Options, parseOptions } from '.'
-	import { bindValueWithParams } from './action'
-	import { formContext } from '$lib/validation'
+
+	import { type Options, parseOptions } from '$lib/utils/options.js'
+	import { formContext } from '$lib/validation/form.js'
+	import { FormControl, bindValueWithParams, type InputProps } from './index.js'
+
 	type $$Props = InputProps & { options: Options; optionsClass?: string }
 	$: ({
 		input,
@@ -51,7 +52,7 @@
 				enhanceDisabled
 				label={option.label}
 				prefixFor={option.value}
-				class="flex-row-reverse justify-end items-center gap-2"
+				class="flex-row-reverse items-center justify-end gap-2"
 			>
 				<input
 					use:bindValueWithParams={{ bindEnable: props.bindWithParams }}

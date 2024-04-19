@@ -1,6 +1,6 @@
 <script lang="ts">
-	import FormControl from './FormControl.svelte'
-	import type { InputProps } from '.'
+	import { FormControl, type InputProps } from './index.js'
+
 	type $$Props = InputProps
 	$: ({ input, value: _value, ...props } = $$props as $$Props)
 	export let value = _value
@@ -17,7 +17,7 @@
 		on:blur
 		type="datetime-local"
 		id={key}
-		class="input-bordered input"
+		class="input input-bordered"
 		{...input}
 	/>
 </FormControl>

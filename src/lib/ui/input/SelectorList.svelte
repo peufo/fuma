@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { selector } from '$lib/action'
 	import { createEventDispatcher } from 'svelte'
+	import { selector } from '$lib/action/selector.js'
 
 	let klass = ''
 	export { klass as class }
@@ -37,7 +37,7 @@
 				role="menuitem"
 				on:click={() => dispatch('select', index)}
 				on:keydown={() => dispatch('select', index)}
-				class="flex justify-start gap-3 items-center hover:bg-base-200 px-3 py-2 rounded cursor-pointer"
+				class="flex cursor-pointer items-center justify-start gap-3 rounded px-3 py-2 hover:bg-base-200"
 				class:bg-base-300={isFocused}
 			>
 				<slot {item} {index} />

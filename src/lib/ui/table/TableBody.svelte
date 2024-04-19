@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte'
 
-	import { TableCell, type TableField } from '$lib/material'
-	import type { ComponentAndProps } from '$lib/utils'
+	import { TableCell, type TableField } from '$lib/ui/index.js'
+	import type { ComponentAndProps } from '$lib/utils/component.js'
 
 	type Item = $$Generic<{ id: string }>
 	export let items: Item[]

@@ -5,16 +5,16 @@
 		mdiCircleSmall,
 		mdiDotsHorizontal,
 		mdiDrag,
-		mdiPlus,
+		mdiPlus
 	} from '@mdi/js'
 	import type { Instance as TippyInstance } from 'tippy.js'
 	import { goto } from '$app/navigation'
 	import { page } from '$app/stores'
-	import { urlParam } from '$lib/store'
-	import { listEditable } from '$lib/action'
-	import { jsonParse } from '$lib/jsonParse'
-	import { Icon, DropDown, type TableField } from '$lib/material'
-	import { context } from '$lib/material/table'
+	import { urlParam } from '$lib/store/param.js'
+	import { listEditable } from '$lib/action/list/index.js'
+	import { jsonParse } from '$lib/utils/jsonParse.js'
+	import { Icon, DropDown, type TableField } from '$lib/ui/index.js'
+	import { context } from '$lib/ui/table/context.js'
 
 	type Item = $$Generic<{ id: string }>
 	export let fields: TableField<Item>[]
@@ -56,19 +56,19 @@
 	}
 </script>
 
-<th class="p-0 px-1 sticky right-0 z-10" align="right">
+<th class="sticky right-0 z-10 p-0 px-1" align="right">
 	<DropDown
 		bind:tip
 		hideOnNav={false}
 		class="max-h-none px-0"
 		tippyProps={{ appendTo: () => document.body, placement: 'bottom-end' }}
 	>
-		<button slot="activator" type="button" class="btn btn-sm btn-square btn-ghost backdrop-blur">
+		<button slot="activator" type="button" class="btn btn-square btn-ghost btn-sm backdrop-blur">
 			<Icon path={mdiDotsHorizontal} title="Définir les champs" />
 		</button>
 
 		{#if onCreateField}
-			<div class="flex pl-2 pr-1 pb-1 gap-2 items-center border-b bordered">
+			<div class="bordered flex items-center gap-2 border-b pb-1 pl-2 pr-1">
 				<span class=" font-semibold opacity-70">Champs</span>
 				<button
 					type="button"
@@ -83,12 +83,12 @@
 			</div>
 		{/if}
 
-		<div class="max-h-[500px] px-1 pt-1 overflow-auto">
+		<div class="max-h-[500px] overflow-auto px-1 pt-1">
 			<div
 				use:listEditable={{
 					items: fields,
 					onChange: handleReorder,
-					dragElementsSelector: '.drag-button',
+					dragElementsSelector: '.drag-button'
 				}}
 			>
 				{#each fields as field (field.key)}
@@ -114,7 +114,7 @@
 						<span>{field.label}</span>
 
 						<span
-							class="drag-button btn btn-xs btn-square btn-ghost ml-auto"
+							class="drag-button btn btn-square btn-ghost btn-xs ml-auto"
 							on:click|preventDefault
 							role="none"
 						>

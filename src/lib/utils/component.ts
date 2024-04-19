@@ -1,5 +1,7 @@
 import type { ComponentProps, ComponentType } from 'svelte'
 
+export type Primitive = string | number | boolean
+
 export type ComponentAndProps = {
 	component: ComponentType
 	props: ComponentProps<InstanceType<ComponentType>>

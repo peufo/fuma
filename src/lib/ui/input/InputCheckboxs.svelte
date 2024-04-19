@@ -1,7 +1,7 @@
 <script lang="ts">
-	import FormControl from './FormControl.svelte'
-	import { type InputProps, type Options, parseOptions } from '.'
 	import { slide } from 'svelte/transition'
+	import { FormControl, type InputProps } from './index.js'
+	import { type Options, parseOptions } from '$lib/utils/options.js'
 
 	type $$Props = InputProps<string[]> & { options: Options; checkboxesClass?: string }
 	$: ({
@@ -37,7 +37,7 @@
 				let:key
 				label={option.label}
 				prefixFor={index}
-				class="flex-row-reverse justify-end items-center gap-2"
+				class="flex-row-reverse items-center justify-end gap-2"
 			>
 				<input
 					bind:group={value}

@@ -1,9 +1,10 @@
 <script lang="ts">
 	import InputCheckboxsTreeNodes, {
-		type Options,
-	} from '$lib/material/input/InputCheckboxsTreeNodes.svelte'
+		type OptionsNode
+	} from '$lib/ui/input/InputCheckboxsTreeNodes.svelte'
+
 	export let label: string
-	export let options: Options
+	export let options: OptionsNode
 	let klass = ''
 	export { klass as class }
 </script>

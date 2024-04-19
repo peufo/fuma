@@ -1,8 +1,9 @@
 <script lang="ts">
 	import type { Instance as TippyInstance } from 'tippy.js'
 	import { mdiMagnify } from '@mdi/js'
-	import { DropDown, Icon, InputSearch, type TableField } from '$lib/material'
 	import { page } from '$app/stores'
+
+	import { DropDown, Icon, InputSearch, type TableField } from '$lib/ui/index.js'
 
 	export let field: TableField
 
@@ -18,7 +19,7 @@
 		autofocus
 		tippyProps={{ appendTo: () => document.body }}
 	>
-		<button slot="activator" class="menu-item w-full flex-wrap gap-y-1 min-h-8">
+		<button slot="activator" class="menu-item min-h-8 w-full flex-wrap gap-y-1">
 			<span>{field.label}</span>
 
 			{#if searchValue}

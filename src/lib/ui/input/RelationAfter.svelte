@@ -3,7 +3,7 @@
 	import { createEventDispatcher } from 'svelte'
 	import { mdiClose, mdiLoading, mdiPlus } from '@mdi/js'
 
-	import Icon from '$lib/material/Icon.svelte'
+	import Icon from '$lib/ui/Icon.svelte'
 
 	export let isLoading: boolean
 	export let isUnselectable = false
@@ -24,12 +24,12 @@
 {/if}
 
 {#if isUnselectable}
-	<div class="ml-[4px] -translate-x-[2px] hidden group-hover:block">
+	<div class="ml-[4px] hidden -translate-x-[2px] group-hover:block">
 		<Icon
 			path={mdiClose}
 			on:click={() => dispatch('unselect')}
 			title="Supprimer la sélection"
-			class="outline outline-2 outline-primary-light hover:bg-primary"
+			class="outline-primary-light outline outline-2 hover:bg-primary"
 		/>
 	</div>
 {/if}

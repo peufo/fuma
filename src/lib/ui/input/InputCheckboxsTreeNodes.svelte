@@ -1,32 +1,35 @@
 <script lang="ts" context="module">
-	export type Options = Record<string, { label: string; value?: boolean; options?: Options }>
+	export type OptionsNode = Record<
+		string,
+		{ label: string; value?: boolean; options?: OptionsNode }
+	>
 </script>
 
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte'
-	import { InputBoolean } from '$lib/material/input'
-	export let options: Options
+	import { InputBoolean } from '$lib/ui/input/index.js'
+	export let options: OptionsNode
 
 	type Events = { setTrue: void }
 	const dispatch = createEventDispatcher<Events>()
 
-	function handleChange(newValue: boolean, option: Options[string]) {
+	function handleChange(newValue: boolean, option: OptionsNode[string]) {
 		if (newValue === true) dispatch('setTrue')
 		else if (option.options) {
 			option.options = setFalse(option.options)
 		}
 	}
 
-	function setFalse(_options?: Options): Options | undefined {
+	function setFalse(_options?: OptionsNode): OptionsNode | undefined {
 		if (!_options) return undefined
-		return Object.entries(_options).reduce<Options>(
+		return Object.entries(_options).reduce<OptionsNode>(
 			(acc, [key, opt]) => ({
 				...acc,
 				[key]: {
 					label: opt.label,
 					value: false,
-					options: setFalse(opt.options),
-				},
+					options: setFalse(opt.options)
+				}
 			}),
 			{}
 		)
@@ -43,11 +46,11 @@
 
 	{#if options[key].options}
 		<div class="flex">
-			<div class="ml-3 w-3 -mt-[6px] relative">
+			<div class="relative -mt-[6px] ml-3 w-3">
 				{#each Object.keys(options[key].options || {}) as k, index}
 					<div
 						style:height="{24 + index * 36}px"
-						class="absolute w-3 t-0 border-l-2 border-b-2 bordered rounded-bl-lg"
+						class="t-0 bordered absolute w-3 rounded-bl-lg border-b-2 border-l-2"
 					/>
 				{/each}
 			</div>

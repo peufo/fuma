@@ -1,14 +1,10 @@
 <script lang="ts">
+	import { createEventDispatcher, tick } from 'svelte'
 	import { slide } from 'svelte/transition'
 	import { mdiClose } from '@mdi/js'
+	import debounce from 'debounce'
 
-	import { createEventDispatcher, tick } from 'svelte'
-	import { debounce } from '$lib/debounce'
-
-	import { useNotify } from '$lib/notify'
-	import { Icon, DropDown } from '$lib/material'
-	import FormControl from './FormControl.svelte'
-	import SelectorList from './SelectorList.svelte'
+	import { FormControl, Icon, DropDown, SelectorList } from '$lib/ui/index.js'
 	import RelationAfter from './RelationAfter.svelte'
 
 	type RelationItem = $$Generic<{ id: string }>
@@ -91,15 +87,15 @@
 		<FormControl {key} {label} {error} class={klass}>
 			<div class="flex flex-col gap-2">
 				{#if items && items.length}
-					<div class="flex gap-2 flex-wrap">
+					<div class="flex flex-wrap gap-2">
 						{#each items || [] as item, index (item.id)}
 							<div
 								transition:slide|local={{ axis: 'x', duration: 200 }}
-								class="text-right badge badge-lg badge-outline whitespace-nowrap pr-0 items-center"
+								class="badge badge-outline badge-lg items-center whitespace-nowrap pr-0 text-right"
 							>
 								<slot {item} name="badge">{item.id}</slot>
 								<div
-									class="btn btn-circle btn-xs btn-ghost min-h-[18px] h-[18px] w-[18px] ml-1 mr-[2px]"
+									class="btn btn-circle btn-ghost btn-xs ml-1 mr-[2px] h-[18px] min-h-[18px] w-[18px]"
 									role="button"
 									tabindex="0"
 									on:click={() => remove(index)}
@@ -112,7 +108,7 @@
 					</div>
 				{/if}
 				<div class="flex grow gap-2">
-					<div class="flex grow gap-2 items-center relative">
+					<div class="relative flex grow items-center gap-2">
 						<input
 							type="text"
 							id={key}
@@ -124,7 +120,7 @@
 							on:blur={handleBlur}
 							autocomplete="off"
 							{placeholder}
-							class="input-bordered input grow"
+							class="input input-bordered grow"
 						/>
 
 						<RelationAfter {isLoading} {createUrl} {createTitle} />

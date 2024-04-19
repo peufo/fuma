@@ -1,14 +1,14 @@
 <script lang="ts">
-	import type { Instance as TippyInstance } from 'tippy.js'
-	import { goto } from '$app/navigation'
-
-	import { DropDown, InputNumber } from '$lib/material'
-	import { urlParam } from '$lib/store'
-	import { debounce } from '$lib/debounce'
-	import type { TableField } from '../field'
-	import { jsonParse } from '$lib/jsonParse'
-	import { page } from '$app/stores'
 	import { onMount } from 'svelte'
+	import type { Instance as TippyInstance } from 'tippy.js'
+	import debounce from 'debounce'
+	import { goto } from '$app/navigation'
+	import { page } from '$app/stores'
+
+	import { DropDown, InputNumber } from '$lib/ui/index.js'
+	import { urlParam } from '$lib/store/param.js'
+	import { jsonParse } from '$lib/utils/jsonParse.js'
+	import type { TableField } from '../field.js'
 
 	export let field: TableField
 
@@ -21,7 +21,7 @@
 	function initRange({ searchParams }: URL) {
 		return jsonParse<Range>(searchParams.get(field.key), {
 			min: undefined,
-			max: undefined,
+			max: undefined
 		})
 	}
 
@@ -29,7 +29,7 @@
 		if (isDefined(min) || isDefined(max)) {
 			goto($urlParam.with({ [field.key]: JSON.stringify({ min, max }) }, 'skip', 'take'), {
 				noScroll: true,
-				keepFocus: true,
+				keepFocus: true
 			})
 			return
 		}
@@ -58,7 +58,7 @@
 		autofocus
 		tippyProps={{ appendTo: () => document.body }}
 	>
-		<button slot="activator" class="menu-item w-full flex-wrap gap-y-1 min-h-8">
+		<button slot="activator" class="menu-item min-h-8 w-full flex-wrap gap-y-1">
 			<span>{field.label}</span>
 
 			{#if isDefined(min) || isDefined(max)}
@@ -74,7 +74,7 @@
 			{/if}
 		</button>
 
-		<form class="grid gap-2 grid-cols-2 p-1" on:submit|preventDefault={() => tip.hide()}>
+		<form class="grid grid-cols-2 gap-2 p-1" on:submit|preventDefault={() => tip.hide()}>
 			<InputNumber bind:value={min} on:input={udpateUrl} input={{ placeholder: 'Min' }} />
 			<InputNumber
 				bind:value={max}
@@ -83,7 +83,7 @@
 				input={{ placeholder: 'Max' }}
 			/>
 
-			<div class="col-span-full flex gap-2 justify-end">
+			<div class="col-span-full flex justify-end gap-2">
 				<button class="btn btn-ghost" type="button" on:click={handleReset}>Effacer</button>
 				<button class="btn">Ok</button>
 			</div>

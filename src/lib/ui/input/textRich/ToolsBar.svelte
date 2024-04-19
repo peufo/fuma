@@ -2,7 +2,7 @@
 	import type { Editor } from '@tiptap/core'
 	import { mdiFormatBold, mdiFormatColorFill, mdiFormatColorText, mdiFormatItalic } from '@mdi/js'
 
-	import { SelectMedia } from '$lib/material'
+	import { SelectMedia } from '$lib/ui/index.js'
 	import ToolMenuNode from './ToolMenuNode.svelte'
 	import ToolMark from './ToolMark.svelte'
 	import ToolMarkColor from './ToolMarkColor.svelte'
@@ -19,14 +19,14 @@
 
 <div
 	class="
-		 border-b overflow-y-visible bg-base-100 z-10 rounded-t-xl sticky top-0
+		 sticky top-0 z-10 overflow-y-visible rounded-t-xl border-b bg-base-100
 		{klass}
 	"
 >
-	<div class="flex p-2 overflow-x-auto">
+	<div class="flex overflow-x-auto p-2">
 		<ToolMenuNode {editor} />
 		<ToolMenuAlign {editor} />
-		<div class="border border-y-0 border-l-0 mx-1 my-auto h-6" />
+		<div class="mx-1 my-auto h-6 border border-y-0 border-l-0" />
 
 		<ToolMark
 			{editor}
@@ -56,12 +56,9 @@
 			setColor={(color) => editor.commands.setHighlight({ color })}
 		/>
 
-		<div class="border border-y-0 border-l-0 mx-1 my-auto h-6" />
+		<div class="mx-1 my-auto h-6 border border-y-0 border-l-0" />
 
-		<ToolMenuInsert
-			{editor}
-			on:insertMedia={() => selectMedia.show()}
-		/>
+		<ToolMenuInsert {editor} on:insertMedia={() => selectMedia.show()} />
 	</div>
 </div>
 

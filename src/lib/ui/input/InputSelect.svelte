@@ -1,8 +1,8 @@
 <script lang="ts">
-	import SelectorList from './SelectorList.svelte'
-	import { DropDown, Icon } from '$lib/material'
-	import { type Options, parseOptions } from '.'
 	import { createEventDispatcher, onMount } from 'svelte'
+
+	import { SelectorList, DropDown, Icon } from '$lib/ui/index.js'
+	import { type Options, parseOptions } from '$lib/utils/options.js'
 
 	export let key = ''
 	export let value = ''
