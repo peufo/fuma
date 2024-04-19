@@ -1,6 +1,11 @@
 {
 	"name": "fuma",
-	"version": "0.0.1",
+	"version": "0.0.2",
+	"description": "My fullstake material build with sveltekit, daisyui, zod and more",
+	"author": {
+		"name": "Jonas Voisard",
+		"email": "jonas.voisard@gmail.com"
+	},
 	"scripts": {
 		"dev": "vite dev --host",
 		"build": "vite build && npm run package",
