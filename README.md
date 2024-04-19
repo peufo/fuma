@@ -10,13 +10,13 @@ echo "Enter mysql username : " && read mysql_username
 
 pn create svelte@latest $project_name
 cd $project_name
-pn i fuma
+pn install
+pn install fuma prisma lucia oslo @lucia-auth/adapter-prisma
 px svelte-add@latest tailwindcss --tailwindcss-daisyui
 sed -i "s|\}'\],|\}', './node_modules/**/fuma/dist/**/*.svelte'\],|g" tailwind.config.cjs
 sed -i 's|"singleQuote": true,|"singleQuote": true,\n\t"semi": false,|g' .prettierrc
 
 # Prisma
-pn i prisma
 px prisma init --datasource-provider mysql
 
 mkdir -p ./src/lib/server
@@ -37,7 +37,6 @@ node -e "\
 "
 
 # Authentication
-pn i lucia oslo @lucia-auth/adapter-prisma
 auth="src/routes/auth"
 mkdir -p "./$auth"
 wget "$source/src/app.d.ts" -O ./src/app.d.ts
