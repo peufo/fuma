@@ -19,8 +19,7 @@
 		"format": "prettier --write .",
 		"migrate": "prisma migrate dev",
 		"generate": "prisma generate",
-		"studio": "prisma studio",
-		"postinstall": "prisma migrate deploy && prisma generate"
+		"studio": "prisma studio"
 	},
 	"svelte": "./dist/index.js",
 	"types": "./dist/index.d.ts",
