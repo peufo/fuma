@@ -3,7 +3,6 @@ import { writable, get } from 'svelte/store'
 import { tippy, type TippyInstance } from '$lib/utils/tippy.js'
 
 import SuggesionList from './SuggesionList.svelte'
-import '$lib/ui/menu/dropdown.css'
 
 export type SuggestionItem = { id: string; label: string }
 export let suggestionItems = writable<SuggestionItem[]>([])
