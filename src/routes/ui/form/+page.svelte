@@ -1,0 +1,1 @@
+Choose an input type

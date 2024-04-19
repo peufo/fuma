@@ -1,7 +1,7 @@
 export * from './menu/index.js'
 export * from './tabs/index.js'
 export * from './card/index.js'
-// export * from './input/index.js'
+export * from './input/index.js'
 // export * from './table'
 
 // export * from './media'
