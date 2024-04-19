@@ -1,7 +1,7 @@
 {
 	"name": "fuma",
-	"version": "0.0.4",
-	"description": "My fullstake material build with sveltekit, daisyui, zod and more",
+	"version": "0.1.0",
+	"description": "My fullstack material build with sveltekit, daisyui, zod and more",
 	"author": {
 		"name": "Jonas Voisard",
 		"email": "jonas.voisard@gmail.com"
@@ -16,7 +16,11 @@
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"test": "vitest",
 		"lint": "prettier --check . && eslint .",
-		"format": "prettier --write ."
+		"format": "prettier --write .",
+		"migrate": "prisma migrate dev",
+		"generate": "prisma generate",
+		"studio": "prisma studio",
+		"postinstall": "prisma migrate deploy && prisma generate"
 	},
 	"svelte": "./dist/index.js",
 	"types": "./dist/index.d.ts",
@@ -65,7 +69,9 @@
 		"vitest": "^1.2.0"
 	},
 	"dependencies": {
+		"@lucia-auth/adapter-prisma": "^4.0.1",
 		"@mdi/js": "^7.4.47",
+		"@prisma/client": "5.12.1",
 		"@tiptap/core": "^2.3.0",
 		"@tiptap/extension-color": "^2.3.0",
 		"@tiptap/extension-highlight": "^2.3.0",
@@ -83,7 +89,10 @@
 		"debounce": "^2.0.0",
 		"devalue": "^4.3.2",
 		"litepicker": "^2.0.12",
+		"lucia": "^3.1.1",
 		"mode-watcher": "^0.3.0",
+		"oslo": "^1.2.0",
+		"prisma": "^5.12.1",
 		"svelte-easy-crop": "^2.0.3",
 		"svelte-sonner": "^0.3.22",
 		"tippy.js": "^6.3.7",
