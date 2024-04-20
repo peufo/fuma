@@ -42,10 +42,12 @@ mkdir -p "./$auth"
 wget "$source/src/app.d.ts" -O ./src/app.d.ts
 wget "$source/src/hooks.server.ts" -O ./src/hooks.server.ts
 wget "$source/src/lib/server/auth.ts" -O ./src/lib/server/auth.ts
-wget "$source/$auth/+page.svelte" -O "./$auth/+page.svelte"
-wget "$source/$auth/+layout.svelte" -O "./$auth/+layout.svelte"
+wget "$source/$auth/+pagesrc.svelte" -O "./$auth/+page.svelte"
 wget "$source/$auth/+page.server.ts" -O "./$auth/+page.server.ts"
 
+sed -i 's|import Login .*|import { Login } from "fuma"|g' "./$auth/+page.svelte"
+sed -i 's|$lib/validation/zod.js|fuma|g' "./$auth/+page.server.ts"
+sed -i 's|$lib/server/index.js|fuma/server|g' "./$auth/+page.server.ts"
 
 git init && git add -A && git commit -m "Initial commit"
 ```
