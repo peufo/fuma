@@ -21,8 +21,8 @@ px prisma init --datasource-provider mysql
 
 mkdir -p ./src/lib/server
 source="https://raw.githubusercontent.com/peufo/fuma/main"
-wget "$source/prisma/schema.prisma" -O ./prisma/schema.prisma
-wget "$source/src/lib/server/prisma.ts" -O ./src/lib/server/prisma.ts
+curl "$source/prisma/schema.prisma" -o ./prisma/schema.prisma
+curl "$source/src/lib/server/prisma.ts" -o ./src/lib/server/prisma.ts
 
 echo "DATABASE_URL=\"mysql://$mysql_username@localhost:3306/$project_name\"" > .env
 cp .env .env.example
@@ -39,11 +39,11 @@ node -e "\
 # Authentication
 auth="src/routes/auth"
 mkdir -p "./$auth"
-wget "$source/src/app.d.ts" -O ./src/app.d.ts
-wget "$source/src/hooks.server.ts" -O ./src/hooks.server.ts
-wget "$source/src/lib/server/auth.ts" -O ./src/lib/server/auth.ts
-wget "$source/$auth/+pagesrc.svelte" -O "./$auth/+page.svelte"
-wget "$source/$auth/+page.server.ts" -O "./$auth/+page.server.ts"
+curl "$source/src/app.d.ts" -o ./src/app.d.ts
+curl "$source/src/hooks.server.ts" -o ./src/hooks.server.ts
+curl "$source/src/lib/server/auth.ts" -o ./src/lib/server/auth.ts
+curl "$source/$auth/+pagesrc.svelte" -o "./$auth/+page.svelte"
+curl "$source/$auth/+page.server.ts" -o "./$auth/+page.server.ts"
 
 sed -i 's|import Login .*|import { Login } from "fuma"|g' "./$auth/+page.svelte"
 sed -i 's|$lib/validation/zod.js|fuma|g' "./$auth/+page.server.ts"
