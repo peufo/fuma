@@ -16,4 +16,11 @@ export { default as Placeholder } from './Placeholder.svelte'
 export { default as PlaceholderImage } from './PlaceholderImage.svelte'
 export { default as Login } from './Login.svelte'
 export { default as ToggleMode } from './ToggleMode.svelte'
-export * from 'mode-watcher'
+export {
+	mode,
+	setMode,
+	resetMode,
+	toggleMode,
+	userPrefersMode,
+	systemPrefersMode
+} from 'mode-watcher'
