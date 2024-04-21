@@ -35,7 +35,7 @@
 	})
 </script>
 
-<i bind:this={icon} class="grid place-content-center {klass}" {style}>
+<i bind:this={icon} class="grid place-content-center fill-base-content {klass}" {style}>
 	<svg
 		xmlns="http://www.w3.org/2000/svg"
 		width={size}

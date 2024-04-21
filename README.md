@@ -10,9 +10,9 @@ echo "Enter mysql username : " && read mysql_username
 
 pn create svelte@latest $project_name
 cd $project_name
+px svelte-add@latest tailwindcss --tailwindcss-daisyui
 pn install
 pn install fuma prisma lucia oslo @lucia-auth/adapter-prisma
-px svelte-add@latest tailwindcss --tailwindcss-daisyui
 sed -i "s|\}'\],|\}', './node_modules/**/fuma/dist/**/*.svelte'\],|g" tailwind.config.cjs
 sed -i 's|"singleQuote": true,|"singleQuote": true,\n\t"semi": false,|g' .prettierrc
 
@@ -42,7 +42,7 @@ mkdir -p "./$auth"
 curl "$source/src/app.d.ts" -o ./src/app.d.ts
 curl "$source/src/hooks.server.ts" -o ./src/hooks.server.ts
 curl "$source/src/lib/server/auth.ts" -o ./src/lib/server/auth.ts
-curl "$source/$auth/+pagesrc.svelte" -o "./$auth/+page.svelte"
+curl "$source/$auth/+page.svelte" -o "./$auth/+page.svelte"
 curl "$source/$auth/+page.server.ts" -o "./$auth/+page.server.ts"
 
 sed -i 's|import Login .*|import { Login } from "fuma"|g' "./$auth/+page.svelte"
