@@ -2,7 +2,7 @@
 	import '../app.pcss'
 
 	import Tree from './Tree.svelte'
-	import ToggleMode from './ToggleMode.svelte'
+	import ToggleMode from '$lib/ui/ToggleMode.svelte'
 	import { Toaster } from 'svelte-sonner'
 
 	let tree = Object.keys(import.meta.glob('./**/+page.svelte'))
