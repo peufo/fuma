@@ -16,6 +16,7 @@ export { default as Placeholder } from './Placeholder.svelte'
 export { default as PlaceholderImage } from './PlaceholderImage.svelte'
 export { default as Login } from './Login.svelte'
 export { default as ToggleMode } from './ToggleMode.svelte'
+export { default as Slot } from './Slot.svelte'
 export {
 	mode,
 	setMode,

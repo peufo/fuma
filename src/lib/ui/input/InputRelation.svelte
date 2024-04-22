@@ -5,7 +5,8 @@
 	import { mdiClose } from '@mdi/js'
 	import type { TippyProps } from '$lib/utils/tippy.js'
 
-	import { FormControl, DropDown, Icon, SelectorList } from '$lib/ui/index.js'
+	import type { ComponentAndProps } from '$lib/index.js'
+	import { FormControl, DropDown, Icon, SelectorList, Slot } from '$lib/ui/index.js'
 	import RelationAfter from './RelationAfter.svelte'
 
 	type RelationItem = $$Generic<{ id: string }>
@@ -20,6 +21,8 @@
 	export let placeholder = ''
 	export let tippyProps: Partial<TippyProps> = {}
 	export let flatMode = false
+	export let slotItem: ((item: RelationItem) => ComponentAndProps) | null = null
+	export let slotSuggestion: ((item: RelationItem) => ComponentAndProps) | null = null
 
 	let klass = ''
 	export { klass as class }
@@ -101,7 +104,9 @@
 				<div class="flex h-12 items-center gap-2 rounded-lg border pl-4 pr-2">
 					<div class="grow">
 						<slot name="item" {item}>
-							{item.id}
+							<Slot slot={slotItem} args={item}>
+								{item.id}
+							</Slot>
 						</slot>
 					</div>
 					<button type="button" on:click={() => clear()} class="btn btn-square btn-sm">
@@ -123,8 +128,10 @@
 		class="w-full {classList}"
 		on:select={({ detail }) => select(detail)}
 	>
-		<slot name="listItem" item={proposedItems[index]}>
-			{proposedItems[index].id}
+		<slot name="suggestion" item={proposedItems[index]}>
+			<Slot slot={slotSuggestion} args={proposedItems[index]}>
+				{proposedItems[index].id}
+			</Slot>
 		</slot>
 	</SelectorList>
 </DropDown>

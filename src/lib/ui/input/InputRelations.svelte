@@ -5,7 +5,8 @@
 	import { mdiClose } from '@mdi/js'
 	import debounce from 'debounce'
 
-	import { FormControl, Icon, DropDown, SelectorList } from '$lib/ui/index.js'
+	import type { ComponentAndProps } from '$lib/index.js'
+	import { FormControl, Icon, DropDown, SelectorList, Slot } from '$lib/ui/index.js'
 	import RelationAfter from './RelationAfter.svelte'
 
 	type RelationItem = $$Generic<{ id: string }>
@@ -15,10 +16,11 @@
 	export let search: (q: string) => Promise<RelationItem[]>
 	export let createUrl = ''
 	export let createTitle = ''
-
 	export let error = ''
 	export let placeholder = ''
 	export let flatMode = false
+	export let slotItem: ((item: RelationItem) => ComponentAndProps) | null = null
+	export let slotSuggestion: ((item: RelationItem) => ComponentAndProps) | null = null
 
 	let klass = ''
 	export { klass as class }
@@ -94,7 +96,11 @@
 								transition:slide|local={{ axis: 'x', duration: 200 }}
 								class="badge badge-outline badge-lg items-center whitespace-nowrap pr-0 text-right"
 							>
-								<slot {item} name="badge">{item.id}</slot>
+								<slot {item} name="item">
+									<Slot slot={slotItem} args={item}>
+										{item.id}
+									</Slot>
+								</slot>
 								<div
 									class="btn btn-circle btn-ghost btn-xs ml-1 mr-[2px] h-[18px] min-h-[18px] w-[18px]"
 									role="button"
@@ -144,8 +150,10 @@
 		class="w-full {classList}"
 		on:select={({ detail }) => select(detail)}
 	>
-		<slot name="listItem" item={proposedItems[index]}>
-			{proposedItems[index].id}
+		<slot name="suggestion" item={proposedItems[index]}>
+			<Slot slot={slotSuggestion} args={proposedItems[index]}>
+				{proposedItems[index].id}
+			</Slot>
 		</slot>
 	</SelectorList>
 </DropDown>
