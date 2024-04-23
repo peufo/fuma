@@ -22,7 +22,7 @@
 	export let tippyProps: Partial<TippyProps> = {}
 	export let flatMode = false
 	export let slotItem: ((item: RelationItem) => ComponentAndProps | string) | null = null
-	export let slotSuggestion: ((item: RelationItem) => ComponentAndProps | string) | null = null
+	export let slotSuggestion: ((item: RelationItem) => ComponentAndProps | string) | null = slotItem
 
 	let klass = ''
 	export { klass as class }
