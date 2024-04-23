@@ -19,8 +19,8 @@
 	export let error = ''
 	export let placeholder = ''
 	export let flatMode = false
-	export let slotItem: ((item: RelationItem) => ComponentAndProps) | null = null
-	export let slotSuggestion: ((item: RelationItem) => ComponentAndProps) | null = null
+	export let slotItem: ((item: RelationItem) => ComponentAndProps | string) | null = null
+	export let slotSuggestion: ((item: RelationItem) => ComponentAndProps | string) | null = null
 
 	let klass = ''
 	export { klass as class }
