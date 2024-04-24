@@ -28,6 +28,7 @@
 
 	let proposedItems: RelationItem[] = []
 	export let items: RelationItem[] | null = null
+	export { items as value }
 
 	let isLoading = false
 	let isError = false

@@ -17,6 +17,7 @@
 	export let createUrl = ''
 	export let createTitle = ''
 	export let item: RelationItem | null = null
+	export { item as value }
 	export let error = ''
 	export let placeholder = ''
 	export let tippyProps: Partial<TippyProps> = {}
