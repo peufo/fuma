@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { type SvelteComponent } from 'svelte'
-	import { Card, Table } from './index.js'
+	import { Card, Table, Icon } from './index.js'
+	import { mdiEyeOffOutline, mdiEyeOutline } from '@mdi/js'
+	import { slide } from 'svelte/transition'
 
 	export let name = ''
 	export let description = ''
@@ -8,6 +10,7 @@
 
 	type Props = { id: string; value: string }[]
 	let props: Props = []
+	let isPropsVisible = false
 
 	$: initMeta(component)
 
@@ -28,33 +31,44 @@
 </script>
 
 <Card class="mx-auto mt-6 max-w-4xl">
-	<svelte:fragment slot="title">{name}</svelte:fragment>
+	<div slot="title" class="flex items-center gap-4">
+		<span class="grow">{name}</span>
+		<button class="btn btn-square btn-sm" on:click={() => (isPropsVisible = !isPropsVisible)}>
+			<Icon
+				size={20}
+				title="Affichage des props"
+				path={isPropsVisible ? mdiEyeOutline : mdiEyeOffOutline}
+			/>
+		</button>
+	</div>
 	<svelte:fragment slot="subtitle">{description}</svelte:fragment>
 
 	<slot />
 
-	<div class="my-10" />
-
-	<Table
-		items={props}
-		fields={[
-			{
-				key: 'name',
-				label: 'Prop',
-				getCell: (p) => p.id,
-				locked: true
-			},
-			{
-				key: 'type',
-				label: 'Type',
-				getCell: (p) => typeof p.value
-			},
-			{
-				key: 'value',
-				label: 'Value',
-				getCell: (p) => p.value,
-				visible: true
-			}
-		]}
-	></Table>
+	{#if isPropsVisible}
+		<div transition:slide class="pt-6">
+			<Table
+				items={props}
+				fields={[
+					{
+						key: 'name',
+						label: 'Prop',
+						getCell: (p) => p.id,
+						locked: true
+					},
+					{
+						key: 'type',
+						label: 'Type',
+						getCell: (p) => typeof p.value
+					},
+					{
+						key: 'value',
+						label: 'Value',
+						getCell: (p) => p.value,
+						visible: true
+					}
+				]}
+			/>
+		</div>
+	{/if}
 </Card>
