@@ -27,7 +27,7 @@
 	export let classList = ''
 
 	let proposedItems: RelationItem[] = []
-	export let items: RelationItem[] | null = null
+	let items: RelationItem[] | null = null
 	export { items as value }
 
 	let isLoading = false

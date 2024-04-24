@@ -16,7 +16,7 @@
 	export let search: (q: string) => Promise<RelationItem[]>
 	export let createUrl = ''
 	export let createTitle = ''
-	export let item: RelationItem | null = null
+	let item: RelationItem | null = null
 	export { item as value }
 	export let error = ''
 	export let placeholder = ''
