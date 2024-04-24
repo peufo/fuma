@@ -1,23 +1,26 @@
 <script lang="ts">
 	import { createEventDispatcher, onMount } from 'svelte'
 
-	import { SelectorList, DropDown, Icon } from '$lib/ui/index.js'
+	import { SelectorList, DropDown, Icon, FormControl, type InputProps } from '$lib/ui/index.js'
 	import { type Options, parseOptions } from '$lib/utils/options.js'
-	import InputText from './InputText.svelte'
+	import type { TippyProps } from '$lib/index.js'
+	import { mdiUnfoldMoreHorizontal } from '@mdi/js'
 
-	export let key = ''
-	export let value = ''
-	export let options: Options
-	export let noBtnClass = false
-	let klass = ''
-	export { klass as class }
+	type $$Props = Omit<InputProps, 'inputElement'> & {
+		options: Options
+		tippyProps?: TippyProps
+		placeholder?: string
+	}
+	$: ({ input, value: _value, options, tippyProps, placeholder, ...props } = $$props as $$Props)
+
+	export let value = _value
 
 	$: _options = parseOptions(options)
 	$: selectedOption = _options.find((opt) => opt.value === value)
 
 	let dropDown: DropDown
 	let button: HTMLButtonElement
-	const dispatch = createEventDispatcher<{ select: string }>()
+	const dispatch = createEventDispatcher<{ input: string }>()
 
 	let focusIndex = 0
 	onMount(() => {
@@ -28,26 +31,33 @@
 	function onSelect(index: number) {
 		focusIndex = index
 		value = _options[index].value
-		dispatch('select', value)
+		dispatch('input', value)
 		dropDown.hide()
 	}
 </script>
 
-<input type="hidden" name={key} {value} />
-
 <DropDown bind:this={dropDown}>
-	<button bind:this={button} slot="activator" type="button" class:btn={!noBtnClass} class={klass}>
-		<slot name="btn">
-			{#if selectedOption}
-				{#if selectedOption.icon}
-					<Icon path={selectedOption.icon} size={21} class="opacity-70" />
+	<div class="contents" slot="activator">
+		<FormControl {...props} let:key>
+			<button
+				bind:this={button}
+				id={key}
+				type="button"
+				class="flex h-12 items-center gap-2 rounded-lg border pl-4 pr-2"
+			>
+				{#if selectedOption}
+					{#if selectedOption.icon}
+						<Icon path={selectedOption.icon} size={21} class="opacity-70" />
+					{/if}
+					<span>{selectedOption.label}</span>
+				{:else if placeholder}
+					<span class="opacity-60">{placeholder}</span>
 				{/if}
-				<span>{selectedOption.label}</span>
-			{:else}
-				<slot name="placeholder">Sélection</slot>
-			{/if}
-		</slot>
-	</button>
+				<Icon class="ml-auto" path={mdiUnfoldMoreHorizontal} size={18} />
+			</button>
+			<input type="hidden" name={key} {value} />
+		</FormControl>
+	</div>
 
 	<SelectorList
 		trigger={button}
@@ -60,6 +70,6 @@
 		{#if item.icon}
 			<Icon path={item.icon} size={18} class="opacity-70" />
 		{/if}
-		<span class="whitespace-nowrap">{item.label}</span>
+		<span class="whitespace-nowrap pr-4">{item.label}</span>
 	</SelectorList>
 </DropDown>

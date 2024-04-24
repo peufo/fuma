@@ -41,6 +41,7 @@
 			/>
 		</button>
 	</div>
+
 	<svelte:fragment slot="subtitle">{description}</svelte:fragment>
 
 	<slot />
