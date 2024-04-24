@@ -3,6 +3,7 @@
 
 	import { SelectorList, DropDown, Icon } from '$lib/ui/index.js'
 	import { type Options, parseOptions } from '$lib/utils/options.js'
+	import InputText from './InputText.svelte'
 
 	export let key = ''
 	export let value = ''
@@ -57,7 +58,7 @@
 		class="w-full"
 	>
 		{#if item.icon}
-			<Icon path={item.icon} size={21} class="opacity-70" />
+			<Icon path={item.icon} size={18} class="opacity-70" />
 		{/if}
 		<span class="whitespace-nowrap">{item.label}</span>
 	</SelectorList>
