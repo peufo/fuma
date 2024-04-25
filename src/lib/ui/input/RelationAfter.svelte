@@ -23,7 +23,7 @@
 {/if}
 
 {#if createUrl}
-	<button class="btn btn-square btn-sm">
+	<a href={createUrl} class="btn btn-square btn-sm">
 		<Icon path={mdiPlus} on:click={() => dispatch('create')} title={createTitle} />
-	</button>
+	</a>
 {/if}
