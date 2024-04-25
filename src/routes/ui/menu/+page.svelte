@@ -16,14 +16,14 @@
 
 <Meta component={contextMenu} name="ContextMenu">
 	<button
-		class="grid place-content-center border bordered rounded bg-base-200 h-80"
+		class="bordered grid h-80 place-content-center rounded border bg-base-200"
 		on:click={(event) => contextMenu.show(event)}
 	>
 		<span>Click on me !</span>
 	</button>
 
 	<ContextMenu bind:this={contextMenu}>
-		<div slot="header">slot="header"</div>
+		<div slot="header" class="title-md">slot="header"</div>
 		<MenuContent />
 	</ContextMenu>
 </Meta>

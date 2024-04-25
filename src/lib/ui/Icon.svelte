@@ -4,7 +4,7 @@
 
 	export let path: string
 	export let title = ''
-	export let size = 24
+	export let size = 22
 	let klass = ''
 	export { klass as class }
 	export let style = ''
