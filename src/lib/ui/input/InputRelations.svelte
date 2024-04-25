@@ -86,7 +86,7 @@
 	}
 </script>
 
-<DropDown bind:this={dropdown} disable={flatMode}>
+<DropDown bind:this={dropdown} disable={flatMode} isWidthOfActivator>
 	<div slot="activator">
 		<FormControl {key} {label} {error} class={klass}>
 			<div class="flex flex-col gap-2">

@@ -77,7 +77,7 @@
 	}
 </script>
 
-<DropDown {tippyProps} disable={flatMode}>
+<DropDown {tippyProps} disable={flatMode} isWidthOfActivator>
 	<div class="contents" slot="activator">
 		<FormControl {key} {label} {error} class={klass} let:key>
 			<div class="flex grow gap-2" class:hidden={item}>

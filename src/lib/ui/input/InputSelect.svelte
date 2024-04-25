@@ -36,7 +36,7 @@
 	}
 </script>
 
-<DropDown bind:this={dropDown}>
+<DropDown bind:this={dropDown} isWidthOfActivator>
 	<div class="contents" slot="activator">
 		<FormControl {...props} let:key>
 			<button
