@@ -58,6 +58,7 @@
 			interactive: true,
 			interactiveDebounce: 50,
 			appendTo: 'parent',
+			hideOnClick: false,
 			onShown() {
 				if (autofocus) focusables[0]?.select()
 			},
