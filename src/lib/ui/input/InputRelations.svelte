@@ -116,7 +116,7 @@
 					</div>
 				{/if}
 				<div class="flex grow gap-2">
-					<div class="relative flex grow items-center gap-2">
+					<div class="input input-bordered flex grow items-center pr-2">
 						<input
 							type="text"
 							id={key}
@@ -128,7 +128,7 @@
 							on:blur={handleBlur}
 							autocomplete="off"
 							{placeholder}
-							class="input input-bordered grow"
+							class="grow"
 						/>
 
 						<RelationAfter {isLoading} {createUrl} {createTitle} />

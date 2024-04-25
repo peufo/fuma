@@ -1,7 +1,14 @@
 <script lang="ts">
 	import Meta from '$lib/Meta.svelte'
 	import type { Options } from '$lib/index.js'
-	import { InputText, InputBoolean, InputSelect, InputCombo, InputRelation } from '$lib/ui/index.js'
+	import {
+		InputText,
+		InputBoolean,
+		InputSelect,
+		InputCombo,
+		InputRelation,
+		InputRelations
+	} from '$lib/ui/index.js'
 	import { mdiAbTesting, mdiAbacus, mdiAbjadArabic } from '@mdi/js'
 
 	let inputBoolean: InputBoolean
@@ -9,6 +16,7 @@
 	let inputSelect: InputSelect
 	let inputCombo: InputCombo
 	let inputRelation: InputRelation<Item>
+	let inputRelations: InputRelations<Item>
 
 	let options: Options = {
 		a: { label: 'Option A', icon: mdiAbTesting },
@@ -63,6 +71,19 @@
 	/>
 
 	<InputRelation label="Input Relation" search={searchItems} slotItem={(item) => item.name} />
+</Meta>
+
+<Meta component={inputRelations} name="InputRelations">
+	<InputRelations
+		bind:this={inputRelations}
+		label="Input Relations"
+		search={searchItems}
+		slotItem={(item) => item.name}
+		createUrl="/ui/form/inputs?create_item=true"
+		createTitle="Créer un item"
+	/>
+
+	<InputRelations label="Input Relations" search={searchItems} slotItem={(item) => item.name} />
 </Meta>
 
 <div class="h-60"></div>
