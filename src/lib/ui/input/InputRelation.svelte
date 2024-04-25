@@ -11,11 +11,11 @@
 
 	type RelationItem = $$Generic<{ id: string }>
 
-	export let key = ''
+	export let key = Math.random().toString()
 	export let label = ''
 	export let search: (q: string) => Promise<RelationItem[]>
 	export let createUrl = ''
-	export let createTitle = ''
+	export let createTitle = 'Nouveau'
 	let item: RelationItem | null = null
 	export { item as value }
 	export let error = ''
@@ -81,11 +81,11 @@
 	<div class="contents" slot="activator">
 		<FormControl {key} {label} {error} class={klass} let:key>
 			<div class="flex grow gap-2" class:hidden={item}>
-				<div class="relative flex grow items-center gap-2">
+				<div class="input input-bordered flex grow items-center pr-2">
 					<input
 						type="text"
-						id={key}
 						name={key}
+						id={key}
 						bind:this={inputElement}
 						bind:value={searchValue}
 						on:input={(e) => searchItemsDebounce(e.currentTarget.value)}
@@ -93,7 +93,7 @@
 						on:blur={handleBlur}
 						autocomplete="off"
 						{placeholder}
-						class="input input-bordered grow"
+						class="grow"
 					/>
 
 					<RelationAfter {isLoading} {createUrl} {createTitle} />
