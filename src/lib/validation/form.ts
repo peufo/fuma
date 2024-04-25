@@ -5,7 +5,6 @@ import type { z } from 'zod'
 import { enhance } from '$app/forms'
 import { goto } from '$app/navigation'
 
-
 export type SetError = { [key: string]: (err: string) => void }
 export type FormContext = { setError: SetError }
 
@@ -72,6 +71,11 @@ export function useForm<ReturnData extends Record<string, unknown>>({
 				}
 				setError[key](issue.message)
 			})
+
+			const issuesKeys = issues
+				.map(({ path }) => path[0])
+				.filter((k, i, self) => self.indexOf(k) === i)
+			toast.warning('Invalid form', { description: issuesKeys.join(', ') })
 		}
 
 		if (message) {
