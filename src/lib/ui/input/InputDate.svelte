@@ -4,9 +4,10 @@
 	import dayjs from 'dayjs'
 
 	import { FormControl, type InputProps } from './index.js'
-
 	type $$Props = InputProps<Date | null>
 	$: ({ input, value: _value, ...props } = $$props as $$Props)
+	$: ({ class: inputClass, ...inputProps } = input || {})
+
 	export let value = _value
 
 	const dispatch = createEventDispatcher<{ input: Date | null }>()
@@ -26,7 +27,8 @@
 		type="date"
 		name={key}
 		id={key}
-		class="input input-bordered"
-		{...input}
+		size={1}
+		class="input input-bordered {inputClass || {}}"
+		{...inputProps}
 	/>
 </FormControl>

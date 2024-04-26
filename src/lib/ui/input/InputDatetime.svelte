@@ -3,6 +3,7 @@
 
 	type $$Props = InputProps
 	$: ({ input, value: _value, ...props } = $$props as $$Props)
+	$: ({ class: inputClass, ...inputProps } = input || {})
 	export let value = _value
 </script>
 
@@ -17,7 +18,8 @@
 		on:blur
 		type="datetime-local"
 		id={key}
-		class="input input-bordered"
-		{...input}
+		size={1}
+		class="input input-bordered {inputClass || {}}"
+		{...inputProps}
 	/>
 </FormControl>

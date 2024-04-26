@@ -6,13 +6,12 @@
 	import type { TippyProps } from '$lib/index.js'
 	import { mdiUnfoldMoreHorizontal } from '@mdi/js'
 
-	type $$Props = Omit<InputProps, 'inputElement'> & {
+	type $$Props = Omit<InputProps, 'input' | 'inputElement'> & {
 		options: Options
 		tippyProps?: TippyProps
 		placeholder?: string
 	}
-	$: ({ input, value: _value, options, tippyProps, placeholder, ...props } = $$props as $$Props)
-
+	$: ({ value: _value, options, tippyProps, placeholder, ...props } = $$props as $$Props)
 	export let value = _value
 
 	$: _options = parseOptions(options)

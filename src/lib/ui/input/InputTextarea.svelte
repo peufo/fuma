@@ -2,6 +2,7 @@
 	import { FormControl, type TextareaProps } from './index.js'
 	type $$Props = TextareaProps
 	$: ({ textarea, value: _value, ...props } = $$props as $$Props)
+	$: ({ class: inputClass, ...inputProps } = textarea || {})
 	export let value = _value
 </script>
 
@@ -14,8 +15,8 @@
 		on:blur
 		name={key}
 		id={key}
-		class="textarea textarea-bordered"
+		class="textarea textarea-bordered {inputClass || ''}"
 		rows="4"
-		{...textarea}
+		{...inputProps}
 	/>
 </FormControl>

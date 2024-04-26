@@ -94,6 +94,7 @@
 						autocomplete="off"
 						{placeholder}
 						class="grow"
+						size={1}
 					/>
 
 					<RelationAfter {isLoading} {createUrl} {createTitle} />

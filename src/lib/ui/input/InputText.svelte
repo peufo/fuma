@@ -3,10 +3,9 @@
 
 	type $$Props = InputProps
 	$: ({ input, value: _value, wrapperClass, bindWithParams, ...props } = $$props as $$Props)
+	$: ({ class: inputClass, ...inputProps } = input || {})
 	export let value = _value
 	export let inputElement: HTMLInputElement | undefined = undefined
-
-	$: ({ class: inputClass, ...inputProps } = input || {})
 </script>
 
 <FormControl {...props} enhanceDisabled={props.enhanceDisabled || bindWithParams} let:key>
@@ -26,6 +25,7 @@
 			type="text"
 			name={key}
 			id={key}
+			size={1}
 			class="input input-bordered w-full {inputClass || ''}"
 			{...inputProps}
 		/>

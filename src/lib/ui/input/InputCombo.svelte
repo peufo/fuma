@@ -7,7 +7,7 @@
 
 	type $$Props = InputProps & { options: Options; tippyProps?: TippyProps }
 	$: ({ input, value: _value, options, tippyProps, ...props } = $$props as $$Props)
-
+	$: ({ class: inputClass, ...inputProps } = input || {})
 	export let value = _value
 	export let inputElement: HTMLInputElement | undefined = undefined
 
@@ -54,8 +54,9 @@
 						on:blur={() => (searchValue = '')}
 						on:input={(e) => filterOptions(e.currentTarget.value)}
 						autocomplete="off"
-						class="input input-bordered grow"
-						{...input}
+						size={1}
+						class="input input-bordered grow {inputClass || {}}"
+						{...inputProps}
 					/>
 				</div>
 				<slot name="append" />
