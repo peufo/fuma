@@ -38,12 +38,13 @@
 </script>
 
 <script lang="ts">
+	import { onDestroy } from 'svelte'
 	import { fade, fly } from 'svelte/transition'
 	import { mdiClose } from '@mdi/js'
 
 	import { goto } from '$app/navigation'
-	import { Icon, urlParam } from 'fuma'
-	import { onDestroy } from 'svelte'
+	import { urlParam } from '$lib/store/param.js'
+	import { Icon } from '$lib/ui/index.js'
 
 	export let title = ''
 	/** Key used in url query params */
