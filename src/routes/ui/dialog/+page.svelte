@@ -29,7 +29,7 @@
 	</DialogConfirm>
 </Meta>
 
-<Meta component={drawer} name="Drawe">
+<Meta component={drawer} name="Drawer">
 	<a class="btn" href={$urlParam.with({ 'drawer-1': 1 })}>Open drawer 1</a>
 
 	<Drawer title="Drawer 1" bind:this={drawer} key="drawer-1">
