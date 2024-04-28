@@ -13,7 +13,7 @@
 	import { page } from '$app/stores'
 	import { useForm } from '$lib/validation/form.js'
 
-	import Input from './Input.svelte'
+	import Input from './FormInput.svelte'
 	import FormSection from './FormSection.svelte'
 
 	type Shape = $$Generic<z.ZodRawShape>

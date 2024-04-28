@@ -1,6 +1,7 @@
 import type { z } from 'zod'
 import type { ComponentProps } from 'svelte'
-import { inputsType, type InputsProps, type InputsType } from './Input.svelte'
+import { formInputsType, type FormInputsProps, type FormInputsType } from './formInput.js'
+
 import type FormSection from './FormSection.svelte'
 
 type Shape = z.ZodRawShape
@@ -17,7 +18,7 @@ export type FormField<M extends Shape> = {
 	colSpan?: number
 	/** hide field if true */
 	hide?: BoolOrFunction<M>
-} & PickOne<InputsProps>
+} & PickOne<FormInputsProps>
 
 export type FormSectionProps<M extends Shape> = ComponentProps<FormSection> & {
 	/** hide group if true */
@@ -33,8 +34,8 @@ export function initData<M extends Shape>(fields: FormField<M>[][]): FormData<M>
 	}, {})
 }
 
-export function getFieldType<M extends Shape>(field: FormField<M>): InputsType {
-	const inputType = inputsType.find((t) => field[t])
+export function getFieldType<M extends Shape>(field: FormField<M>): FormInputsType {
+	const inputType = formInputsType.find((t) => field[t])
 	if (!inputType) return 'text'
 	return inputType
 }
