@@ -10,6 +10,7 @@
 
 	import { createEventDispatcher, onMount } from 'svelte'
 	import { fade } from 'svelte/transition'
+	import type { z } from 'zod'
 	import { page } from '$app/stores'
 	import { useForm } from '$lib/validation/form.js'
 
