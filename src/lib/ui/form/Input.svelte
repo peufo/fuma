@@ -34,16 +34,6 @@
 	export type InputsProps = { [T in InputsType]: InputProps<T> }
 
 	export const inputsType = Object.keys(inputs) as InputsType[]
-	export function relationProps<Item extends { id: string }>(
-		props: ComponentProps<InstanceType<typeof InputRelation<Item>>>
-	) {
-		return props
-	}
-	export function relationsProps<Item extends { id: string }>(
-		props: ComponentProps<InstanceType<typeof InputRelations<Item>>>
-	) {
-		return props
-	}
 </script>
 
 <script lang="ts">
