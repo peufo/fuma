@@ -17,6 +17,8 @@
 	let klass = ''
 	export { klass as class }
 	export let maxWidth = '32rem'
+	export let classHeader = ''
+	export let classBody = ''
 	export function open() {
 		goto($urlParam.with({ key: value }), { replaceState: true })
 	}
@@ -59,7 +61,7 @@
     "
 	>
 		<div
-			class="
+			class="{classHeader}
 				sticky top-0 z-10 flex items-center
 				justify-between gap-32 border-b bg-base-100 p-4 pl-8
 			"
@@ -70,7 +72,7 @@
 			</button>
 		</div>
 
-		<div class="grow">
+		<div class="{classBody} grow pl-8 pr-4">
 			<slot />
 		</div>
 	</aside>
