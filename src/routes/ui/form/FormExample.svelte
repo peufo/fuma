@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { Form } from '$lib/index.js'
 	import { mdiGenderFemale, mdiGenderMale, mdiGenderNonBinary } from '@mdi/js'
+	import { searchItems } from './example.js'
 
 	export let form: Form<any>
 </script>
@@ -10,7 +11,11 @@
 	fields={[
 		[
 			{ key: 'name', text: { label: 'Name' } },
-			{ key: 'age', number: { label: 'Age', input: { min: 0, max: 140 } } }
+			{ key: 'age', number: { label: 'Age', input: { min: 0, max: 140 } } },
+			{
+				key: 'country',
+				relation: { label: 'Country', search: searchItems, slotItem: (item) => item.name }
+			}
 		],
 		[
 			{

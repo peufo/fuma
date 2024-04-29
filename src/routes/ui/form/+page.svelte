@@ -9,7 +9,9 @@
 </script>
 
 <Meta component={form} name="Form">
-	<button class="btn" on:click={() => form.set('age', 29)}> form.set('age', 29) </button>
+	<button class="btn" on:click={() => form.set('country', { id: 1, name: 'Irland' })}>
+		set country
+	</button>
 
 	<FormExample bind:form />
 </Meta>
