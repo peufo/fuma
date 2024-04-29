@@ -14,7 +14,7 @@
 		type BoolOrFunction,
 		getFieldType
 	} from './form.js'
-	import { useForm } from '$lib/validation/form.js'
+	import { useForm, type UseFormOptions } from '$lib/validation/form.js'
 	import Input from './FormInput.svelte'
 	import FormSection from './FormSection.svelte'
 
@@ -31,7 +31,7 @@
 	export let action = ''
 	export let actionDelete = ''
 	export let actionPrefix = ''
-	export let successMessage = 'Succès'
+	export let options: UseFormOptions<FormData<Shape>> = {}
 	export function set<K extends keyof Shape>(key: K, value: FormData<Shape>[K]) {
 		data[key] = value
 	}
@@ -39,10 +39,11 @@
 	const dispatch = createEventDispatcher<{ success: { action: URL; data?: FormData<Shape> } }>()
 
 	const { enhance } = useForm<FormData<Shape>>({
+		...options,
 		onSuccess(action, data) {
 			dispatch('success', { action, data })
-		},
-		successMessage
+			if (options.onSuccess) options.onSuccess(action, data)
+		}
 	})
 
 	onMount(lookupValueFromParams)

@@ -18,7 +18,7 @@ export const formContext = {
 
 type SuccessMessage = false | string | ((action: URL) => string)
 type BooleanOrFunction = boolean | ((action: URL) => boolean)
-type UseFormOptions<ReturnData> = {
+export type UseFormOptions<ReturnData> = {
 	onSubmit?: (...args: Parameters<SubmitFunction>) => any
 	onSuccess?: (action: URL, data?: ReturnData) => any
 	onResetError?: () => unknown
