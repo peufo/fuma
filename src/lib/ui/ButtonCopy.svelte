@@ -6,7 +6,7 @@
 
 	export let value: string
 	export let title: string
-	export let path = mdiClipboardTextOutline
+	export let icon = mdiClipboardTextOutline
 	export let successMessage = 'Copied'
 
 	function handleClick() {
@@ -22,5 +22,5 @@
 </script>
 
 <button on:click|preventDefault={handleClick} class="btn btn-square btn-ghost btn-sm">
-	<Icon {path} {title} size={22} />
+	<Icon path={icon} {title} size={22} />
 </button>
