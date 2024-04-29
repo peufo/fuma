@@ -25,7 +25,6 @@
 			type="text"
 			name={key}
 			id={key}
-			size={1}
 			class="input input-bordered w-full {inputClass || ''}"
 			{...inputProps}
 		/>
