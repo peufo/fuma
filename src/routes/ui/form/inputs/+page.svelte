@@ -1,15 +1,19 @@
 <script lang="ts">
 	import Meta from '$lib/Meta.svelte'
-	import type { Options } from '$lib/index.js'
+	import { jsonParse, urlParam, type Options } from '$lib/index.js'
 	import {
 		InputText,
 		InputBoolean,
 		InputSelect,
 		InputCombo,
 		InputRelation,
-		InputRelations
+		InputRelations,
+		InputTextRich
 	} from '$lib/ui/index.js'
-	import { mdiAbTesting, mdiAbacus, mdiAbjadArabic } from '@mdi/js'
+	import { tiptapParser } from '$lib/ui/input/textRich/tiptapParser.js'
+	import Tabs from '$lib/ui/tabs/Tabs.svelte'
+	import { mdiAbTesting, mdiAbacus, mdiAbjadArabic, mdiCodeJson, mdiWeb } from '@mdi/js'
+	import { onMount } from 'svelte'
 
 	let inputBoolean: InputBoolean
 	let inputText: InputText
@@ -17,6 +21,9 @@
 	let inputCombo: InputCombo
 	let inputRelation: InputRelation<Item>
 	let inputRelations: InputRelations<Item>
+	let inputTextRich: InputTextRich
+
+	let inputTextRichValue = '<h2>Hey 👋</h2>'
 
 	let options: Options = {
 		a: { label: 'Option A', icon: mdiAbTesting },
@@ -84,6 +91,36 @@
 	/>
 
 	<InputRelations label="Input Relations" search={searchItems} slotItem={(item) => item.name} />
+</Meta>
+
+<Meta component={inputTextRich} name="InputTextRich">
+	<InputTextRich bind:this={inputTextRich} bind:value={inputTextRichValue} />
+
+	<h2 class="title mt-6">Output</h2>
+
+	<Tabs
+		tabs={[
+			{
+				href: $urlParam.with({ outputTextRich: 'html' }),
+				isActive: !$urlParam.hasValue('outputTextRich', 'json'),
+				icon: mdiWeb,
+				label: 'HTML'
+			},
+			{
+				href: $urlParam.with({ outputTextRich: 'json' }),
+				isActive: $urlParam.hasValue('outputTextRich', 'json'),
+				icon: mdiCodeJson,
+				label: 'JSON'
+			}
+		]}
+	/>
+	{#if $urlParam.hasValue('outputTextRich', 'json')}
+		<pre>{JSON.stringify(jsonParse(inputTextRichValue, []), null, 2)}</pre>
+	{:else}
+		<div class="prose">
+			{@html tiptapParser.toHTML(inputTextRichValue)}
+		</div>
+	{/if}
 </Meta>
 
 <div class="h-60"></div>

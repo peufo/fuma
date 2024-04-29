@@ -44,7 +44,6 @@
 	const updateValue = debounce(() => {
 		if (!editor) return
 		const newValue = JSON.stringify(editor.getJSON())
-		console.log(newValue)
 		if (newValue === value) return
 		value = newValue
 		dispatch('change')

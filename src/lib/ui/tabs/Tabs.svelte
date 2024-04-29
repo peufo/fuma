@@ -18,6 +18,7 @@
 		{@const active = tab.isActive ?? $page.url.pathname.startsWith(tab.href)}
 		<a
 			href={tab.href}
+			data-sveltekit-noscroll
 			class="
         menu-item grow flex-col justify-center gap-0 rounded-lg py-2
         text-sm lg:flex-row lg:gap-3 lg:text-base
