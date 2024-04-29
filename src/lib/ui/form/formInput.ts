@@ -10,12 +10,14 @@ import {
 	InputRadio,
 	InputSelect,
 	InputRelation,
-	InputRelations
+	InputRelations,
+	InputTextRich
 } from '$lib/ui/input/index.js'
 
 export const formInputs = {
 	text: InputText,
 	textarea: InputTextarea,
+	textrich: InputTextRich,
 	boolean: InputBoolean,
 	date: InputDate,
 	datetime: InputDatetime,

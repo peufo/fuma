@@ -94,7 +94,11 @@
 </Meta>
 
 <Meta component={inputTextRich} name="InputTextRich">
-	<InputTextRich bind:this={inputTextRich} bind:value={inputTextRichValue} />
+	<InputTextRich
+		bind:this={inputTextRich}
+		bind:value={inputTextRichValue}
+		label="Input text rich"
+	/>
 
 	<h2 class="title mt-6">Output</h2>
 

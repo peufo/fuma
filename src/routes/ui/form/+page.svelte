@@ -9,6 +9,7 @@
 <Meta component={form} name="Form">
 	<Form
 		bind:this={form}
+		classAction="-mx-8 px-8"
 		fields={[
 			[
 				{ key: 'name', text: { label: 'Name' } },
@@ -24,6 +25,19 @@
 							male: { label: 'Male', icon: mdiGenderMale },
 							nonBinary: { label: 'Non binary', icon: mdiGenderNonBinary }
 						}
+					}
+				},
+				{
+					key: 'description',
+					textarea: {
+						label: 'Description'
+					}
+				},
+				{
+					key: 'cv',
+					colSpan: 4,
+					textrich: {
+						label: 'Curiculum Vitae'
 					}
 				}
 			]

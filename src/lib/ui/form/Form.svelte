@@ -21,6 +21,7 @@
 	let klass = ''
 	export { klass as class }
 	export let classSection = ''
+	export let classAction = ''
 
 	export let fields: FormField<Shape>[][] = []
 	export let sections: FormSectionProps<Shape>[] = [{}]
@@ -127,7 +128,12 @@
 		{/if}
 	{/each}
 
-	<div class="sticky bottom-0 col-span-full mt-2 flex gap-2 border-t px-4 py-4 backdrop-blur-sm">
+	<div
+		class="
+			{classAction} 
+			sticky bottom-0 col-span-full mt-2 flex gap-2 border-t px-4 py-4 backdrop-blur-sm
+		"
+	>
 		{#if actionDelete}
 			<button
 				class="btn-ghos btn text-error"

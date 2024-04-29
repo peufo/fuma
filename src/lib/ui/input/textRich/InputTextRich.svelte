@@ -1,14 +1,16 @@
 <script lang="ts">
-	import { createEventDispatcher, onMount } from 'svelte'
+	import { createEventDispatcher, onMount, type ComponentProps } from 'svelte'
 	import { Editor } from '@tiptap/core'
 	import debounce from 'debounce'
 
 	import { jsonParse } from '$lib/utils/jsonParse.js'
+	import { FormControl } from '$lib/ui/index.js'
 	import ToolsBar from './ToolsBar.svelte'
 	import { extensions } from './extensions.js'
 
+	type $$Props = ComponentProps<FormControl> & { value?: string; classToolbar?: string }
+
 	export let value = ''
-	export let key = ''
 	export let classToolbar = ''
 
 	let element: HTMLDivElement
@@ -50,13 +52,14 @@
 	}, 120)
 </script>
 
-<div class="bordered relative rounded-lg border">
-	{#if editor}
-		<ToolsBar {editor} class={classToolbar} />
+<FormControl {...$$restProps} let:key>
+	<div class="bordered relative rounded-lg border">
+		{#if editor}
+			<ToolsBar {editor} class={classToolbar} />
+		{/if}
+		<div bind:this={element} class="min-h-[20rem] p-4 pb-10" />
+	</div>
+	{#if key}
+		<input type="hidden" name={key} {value} />
 	{/if}
-	<div bind:this={element} class="min-h-[20rem] p-4 pb-10" />
-</div>
-
-{#if key}
-	<input type="hidden" name={key} {value} />
-{/if}
+</FormControl>
