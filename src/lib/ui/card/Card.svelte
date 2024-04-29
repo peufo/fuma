@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { mdiArrowLeft } from '@mdi/js'
 	import { Icon } from '$lib/index.js'
+	import { contextContainer } from '../context.js'
 
 	let klass = ''
 	export { klass as class }
@@ -8,6 +9,8 @@
 	export let headerClass = ''
 	export let returnUrl = ''
 	export let style = ''
+
+	contextContainer.set('card')
 </script>
 
 <div class="card bordered border bg-base-100 shadow-lg {klass}" {style}>

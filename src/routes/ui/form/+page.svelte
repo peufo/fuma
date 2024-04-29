@@ -1,47 +1,21 @@
 <script lang="ts">
 	import Meta from '$lib/Meta.svelte'
 	import { Form } from '$lib/index.js'
-	import { mdiGenderFemale, mdiGenderMale, mdiGenderNonBinary } from '@mdi/js'
+	import Drawer from '$lib/ui/drawer/Drawer.svelte'
+	import FormExample from './FormExample.svelte'
 
 	let form: Form<any>
+	let drawer: Drawer
 </script>
 
 <Meta component={form} name="Form">
-	<Form
-		bind:this={form}
-		classAction="-mx-8 px-8"
-		fields={[
-			[
-				{ key: 'name', text: { label: 'Name' } },
-				{ key: 'age', number: { label: 'Age', input: { min: 0, max: 140 } } }
-			],
-			[
-				{
-					key: 'gender',
-					select: {
-						label: 'Gender',
-						options: {
-							female: { label: 'Female', icon: mdiGenderFemale },
-							male: { label: 'Male', icon: mdiGenderMale },
-							nonBinary: { label: 'Non binary', icon: mdiGenderNonBinary }
-						}
-					}
-				},
-				{
-					key: 'description',
-					textarea: {
-						label: 'Description'
-					}
-				},
-				{
-					key: 'cv',
-					colSpan: 4,
-					textrich: {
-						label: 'Curiculum Vitae'
-					}
-				}
-			]
-		]}
-		sections={[{}, { title: 'Details', isReducible: true }]}
-	/>
+	<FormExample bind:form />
+</Meta>
+
+<Meta component={form} name="Form in drawer">
+	<button class="btn" on:click={() => drawer.open()}> Open </button>
+
+	<Drawer key="form-example" bind:this={drawer} title="Form in drawer" class="w-[500px]">
+		<FormExample bind:form />
+	</Drawer>
 </Meta>

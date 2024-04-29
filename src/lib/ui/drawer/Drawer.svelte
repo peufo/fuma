@@ -7,6 +7,7 @@
 	import { urlParam } from '$lib/store/param.js'
 	import { Icon } from '$lib/ui/index.js'
 	import { subscibeDrawerLayers } from './layers.js'
+	import { contextContainer } from '../context.js'
 
 	export let title = ''
 	/** Key used in url query params */
@@ -20,15 +21,15 @@
 	export let classHeader = ''
 	export let classBody = ''
 	export function open() {
-		goto($urlParam.with({ key: value }), { replaceState: true })
+		goto($urlParam.with({ [key]: value }), { replaceState: true })
 	}
 	export function close() {
-		console.log('close')
 		goto($urlParam.without(key), { replaceState: true })
 	}
 
 	const { offset, destroy, isActive } = subscibeDrawerLayers(key, value)
 	onDestroy(destroy)
+	contextContainer.set('drawer')
 </script>
 
 <svelte:head>

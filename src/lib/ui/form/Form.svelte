@@ -1,4 +1,11 @@
 <script lang="ts">
+	import { contextContainer } from '../context.js'
+
+	import { createEventDispatcher, onMount } from 'svelte'
+	import { fade } from 'svelte/transition'
+	import type { z } from 'zod'
+	import { page } from '$app/stores'
+
 	import {
 		initData,
 		type FormField,
@@ -7,13 +14,7 @@
 		type BoolOrFunction,
 		getFieldType
 	} from './form.js'
-
-	import { createEventDispatcher, onMount } from 'svelte'
-	import { fade } from 'svelte/transition'
-	import type { z } from 'zod'
-	import { page } from '$app/stores'
 	import { useForm } from '$lib/validation/form.js'
-
 	import Input from './FormInput.svelte'
 	import FormSection from './FormSection.svelte'
 
@@ -52,6 +53,14 @@
 			const value = $page.url.searchParams.get(key)
 			if (value) data[key] = value
 		})
+	}
+
+	const actionPadding = getActionPadding()
+	function getActionPadding(): string {
+		const container = contextContainer.get()
+		if (container === 'card') return '-mx-2 sm:-mx-8 px-2 sm:px-8'
+		if (container === 'drawer') return '-ml-8 -mr-4 pl-8 pr-4'
+		return ''
 	}
 
 	const getBoolean = (bool?: BoolOrFunction<Shape>) => (_data: FormData<Shape>) =>
@@ -130,8 +139,8 @@
 
 	<div
 		class="
-			{classAction} 
-			sticky bottom-0 col-span-full mt-2 flex gap-2 border-t px-4 py-4 backdrop-blur-sm
+			{classAction} {actionPadding}
+			sticky bottom-0 col-span-full mt-2 flex gap-2 border-t py-4 backdrop-blur-sm
 		"
 	>
 		{#if actionDelete}
