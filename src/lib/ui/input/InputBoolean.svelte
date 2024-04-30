@@ -1,22 +1,20 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte'
 	import { FormControl, type InputProps, bindCheckedWithParams } from './index.js'
+	import type { HTMLInputAttributes } from 'svelte/elements'
 
-	type $$Props = InputProps<boolean>
-	$: ({ input, value: _value, bindWithParams, label, ...props } = $$restProps as $$Props)
-	export let value = _value
+	type $$Props = InputProps<boolean> & { isRow?: boolean }
+	export let value = false
+	export let input: HTMLInputAttributes = {}
+	export let inputElement: HTMLInputElement | undefined = undefined
+	export let bindWithParams: boolean = false
 
 	const dispatch = createEventDispatcher<{ change: boolean }>()
 </script>
 
-<FormControl {...props} let:key>
-	<label for={key} class="label cursor-pointer">
-		<span class="label-text">
-			<slot>{label}</slot>
-		</span>
-	</label>
-
+<FormControl {...$$restProps} let:key class="">
 	<input
+		bind:this={inputElement}
 		bind:checked={value}
 		use:bindCheckedWithParams={{ bindEnable: bindWithParams }}
 		on:input={({ currentTarget: { checked } }) => dispatch('change', checked)}

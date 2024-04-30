@@ -10,7 +10,7 @@
 		InputRelation,
 		InputRelations,
 		InputTextRich
-	} from '$lib/ui/index.js'
+	} from '$lib/ui/input/index.js'
 	import { tiptapParser } from '$lib/ui/input/textRich/tiptapParser.js'
 	import Tabs from '$lib/ui/tabs/Tabs.svelte'
 	import { options, searchItems, type Item } from '../example.js'
@@ -40,6 +40,8 @@
 
 <Meta component={inputBoolean} name="InputBoolean">
 	<InputBoolean bind:this={inputBoolean} label="Boolean input" key="boolean" value={true} />
+	<InputBoolean label="Boolean input with label right" key="boolean_right" labelPosition="right" />
+	<InputBoolean label="Boolean input with label left" key="boolean_left" labelPosition="left" />
 </Meta>
 
 <Meta component={inputRelation} name="InputRelation">
