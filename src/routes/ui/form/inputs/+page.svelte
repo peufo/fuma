@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { mdiCodeJson, mdiWeb } from '@mdi/js'
+	import { mdiCodeJson, mdiSonyPlaystation, mdiWeb } from '@mdi/js'
 	import Meta from '$lib/Meta.svelte'
 	import { jsonParse, urlParam } from '$lib/index.js'
 	import {
@@ -12,8 +12,9 @@
 		InputTextRich
 	} from '$lib/ui/input/index.js'
 	import { tiptapParser } from '$lib/ui/input/textRich/tiptapParser.js'
-	import Tabs from '$lib/ui/tabs/Tabs.svelte'
 	import { options, searchItems, type Item } from '../example.js'
+	import { Icon, Tabs } from '$lib/ui/index.js'
+	import LabelPlaystation from './LabelPlaystation.svelte'
 
 	let inputBoolean: InputBoolean
 	let inputText: InputText
@@ -41,7 +42,11 @@
 <Meta component={inputBoolean} name="InputBoolean">
 	<InputBoolean bind:this={inputBoolean} label="Boolean input" key="boolean" value={true} />
 	<InputBoolean label="Boolean input with label right" key="boolean_right" labelPosition="right" />
-	<InputBoolean label="Boolean input with label left" key="boolean_left" labelPosition="left" />
+	<InputBoolean
+		key="boolean_left"
+		labelPosition="left"
+		label={{ component: LabelPlaystation, props: {} }}
+	/>
 </Meta>
 
 <Meta component={inputRelation} name="InputRelation">

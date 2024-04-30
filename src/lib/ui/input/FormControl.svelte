@@ -47,14 +47,11 @@
 		class:flex-row-reverse={labelPosition === 'right'}
 		class:justify-end={labelPosition === 'right'}
 	>
-		{#if label || $$slots.label}
+		{#if label}
 			<label for="{prefixFor}{_key}" class="label cursor-pointer {classLabel}">
 				<span class="label-text">
-					<slot name="label">
-						<Slot slot={label} />
-					</slot>
+					<Slot slot={label} />
 				</span>
-				<slot name="label" />
 				<slot name="label_append" />
 			</label>
 		{/if}
