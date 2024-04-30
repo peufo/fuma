@@ -13,6 +13,10 @@
 </script>
 
 <FormControl {...$$restProps} let:key class="">
+	<svelte:fragment slot="label">
+		<slot name="label" />
+	</svelte:fragment>
+
 	<input
 		bind:this={inputElement}
 		bind:checked={value}

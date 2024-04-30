@@ -2,12 +2,14 @@
 	import { slide } from 'svelte/transition'
 	import { onMount } from 'svelte'
 	import { formContext } from '$lib/validation/form.js'
+	import type { ComponentAndProps } from '$lib/utils/index.js'
+	import { Slot } from '../index.js'
 
 	let klass = ''
 	export { klass as class }
 	export let classLabel = ''
 	export let key = ''
-	export let label = ''
+	export let label: ComponentAndProps | string = ''
 	export let error = ''
 	export let hint = ''
 	export let prefix: string | number = ''
@@ -47,7 +49,11 @@
 	>
 		{#if label || $$slots.label}
 			<label for="{prefixFor}{_key}" class="label cursor-pointer {classLabel}">
-				<span class="label-text">{label}</span>
+				<span class="label-text">
+					<slot name="label">
+						<Slot slot={label} />
+					</slot>
+				</span>
 				<slot name="label" />
 				<slot name="label_append" />
 			</label>
