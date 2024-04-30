@@ -42,11 +42,7 @@
 <Meta component={inputBoolean} name="InputBoolean">
 	<InputBoolean bind:this={inputBoolean} label="Boolean input" key="boolean" value={true} />
 	<InputBoolean label="Boolean input with label right" key="boolean_right" labelPosition="right" />
-	<InputBoolean
-		key="boolean_left"
-		labelPosition="left"
-		label={{ component: LabelPlaystation, props: {} }}
-	/>
+	<InputBoolean key="boolean_left" labelPosition="left" label={LabelPlaystation} />
 </Meta>
 
 <Meta component={inputRelation} name="InputRelation">

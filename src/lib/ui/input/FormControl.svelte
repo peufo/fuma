@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { slide } from 'svelte/transition'
-	import { onMount } from 'svelte'
+	import { onMount, type ComponentType } from 'svelte'
 	import { formContext } from '$lib/validation/form.js'
 	import type { ComponentAndProps } from '$lib/utils/index.js'
 	import { Slot } from '../index.js'
@@ -9,7 +9,7 @@
 	export { klass as class }
 	export let classLabel = ''
 	export let key = ''
-	export let label: ComponentAndProps | string = ''
+	export let label: ComponentAndProps | ComponentType | string = ''
 	export let error = ''
 	export let hint = ''
 	export let prefix: string | number = ''
