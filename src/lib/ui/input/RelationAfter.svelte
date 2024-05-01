@@ -8,6 +8,7 @@
 	export let isLoading: boolean
 	export let createUrl = ''
 	export let createTitle = ''
+	export let createIcon = mdiPlus
 
 	const dispatch = createEventDispatcher<{ unselect: void; create: void }>()
 </script>
@@ -24,6 +25,6 @@
 
 {#if createUrl}
 	<a href={createUrl} class="btn btn-square btn-sm">
-		<Icon path={mdiPlus} on:click={() => dispatch('create')} title={createTitle} />
+		<Icon path={createIcon} on:click={() => dispatch('create')} title={createTitle} />
 	</a>
 {/if}

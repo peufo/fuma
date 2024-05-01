@@ -16,6 +16,7 @@
 	export let search: (q: string) => Promise<RelationItem[]>
 	export let createUrl = ''
 	export let createTitle = ''
+	export let createIcon: string | undefined = undefined
 	export let error = ''
 	export let placeholder = ''
 	export let flatMode = false
@@ -132,7 +133,7 @@
 							size={1}
 						/>
 
-						<RelationAfter {isLoading} {createUrl} {createTitle} />
+						<RelationAfter {isLoading} {createUrl} {createTitle} {createIcon} />
 					</div>
 					<slot name="append" />
 				</div>
