@@ -14,17 +14,15 @@
 </script>
 
 {#if isLoading}
-	<div class:right-10={createUrl} transition:fade|local>
+	<div in:fade|local>
 		<Icon
 			path={mdiLoading}
 			class="w-9"
 			classSVG="animate-spin fill-primary-ligther stroke-primary-ligther"
 		/>
 	</div>
-{/if}
-
-{#if createUrl}
-	<a href={createUrl} class="btn btn-square btn-sm">
+{:else if createUrl}
+	<a href={createUrl} class="btn btn-square btn-sm" in:fade|local={{ duration: 200 }}>
 		<Icon path={createIcon} on:click={() => dispatch('create')} title={createTitle} />
 	</a>
 {/if}
