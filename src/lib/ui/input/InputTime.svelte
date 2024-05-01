@@ -15,7 +15,6 @@
 		type="time"
 		name={key}
 		id={key}
-		size={1}
 		class="input input-bordered {inputClass || ''}"
 		{...inputProps}
 	/>

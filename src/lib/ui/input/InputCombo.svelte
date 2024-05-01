@@ -54,7 +54,6 @@
 						on:blur={() => (searchValue = '')}
 						on:input={(e) => filterOptions(e.currentTarget.value)}
 						autocomplete="off"
-						size={1}
 						class="input input-bordered grow {inputClass || {}}"
 						{...inputProps}
 					/>

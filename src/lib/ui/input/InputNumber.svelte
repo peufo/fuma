@@ -18,7 +18,6 @@
 		type="number"
 		name={key}
 		id={key}
-		size={1}
 		inputmode="numeric"
 		class="input input-bordered {inputClass || ''}"
 		{...inputProps}

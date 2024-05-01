@@ -18,7 +18,6 @@
 		on:blur
 		type="datetime-local"
 		id={key}
-		size={1}
 		class="input input-bordered {inputClass || {}}"
 		{...inputProps}
 	/>
