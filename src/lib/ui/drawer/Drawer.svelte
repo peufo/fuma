@@ -74,7 +74,7 @@
 		</div>
 
 		<div class="{classBody} grow pl-8 pr-4">
-			<slot />
+			<slot {open} {close} />
 		</div>
 	</aside>
 {/if}
