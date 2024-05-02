@@ -5,8 +5,8 @@
 	import { mdiClose } from '@mdi/js'
 	import debounce from 'debounce'
 
-	import type { ComponentAndProps } from '$lib/index.js'
 	import { FormControl, Icon, DropDown, SelectorList, Slot } from '$lib/ui/index.js'
+	import type { ComponentAndProps } from '$lib/utils/component.js'
 	import RelationAfter from './RelationAfter.svelte'
 
 	type RelationItem = $$Generic<{ id: string }>

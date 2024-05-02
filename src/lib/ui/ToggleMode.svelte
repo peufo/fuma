@@ -2,7 +2,7 @@
 	import { browser } from '$app/environment'
 	import { ModeWatcher, toggleMode, mode } from 'mode-watcher'
 
-	import { Icon } from '$lib/index.js'
+	import { Icon } from '$lib/ui/index.js'
 	import { mdiWeatherNight, mdiWhiteBalanceSunny } from '@mdi/js'
 
 	mode.subscribe((_mode) => {

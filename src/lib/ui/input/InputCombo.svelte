@@ -1,7 +1,8 @@
 <script lang="ts">
 	import { createEventDispatcher, tick } from 'svelte'
 
-	import type { InputProps, TippyProps } from '$lib/index.js'
+	import type { InputProps } from '$lib/ui/index.js'
+	import type { TippyProps } from '$lib/utils/tippy.js'
 	import { type Options, type Option, parseOptions } from '$lib/utils/options.js'
 	import { FormControl, DropDown, Icon, SelectorList } from '$lib/ui/index.js'
 

@@ -8,6 +8,7 @@
 	import { Icon } from '$lib/ui/index.js'
 	import { subscibeDrawerLayers } from './layers.js'
 	import { contextContainer } from '../context.js'
+	import { browser } from '$app/environment'
 
 	export let title = ''
 	/** Key used in url query params */
@@ -32,33 +33,22 @@
 	contextContainer.set('drawer')
 </script>
 
-<svelte:head>
-	{#if $isActive}
-		<style>
-			:root {
-				scrollbar-width: none;
-			}
-		</style>
-	{/if}
-</svelte:head>
-
 {#if $isActive}
 	<!-- svelte-ignore a11y-no-static-element-interactions -->
 	<div
 		on:click={close}
 		on:keyup={close}
 		transition:fade={{ duration: 200 }}
-		class="
-			fixed inset-0 z-10 bg-black/15 backdrop-blur-[1.5px]
-			 dark:bg-white/15"
+		class="fixed inset-0 z-10 bg-black/15 backdrop-blur-[1.5px] dark:bg-white/15"
 	/>
 
 	<aside
 		transition:fly|local={{ x: 500, duration: 200 }}
 		style="max-width: min(100%, {maxWidth}); transform: translateX({-$offset * 4}rem);"
 		class="{klass}
-      fixed bottom-0 right-0 top-0 z-10 flex w-full
-			flex-col overflow-y-scroll bg-base-100 transition-transform
+      fixed bottom-0 right-0 top-0 z-10 flex
+			w-full flex-col overflow-y-scroll bg-base-100
+			transition-transform
     "
 	>
 		<div

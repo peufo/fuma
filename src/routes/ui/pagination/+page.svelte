@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Meta from '$lib/Meta.svelte'
-	import { Pagination } from '$lib/index.js'
+	import { Pagination } from '$lib/ui/index.js'
 
 	let pagination: Pagination
 </script>

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { mdiChevronLeft, mdiChevronRight } from '@mdi/js'
-	import { Icon } from '$lib/index.js'
+	import { Icon } from '$lib/ui/index.js'
 	import { urlParam } from '$lib/store/index.js'
 
 	export let take = 20

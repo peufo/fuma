@@ -3,7 +3,7 @@
 
 	import { SelectorList, DropDown, Icon, FormControl, type InputProps } from '$lib/ui/index.js'
 	import { type Options, parseOptions } from '$lib/utils/options.js'
-	import type { TippyProps } from '$lib/index.js'
+	import type { TippyProps } from '$lib/utils/tippy.js'
 	import { mdiUnfoldMoreHorizontal } from '@mdi/js'
 
 	type $$Props = Omit<InputProps, 'input' | 'inputElement'> & {

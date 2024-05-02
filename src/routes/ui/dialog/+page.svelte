@@ -1,6 +1,7 @@
 <script lang="ts">
 	import Meta from '$lib/Meta.svelte'
-	import { Dialog, DialogConfirm, Drawer, urlParam } from '$lib/index.js'
+	import { Dialog, DialogConfirm, Drawer } from '$lib/ui/index.js'
+	import { urlParam } from '$lib/store/param.js'
 
 	let dialogComponent: Dialog
 	let dialogElement: HTMLDialogElement
@@ -44,3 +45,5 @@
 		<h2 class="title">Hey 3</h2>
 	</Drawer>
 </Meta>
+
+<div class="my-40 h-[1400px] rounded bg-green-300"></div>

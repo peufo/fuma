@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { type ComponentType } from 'svelte'
 
-	import { component, type ComponentAndProps } from '$lib/index.js'
+	import { component, type ComponentAndProps } from '$lib/utils/component.js'
 	import Span from './Span.svelte'
 
 	type Slot = $$Generic<

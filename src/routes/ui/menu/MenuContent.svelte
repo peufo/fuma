@@ -1,5 +1,5 @@
 <script lang="ts" context="module">
-	import { type Options } from '$lib/index.js'
+	import { type Options } from '$lib/utils/options.js'
 
 	export const menuOptions = {
 		facebook: { label: 'Facebook', icon: mdiFacebook },
@@ -10,7 +10,7 @@
 
 <script lang="ts">
 	import { mdiGoogle, mdiFacebook, mdiInstagram } from '@mdi/js'
-	import { Icon } from '$lib/index.js'
+	import { Icon } from '$lib/ui/index.js'
 </script>
 
 <ul>

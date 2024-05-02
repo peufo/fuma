@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Meta from '$lib/Meta.svelte'
-	import { Form } from '$lib/index.js'
+	import { Form } from '$lib/ui/index.js'
 	import Drawer from '$lib/ui/drawer/Drawer.svelte'
 	import FormExample from './FormExample.svelte'
 

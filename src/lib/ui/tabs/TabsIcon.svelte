@@ -3,7 +3,8 @@
 	import { onMount } from 'svelte'
 
 	import { urlParam } from '$lib/store/index.js'
-	import { Icon, parseOptions, type Options, type Option } from '$lib/index.js'
+	import { Icon } from '$lib/ui/index.js'
+	import { parseOptions, type Options, type Option } from '$lib/utils/options.js'
 
 	export let options: Options
 	export let showLabel = false

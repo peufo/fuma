@@ -3,10 +3,9 @@
 	import debounce from 'debounce'
 	import { toast } from 'svelte-sonner'
 	import { mdiClose } from '@mdi/js'
-	import type { TippyProps } from '$lib/utils/tippy.js'
-
-	import type { ComponentAndProps } from '$lib/index.js'
 	import { FormControl, DropDown, Icon, SelectorList, Slot } from '$lib/ui/index.js'
+	import type { TippyProps } from '$lib/utils/tippy.js'
+	import type { ComponentAndProps } from '$lib/utils/component.js'
 	import RelationAfter from './RelationAfter.svelte'
 
 	type RelationItem = $$Generic<{ id: string }>

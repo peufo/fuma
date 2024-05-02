@@ -1,6 +1,6 @@
 import { get } from 'svelte/store'
 import debounce from 'debounce'
-import { urlParam } from '$lib/index.js'
+import { urlParam } from '$lib/store/param.js'
 import { goto } from '$app/navigation'
 
 type BindOptions = {

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Form } from '$lib/index.js'
+	import { Form } from '$lib/ui/index.js'
 	import { mdiGenderFemale, mdiGenderMale, mdiGenderNonBinary } from '@mdi/js'
 	import { searchItems } from './example.js'
 

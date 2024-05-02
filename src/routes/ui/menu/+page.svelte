@@ -3,7 +3,7 @@
 	import { mdiWan } from '@mdi/js'
 
 	import Meta from '$lib/Meta.svelte'
-	import { DropDown, ContextMenu, DropDownMenu, Icon } from '$lib/index.js'
+	import { DropDown, ContextMenu, DropDownMenu, Icon } from '$lib/ui/index.js'
 	import MenuContent, { menuOptions } from './MenuContent.svelte'
 
 	let dropdown: DropDown

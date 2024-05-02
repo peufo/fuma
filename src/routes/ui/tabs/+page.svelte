@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Meta from '$lib/Meta.svelte'
-	import { Tabs, TabsIcon, type Tab } from '$lib/index.js'
+	import { Tabs, TabsIcon, type Tab } from '$lib/ui/index.js'
 	import { mdiCardMultipleOutline, mdiFormatListBulleted } from '@mdi/js'
 
 	let tabsComponent: Tabs

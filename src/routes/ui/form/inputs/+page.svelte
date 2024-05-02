@@ -1,7 +1,8 @@
 <script lang="ts">
-	import { mdiCodeJson, mdiSonyPlaystation, mdiWeb } from '@mdi/js'
+	import { mdiCodeJson, mdiWeb } from '@mdi/js'
 	import Meta from '$lib/Meta.svelte'
-	import { jsonParse, urlParam } from '$lib/index.js'
+	import { jsonParse } from '$lib/utils/jsonParse.js'
+	import { urlParam } from '$lib/store/param.js'
 	import {
 		InputText,
 		InputBoolean,
