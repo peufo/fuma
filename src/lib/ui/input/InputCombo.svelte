@@ -40,7 +40,7 @@
 	}
 </script>
 
-<DropDown {tippyProps} isWidthOfActivator>
+<DropDown {tippyProps}>
 	<div class="contents" slot="activator">
 		<FormControl {...props} let:key>
 			<div class="flex grow gap-2" class:hidden={selectedOption}>

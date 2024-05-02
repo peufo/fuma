@@ -1,10 +1,14 @@
 <script lang="ts">
+	import { toast } from 'svelte-sonner'
+	import { mdiWan } from '@mdi/js'
+
 	import Meta from '$lib/Meta.svelte'
-	import { DropDown, ContextMenu } from '$lib/index.js'
-	import MenuContent from './MenuContent.svelte'
+	import { DropDown, ContextMenu, DropDownMenu, Icon } from '$lib/index.js'
+	import MenuContent, { menuOptions } from './MenuContent.svelte'
 
 	let dropdown: DropDown
 	let contextMenu: ContextMenu
+	let dropdownMenu: DropDownMenu
 </script>
 
 <Meta component={dropdown} name="DropDown">
@@ -27,3 +31,20 @@
 		<MenuContent />
 	</ContextMenu>
 </Meta>
+
+<Meta component={dropdownMenu} name="DropDownMenu">
+	<div class="flex justify-around">
+		<DropDownMenu
+			bind:this={dropdownMenu}
+			options={menuOptions}
+			on:select={({ detail: value }) => toast(value)}
+		/>
+		<DropDownMenu options={menuOptions} on:select={({ detail: value }) => toast(value)}>
+			<button type="button" class="btn btn-square">
+				<Icon path={mdiWan} />
+			</button>
+		</DropDownMenu>
+	</div>
+</Meta>
+
+<div class="h-60"></div>

@@ -1,26 +1,25 @@
+<script lang="ts" context="module">
+	import { type Options } from '$lib/index.js'
+
+	export const menuOptions = {
+		facebook: { label: 'Facebook', icon: mdiFacebook },
+		insta: { label: 'Instagram', icon: mdiInstagram },
+		google: { label: 'Google', icon: mdiGoogle }
+	} satisfies Options
+</script>
+
 <script lang="ts">
 	import { mdiGoogle, mdiFacebook, mdiInstagram } from '@mdi/js'
-
 	import { Icon } from '$lib/index.js'
 </script>
 
 <ul>
-	<li>
-		<a class="menu-item" href="#facebook">
-			<Icon path={mdiFacebook} size={18} />
-			<span>Facebook</span>
-		</a>
-	</li>
-	<li>
-		<a class="menu-item" href="#insta">
-			<Icon path={mdiInstagram} size={18} />
-			<span>Instagram</span>
-		</a>
-	</li>
-	<li>
-		<a class="menu-item" href="#google">
-			<Icon path={mdiGoogle} size={18} />
-			<span>Google</span>
-		</a>
-	</li>
+	{#each Object.entries(menuOptions) as [value, { label, icon }]}
+		<li>
+			<a class="menu-item" href="#{value}">
+				<Icon path={icon} size={18} />
+				<span>{label}</span>
+			</a>
+		</li>
+	{/each}
 </ul>

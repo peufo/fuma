@@ -34,7 +34,6 @@
 	// By pass dropdown for use in flat mode
 	export let disable = false
 	export let content: HTMLDivElement | undefined = undefined
-	export let isWidthOfActivator = false
 	let activator: HTMLDivElement
 
 	beforeNavigate(() => hideOnNav && hide())
@@ -103,7 +102,6 @@
 
 		<div class="hidden">
 			<div
-				style={isWidthOfActivator ? `width: ${activator?.offsetWidth}px;` : ''}
 				class="{klass} max-h-80 overflow-auto rounded-lg border bg-base-100 p-1 shadow-lg"
 				bind:this={content}
 			>

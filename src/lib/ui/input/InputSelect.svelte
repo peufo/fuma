@@ -35,8 +35,8 @@
 	}
 </script>
 
-<DropDown bind:this={dropDown} isWidthOfActivator>
-	<div class="contents" slot="activator">
+<DropDown bind:this={dropDown}>
+	<svelte:fragment slot="activator">
 		<FormControl {...props} let:key>
 			<button
 				bind:this={button}
@@ -56,7 +56,7 @@
 			</button>
 			<input type="hidden" name={key} {value} />
 		</FormControl>
-	</div>
+	</svelte:fragment>
 
 	<SelectorList
 		trigger={button}
