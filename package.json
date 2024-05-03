@@ -1,6 +1,6 @@
 {
 	"name": "fuma",
-	"version": "0.2.2",
+	"version": "0.2.3",
 	"description": "My fullstack material build with sveltekit, daisyui, zod and more",
 	"author": {
 		"name": "Jonas Voisard",
@@ -27,11 +27,13 @@
 	"exports": {
 		".": {
 			"types": "./dist/index.d.ts",
-			"default": "./dist/index.js"
+			"default": "./dist/index.js",
+			"svelte": "./dist/index.js"
 		},
 		"./ui": {
 			"types": "./dist/ui/index.d.ts",
-			"default": "./dist/ui/index.js"
+			"default": "./dist/ui/index.js",
+			"svelte": "./dist/ui/index.js"
 		},
 		"./utils": {
 			"types": "./dist/utils/index.d.ts",
