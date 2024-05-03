@@ -1,5 +1,6 @@
 import { derived, get, writable, type Readable } from 'svelte/store'
 import { page } from '$app/stores'
+import { browser } from '$app/environment'
 
 const layers = writable<string[]>([])
 const layersOffset = derived<Readable<string[]>, Record<string, number>>(layers, ($layers) => {
@@ -22,14 +23,21 @@ export function subscibeDrawerLayers(key: string, value: string) {
 	})
 
 	function addLayer() {
-		layers.update((ids) => [...ids, layerId])
+		layers.update(($layers) => {
+			if ($layers.length === 0) hideRootScrollBar()
+			return [...$layers, layerId]
+		})
 	}
 
 	function removeLayer() {
-		if (!get(layers).length) return
-		layers.update((ids) => {
-			const index = ids.indexOf(layerId)
-			return ids.toSpliced(index, 1)
+		layers.update(($layers) => {
+			if (!$layers.length) return $layers
+			if ($layers.length === 1) {
+				restoreRootScrollBar()
+				return []
+			}
+			const index = $layers.indexOf(layerId)
+			return $layers.toSpliced(index, 1)
 		})
 	}
 
@@ -41,4 +49,20 @@ export function subscibeDrawerLayers(key: string, value: string) {
 			isActiveUnsubscribe()
 		}
 	}
+}
+
+function hideRootScrollBar() {
+	if (!browser) return
+	const root = document.documentElement
+	const scrollbarWidth = window.innerWidth - root.offsetWidth
+	if (!scrollbarWidth) return
+	root.style.scrollbarWidth = 'none'
+	root.style.paddingRight = `${scrollbarWidth}px`
+}
+
+function restoreRootScrollBar() {
+	if (!browser) return
+	const root = document.documentElement
+	root.style.scrollbarWidth = ''
+	root.style.paddingRight = ''
 }
