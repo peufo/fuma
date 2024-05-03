@@ -22,7 +22,13 @@
 		/>
 	</div>
 {:else if createUrl}
-	<a href={createUrl} class="btn btn-square btn-sm" in:fade|local={{ duration: 200 }}>
+	<a
+		href={createUrl}
+		class="btn btn-square btn-sm"
+		in:fade|local={{ duration: 200 }}
+		data-sveltekit-noscroll
+		data-sveltekit-replacestate
+	>
 		<Icon path={createIcon} on:click={() => dispatch('create')} title={createTitle} />
 	</a>
 {/if}
