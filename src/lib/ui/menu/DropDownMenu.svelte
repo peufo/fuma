@@ -6,8 +6,10 @@
 	import { DropDown } from '$lib/ui/menu/index.js'
 	import { SelectorList } from '$lib/ui/input/index.js'
 	import { type Options, parseOptions } from '$lib/utils/options.js'
+	import type { TippyProps } from '$lib/utils/tippy.js'
 
 	export let options: Options
+	export let tippyProps: Partial<TippyProps> = {}
 
 	$: _options = parseOptions(options)
 
@@ -23,7 +25,7 @@
 	}
 </script>
 
-<DropDown bind:this={dropDown}>
+<DropDown bind:this={dropDown} {tippyProps}>
 	<div class="contents" bind:this={trigger} slot="activator">
 		<slot>
 			<button type="button" class="flex h-12 items-center gap-2 rounded-lg border pl-4 pr-2">
