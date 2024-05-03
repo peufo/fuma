@@ -1,7 +1,6 @@
-<script lang="ts">
-	import { formInputs, type FormInputProps } from './formInput.js'
+<script lang="ts" generics="InputType extends FormInputsType">
+	import { formInputs, type FormInputProps, type FormInputsType } from './formInput.js'
 
-	type InputType = $$Generic<InputTypes>
 	type $$Props = FormInputProps<InputType> & {
 		type: InputType
 		value: FormInputProps<InputType>['value']

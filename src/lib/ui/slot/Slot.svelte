@@ -1,15 +1,18 @@
-<script lang="ts">
+<script lang="ts" context="module">
+	type _Slot =
+		| ((...args: any) => ComponentAndProps | ComponentType | string)
+		| ComponentAndProps
+		| ComponentType
+		| string
+	//
+</script>
+
+<script lang="ts" generics="Slot extends _Slot">
 	import { type ComponentType } from 'svelte'
 
 	import { component, type ComponentAndProps } from '$lib/utils/component.js'
 	import Span from './Span.svelte'
 
-	type Slot = $$Generic<
-		| ((args: Args) => ComponentAndProps | ComponentType | string)
-		| ComponentAndProps
-		| ComponentType
-		| string
-	>
 	type Args = Slot extends (...args: any) => any ? Parameters<Slot>[0] : undefined
 
 	type $$Props = {

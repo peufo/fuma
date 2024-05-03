@@ -1,22 +1,25 @@
+<script lang="ts" context="module">
+	import type { z } from 'zod'
+	import type { FormData } from '$lib/ui/form/form.js'
+</script>
+
 <script
 	lang="ts"
 	generics="Shape extends z.ZodRawShape, ReturnData extends Record<string, unknown> = FormData<Shape>"
 >
 	import { createEventDispatcher, onMount } from 'svelte'
 	import { fade } from 'svelte/transition'
-	import type { z } from 'zod'
 	import { page } from '$app/stores'
-	import { contextContainer } from '$lib/ui/context.ts'
-
+	import { contextContainer } from '$lib/ui/context.js'
 	import {
 		initData,
 		type FormField,
 		type FormSectionProps,
-		type FormData,
 		type BoolOrFunction,
 		getFieldType
-	} from '$lib/ui/form/form.ts'
-	import { useForm, type UseFormOptions } from '$lib/validation/form.ts'
+	} from '$lib/ui/form/form.js'
+
+	import { useForm, type UseFormOptions } from '$lib/validation/form.js'
 	import Input from './FormInput.svelte'
 	import FormSection from './FormSection.svelte'
 
@@ -25,6 +28,7 @@
 	export let classSection = ''
 	export let classAction = ''
 	export let model: Shape | undefined = undefined
+	console.log(model)
 	export let fields: FormField<Shape>[][] = []
 	export let sections: FormSectionProps<Shape>[] = [{}]
 	export let data: Partial<FormData<Shape>> = initData(fields)
