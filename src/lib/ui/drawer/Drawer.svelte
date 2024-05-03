@@ -21,10 +21,10 @@
 	export let classHeader = ''
 	export let classBody = ''
 	export function open() {
-		goto($urlParam.with({ [key]: value }), { replaceState: true })
+		goto($urlParam.with({ [key]: value }), { replaceState: true, noScroll: true })
 	}
 	export function close() {
-		goto($urlParam.without(key), { replaceState: true })
+		goto($urlParam.without(key), { replaceState: true, noScroll: true })
 	}
 
 	const { offset, destroy, isActive } = subscibeDrawerLayers(key, value)
@@ -42,7 +42,7 @@
 	/>
 
 	<aside
-		transition:fly|local={{ x: 500, duration: 200 }}
+		transition:fly|local={{ x: 500, duration: 200, opacity: 1 }}
 		style="max-width: min(100%, {maxWidth}); transform: translateX({-$offset * 4}rem);"
 		class="{klass}
       fixed bottom-0 right-0 top-0 z-10 flex
