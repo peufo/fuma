@@ -1,10 +1,12 @@
-<script lang="ts">
-	import { contextContainer } from '../context.js'
-
+<script
+	lang="ts"
+	generics="Shape extends z.ZodRawShape, ReturnData extends Record<string, unknown> = FormData<Shape>"
+>
 	import { createEventDispatcher, onMount } from 'svelte'
 	import { fade } from 'svelte/transition'
 	import type { z } from 'zod'
 	import { page } from '$app/stores'
+	import { contextContainer } from '$lib/ui/context.ts'
 
 	import {
 		initData,
@@ -13,32 +15,31 @@
 		type FormData,
 		type BoolOrFunction,
 		getFieldType
-	} from './form.js'
-	import { useForm, type UseFormOptions } from '$lib/validation/form.js'
+	} from '$lib/ui/form/form.ts'
+	import { useForm, type UseFormOptions } from '$lib/validation/form.ts'
 	import Input from './FormInput.svelte'
 	import FormSection from './FormSection.svelte'
 
-	type Shape = $$Generic<z.ZodRawShape>
 	let klass = ''
 	export { klass as class }
 	export let classSection = ''
 	export let classAction = ''
-
+	export let model: Shape | undefined = undefined
 	export let fields: FormField<Shape>[][] = []
 	export let sections: FormSectionProps<Shape>[] = [{}]
-	export let data: FormData<Shape> = initData(fields)
+	export let data: Partial<FormData<Shape>> = initData(fields)
 
 	export let action = ''
 	export let actionDelete = ''
 	export let actionPrefix = ''
-	export let options: UseFormOptions<FormData<Shape>> = {}
-	export function set<K extends keyof Shape>(key: K, value: FormData<Shape>[K]) {
+	export let options: UseFormOptions<ReturnData> = {}
+	export function set<K extends keyof Shape>(key: K, value: Partial<FormData<Shape>>[K]) {
 		data[key] = value
 	}
 
-	const dispatch = createEventDispatcher<{ success: { action: URL; data?: FormData<Shape> } }>()
+	const dispatch = createEventDispatcher<{ success: { action: URL; data?: ReturnData } }>()
 
-	const { enhance } = useForm<FormData<Shape>>({
+	const { enhance } = useForm<ReturnData>({
 		...options,
 		onSuccess(action, data) {
 			dispatch('success', { action, data })
@@ -64,7 +65,7 @@
 		return ''
 	}
 
-	const getBoolean = (bool?: BoolOrFunction<Shape>) => (_data: FormData<Shape>) =>
+	const getBoolean = (bool?: BoolOrFunction<Shape>) => (_data: Partial<FormData<Shape>>) =>
 		typeof bool === 'boolean' || bool === undefined ? !!bool : !!bool(_data)
 
 	/* TODO include this features on fuma/useForm

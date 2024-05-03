@@ -9,9 +9,9 @@ type PickOne<T> = {
 	[P in keyof T]: Record<P, T[P]> & Partial<Record<Exclude<keyof T, P>, undefined>>
 }[keyof T]
 
-export type BoolOrFunction<M extends Shape> = boolean | ((data: FormData<M>) => unknown)
+export type BoolOrFunction<M extends Shape> = boolean | ((data: Partial<FormData<M>>) => unknown)
 
-export type FormData<M extends Shape> = Partial<z.infer<z.ZodObject<M>>>
+export type FormData<M extends Shape> = z.infer<z.ZodObject<M>>
 export type FormField<M extends Shape> = {
 	key: string & keyof M
 	/** number col used by field */
@@ -25,7 +25,7 @@ export type FormSectionProps<M extends Shape> = ComponentProps<FormSection> & {
 	hide?: BoolOrFunction<M>
 }
 
-export function initData<M extends Shape>(fields: FormField<M>[][]): FormData<M> {
+export function initData<M extends Shape>(fields: FormField<M>[][]): Partial<FormData<M>> {
 	// @ts-ignore
 	return fields.flat().reduce((acc, cur) => {
 		const inputType = getFieldType(cur)
