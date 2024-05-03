@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { mdiPlus } from '@mdi/js'
-	import { Icon } from '$lib/ui/index.js'
+	import { Icon } from '$lib/ui/icon/index.js'
 
 	export let x: number
 	export let y: number

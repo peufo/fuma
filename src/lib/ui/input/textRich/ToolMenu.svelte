@@ -2,7 +2,8 @@
 	import type { Editor } from '@tiptap/core'
 	import { mdiChevronDown } from '@mdi/js'
 
-	import { Icon, DropDown } from '$lib/ui/index.js'
+	import { Icon } from '$lib/ui/icon/index.js'
+	import { DropDown } from '$lib/ui/menu/index.js'
 
 	type Tool = {
 		key?: string

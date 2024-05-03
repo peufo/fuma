@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { slide } from 'svelte/transition'
 	import { mdiChevronRight } from '@mdi/js'
-	import { Icon } from '$lib/ui/index.js'
+	import { Icon } from '$lib/ui/icon/index.js'
 	type Props = { isActive?: boolean; class?: string; contentClass?: string }
 	type $$Props = Props &
 		({ isReducible: true; title: string } | { isReducible?: false; title?: string })

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { TableField } from '$lib/ui/index.js'
+	import type { TableField } from '$lib/ui/table/index.js'
 	import { tip } from '$lib/action/tip.js'
 
 	export let field: TableField

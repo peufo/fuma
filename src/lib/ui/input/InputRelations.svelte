@@ -5,7 +5,10 @@
 	import { mdiClose } from '@mdi/js'
 	import debounce from 'debounce'
 
-	import { FormControl, Icon, DropDown, SelectorList, Slot } from '$lib/ui/index.js'
+	import { Icon } from '$lib/ui/icon/index.js'
+	import { Slot } from '$lib/ui/slot/index.js'
+	import { FormControl, SelectorList } from '$lib/ui/input/index.js'
+	import { DropDown } from '$lib/ui/menu/index.js'
 	import type { ComponentAndProps } from '$lib/utils/component.js'
 	import RelationAfter from './RelationAfter.svelte'
 

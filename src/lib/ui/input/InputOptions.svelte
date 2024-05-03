@@ -3,7 +3,7 @@
 	import { mdiPlus, mdiTrashCanOutline } from '@mdi/js'
 	import { toast } from 'svelte-sonner'
 
-	import { Icon } from '$lib/ui/index.js'
+	import { Icon } from '$lib/ui/icon/index.js'
 	import { listEditable } from '$lib/action/list/index.js'
 
 	export let key: string

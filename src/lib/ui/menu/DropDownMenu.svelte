@@ -1,9 +1,11 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte'
-
-	import { SelectorList, DropDown, Icon } from '$lib/ui/index.js'
-	import { type Options, parseOptions } from '$lib/utils/options.js'
 	import { mdiUnfoldMoreHorizontal } from '@mdi/js'
+
+	import { Icon } from '$lib/ui/icon/index.js'
+	import { DropDown } from '$lib/ui/menu/index.js'
+	import { SelectorList } from '$lib/ui/input/index.js'
+	import { type Options, parseOptions } from '$lib/utils/options.js'
 
 	export let options: Options
 

@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { slide } from 'svelte/transition'
-	import { InputText, InputPassword } from '$lib/ui/index.js'
-	import { useForm } from '$lib/validation/form.js'
 	import { page } from '$app/stores'
+	import { InputText, InputPassword } from '$lib/ui/input/index.js'
+	import { useForm } from '$lib/validation/form.js'
 
 	export let onSuccess:
 		| ((action: URL, data?: Record<string, unknown> | undefined) => any)

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Icon } from '$lib/ui/index.js'
+	import { Icon } from '$lib/ui/icon/index.js'
 	import { parseOptions, type Options } from '$lib/utils/options.js'
 	import { urlParam } from '$lib/store/param.js'
 

@@ -1,7 +1,9 @@
 <script lang="ts">
 	import { goto } from '$app/navigation'
 	import { page } from '$app/stores'
-	import { DropDown, InputTime, type TableField } from '$lib/ui/index.js'
+	import { DropDown } from '$lib/ui/menu/index.js'
+	import { InputTime } from '$lib/ui/input/index.js'
+	import type { TableField } from '$lib/ui/table/index.js'
 
 	import { formatRange } from '$lib/utils/formatRange.js'
 	import { PeriodPicker } from '$lib/ui/period/index.js'

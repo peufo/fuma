@@ -6,6 +6,7 @@ const layersOffset = derived<Readable<string[]>, Record<string, number>>(layers,
 	const nbDrawer = $layers.length
 	return $layers.reduce((acc, layer, index) => {
 		const drawerOffset = nbDrawer - index - 1
+		console.log({ drawerOffset })
 		return { ...acc, [layer]: drawerOffset }
 	}, {})
 })

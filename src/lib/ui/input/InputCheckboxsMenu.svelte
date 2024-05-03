@@ -5,7 +5,8 @@
 
 	import { urlParam } from '$lib/store/index.js'
 	import { jsonParse, type Options, parseOptions } from '$lib/utils/index.js'
-	import { DropDown, Icon } from '$lib/ui/index.js'
+	import { Icon } from '$lib/ui/icon/index.js'
+	import { DropDown } from '$lib/ui/menu/index.js'
 	import { FormControl, type InputProps } from './index.js'
 
 	type $$Props = InputProps<string[]> & {

@@ -2,7 +2,8 @@
 	import { mdiClose } from '@mdi/js'
 	import { browser } from '$app/environment'
 	import { page } from '$app/stores'
-	import { Icon, InputText } from '$lib/ui/index.js'
+	import { Icon } from '$lib/ui/icon/index.js'
+	import { InputText } from '$lib/ui/input/index.js'
 
 	let klass = ''
 	export { klass as class }

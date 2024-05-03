@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { InputImage, type Crop } from './index.js'
-	import { PlaceholderImage } from '$lib/ui/index.js'
+	import { PlaceholderImage } from '$lib/ui/placeholder/index.js'
 
 	export let key = ''
 	export let src = ''

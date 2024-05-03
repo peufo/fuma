@@ -3,7 +3,9 @@
 	import { page } from '$app/stores'
 
 	import { jsonParse } from '$lib/utils/jsonParse.js'
-	import { type TableField, DropDown, Icon } from '$lib/ui/index.js'
+	import type { TableField } from '$lib/ui/table/index.js'
+	import { DropDown } from '$lib/ui/menu/index.js'
+	import { Icon } from '$lib/ui/icon/index.js'
 	import { type Options, parseOptions } from '$lib/utils/options.js'
 	import { urlParam } from '$lib/store/param.js'
 

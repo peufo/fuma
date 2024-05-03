@@ -1,12 +1,10 @@
 <script lang="ts">
 	import Meta from '$lib/Meta.svelte'
-	import { Tabs, TabsIcon, type Tab } from '$lib/ui/index.js'
+	import { Tabs, TabsIcon } from '$lib/ui/tabs/index.js'
 	import { mdiCardMultipleOutline, mdiFormatListBulleted } from '@mdi/js'
 
 	let tabsComponent: Tabs
 	let tabsIconComponent: TabsIcon
-
-	const tabs: Tab[] = []
 </script>
 
 <Meta component={tabsComponent} name="Tabs">

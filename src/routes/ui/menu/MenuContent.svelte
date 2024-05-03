@@ -10,7 +10,7 @@
 
 <script lang="ts">
 	import { mdiGoogle, mdiFacebook, mdiInstagram } from '@mdi/js'
-	import { Icon } from '$lib/ui/index.js'
+	import { Icon } from '$lib/ui/icon/index.js'
 </script>
 
 <ul>

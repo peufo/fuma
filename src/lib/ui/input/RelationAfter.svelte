@@ -3,7 +3,7 @@
 	import { createEventDispatcher } from 'svelte'
 	import { mdiLoading, mdiPlus } from '@mdi/js'
 
-	import Icon from '$lib/ui/Icon.svelte'
+	import Icon from '$lib/ui/icon/Icon.svelte'
 
 	export let isLoading: boolean
 	export let createUrl = ''

@@ -9,12 +9,11 @@
 		InputSelect,
 		InputCombo,
 		InputRelation,
-		InputRelations,
-		InputTextRich
+		InputRelations
 	} from '$lib/ui/input/index.js'
-	import { tiptapParser } from '$lib/ui/input/textRich/tiptapParser.js'
+	import { Tabs } from '$lib/ui/tabs/index.js'
+	import { InputTextRich, tiptapParser } from '$lib/ui/input/textRich/index.js'
 	import { options, searchItems, type Item } from '../example.js'
-	import { Icon, Tabs } from '$lib/ui/index.js'
 	import LabelPlaystation from './LabelPlaystation.svelte'
 
 	let inputBoolean: InputBoolean

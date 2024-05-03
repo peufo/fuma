@@ -1,10 +1,13 @@
 <script lang="ts">
 	import { createEventDispatcher, onMount } from 'svelte'
+	import { mdiUnfoldMoreHorizontal } from '@mdi/js'
 
-	import { SelectorList, DropDown, Icon, FormControl, type InputProps } from '$lib/ui/index.js'
+	import { Icon } from '$lib/ui/icon/index.js'
+	import { DropDown } from '$lib/ui/menu/index.js'
+	import { SelectorList, FormControl, type InputProps } from '$lib/ui/input/index.js'
+
 	import { type Options, parseOptions } from '$lib/utils/options.js'
 	import type { TippyProps } from '$lib/utils/tippy.js'
-	import { mdiUnfoldMoreHorizontal } from '@mdi/js'
 
 	type $$Props = Omit<InputProps, 'input' | 'inputElement'> & {
 		options: Options

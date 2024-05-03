@@ -1,9 +1,9 @@
 <script lang="ts">
 	import '../app.pcss'
 
-	import Tree from './Tree.svelte'
-	import ToggleMode from '$lib/ui/ToggleMode.svelte'
 	import { Toaster } from 'svelte-sonner'
+	import Tree from './Tree.svelte'
+	import { ToggleMode } from '$lib/ui/mode/index.js'
 
 	let tree = Object.keys(import.meta.glob('./**/+page.svelte'))
 		.map((p) => p.replace('./', '').replace(/\/?\+page.svelte/, ''))

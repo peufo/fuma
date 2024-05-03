@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Icon } from '$lib/ui/index.js'
+	import { Icon } from '$lib/ui/icon/index.js'
 	import { tip } from '$lib/action/tip.js'
 
 	export let icon: string

@@ -1,7 +1,8 @@
 <script lang="ts">
 	import Meta from '$lib/Meta.svelte'
-	import { Dialog, DialogConfirm, Drawer } from '$lib/ui/index.js'
 	import { urlParam } from '$lib/store/param.js'
+	import { Dialog, DialogConfirm } from '$lib/ui/dialog/index.js'
+	import { Drawer } from '$lib/ui/drawer/index.js'
 
 	let dialogComponent: Dialog
 	let dialogElement: HTMLDialogElement

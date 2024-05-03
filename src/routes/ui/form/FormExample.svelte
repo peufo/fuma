@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { Form } from '$lib/ui/index.js'
 	import { mdiGenderFemale, mdiGenderMale, mdiGenderNonBinary } from '@mdi/js'
+	import { Form } from '$lib/ui/form/index.js'
 	import { searchItems } from './example.js'
 
 	export let form: Form<any>

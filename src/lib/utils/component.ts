@@ -1,4 +1,3 @@
-import { InputSelect } from '$lib/ui/index.js'
 import type { ComponentProps, ComponentType } from 'svelte'
 
 export type Primitive = string | number | boolean

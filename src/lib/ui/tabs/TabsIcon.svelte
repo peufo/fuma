@@ -3,7 +3,7 @@
 	import { onMount } from 'svelte'
 
 	import { urlParam } from '$lib/store/index.js'
-	import { Icon } from '$lib/ui/index.js'
+	import { Icon } from '$lib/ui/icon/index.js'
 	import { parseOptions, type Options, type Option } from '$lib/utils/options.js'
 
 	export let options: Options

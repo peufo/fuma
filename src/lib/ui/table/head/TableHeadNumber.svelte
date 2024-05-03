@@ -5,7 +5,8 @@
 	import { goto } from '$app/navigation'
 	import { page } from '$app/stores'
 
-	import { DropDown, InputNumber } from '$lib/ui/index.js'
+	import { DropDown } from '$lib/ui/menu/index.js'
+	import { InputNumber } from '$lib/ui/input/index.js'
 	import { urlParam } from '$lib/store/param.js'
 	import { jsonParse } from '$lib/utils/jsonParse.js'
 	import type { TableField } from '../field.js'

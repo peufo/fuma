@@ -4,7 +4,10 @@
 	import { page } from '$app/stores'
 	import { enhance } from '$app/forms'
 
-	import { Dialog, DropDown, Icon, InputText } from '$lib/ui/index.js'
+	import { Icon } from '$lib/ui/icon/index.js'
+	import { Dialog } from '$lib/ui/dialog/index.js'
+	import { DropDown } from '$lib/ui/menu/index.js'
+	import { InputText } from '$lib/ui/input/index.js'
 	import { useForm } from '$lib/validation/form.js'
 
 	type View = {

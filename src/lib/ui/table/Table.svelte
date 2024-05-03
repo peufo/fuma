@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { afterNavigate } from '$app/navigation'
-	import { Placeholder } from '$lib/ui/index.js'
+	import { Placeholder } from '$lib/ui/placeholder/index.js'
 	import type { ComponentAndProps } from '$lib/utils/component.js'
 
 	import {

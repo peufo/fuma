@@ -2,7 +2,8 @@
 	import { createEventDispatcher } from 'svelte'
 	import type { TippyProps } from '$lib/utils/tippy.js'
 
-	import { Dialog, DropDown } from '$lib/ui/index.js'
+	import { Dialog } from '$lib/ui/dialog/index.js'
+	import { DropDown } from '$lib/ui/menu/index.js'
 	import { isSmallScreen } from '$lib/store/index.js'
 
 	export let tippyProps: Partial<TippyProps> = {}

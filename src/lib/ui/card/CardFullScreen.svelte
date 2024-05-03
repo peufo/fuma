@@ -1,6 +1,7 @@
 <script lang="ts">
-	import { Card, Icon } from '$lib/ui/index.js'
 	import { mdiArrowCollapse, mdiArrowExpand } from '@mdi/js'
+	import { Icon } from '$lib/ui/icon/index.js'
+	import { Card } from '$lib/ui/card/index.js'
 
 	export let isFullScreen = false
 	let klass = ''

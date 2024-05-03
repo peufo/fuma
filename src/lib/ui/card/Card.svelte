@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { mdiArrowLeft } from '@mdi/js'
-	import { Icon } from '$lib/ui/index.js'
+	import { Icon } from '$lib/ui/icon/index.js'
 	import { contextContainer } from '../context.js'
 
 	let klass = ''

@@ -5,10 +5,9 @@
 
 	import { goto } from '$app/navigation'
 	import { urlParam } from '$lib/store/param.js'
-	import { Icon } from '$lib/ui/index.js'
+	import { Icon } from '$lib/ui/icon/index.js'
 	import { subscibeDrawerLayers } from './layers.js'
 	import { contextContainer } from '../context.js'
-	import { browser } from '$app/environment'
 
 	export let title = ''
 	/** Key used in url query params */

@@ -8,7 +8,9 @@
 	import { mdiTrayArrowUp } from '@mdi/js'
 
 	import type { TippyInstance } from '$lib/utils/tippy.js'
-	import { Dialog, DropDown, Icon } from '$lib/ui/index.js'
+	import { Icon } from '$lib/ui/icon/index.js'
+	import { DropDown } from '$lib/ui/menu/index.js'
+	import { Dialog } from '$lib/ui/dialog/index.js'
 
 	export let aspect = 1
 	export let title = 'Image'

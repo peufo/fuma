@@ -4,7 +4,7 @@
 	import debounce from 'debounce'
 
 	import { jsonParse } from '$lib/utils/jsonParse.js'
-	import { FormControl } from '$lib/ui/index.js'
+	import { FormControl } from '$lib/ui/input/index.js'
 	import ToolsBar from './ToolsBar.svelte'
 	import { extensions } from './extensions.js'
 

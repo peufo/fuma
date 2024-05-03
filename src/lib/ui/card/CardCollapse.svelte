@@ -3,7 +3,7 @@
 	import { slide } from 'svelte/transition'
 	import { mdiChevronRight } from '@mdi/js'
 
-	import { Icon } from '$lib/ui/index.js'
+	import { Icon } from '$lib/ui/icon/index.js'
 	import { urlParam } from '$lib/store/index.js'
 
 	export let value: string

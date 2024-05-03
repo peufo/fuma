@@ -13,8 +13,10 @@
 	import { urlParam } from '$lib/store/param.js'
 	import { listEditable } from '$lib/action/list/index.js'
 	import { jsonParse } from '$lib/utils/jsonParse.js'
-	import { Icon, DropDown, type TableField } from '$lib/ui/index.js'
 	import { context } from '$lib/ui/table/context.js'
+	import { Icon } from '$lib/ui/icon/index.js'
+	import { DropDown } from '$lib/ui/menu/index.js'
+	import type { TableField } from '$lib/ui/table/index.js'
 
 	type Item = $$Generic<{ id: string }>
 	export let fields: TableField<Item>[]

@@ -2,7 +2,9 @@
 	import { type SvelteComponent } from 'svelte'
 	import { slide } from 'svelte/transition'
 	import { mdiEyeOffOutline, mdiEyeOutline } from '@mdi/js'
-	import { Card, Table, Icon } from '$lib/ui/index.js'
+	import { Card } from '$lib/ui/card/index.js'
+	import { Table } from '$lib/ui/table/index.js'
+	import { Icon } from '$lib/ui/icon/index.js'
 
 	export let name = ''
 	export let description = ''

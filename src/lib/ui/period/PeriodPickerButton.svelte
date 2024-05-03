@@ -3,9 +3,12 @@
 	import { goto } from '$app/navigation'
 	import { page } from '$app/stores'
 
-	import { Icon, DropDown, InputTime, type Period, PeriodPicker } from '$lib/ui/index.js'
-	import { formatRange } from '$lib/utils/formatRange.js'
 	import { urlParam } from '$lib/store/param.js'
+	import { formatRange } from '$lib/utils/formatRange.js'
+	import { Icon } from '$lib/ui/icon/index.js'
+	import { DropDown } from '$lib/ui/menu/index.js'
+	import { InputTime } from '$lib/ui/input/index.js'
+	import { type Period, PeriodPicker } from '$lib/ui/period/index.js'
 
 	let dropDown: DropDown
 	const start = $page.url.searchParams.get('start')?.split('T') || []

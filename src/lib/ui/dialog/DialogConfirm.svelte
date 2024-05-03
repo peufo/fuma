@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Dialog } from '$lib/ui/index.js'
+	import { Dialog } from '$lib/ui/dialog/index.js'
 
 	let dialog: HTMLDialogElement
 	let klass = ''

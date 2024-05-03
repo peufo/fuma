@@ -3,7 +3,10 @@
 	import { mdiMagnify } from '@mdi/js'
 	import { page } from '$app/stores'
 
-	import { DropDown, Icon, InputSearch, type TableField } from '$lib/ui/index.js'
+	import { DropDown } from '$lib/ui/menu/index.js'
+	import { Icon } from '$lib/ui/icon/index.js'
+	import { InputSearch } from '$lib/ui/input/index.js'
+	import type { TableField } from '$lib/ui/table/index.js'
 
 	export let field: TableField
 
