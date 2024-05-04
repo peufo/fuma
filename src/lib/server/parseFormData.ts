@@ -1,15 +1,16 @@
 import z from 'zod'
-import { fail } from '@sveltejs/kit'
 
-export async function parseFormData<Type extends z.ZodRawShape>(
+export type Issue = z.ZodIssue & { received: string; expected: string; unionErrors?: z.ZodError[] }
+
+export async function parseFormData<Shape extends z.ZodRawShape>(
 	requestOrFormData: Request | FormData,
-	shaps: Type | Type[],
-	validation?: z.SuperRefinement<z.objectOutputType<Type, z.ZodTypeAny>>
+	shapes: Shape | Shape[],
+	validation?: z.SuperRefinement<z.objectOutputType<Shape, z.ZodTypeAny>>
 ) {
 	const formData =
 		requestOrFormData instanceof Request ? await requestOrFormData.formData() : requestOrFormData
 
-	const [firstShap, ...unionShaps] = Array.isArray(shaps) ? shaps : [shaps]
+	const [firstShap, ...unionShaps] = Array.isArray(shapes) ? shapes : [shapes]
 	const shema = z.object(firstShap).superRefine(validation || (() => {}))
 	unionShaps.forEach((shap) => shema.or(z.object(shap)))
 
@@ -17,17 +18,17 @@ export async function parseFormData<Type extends z.ZodRawShape>(
 	const formDataObject = flateToNeestedObject(formDataFlateObject)
 	const parsed = shema.safeParse(formDataObject)
 	if (parsed.success === false) {
-		type Issue = z.ZodIssue & { received: string; expected: string; unionErrors?: z.ZodError[] }
 		const issueToPOJO = (issue: Issue) => ({
 			message: issue.message,
 			path: issue.path,
 			code: issue.code,
 			received: issue.received,
 			expected: issue.expected,
-			unionErrors: issue.unionErrors?.map((err) => err.flatten()),
+			unionErrors: issue.unionErrors?.map((err) => err.flatten())
 		})
+
 		const issues = (parsed.error.issues as Issue[]).map(issueToPOJO)
-		return { formData, err: fail(400, { issues }) }
+		throw { issues }
 	}
 
 	return { data: parsed.data, formData }

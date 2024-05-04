@@ -16,7 +16,8 @@
 		type FormField,
 		type FormSectionProps,
 		type BoolOrFunction,
-		getFieldType
+		getFieldType,
+		useHandleInput
 	} from '$lib/ui/form/form.js'
 
 	import { useForm, type UseFormOptions } from '$lib/validation/form.js'
@@ -28,7 +29,6 @@
 	export let classSection = ''
 	export let classAction = ''
 	export let model: Shape | undefined = undefined
-	console.log(model)
 	export let fields: FormField<Shape>[][] = []
 	export let sections: FormSectionProps<Shape>[] = [{}]
 	export let data: Partial<FormData<Shape>> = initData(fields)
@@ -43,13 +43,14 @@
 
 	const dispatch = createEventDispatcher<{ success: { action: URL; data?: ReturnData } }>()
 
-	const { enhance } = useForm<ReturnData>({
+	const { enhance, setError } = useForm<ReturnData>({
 		...options,
 		onSuccess(action, data) {
 			dispatch('success', { action, data })
 			if (options.onSuccess) options.onSuccess(action, data)
 		}
 	})
+	const handleInput = model ? useHandleInput(model, { setError }) : () => {}
 
 	onMount(lookupValueFromParams)
 
@@ -71,37 +72,6 @@
 
 	const getBoolean = (bool?: BoolOrFunction<Shape>) => (_data: Partial<FormData<Shape>>) =>
 		typeof bool === 'boolean' || bool === undefined ? !!bool : !!bool(_data)
-
-	/* TODO include this features on fuma/useForm
-	// export let model: z.ZodObject<Shape>
-	const handleInput: FormEventHandler<HTMLFormElement> = ({ target }) => {
-		if (!target) return
-		data = data
-
-		const { name, type, value, valueAsNumber, valueAsDate, checked } = target as HTMLInputElement
-		const typeMapValue: Record<string, unknown> = {
-			number: valueAsNumber,
-			date: valueAsDate,
-			text: value,
-			checkbox: checked
-		}
-		const v = typeMapValue[type] ?? value
-		if (v === undefined || name === undefined) return
-		if (name === undefined) return
-		if (!model.shape[name]) return
-		const res = model.shape[name].safeParse(v)
-		if (res.success) {
-			addError.clear()
-			delete errors[name]
-			errors = errors
-		} else {
-			addError(name, res.error.issues[0].message)
-		}
-	}
-	const addError = debounce((key: string, error: string) => {
-		errors = { ...errors, [key]: error }
-	}, 1500)
-	*/
 </script>
 
 <form
@@ -110,6 +80,7 @@
 	enctype="multipart/form-data"
 	class="{klass} flex flex-col gap-4"
 	use:enhance
+	on:input={handleInput}
 >
 	{#if data.id}
 		<input type="hidden" name="id" value={data.id} />

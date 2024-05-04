@@ -3,40 +3,39 @@ import { Argon2id } from 'oslo/password'
 import type { RequestEvent } from './$types.ts'
 import type { User } from '@prisma/client'
 import { z } from '$lib/validation/zod.js'
-import { parseFormData, tryOrFail } from '$lib/server/index.js'
+import { formAction, parseFormData, tryOrFail } from '$lib/server/index.js'
 
 import { lucia } from '$lib/server/auth.js'
 import { prisma } from '$lib/server/prisma.js'
+
+const modelLogin = {
+	username: z.string(),
+	password: z.string()
+}
+
+const modelRegister = {
+	email: z.string().toLowerCase().email(),
+	username: z.string().min(3),
+	password: z.string().min(8)
+}
 
 export const load = async ({ locals }) => {
 	if (locals.session) return redirect(302, '/')
 }
 
 export const actions = {
-	register: async (event) => {
-		const { err, data } = await parseFormData(event.request, {
-			email: z.string().toLowerCase().email(),
-			username: z.string().min(3),
-			password: z.string().min(8)
-		})
-		if (err) return err
-
-		data.password = await new Argon2id().hash(data.password)
-
-		return tryOrFail(async () => {
+	register: formAction(
+		modelRegister,
+		async ({ data, event }) => {
+			data.password = await new Argon2id().hash(data.password)
 			const user = await prisma.user.create({ data })
 			await createSession(user, event)
-		}, '/')
-	},
-	login: async (event) => {
-		const { err, data } = await parseFormData(event.request, {
-			username: z.string(),
-			password: z.string()
-		})
-
-		if (err) return err
-
-		return tryOrFail(async () => {
+		},
+		{ redirectTo: '/' }
+	),
+	login: formAction(
+		modelLogin,
+		async ({ event, data }) => {
 			const user = await prisma.user.findFirst({
 				where: {
 					OR: [{ email: data.username }, { username: data.username }]
@@ -49,8 +48,9 @@ export const actions = {
 			if (!validPassword) throw Error('Incorrect username or password')
 
 			await createSession(user, event)
-		}, '/')
-	},
+		},
+		{ redirectTo: '/' }
+	),
 	logout: async ({ locals: { session }, cookies }) => {
 		if (!session) return fail(401)
 		await lucia.invalidateSession(session.id)

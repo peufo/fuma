@@ -3,6 +3,8 @@ import type { ComponentProps } from 'svelte'
 import { formInputsType, type FormInputsProps, type FormInputsType } from './formInput.js'
 
 import type FormSection from './FormSection.svelte'
+import type { FormEventHandler } from 'svelte/elements'
+import debounce from 'debounce'
 
 type Shape = z.ZodRawShape
 type PickOne<T> = {
@@ -38,4 +40,38 @@ export function getFieldType<M extends Shape>(field: FormField<M>): FormInputsTy
 	const inputType = formInputsType.find((t) => field[t])
 	if (!inputType) return 'text'
 	return inputType
+}
+
+type HandleInputOptions = {
+	setError: (key: string, value: string) => void
+}
+
+export function useHandleInput(
+	model: Shape,
+	{ setError }: HandleInputOptions
+): FormEventHandler<HTMLFormElement> {
+	const setErrorDebounced = debounce(setError, 1500)
+
+	return ({ target }) => {
+		if (!target) return
+
+		const { name, type, value, valueAsNumber, valueAsDate, checked } = target as HTMLInputElement
+		const typeMapValue: Record<string, unknown> = {
+			number: valueAsNumber,
+			date: valueAsDate,
+			text: value,
+			checkbox: checked
+		}
+		const v = typeMapValue[type] ?? value
+		if (v === undefined || name === undefined) return
+		if (name === undefined) return
+		if (!model[name]) return
+		const res = model[name].safeParse(v)
+		if (res.success) {
+			setErrorDebounced.clear()
+			setError(name, '')
+		} else {
+			setErrorDebounced(name, res.error.issues[0].message)
+		}
+	}
 }
