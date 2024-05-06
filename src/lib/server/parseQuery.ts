@@ -11,5 +11,5 @@ export function parseQuery<Type extends ZodRawShape>(url: URL, shape: Type) {
 	const parsed = z.object(shape).safeParse(queryRaw)
 	if (parsed.success === false) error(400, { message: parsed.error.message })
 
-	return { query: parsed.data }
+	return parsed.data 
 }
