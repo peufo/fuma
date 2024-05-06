@@ -1,5 +1,5 @@
 import type { z } from 'zod'
-import type { RequestEvent } from '@sveltejs/kit'
+import { fail, type RequestEvent } from '@sveltejs/kit'
 import { parseFormData } from './parseFormData.js'
 import { tryOrFail } from './try.js'
 
@@ -9,11 +9,13 @@ export function formAction<
 	ReturnType extends unknown = unknown
 >(
 	shapes: Shape | Shape[],
-	func: (arg: {
-		event: E
-		data: z.baseObjectOutputType<Shape>
-		formData: FormData
-	}) => Promise<ReturnType>,
+	func: (
+		arg: E & {
+			event: E
+			data: z.baseObjectOutputType<Shape>
+			formData: FormData
+		}
+	) => Promise<ReturnType>,
 	options: {
 		validation?: z.SuperRefinement<z.objectOutputType<Shape, z.ZodTypeAny>>
 		redirectTo?: string | ((res: ReturnType) => string)
@@ -22,6 +24,6 @@ export function formAction<
 	return (event: E) =>
 		tryOrFail(async () => {
 			const { data, formData } = await parseFormData(event.request, shapes, options.validation)
-			return func({ data, formData, event })
+			return func({ ...event, event, data, formData })
 		}, options.redirectTo)
 }
