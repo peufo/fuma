@@ -2,11 +2,17 @@ import zod from 'zod'
 import { jsonParse } from '$lib/utils/index.js'
 
 function json<T extends zod.ZodRawShape>(shap: T) {
-	return zod.string().transform(jsonParse).pipe(zod.object(shap))
+	return zod.union([
+		zod.object(shap),
+		zod.string().transform(jsonParse).pipe(zod.object(shap))
+	])
 }
 
 function array<T extends zod.ZodTypeAny>(shap: T) {
-	return zod.string().transform(jsonParse).pipe(zod.array(shap))
+	return zod.union([
+		zod.array(shap),
+		zod.string().transform(jsonParse).pipe(zod.array(shap))
+	])
 }
 
 function booleanAsString() {
@@ -21,10 +27,13 @@ function dateOptional() {
 }
 
 const relation = {
-	connect: zod
-		.string()
-		.min(1, 'Required')
-		.transform((value) => ({ connect: { id: value } })),
+	connect: zod.union([
+		zod.object({ id: zod.string() }).transform((item) => ({ connect: item })),
+		zod
+			.string()
+			.min(1, 'Required')
+			.transform((id) => ({ connect: { id } }))
+	]),
 	create<T extends zod.ZodRawShape>(shap: T) {
 		return zod.object(shap).transform((value) => ({ create: value }))
 	},
@@ -43,9 +52,10 @@ type RelationsOperation = 'set' | 'disconnect' | 'delete' | 'connect'
 type OperationResult = Partial<Record<RelationsOperation, { id: string }[]>>
 function relationsUniqueInput(operation: RelationsOperation = 'set') {
 	return zod
-		.string()
-		.transform(jsonParse)
-		.pipe(zod.array(zod.string()))
+		.union([
+			zod.string().transform(jsonParse).pipe(zod.array(zod.string())),
+			zod.array(zod.object({ id: zod.string() })).transform((arr) => arr.map(({ id }) => id))
+		])
 		.transform((ids) => ({ [operation]: ids.map((id) => ({ id })) }) as OperationResult)
 }
 
