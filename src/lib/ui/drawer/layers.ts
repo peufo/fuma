@@ -11,10 +11,10 @@ const layersOffset = derived<Readable<string[]>, Record<string, number>>(layers,
 	}, {})
 })
 
-export function subscibeDrawerLayers(key: string, value: string) {
+export function subscibeDrawerLayers(key: string) {
 	const layerId = Math.random().toString().slice(2, 12)
 	let isInitialized = false
-	const isActive = derived(page, ({ url }) => url.searchParams.get(key) === value, false)
+	const isActive = derived(page, ({ url }) => url.searchParams.has(key), false)
 	const isActiveUnsubscribe = isActive.subscribe(($isActive) => {
 		if ($isActive) addLayer()
 		else if (isInitialized) removeLayer()

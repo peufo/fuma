@@ -12,8 +12,6 @@
 	export let title = ''
 	/** Key used in url query params */
 	export let key: string
-	/** Value need to match in url query params*/
-	export let value = '1'
 
 	let klass = ''
 	export { klass as class }
@@ -22,14 +20,14 @@
 	export let classBody = ''
 
 	type GotoOptions = Parameters<typeof goto>[1]
-	export function open(options: GotoOptions = {}) {
+	export function open(value = 1, options: GotoOptions = {}) {
 		goto($urlParam.with({ [key]: value }), { ...options, replaceState: true, noScroll: true })
 	}
 	export function close(options: GotoOptions = {}) {
 		goto($urlParam.without(key), { ...options, replaceState: true, noScroll: true })
 	}
 
-	const { offset, index, destroy, isActive } = subscibeDrawerLayers(key, value)
+	const { offset, index, destroy, isActive } = subscibeDrawerLayers(key)
 	onDestroy(destroy)
 	contextContainer.set('drawer')
 </script>
