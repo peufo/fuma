@@ -1,5 +1,5 @@
 import type { z } from 'zod'
-import { fail, type RequestEvent } from '@sveltejs/kit'
+import type { RequestEvent } from '@sveltejs/kit'
 import { parseFormData } from './parseFormData.js'
 import { tryOrFail } from './try.js'
 
