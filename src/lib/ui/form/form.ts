@@ -11,9 +11,13 @@ type PickOne<T> = {
 	[P in keyof T]: Record<P, T[P]> & Partial<Record<Exclude<keyof T, P>, undefined>>
 }[keyof T]
 
+export type Nullable<T> = {
+	[P in keyof T]?: T[P] | null
+}
+
 export type BoolOrFunction<M extends Shape> =
 	| boolean
-	| ((data: Partial<FormDataInput<M>>) => unknown)
+	| ((data: Nullable<FormDataInput<M>>) => unknown)
 
 export type FormDataInput<M extends Shape> = z.ZodObject<M>['_input']
 

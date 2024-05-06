@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { FormControl, type InputProps } from './index.js'
 
-	type $$Props = InputProps
+	type $$Props = InputProps<string | number>
 	$: ({ input, value: _value, ...props } = $$props as $$Props)
 	$: ({ class: inputClass, ...inputProps } = input || {})
 	export let value = _value

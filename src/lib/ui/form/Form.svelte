@@ -16,6 +16,7 @@
 		type FormField,
 		type FormSectionProps,
 		type BoolOrFunction,
+		type Nullable,
 		getFieldType,
 		useHandleInput
 	} from '$lib/ui/form/form.js'
@@ -24,7 +25,6 @@
 	import FormInput from './FormInput.svelte'
 	import FormSection from './FormSection.svelte'
 
-
 	let klass = ''
 	export { klass as class }
 	export let classSection = ''
@@ -32,14 +32,14 @@
 	export let model: Shape | undefined = undefined
 	export let fields: FormField<Shape>[][] = []
 	export let sections: FormSectionProps<Shape>[] = [{}]
-	export let data: Partial<FormDataInput<Shape>> = initData(fields)
+	export let data: Nullable<FormDataInput<Shape>> = initData(fields)
 
 	export let action = ''
 	export let actionCreate = '_create'
 	export let actionDelete = '_delete'
 	export let actionUpdate = '_update'
 	export let options: UseFormOptions<ReturnData> = {}
-	export function set<K extends keyof Shape>(key: K, value: Partial<FormDataInput<Shape>>[K]) {
+	export function set<K extends keyof Shape>(key: K, value: Nullable<FormDataInput<Shape>>[K]) {
 		data[key] = value
 	}
 
@@ -72,7 +72,7 @@
 		return ''
 	}
 
-	const getBoolean = (bool?: BoolOrFunction<Shape>) => (_data: Partial<FormDataInput<Shape>>) =>
+	const getBoolean = (bool?: BoolOrFunction<Shape>) => (_data: Nullable<FormDataInput<Shape>>) =>
 		typeof bool === 'boolean' || bool === undefined ? !!bool : !!bool(_data)
 </script>
 
