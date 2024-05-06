@@ -1,11 +1,11 @@
 <script lang="ts" context="module">
 	import type { z } from 'zod'
-	import type { FormData } from '$lib/ui/form/form.js'
+	import type { FormDataInput } from '$lib/ui/form/form.js'
 </script>
 
 <script
 	lang="ts"
-	generics="Shape extends z.ZodRawShape, ReturnData extends Record<string, unknown> = FormData<Shape>"
+	generics="Shape extends z.ZodRawShape, ReturnData extends Record<string, unknown> = FormDataInput<Shape>"
 >
 	import { createEventDispatcher, onMount } from 'svelte'
 	import { fade } from 'svelte/transition'
@@ -21,8 +21,9 @@
 	} from '$lib/ui/form/form.js'
 
 	import { useForm, type UseFormOptions } from '$lib/validation/form.js'
-	import Input from './FormInput.svelte'
+	import FormInput from './FormInput.svelte'
 	import FormSection from './FormSection.svelte'
+
 
 	let klass = ''
 	export { klass as class }
@@ -31,14 +32,14 @@
 	export let model: Shape | undefined = undefined
 	export let fields: FormField<Shape>[][] = []
 	export let sections: FormSectionProps<Shape>[] = [{}]
-	export let data: Partial<FormData<Shape>> = initData(fields)
+	export let data: Partial<FormDataInput<Shape>> = initData(fields)
 
 	export let action = ''
 	export let actionCreate = '_create'
 	export let actionDelete = '_delete'
 	export let actionUpdate = '_update'
 	export let options: UseFormOptions<ReturnData> = {}
-	export function set<K extends keyof Shape>(key: K, value: Partial<FormData<Shape>>[K]) {
+	export function set<K extends keyof Shape>(key: K, value: Partial<FormDataInput<Shape>>[K]) {
 		data[key] = value
 	}
 
@@ -71,7 +72,7 @@
 		return ''
 	}
 
-	const getBoolean = (bool?: BoolOrFunction<Shape>) => (_data: Partial<FormData<Shape>>) =>
+	const getBoolean = (bool?: BoolOrFunction<Shape>) => (_data: Partial<FormDataInput<Shape>>) =>
 		typeof bool === 'boolean' || bool === undefined ? !!bool : !!bool(_data)
 </script>
 
@@ -102,7 +103,7 @@
 									style={`grid-column: span ${field.colSpan || 2};`}
 									in:fade|local={{ duration: 200 }}
 								>
-									<Input
+									<FormInput
 										key={field.key}
 										type={inputType}
 										bind:value={data[field.key]}
