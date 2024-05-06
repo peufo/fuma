@@ -34,8 +34,9 @@
 	export let data: Partial<FormData<Shape>> = initData(fields)
 
 	export let action = ''
-	export let actionDelete = ''
-	export let actionPrefix = ''
+	export let actionCreate = '_create'
+	export let actionDelete = '_delete'
+	export let actionUpdate = '_update'
 	export let options: UseFormOptions<ReturnData> = {}
 	export function set<K extends keyof Shape>(key: K, value: Partial<FormData<Shape>>[K]) {
 		data[key] = value
@@ -76,7 +77,7 @@
 
 <form
 	method="post"
-	action="{actionPrefix}{action}"
+	action="{action}{data?.id ? actionUpdate : actionCreate}"
 	enctype="multipart/form-data"
 	class="{klass} flex flex-col gap-4"
 	use:enhance
@@ -123,11 +124,7 @@
 		"
 	>
 		{#if actionDelete}
-			<button
-				class="btn-ghos btn text-error"
-				type="button"
-				formaction="{actionPrefix}{actionDelete}"
-			>
+			<button class="btn-ghos btn text-error" type="button" formaction="{action}{actionDelete}">
 				Supprimer
 			</button>
 		{/if}
