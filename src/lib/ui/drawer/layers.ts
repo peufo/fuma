@@ -1,4 +1,4 @@
-import { derived, get, writable, type Readable } from 'svelte/store'
+import { derived, writable, type Readable } from 'svelte/store'
 import { page } from '$app/stores'
 import { browser } from '$app/environment'
 
@@ -42,7 +42,8 @@ export function subscibeDrawerLayers(key: string, value: string) {
 
 	return {
 		isActive,
-		offset: derived(layersOffset, (drawers) => drawers[layerId]),
+		index: derived(layers, ($layers) => $layers.indexOf(layerId)),
+		offset: derived(layersOffset, (offsets) => offsets[layerId]),
 		destroy() {
 			removeLayer()
 			isActiveUnsubscribe()

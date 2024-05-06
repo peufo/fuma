@@ -27,7 +27,7 @@
 		goto($urlParam.without(key), { replaceState: true, noScroll: true })
 	}
 
-	const { offset, destroy, isActive } = subscibeDrawerLayers(key, value)
+	const { offset, index, destroy, isActive } = subscibeDrawerLayers(key, value)
 	onDestroy(destroy)
 	contextContainer.set('drawer')
 </script>
@@ -38,16 +38,16 @@
 		on:click={close}
 		on:keyup={close}
 		transition:fade={{ duration: 200 }}
-		style="z-index: {100 - $offset};"
+		style="z-index: {10 + $index};"
 		class="fixed inset-0 bg-black/15 backdrop-blur-[1.5px] dark:bg-white/15"
 	/>
 
 	<aside
 		transition:fly|local={{ x: 500, duration: 200, opacity: 1 }}
 		style="
+			z-index: {10 + $index};
 			max-width: min(100%, {maxWidth});
 			transform: translateX({-$offset * 4}rem);
-			z-index: {100 - $offset};
 		"
 		class="{klass}
       fixed bottom-0 right-0 top-0 z-10 flex
