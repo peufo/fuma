@@ -1,5 +1,5 @@
 import type { ZodRawShape } from 'zod'
-import { fail } from '@sveltejs/kit'
+import { error } from '@sveltejs/kit'
 import { z } from '$lib/validation/zod.js'
 
 export function parseQuery<Type extends ZodRawShape>(url: URL, shape: Type) {
@@ -9,8 +9,7 @@ export function parseQuery<Type extends ZodRawShape>(url: URL, shape: Type) {
 		if (param) queryRaw[name] = param
 	})
 	const parsed = z.object(shape).safeParse(queryRaw)
-	if (parsed.success === false) {
-		return { err: fail(400, { issues: parsed.error.issues }) }
-	}
-	return { data: parsed.data }
+	if (parsed.success === false) error(400, { message: parsed.error.message })
+
+	return { query: parsed.data }
 }
