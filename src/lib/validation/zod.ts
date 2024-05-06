@@ -96,19 +96,22 @@ const filter = {
 
 export const z = {
 	...zod,
-	json,
-	array,
-	arrayRaw: zod.array,
+	json, // TODO: rename stringAsObject
+	array, // TODO: rename stringAsArray
+	arrayRaw: zod.array, // TODO: remove
 	relation,
 	relations,
 	filter,
 	dateOptional,
-	booleanAsString,
+	booleanAsString, // TODO: rename stringAsBoolean
 	date: zod.coerce.date,
 	number: zod.coerce.number,
 	bigint: zod.coerce.bigint,
 	boolean: zod.coerce.boolean
 }
+
+export type ZodInfer<T extends zod.ZodType<any, any, any>> = T['_output']
+export type SuperRefinement<T> = zod.SuperRefinement<T>
 
 /**
  * @example type MyModel = {name: z.string()} satisfies ZodObj<{name: string}>
