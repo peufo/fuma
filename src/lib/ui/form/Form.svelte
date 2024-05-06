@@ -82,6 +82,8 @@
 	use:enhance
 	on:input={handleInput}
 >
+	<slot />
+
 	{#if data.id}
 		<input type="hidden" name="id" value={data.id} />
 	{/if}
