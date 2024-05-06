@@ -123,7 +123,7 @@
 			sticky bottom-0 col-span-full mt-2 flex gap-2 border-t py-4 backdrop-blur-sm
 		"
 	>
-		{#if actionDelete}
+		{#if data.id && actionDelete}
 			<button class="btn-ghos btn text-error" type="button" formaction="{action}{actionDelete}">
 				Supprimer
 			</button>

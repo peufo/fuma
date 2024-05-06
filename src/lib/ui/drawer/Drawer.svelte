@@ -20,11 +20,13 @@
 	export let maxWidth = '32rem'
 	export let classHeader = ''
 	export let classBody = ''
-	export function open() {
-		goto($urlParam.with({ [key]: value }), { replaceState: true, noScroll: true })
+
+	type GotoOptions = Parameters<typeof goto>[1]
+	export function open(options: GotoOptions = {}) {
+		goto($urlParam.with({ [key]: value }), { ...options, replaceState: true, noScroll: true })
 	}
-	export function close() {
-		goto($urlParam.without(key), { replaceState: true, noScroll: true })
+	export function close(options: GotoOptions = {}) {
+		goto($urlParam.without(key), { ...options, replaceState: true, noScroll: true })
 	}
 
 	const { offset, index, destroy, isActive } = subscibeDrawerLayers(key, value)
