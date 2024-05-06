@@ -4,7 +4,7 @@
 	import type { HTMLInputAttributes } from 'svelte/elements'
 
 	type $$Props = InputProps<boolean> & { isRow?: boolean }
-	export let value = false
+	export let value: boolean | null | undefined = false
 	export let input: HTMLInputAttributes = {}
 	export let inputElement: HTMLInputElement | undefined = undefined
 	export let bindWithParams: boolean = false

@@ -6,11 +6,11 @@ export type InputProps<T = string> = ComponentProps<FormControl> & {
 	input?: HTMLInputAttributes
 	inputElement?: HTMLInputElement
 	wrapperClass?: string
-	value?: T
+	value?: T | null
 	bindWithParams?: boolean
 }
 export type TextareaProps = ComponentProps<FormControl> & {
 	textarea?: HTMLTextareaAttributes
-	value?: string
+	value?: string | null
 	bindWithParams?: boolean
 }

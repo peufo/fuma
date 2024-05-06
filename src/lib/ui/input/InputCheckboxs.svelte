@@ -14,7 +14,7 @@
 		error,
 		...props
 	} = $$props as $$Props)
-	export let value = _value || []
+	export let value: string[] | null | undefined = _value || []
 	export let options: Options
 
 	if (!value) value = []

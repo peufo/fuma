@@ -30,7 +30,8 @@
 
 	export let key: string
 	export let options: Options
-	export let value = _value || jsonParse($page.url.searchParams.get(key), [])
+	export let value: string[] | null | undefined =
+		_value || jsonParse($page.url.searchParams.get(key), [])
 
 	let dropdown: DropDown
 
@@ -38,7 +39,7 @@
 
 	function handleSubmit() {
 		if (!dropdown) return
-		if (!value.length) {
+		if (!value?.length) {
 			goto($urlParam.without(key), { replaceState: true, noScroll: true })
 			return
 		}
@@ -55,23 +56,23 @@
 <input type="hidden" name={key} value={JSON.stringify(value)} />
 
 <DropDown bind:this={dropdown} tippyProps={{ onHide: handleSubmit }} wrapperClass="mb-[-2px]">
-	<div class="join" class:ml-2={value.length} slot="activator">
+	<div class="join" class:ml-2={value?.length} slot="activator">
 		<button class="btn indicator join-item btn-sm {btnClass || ''}">
 			<slot name="label">
 				<span>{label}</span>
 			</slot>
-			{#if value.length > 0}
+			{#if !!value?.length}
 				<span
 					class="
 						badge indicator-item badge-sm indicator-start
 						{badgePrimary ? 'badge-primary' : 'badge-outline bg-base-100'}
 					"
 				>
-					{value.length}
+					{value?.length}
 				</span>
 			{/if}
 		</button>
-		{#if value.length}
+		{#if !!value?.length}
 			<button class="btn btn-square join-item btn-sm" on:click={handleReset}>
 				<Icon path={mdiClose} class="fill-base-content" />
 			</button>
