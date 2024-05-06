@@ -112,15 +112,15 @@ export function useForm<ReturnData extends Record<string, unknown>>({
 
 			if (result.type === 'success') {
 				if (successMessage !== false) toast.success(tryToRun(successMessage))
+				if (successUpdate) await update({ reset: tryToRun(successReset) })
 				if (onSuccess) onSuccess(action, result.data)
-				if (successUpdate) update({ reset: tryToRun(successReset) })
 				return
 			}
 
 			if (result.type === 'redirect') {
 				if (successMessage !== false) toast.success(tryToRun(successMessage))
+				await goto(result.location, { replaceState: true, invalidateAll: tryToRun(successUpdate) })
 				if (onSuccess) onSuccess(action)
-				return goto(result.location, { replaceState: true, invalidateAll: tryToRun(successUpdate) })
 			}
 		}
 	}

@@ -37,8 +37,8 @@
 {#if $isActive}
 	<!-- svelte-ignore a11y-no-static-element-interactions -->
 	<div
-		on:click={close}
-		on:keyup={close}
+		on:click={() => close()}
+		on:keyup={() => close()}
 		transition:fade={{ duration: 200 }}
 		style="z-index: {10 + $index};"
 		class="fixed inset-0 bg-black/15 backdrop-blur-[1.5px] dark:bg-white/15"
@@ -64,7 +64,7 @@
 			"
 		>
 			<h2 class="title">{title}</h2>
-			<button on:click={close} class="btn btn-square btn-sm">
+			<button on:click={() => close()} class="btn btn-square btn-sm">
 				<Icon path={mdiClose} title="annuler" />
 			</button>
 		</div>
