@@ -32,7 +32,7 @@
 	}
 </script>
 
-<Card class="mx-auto mt-6 max-w-4xl">
+<Card class="mx-auto mb-6 max-w-4xl">
 	<div slot="title" class="flex items-center gap-4">
 		<span class="grow">{name}</span>
 		<button class="btn btn-square btn-sm" on:click={() => (isPropsVisible = !isPropsVisible)}>

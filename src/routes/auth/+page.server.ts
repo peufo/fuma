@@ -1,9 +1,9 @@
 import { fail, redirect } from '@sveltejs/kit'
 import { Argon2id } from 'oslo/password'
-import type { RequestEvent } from './$types.ts'
+import type { RequestEvent } from './$types.js'
 import type { User } from '@prisma/client'
 import { z } from '$lib/validation/zod.js'
-import { formAction, parseFormData, tryOrFail } from '$lib/server/index.js'
+import { formAction } from '$lib/server/index.js'
 
 import { lucia } from '$lib/server/auth.js'
 import { prisma } from '$lib/server/prisma.js'
@@ -17,10 +17,6 @@ const modelRegister = {
 	email: z.string().toLowerCase().email(),
 	username: z.string().min(3),
 	password: z.string().min(8)
-}
-
-export const load = async ({ locals }) => {
-	if (locals.session) return redirect(302, '/')
 }
 
 export const actions = {

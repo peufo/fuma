@@ -4,6 +4,10 @@
 	import { Toaster } from 'svelte-sonner'
 	import Tree from './Tree.svelte'
 	import { ToggleMode } from '$lib/ui/mode/index.js'
+	import { slide } from 'svelte/transition'
+	import { enhance } from '$app/forms'
+
+	export let data
 
 	let tree = Object.keys(import.meta.glob('./**/+page.svelte'))
 		.map((p) => p.replace('./', '').replace(/\/?\+page.svelte/, ''))
@@ -13,15 +17,28 @@
 
 <Toaster />
 
-<div class="flex gap-4">
-	<div class="menu flex w-min">
-		<div class="flex items-center gap-4 p-4">
-			<h2 class="title min-w-36">Fuma</h2>
-			<ToggleMode />
-		</div>
-		<div class="sticky top-0">
+<div class="flex items-start gap-4 p-2">
+	<div class="sticky top-2 min-w-48 rounded-lg border">
+		<header class=" flex flex-col gap-2 rounded-md bg-base-200/50 p-2 pl-4">
+			<div class="flex items-center gap-4">
+				<h2 class="title mr-auto">Fuma</h2>
+				<ToggleMode />
+			</div>
+			{#if data.user}
+				<div transition:slide class="flex items-center gap-4">
+					<span class="title-md">
+						{data.user.username} 👋
+					</span>
+					<form action="/auth?/logout" use:enhance method="post" class="contents">
+						<button class="btn btn-ghost btn-xs ml-auto">logout</button>
+					</form>
+				</div>
+			{/if}
+		</header>
+
+		<nav class="menu">
 			<Tree {tree}></Tree>
-		</div>
+		</nav>
 	</div>
 	<div class="grow">
 		<slot></slot>
