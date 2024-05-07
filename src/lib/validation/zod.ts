@@ -2,17 +2,11 @@ import zod from 'zod'
 import { jsonParse } from '$lib/utils/index.js'
 
 function json<T extends zod.ZodRawShape>(shap: T) {
-	return zod.union([
-		zod.object(shap),
-		zod.string().transform(jsonParse).pipe(zod.object(shap))
-	])
+	return zod.union([zod.object(shap), zod.string().transform(jsonParse).pipe(zod.object(shap))])
 }
 
 function array<T extends zod.ZodTypeAny>(shap: T) {
-	return zod.union([
-		zod.array(shap),
-		zod.string().transform(jsonParse).pipe(zod.array(shap))
-	])
+	return zod.union([zod.array(shap), zod.string().transform(jsonParse).pipe(zod.array(shap))])
 }
 
 function booleanAsString() {
@@ -20,10 +14,13 @@ function booleanAsString() {
 }
 
 function dateOptional() {
-	return zod
-		.string()
-		.optional()
-		.transform((v) => (v ? new Date(v) : v === '' ? null : undefined))
+	zod.union([
+		zod.date(),
+		zod
+			.string()
+			.optional()
+			.transform((v) => (v ? new Date(v) : v === '' ? null : undefined))
+	])
 }
 
 const relation = {
