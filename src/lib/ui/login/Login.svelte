@@ -42,7 +42,7 @@
 			<span
 				role="button"
 				tabindex="0"
-				class="tab-lg tab grow rounded-t-2xl"
+				class="tab-lg tab h-10 grow"
 				class:tab-active={state === 'login'}
 				on:click={() => (state = 'login')}
 				on:keyup={() => (state = 'login')}
@@ -52,7 +52,7 @@
 			<span
 				role="button"
 				tabindex="0"
-				class="tab-lg tab-lifted tab grow rounded-t-2xl"
+				class="tab-lg tab h-10 grow"
 				class:tab-active={state === 'register'}
 				on:click={() => (state = 'register')}
 				on:keyup={() => (state = 'register')}
@@ -61,7 +61,11 @@
 			</span>
 		</div>
 
-		<form class="card-body border border-t-0 border-base-300 bg-base-100" method="post" use:enhance>
+		<form
+			class="card-body rounded-b-lg border border-t-0 border-base-300 bg-base-100"
+			method="post"
+			use:enhance
+		>
 			<InputText key="username" label="Nom d'utilisateur" input={{ autocomplete: 'username' }} />
 
 			{#if state === 'register'}

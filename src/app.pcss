@@ -44,6 +44,10 @@
 	.border-l {
 		@apply dark:input-bordered;
 	}
+
+	.dark .tab {
+		--tab-border-color: var(--fallback-bc, oklch(var(--bc) / 0.2));
+	}
 }
 
 mark {
