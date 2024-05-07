@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Meta from '$lib/Meta.svelte'
+	import Meta from '$lib/private/Meta.svelte'
 	import { Card, CardBasic, CardCollapse, CardLink, CardFullScreen } from '$lib/ui/card/index.js'
 
 	let card: Card

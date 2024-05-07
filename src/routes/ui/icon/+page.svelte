@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { mdiCannabis } from '@mdi/js'
-	import Meta from '$lib/Meta.svelte'
+	import Meta from '$lib/private/Meta.svelte'
 	import { Icon } from '$lib/ui/icon/index.js'
 
 	let icon: Icon

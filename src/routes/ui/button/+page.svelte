@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Meta from '$lib/Meta.svelte'
+	import Meta from '$lib/private/Meta.svelte'
 	import { ButtonCopy, ButtonDelete } from '$lib/ui/button/index.js'
 
 	let buttonCopy: ButtonCopy

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Meta from '$lib/Meta.svelte'
+	import Meta from '$lib/private/Meta.svelte'
 	import { Tabs, TabsIcon } from '$lib/ui/tabs/index.js'
 	import { mdiCardMultipleOutline, mdiFormatListBulleted } from '@mdi/js'
 

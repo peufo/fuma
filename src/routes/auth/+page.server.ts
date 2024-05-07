@@ -6,7 +6,7 @@ import { z } from '$lib/validation/zod.js'
 import { formAction } from '$lib/server/index.js'
 
 import { lucia } from '$lib/server/auth.js'
-import { prisma } from '$lib/server/prisma.js'
+import { prisma } from '$lib/private/prisma.js'
 
 const modelLogin = {
 	username: z.string(),

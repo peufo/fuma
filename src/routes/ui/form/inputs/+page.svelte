@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { mdiCodeJson, mdiWeb } from '@mdi/js'
-	import Meta from '$lib/Meta.svelte'
+	import Meta from '$lib/private/Meta.svelte'
 	import { jsonParse } from '$lib/utils/jsonParse.js'
 	import { urlParam } from '$lib/store/param.js'
 	import {

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Meta from '$lib/Meta.svelte'
+	import Meta from '$lib/private/Meta.svelte'
 	import { Placeholder, PlaceholderImage } from '$lib/ui/placeholder/index.js'
 
 	let placeholder: Placeholder

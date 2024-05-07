@@ -2,7 +2,7 @@
 	import { toast } from 'svelte-sonner'
 	import { mdiWan } from '@mdi/js'
 
-	import Meta from '$lib/Meta.svelte'
+	import Meta from '$lib/private/Meta.svelte'
 	import { Icon } from '$lib/ui/icon/index.js'
 	import { DropDown, ContextMenu, DropDownMenu } from '$lib/ui/menu/index.js'
 	import MenuContent, { menuOptions } from './MenuContent.svelte'

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Meta from '$lib/Meta.svelte'
+	import Meta from '$lib/private/Meta.svelte'
 	import { Form } from '$lib/ui/form/index.js'
 	import { Drawer } from '$lib/ui/drawer/index.js'
 	import FormExample from './FormExample.svelte'

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Meta from '$lib/Meta.svelte'
+	import Meta from '$lib/private/Meta.svelte'
 	import { urlParam } from '$lib/store/param.js'
 	import { Dialog, DialogConfirm } from '$lib/ui/dialog/index.js'
 	import { Drawer } from '$lib/ui/drawer/index.js'
