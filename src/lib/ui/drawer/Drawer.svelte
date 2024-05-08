@@ -21,10 +21,14 @@
 
 	type GotoOptions = Parameters<typeof goto>[1]
 	export function open(value = 1, options: GotoOptions = {}) {
-		goto($urlParam.with({ [key]: value }), { ...options, replaceState: true, noScroll: true })
+		return goto($urlParam.with({ [key]: value }), {
+			...options,
+			replaceState: true,
+			noScroll: true
+		})
 	}
 	export function close(options: GotoOptions = {}) {
-		goto($urlParam.without(key), { ...options, replaceState: true, noScroll: true })
+		return goto($urlParam.without(key), { ...options, replaceState: true, noScroll: true })
 	}
 
 	const { offset, index, destroy, isActive } = subscibeDrawerLayers(key)

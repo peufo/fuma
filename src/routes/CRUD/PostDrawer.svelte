@@ -1,25 +1,25 @@
+<svelte:options accessors={true} />
+
 <script lang="ts">
-	import { Drawer, Form, relationsProps, z, type ZodObj } from '$lib/index.js'
+	import { Drawer, Form, relationsProps, urlParam, type UseFormOptions } from '$lib/index.js'
 	import { api } from '$lib/private/api.js'
-	import type { Post, Tag, Prisma } from '@prisma/client'
-
-	export let post: (Post & { tags: Tag[] }) | undefined = undefined
-
-	const modelPost = {
-		content: z.string(),
-		aString: z.string(),
-		aBoolean: z.boolean(),
-		aDate: z.date(),
-		aNumber: z.number(),
-		tags: z.relations.set
-	} satisfies ZodObj<Omit<Prisma.PostCreateInput, 'author'>>
+	import { modelPost } from '$lib/private/model.js'
+	import { mdiTagPlusOutline } from '@mdi/js'
+	import type { Post, Tag } from '@prisma/client'
+	type PostWithTags = Post & { tags: Tag[] }
+	export let post: PostWithTags | undefined = undefined
+	export let formPost: Form<typeof modelPost, PostWithTags> | undefined = undefined
+	export let options: UseFormOptions<PostWithTags> = {}
 </script>
 
-<Drawer key="form_post" let:close title="Create post">
+<Drawer key="form_post" let:close title={post ? 'Edit post' : 'Create post'}>
 	<Form
+		bind:this={formPost}
 		on:success={() => close()}
+		action="/CRUD?/post"
+		{options}
 		model={modelPost}
-		data={post}
+		data={post || {}}
 		fields={[
 			[
 				{ key: 'content', colSpan: 4, textrich: {} },
@@ -29,12 +29,15 @@
 					relations: relationsProps({
 						label: 'Tags',
 						search: api.Tag,
-						slotItem: (item) => item.name
+						slotItem: (item) => item.name,
+						createUrl: $urlParam.with({ form_tag: 1 }),
+						createTitle: 'Create Tag',
+						createIcon: mdiTagPlusOutline
 					})
-				}
+				},
+				{ key: 'aString', text: { label: 'String' } }
 			],
 			[
-				{ key: 'aString', text: { label: 'String' } },
 				{ key: 'aNumber', number: { label: 'Number' } },
 				{ key: 'aBoolean', boolean: { label: 'Boolean' } },
 				{ key: 'aDate', datetime: { label: 'Date' } }

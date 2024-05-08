@@ -20,11 +20,11 @@
 		getFieldType,
 		useHandleInput
 	} from '$lib/ui/form/form.js'
+	import ButtonDelete from '$lib/ui/button/ButtonDelete.svelte'
 
 	import { useForm, type UseFormOptions } from '$lib/validation/form.js'
 	import FormInput from './FormInput.svelte'
 	import FormSection from './FormSection.svelte'
-	import ButtonDelete from '../button/ButtonDelete.svelte'
 
 	let klass = ''
 	export { klass as class }
@@ -33,16 +33,26 @@
 	export let model: Shape | undefined = undefined
 	export let fields: FormField<Shape>[][] = []
 	export let sections: FormSectionProps<Shape>[] = [{}]
-	export let data: Nullable<FormDataInput<Shape>> = initData(fields)
-
 	export let action = ''
 	export let actionCreate = '_create'
 	export let actionDelete = '_delete'
 	export let actionUpdate = '_update'
 	export let options: UseFormOptions<ReturnData> = {}
+	let dataInput: Nullable<FormDataInput<Shape>> = initData(fields)
+	export { dataInput as data }
+
+	let data = dataInput
+	$: $isDirty ? (dataInput = data) : (data = dataInput)
 
 	export function set<K extends keyof Shape>(key: K, value: Nullable<FormDataInput<Shape>>[K]) {
+		isDirty.set(true)
 		data[key] = value
+	}
+	export function update<S extends Shape>(
+		updater: (currentData: Nullable<FormDataInput<S>>) => Nullable<FormDataInput<S>>
+	) {
+		isDirty.set(true)
+		data = updater(data)
 	}
 
 	const dispatch = createEventDispatcher<{
@@ -54,17 +64,17 @@
 
 	const { enhance, setError } = useForm<ReturnData>({
 		...options,
-		onSuccess(action, data) {
-			if (options.onSuccess) options.onSuccess(action, data)
-			dispatch('success', { action, data })
-			const actionPath = action.pathname + action.search
+		async onSuccess(url, data) {
+			if (options.onSuccess) await options.onSuccess(url, data)
+			dispatch('success', { action: url, data })
+			const actionPath = url.pathname + url.search
 			if (actionPath.includes(action + actionDelete)) dispatch('deleted')
 			if (!data) return
 			if (actionPath.includes(action + actionCreate)) dispatch('created', data)
-			if (actionPath.includes(action + actionDelete)) dispatch('updated', data)
+			if (actionPath.includes(action + actionUpdate)) dispatch('updated', data)
 		}
 	})
-	const handleInput = model ? useHandleInput(model, { setError }) : () => {}
+	const { handleInput, isDirty } = useHandleInput({ model, setError })
 
 	onMount(lookupValueFromParams)
 

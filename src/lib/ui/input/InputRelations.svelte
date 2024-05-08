@@ -152,7 +152,7 @@
 		{isLoading}
 		{focusIndex}
 		let:index
-		class="w-full {classList}"
+		class="w-full min-w-40 {classList}"
 		on:select={({ detail }) => select(detail)}
 	>
 		<slot name="suggestion" item={proposedItems[index]}>

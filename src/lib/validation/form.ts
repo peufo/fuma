@@ -16,14 +16,16 @@ export const formContext = {
 	}
 }
 
+type MaybePromise<T> = T | Promise<T>
+
 type SuccessMessage = false | string | ((action: URL) => string)
 type BooleanOrFunction = boolean | ((action: URL) => boolean)
 export type UseFormOptions<ReturnData> = {
-	onSubmit?: (...args: Parameters<SubmitFunction>) => any
-	onSuccess?: (action: URL, data?: ReturnData) => any
+	onSubmit?: (...args: Parameters<SubmitFunction>) => MaybePromise<any>
+	onSuccess?: (action: URL, data?: ReturnData) => MaybePromise<any>
 	onResetError?: () => unknown
-	onError?: (err: any) => unknown
-	onFail?: (failure: Record<string, any> | undefined) => unknown
+	onError?: (err: any) => MaybePromise<unknown>
+	onFail?: (failure: Record<string, any> | undefined) => MaybePromise<unknown>
 	successUpdate?: BooleanOrFunction
 	successReset?: BooleanOrFunction
 	successMessage?: SuccessMessage
@@ -41,7 +43,7 @@ export function useForm<ReturnData extends Record<string, unknown>>({
 }: UseFormOptions<ReturnData> = {}) {
 	const { setError } = formContext.get()
 
-	function resetErrors() {
+	async function resetErrors() {
 		for (const key in setError) setError[key]('')
 		if (onResetError) onResetError()
 	}
@@ -93,14 +95,14 @@ export function useForm<ReturnData extends Record<string, unknown>>({
 			event.submitter?.classList.remove('btn-disabled')
 
 			if (result.type === 'error') {
-				if (onError) onError(result.error.message)
+				if (onError) await onError(result.error.message)
 				const { message } = result.error
 				toast.error(message || 'Erreur')
 				return
 			}
 
 			if (result.type === 'failure') {
-				if (onFail) onFail(result.data)
+				if (onFail) await onFail(result.data)
 				if (result.data) handleFailure(result.data)
 				return
 			}
@@ -113,14 +115,14 @@ export function useForm<ReturnData extends Record<string, unknown>>({
 			if (result.type === 'success') {
 				if (successMessage !== false) toast.success(tryToRun(successMessage))
 				if (successUpdate) await update({ reset: tryToRun(successReset) })
-				if (onSuccess) onSuccess(action, result.data)
+				if (onSuccess) await onSuccess(action, result.data)
 				return
 			}
 
 			if (result.type === 'redirect') {
 				if (successMessage !== false) toast.success(tryToRun(successMessage))
 				await goto(result.location, { replaceState: true, invalidateAll: tryToRun(successUpdate) })
-				if (onSuccess) onSuccess(action)
+				if (onSuccess) await onSuccess(action)
 			}
 		}
 	}
