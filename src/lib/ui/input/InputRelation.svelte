@@ -3,6 +3,8 @@
 	import debounce from 'debounce'
 	import { toast } from 'svelte-sonner'
 	import { mdiClose } from '@mdi/js'
+
+	import { USE_JSON_PARSER } from '$lib/utils/constant.js'
 	import { Icon } from '$lib/ui/icon/index.js'
 	import { Slot } from '$lib/ui/slot/index.js'
 	import { DropDown } from '$lib/ui/menu/index.js'
@@ -117,7 +119,11 @@
 						<Icon path={mdiClose} />
 					</button>
 				</div>
-				<input type="hidden" name={key} value={item.id} />
+				<input
+					type="hidden"
+					name={key}
+					value="{USE_JSON_PARSER}{JSON.stringify({ id: item.id })}"
+				/>
 			{/if}
 		</FormControl>
 	</div>

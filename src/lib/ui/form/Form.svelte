@@ -5,7 +5,7 @@
 
 <script
 	lang="ts"
-	generics="Shape extends z.ZodRawShape, ReturnData extends Record<string, unknown> = FormDataInput<Shape>"
+	generics="Shape extends z.ZodRawShape, Data extends FormDataInput<Shape> = FormDataInput<Shape>"
 >
 	import { createEventDispatcher, onMount } from 'svelte'
 	import { fade } from 'svelte/transition'
@@ -37,32 +37,30 @@
 	export let actionCreate = '_create'
 	export let actionDelete = '_delete'
 	export let actionUpdate = '_update'
-	export let options: UseFormOptions<ReturnData> = {}
-	let dataInput: Nullable<FormDataInput<Shape>> = initData(fields)
+	export let options: UseFormOptions<Data> = {}
+	let dataInput: Nullable<Data> = initData<Shape, Data>(fields)
 	export { dataInput as data }
 
 	let data = dataInput
 	$: $isDirty ? (dataInput = data) : (data = dataInput)
 
-	export function set<K extends keyof Shape>(key: K, value: Nullable<FormDataInput<Shape>>[K]) {
+	export function set<K extends keyof Shape>(key: K, value: Nullable<Data>[K]) {
 		isDirty.set(true)
 		data[key] = value
 	}
-	export function update<S extends Shape>(
-		updater: (currentData: Nullable<FormDataInput<S>>) => Nullable<FormDataInput<S>>
-	) {
+	export function update(updater: (currentData: Nullable<Data>) => Nullable<Data>) {
 		isDirty.set(true)
 		data = updater(data)
 	}
 
 	const dispatch = createEventDispatcher<{
-		success: { action: URL; data?: ReturnData }
-		created: ReturnData
-		updated: ReturnData
+		success: { action: URL; data?: Data }
+		created: Data
+		updated: Data
 		deleted: void
 	}>()
 
-	const { enhance, setError } = useForm<ReturnData>({
+	const { enhance, setError } = useForm<Data>({
 		...options,
 		async onSuccess(url, data) {
 			if (options.onSuccess) await options.onSuccess(url, data)
@@ -82,7 +80,9 @@
 		fields.flat().forEach(({ key }) => {
 			if (data[key]) return
 			const value = $page.url.searchParams.get(key)
-			if (value) data[key] = value
+			// TODO: fix data[key] type
+			// @ts-ignore
+			if (value && key in data) data[key] = value
 		})
 	}
 
@@ -94,7 +94,7 @@
 		return ''
 	}
 
-	const getBoolean = (bool?: BoolOrFunction<Shape>) => (_data: Nullable<FormDataInput<Shape>>) =>
+	const getBoolean = (bool?: BoolOrFunction<Shape>) => (_data: Nullable<Data>) =>
 		typeof bool === 'boolean' || bool === undefined ? !!bool : !!bool(_data)
 </script>
 

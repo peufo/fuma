@@ -1,3 +1,5 @@
+import { USE_JSON_PARSER } from '$lib/utils/constant.js'
+import { jsonParse } from '$lib/utils/jsonParse.js'
 import z from 'zod'
 
 export type Issue = z.ZodIssue & { received: string; expected: string; unionErrors?: z.ZodError[] }
@@ -37,9 +39,11 @@ export async function parseFormData<Shape extends z.ZodRawShape>(
 function flateToNeestedObject(flatObject: Record<string, unknown>) {
 	const obj: Record<string, unknown> = {}
 	Object.entries(flatObject).forEach(([key, value]) => {
-		set(obj, key, value)
+		const useJsonParse = typeof value === 'string' && value.startsWith(USE_JSON_PARSER)
+		const _value = useJsonParse ? jsonParse(value.replace(USE_JSON_PARSER, ''), null) : value
+		if (useJsonParse) console.log({ value, _value })
+		set(obj, key, _value)
 	})
-
 	return obj
 }
 

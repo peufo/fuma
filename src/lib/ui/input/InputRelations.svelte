@@ -5,6 +5,7 @@
 	import { mdiClose } from '@mdi/js'
 	import debounce from 'debounce'
 
+	import { USE_JSON_PARSER } from '$lib/utils/constant.js'
 	import { Icon } from '$lib/ui/icon/index.js'
 	import { Slot } from '$lib/ui/slot/index.js'
 	import { FormControl, SelectorList } from '$lib/ui/input/index.js'
@@ -124,7 +125,6 @@
 						<input
 							type="text"
 							id={key}
-							name={key}
 							bind:this={inputSearch}
 							bind:value={searchValue}
 							on:input={(e) => searchItemsDebounce(e.currentTarget.value)}
@@ -141,7 +141,11 @@
 				</div>
 			</div>
 
-			<input type="hidden" name={key} value={JSON.stringify(items?.map(({ id }) => id) || [])} />
+			<input
+				type="hidden"
+				name={key}
+				value="{USE_JSON_PARSER}{JSON.stringify(items?.map(({ id }) => ({ id })) || [])}"
+			/>
 		</FormControl>
 	</div>
 

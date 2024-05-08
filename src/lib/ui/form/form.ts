@@ -35,7 +35,7 @@ export type FormSectionProps<S extends Shape> = ComponentProps<FormSection> & {
 	hide?: BoolOrFunction<S>
 }
 
-export function initData<S extends Shape>(fields: FormField<S>[][]): FormDataInput<S> {
+export function initData<S extends Shape, Data extends FormDataInput<S> = FormDataInput<S>>(fields: FormField<S>[][]): Data {
 	// @ts-ignore
 	return fields.flat().reduce((acc, cur) => {
 		const inputType = getFieldType(cur)

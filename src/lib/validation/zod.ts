@@ -24,13 +24,7 @@ function dateOptional() {
 }
 
 const relation = {
-	connect: zod.union([
-		zod.object({ id: zod.string() }).transform((item) => ({ connect: item })),
-		zod
-			.string()
-			.min(1, 'Required')
-			.transform((id) => ({ connect: { id } }))
-	]),
+	connect: zod.object({ id: zod.string() }).transform((item) => ({ connect: item })),
 	create<T extends zod.ZodRawShape>(shap: T) {
 		return zod.object(shap).transform((value) => ({ create: value }))
 	},
@@ -49,11 +43,8 @@ type RelationsOperation = 'set' | 'disconnect' | 'delete' | 'connect'
 type OperationResult = Partial<Record<RelationsOperation, { id: string }[]>>
 function relationsUniqueInput(operation: RelationsOperation = 'set') {
 	return zod
-		.union([
-			zod.string().transform(jsonParse).pipe(zod.array(zod.string())),
-			zod.array(zod.object({ id: zod.string() })).transform((arr) => arr.map(({ id }) => id))
-		])
-		.transform((ids) => ({ [operation]: ids.map((id) => ({ id })) }) as OperationResult)
+		.array(zod.object({ id: zod.string() }))
+		.transform((items) => ({ [operation]: items.map(({ id }) => ({ id })) }) as OperationResult)
 }
 
 function objectOrArray<T extends zod.ZodRawShape>(shap: T) {
