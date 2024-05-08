@@ -5,7 +5,7 @@
 
 <script
 	lang="ts"
-	generics="Shape extends z.ZodRawShape, Data extends FormDataInput<Shape> = FormDataInput<Shape>"
+	generics="Shape extends z.ZodRawShape, ReturnData extends Record<string, unknown> = FormDataInput<Shape>, Data extends FormDataInput<Shape> = FormDataInput<Shape>"
 >
 	import { createEventDispatcher, onMount } from 'svelte'
 	import { fade } from 'svelte/transition'
@@ -37,7 +37,7 @@
 	export let actionCreate = '_create'
 	export let actionDelete = '_delete'
 	export let actionUpdate = '_update'
-	export let options: UseFormOptions<Data> = {}
+	export let options: UseFormOptions<ReturnData> = {}
 	let dataInput: Nullable<Data> = initData<Shape, Data>(fields)
 	export { dataInput as data }
 
@@ -54,13 +54,13 @@
 	}
 
 	const dispatch = createEventDispatcher<{
-		success: { action: URL; data?: Data }
-		created: Data
-		updated: Data
+		success: { action: URL; data?: ReturnData }
+		created: ReturnData
+		updated: ReturnData
 		deleted: void
 	}>()
 
-	const { enhance, setError } = useForm<Data>({
+	const { enhance, setError } = useForm<ReturnData>({
 		...options,
 		async onSuccess(url, data) {
 			if (options.onSuccess) await options.onSuccess(url, data)
