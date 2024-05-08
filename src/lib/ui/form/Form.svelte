@@ -24,6 +24,7 @@
 	import { useForm, type UseFormOptions } from '$lib/validation/form.js'
 	import FormInput from './FormInput.svelte'
 	import FormSection from './FormSection.svelte'
+	import ButtonDelete from '../button/ButtonDelete.svelte'
 
 	let klass = ''
 	export { klass as class }
@@ -39,17 +40,28 @@
 	export let actionDelete = '_delete'
 	export let actionUpdate = '_update'
 	export let options: UseFormOptions<ReturnData> = {}
+
 	export function set<K extends keyof Shape>(key: K, value: Nullable<FormDataInput<Shape>>[K]) {
 		data[key] = value
 	}
 
-	const dispatch = createEventDispatcher<{ success: { action: URL; data?: ReturnData } }>()
+	const dispatch = createEventDispatcher<{
+		success: { action: URL; data?: ReturnData }
+		created: ReturnData
+		updated: ReturnData
+		deleted: void
+	}>()
 
 	const { enhance, setError } = useForm<ReturnData>({
 		...options,
 		onSuccess(action, data) {
-			dispatch('success', { action, data })
 			if (options.onSuccess) options.onSuccess(action, data)
+			dispatch('success', { action, data })
+			const actionPath = action.pathname + action.search
+			if (actionPath.includes(action + actionDelete)) dispatch('deleted')
+			if (!data) return
+			if (actionPath.includes(action + actionCreate)) dispatch('created', data)
+			if (actionPath.includes(action + actionDelete)) dispatch('updated', data)
 		}
 	})
 	const handleInput = model ? useHandleInput(model, { setError }) : () => {}
@@ -78,7 +90,7 @@
 
 <form
 	method="post"
-	action="{action}{data?.id ? actionUpdate : actionCreate}"
+	action="{action}{data.id ? actionUpdate : actionCreate}"
 	enctype="multipart/form-data"
 	class="{klass} flex flex-col gap-4"
 	use:enhance
@@ -121,15 +133,13 @@
 	<div
 		class="
 			{classAction} {actionPadding}
-			sticky bottom-0 col-span-full mt-2 flex gap-2 border-t py-4 backdrop-blur-sm
+			sticky bottom-0 col-span-full mt-2 flex flex-row-reverse gap-2 border-t py-4 backdrop-blur-sm
 		"
 	>
-		{#if data.id && actionDelete}
-			<button class="btn-ghos btn text-error" type="button" formaction="{action}{actionDelete}">
-				Supprimer
-			</button>
-		{/if}
-		<div class="grow" />
 		<button class="btn btn-primary"> Valider </button>
+		<div class="grow" />
+		{#if data.id && actionDelete}
+			<ButtonDelete formaction="{action}{actionDelete}">Supprimer</ButtonDelete>
+		{/if}
 	</div>
 </form>
