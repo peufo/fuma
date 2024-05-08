@@ -5,7 +5,11 @@
 
 <script
 	lang="ts"
-	generics="Shape extends z.ZodRawShape, ReturnData extends Record<string, unknown> = FormDataInput<Shape>, Data extends FormDataInput<Shape> = FormDataInput<Shape>"
+	generics="
+		Shape extends z.ZodRawShape,
+		ReturnData extends Record<string, unknown> = FormDataInput<Shape>,
+		Data extends FormDataInput<Shape> = FormDataInput<Shape>
+	"
 >
 	import { createEventDispatcher, onMount } from 'svelte'
 	import { fade } from 'svelte/transition'

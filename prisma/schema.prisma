@@ -30,6 +30,8 @@ model Post {
   content String @db.Text
   tags    Tag[]
 
+  description String?
+
   aString  String
   aNumber  Int
   aDate    DateTime

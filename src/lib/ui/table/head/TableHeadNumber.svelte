@@ -14,7 +14,7 @@
 	export let field: TableField
 
 	let tip: TippyInstance
-	type Range = { min: string | undefined; max: string | undefined }
+	type Range = { min: number | undefined; max: number | undefined }
 
 	let { min, max } = initRange($page.url)
 	onMount(() => page.subscribe(({ url }) => ({ min, max } = initRange(url))))
@@ -44,8 +44,8 @@
 		goto($urlParam.without(field.key, 'skip', 'take'), { noScroll: true, keepFocus: true })
 	}
 
-	function isDefined(v: string | undefined | null): v is string {
-		return v !== undefined && v !== null
+	function isDefined(v: number | undefined | null): v is number {
+		return typeof v === 'number'
 	}
 
 	$: isNegatifRange = isDefined(min) && isDefined(max) && max < min

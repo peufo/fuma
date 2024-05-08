@@ -3,6 +3,7 @@ import type { Prisma } from '@prisma/client'
 
 export const modelPost = {
 	content: z.string().min(10),
+	description: z.string().optional(),
 	aString: z.string(),
 	aBoolean: z.boolean(),
 	aDate: z.date(),
@@ -15,7 +16,6 @@ export const modelPostUpdate = {
 	id: z.string(),
 	tags: z.relations.set
 } satisfies ZodObj<Omit<Prisma.PostUpdateInput, 'author'>>
-
 
 export const modelTag = {
 	name: z.string().min(2)

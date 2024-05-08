@@ -6,6 +6,7 @@
 	import {
 		InputText,
 		InputBoolean,
+		InputNumber,
 		InputSelect,
 		InputCombo,
 		InputRelation,
@@ -16,8 +17,9 @@
 	import { options, searchItems, type Item } from '../example.js'
 	import LabelPlaystation from './LabelPlaystation.svelte'
 
-	let inputBoolean: InputBoolean
 	let inputText: InputText
+	let inputNumber: InputNumber
+	let inputBoolean: InputBoolean
 	let inputSelect: InputSelect
 	let inputCombo: InputCombo
 	let inputRelation: InputRelation<Item>
@@ -25,24 +27,36 @@
 	let inputTextRich: InputTextRich
 
 	let inputTextRichValue = '<h2>Hey 👋</h2>'
+
+	let number = 42
 </script>
 
 <Meta component={inputText} name="InputText">
 	<InputText bind:this={inputText} label="Text input" key="text" />
 </Meta>
 
-<Meta component={inputSelect} name="InputSelect">
-	<InputSelect bind:this={inputSelect} key="select" label="Input Select" {options} />
-</Meta>
+<Meta component={inputNumber} name="InputNumber">
+	<div class="flex items-center gap-2">
+		<button class="btn" on:click={() => number++}> + 1 </button>
+		<button class="btn" on:click={() => number--}> - 1 </button>
+		<button class="btn" on:click={() => (number = 42)}> set 42 </button>
+		<span>Value = {number}</span>
+	</div>
 
-<Meta component={inputCombo} name="InputCombo">
-	<InputCombo bind:this={inputCombo} key="combo" label="Input combo" {options} />
+	<InputNumber bind:this={inputNumber} label="Text number" key="number" bind:value={number} />
 </Meta>
 
 <Meta component={inputBoolean} name="InputBoolean">
 	<InputBoolean bind:this={inputBoolean} label="Boolean input" key="boolean" value={true} />
 	<InputBoolean label="Boolean input with label right" key="boolean_right" labelPosition="right" />
 	<InputBoolean key="boolean_left" labelPosition="left" label={LabelPlaystation} />
+</Meta>
+<Meta component={inputSelect} name="InputSelect">
+	<InputSelect bind:this={inputSelect} key="select" label="Input Select" {options} />
+</Meta>
+
+<Meta component={inputCombo} name="InputCombo">
+	<InputCombo bind:this={inputCombo} key="combo" label="Input combo" {options} />
 </Meta>
 
 <Meta component={inputRelation} name="InputRelation">

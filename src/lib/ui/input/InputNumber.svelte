@@ -1,17 +1,19 @@
 <script lang="ts">
 	import { FormControl, type InputProps } from './index.js'
+	import type { HTMLInputAttributes } from 'svelte/elements'
 
-	type $$Props = InputProps<string | number>
-	$: ({ input, value: _value, ...props } = $$props as $$Props)
-	$: ({ class: inputClass, ...inputProps } = input || {})
-	export let value = _value
+	type $$Props = InputProps<number>
+
+	export let value: number | null | undefined = undefined
+	export let input: HTMLInputAttributes | undefined = undefined
+	export let inputElement: HTMLInputElement | undefined = undefined
 </script>
 
-<FormControl {...props} let:key>
+<FormControl {...$$restProps} let:key>
 	<slot name="label_append" slot="label_append" />
 	<input
 		bind:value
-		bind:this={props.inputElement}
+		bind:this={inputElement}
 		on:input
 		on:focus
 		on:blur
@@ -19,7 +21,7 @@
 		name={key}
 		id={key}
 		inputmode="numeric"
-		class="input input-bordered {inputClass || ''}"
-		{...inputProps}
+		class="input input-bordered"
+		{...input}
 	/>
 </FormControl>
