@@ -14,7 +14,7 @@ function booleanAsString() {
 }
 
 function dateOptional() {
-	zod.union([
+	return zod.union([
 		zod.date(),
 		zod
 			.string()
