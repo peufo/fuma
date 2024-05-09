@@ -1,4 +1,4 @@
-import { USE_JSON_PARSER } from '$lib/utils/constant.js'
+import { USE_COERCE_DATE, USE_COERCE_JSON } from '$lib/utils/constant.js'
 import { jsonParse } from '$lib/utils/jsonParse.js'
 import z from 'zod'
 
@@ -17,7 +17,11 @@ export async function parseFormData<Shape extends z.ZodRawShape>(
 	unionShaps.forEach((shap) => shema.or(z.object(shap)))
 
 	const formDataFlateObject: Record<string, unknown> = Object.fromEntries(formData)
-	const formDataObject = flateToNeestedObject(formDataFlateObject)
+	const formDataFlateObjectCoerced = coerceFlateData(formDataFlateObject)
+	const formDataObject = flateToNeestedObject(formDataFlateObjectCoerced)
+
+	console.log('data', formDataObject)
+
 	const parsed = shema.safeParse(formDataObject)
 	if (parsed.success === false) {
 		const issueToPOJO = (issue: Issue) => ({
@@ -36,13 +40,29 @@ export async function parseFormData<Shape extends z.ZodRawShape>(
 	return { data: parsed.data, formData }
 }
 
+function coerceFlateData(flateData: Record<string, unknown>) {
+	const coerceMap: Record<string, (value: string) => unknown> = {
+		[USE_COERCE_JSON]: (value) => jsonParse(value, {}),
+		[USE_COERCE_DATE]: (value) => (value ? new Date(value) : undefined)
+	}
+
+	function coerceValue(value: unknown) {
+		if (typeof value !== 'string') return value
+		const coerce = Object.entries(coerceMap).find(([TOKEN]) => value.startsWith(TOKEN))
+		console.log({ value, coerce })
+		if (!coerce) return value
+		return coerce[1](value.replace(coerce[0], ''))
+	}
+	return Object.entries(flateData).reduce(
+		(acc, [key, value]) => ({ ...acc, [key]: coerceValue(value) }),
+		{}
+	)
+}
+
 function flateToNeestedObject(flatObject: Record<string, unknown>) {
 	const obj: Record<string, unknown> = {}
 	Object.entries(flatObject).forEach(([key, value]) => {
-		const useJsonParse = typeof value === 'string' && value.startsWith(USE_JSON_PARSER)
-		const _value = useJsonParse ? jsonParse(value.replace(USE_JSON_PARSER, ''), null) : value
-		if (useJsonParse) console.log({ value, _value })
-		set(obj, key, _value)
+		set(obj, key, value)
 	})
 	return obj
 }

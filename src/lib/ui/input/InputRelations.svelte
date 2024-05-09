@@ -7,7 +7,7 @@
 	import { mdiClose } from '@mdi/js'
 	import debounce from 'debounce'
 
-	import { USE_JSON_PARSER } from '$lib/utils/constant.js'
+	import { USE_COERCE_JSON } from '$lib/utils/constant.js'
 	import { Icon } from '$lib/ui/icon/index.js'
 	import { Slot } from '$lib/ui/slot/index.js'
 	import { FormControl, SelectorList } from '$lib/ui/input/index.js'
@@ -149,7 +149,7 @@
 			<input
 				type="hidden"
 				name={key}
-				value="{USE_JSON_PARSER}{JSON.stringify(items?.map(({ id }) => ({ id })) || [])}"
+				value="{USE_COERCE_JSON}{JSON.stringify(items?.map(({ id }) => ({ id })) || [])}"
 			/>
 		</FormControl>
 	</div>

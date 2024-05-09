@@ -45,7 +45,7 @@
 				bind:this={button}
 				id={key}
 				type="button"
-				class="flex h-12 items-center gap-2 rounded-lg border pl-4 pr-2"
+				class="input-bordered flex h-12 items-center gap-2 rounded-lg border pl-4 pr-2 hover:bg-base-200/50"
 			>
 				{#if selectedOption}
 					{#if selectedOption.icon}
@@ -57,7 +57,9 @@
 				{/if}
 				<Icon class="ml-auto" path={mdiUnfoldMoreHorizontal} size={18} />
 			</button>
-			<input type="hidden" name={key} {value} />
+			{#if value !== undefined}
+				<input type="hidden" name={key} {value} />
+			{/if}
 		</FormControl>
 	</svelte:fragment>
 

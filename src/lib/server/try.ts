@@ -25,7 +25,6 @@ export async function tryOrFail<T = unknown>(
 
 		// Handle parseFormData error
 		if ('issues' in error) {
-			console.log(error.issues)
 			return fail(400, { issues: error.issues })
 		}
 

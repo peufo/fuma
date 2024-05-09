@@ -1,1 +1,2 @@
-export const USE_JSON_PARSER = 'I_LOVE_YOU_nXFVwk03nRbmhFukfyZLuzkEd43LXIKs'
+export const USE_COERCE_JSON = 'I_LOVE_YOU_nXFVwk03nRbmhFukfyZLuzkEd43LXIKs_'
+export const USE_COERCE_DATE = 'I_LOVE_YOU_TOO_nXFVwk03nRbmhFukfyZLuzkEd43LXIKs_'

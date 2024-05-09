@@ -5,7 +5,7 @@
 	import { toast } from 'svelte-sonner'
 	import { mdiClose } from '@mdi/js'
 
-	import { USE_JSON_PARSER } from '$lib/utils/constant.js'
+	import { USE_COERCE_JSON } from '$lib/utils/constant.js'
 	import { Icon } from '$lib/ui/icon/index.js'
 	import { Slot } from '$lib/ui/slot/index.js'
 	import { DropDown } from '$lib/ui/menu/index.js'
@@ -91,7 +91,6 @@
 				<div class="input input-bordered flex grow items-center pr-2">
 					<input
 						type="text"
-						name={key}
 						id={key}
 						bind:this={inputElement}
 						bind:value={searchValue}
@@ -126,7 +125,7 @@
 				<input
 					type="hidden"
 					name={key}
-					value="{USE_JSON_PARSER}{JSON.stringify({ id: item.id })}"
+					value="{USE_COERCE_JSON}{JSON.stringify({ id: item.id })}"
 				/>
 			{/if}
 		</FormControl>

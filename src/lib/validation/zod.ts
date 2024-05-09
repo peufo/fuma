@@ -86,7 +86,6 @@ export const z = {
 	relation,
 	relations,
 	filter,
-	date: zod.coerce.date,
 	number: zod.coerce.number,
 	bigint: zod.coerce.bigint,
 	boolean: zod.coerce.boolean
