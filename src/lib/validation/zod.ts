@@ -9,20 +9,6 @@ function array<T extends zod.ZodTypeAny>(shap: T) {
 	return zod.union([zod.array(shap), zod.string().transform(jsonParse).pipe(zod.array(shap))])
 }
 
-function booleanAsString() {
-	return zod.enum(['true', 'false']).transform((value) => value === 'true')
-}
-
-function dateOptional() {
-	return zod.union([
-		zod.date(),
-		zod
-			.string()
-			.optional()
-			.transform((v) => (v ? new Date(v) : v === '' ? null : undefined))
-	])
-}
-
 const relation = {
 	connect: zod.object({ id: zod.string() }).transform((item) => ({ connect: item })),
 	create<T extends zod.ZodRawShape>(shap: T) {
@@ -81,15 +67,15 @@ const relations = {
 
 const filter = {
 	number: json({
-		min: zod.coerce.number().optional(),
-		max: zod.coerce.number().optional()
+		min: zod.number().optional(),
+		max: zod.number().optional()
 	}).optional(),
 	multiselect: array(zod.string()).optional(),
 	range: json({
-		start: zod.coerce.date().optional(),
-		end: zod.coerce.date().optional()
+		start: zod.date().optional(),
+		end: zod.date().optional()
 	}).optional(),
-	boolean: booleanAsString().optional()
+	boolean: zod.boolean().optional()
 }
 
 export const z = {
@@ -100,8 +86,6 @@ export const z = {
 	relation,
 	relations,
 	filter,
-	dateOptional,
-	booleanAsString, // TODO: rename stringAsBoolean
 	date: zod.coerce.date,
 	number: zod.coerce.number,
 	bigint: zod.coerce.bigint,

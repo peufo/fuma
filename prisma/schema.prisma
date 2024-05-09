@@ -14,8 +14,7 @@ model User {
   email    String    @unique
   password String?
 
-  posts    Post[]
-  comments Comment[]
+  posts Post[]
 }
 
 model Session {
@@ -26,43 +25,44 @@ model Session {
 }
 
 model Post {
-  id      String @id @default(cuid())
+  id String @id @default(cuid())
+
+  title   String
   content String @db.Text
-  tags    Tag[]
 
-  description String?
+  // BASIC TYPES
+  isFavourite Boolean
+  likeCount   Int
 
-  aString  String
-  aNumber  Int
-  aDate    DateTime
-  aBoolean Boolean
+  writingAt       DateTime
+  writingDuration Int
+
+  typeId String
+  type   PostType @relation(fields: [typeId], references: [id])
+
+  tags Tag[]
+
+  publication PostPublication
 
   authorId String
   author   User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
 }
 
-model Comment {
-  id      String @id @default(cuid())
-  content String @db.Text
-  tags    Tag[]
+enum PostPublication {
+  private
+  friends
+  public
+}
 
-  authorId String
-  author   User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+model PostType {
+  id    String @id @default(cuid())
+  name  String @unique
+  icon  String @db.Text
+  posts Post[]
 }
 
 model Tag {
-  id   String @id @default(cuid())
-  name String
-
-  posts    Post[]
-  comments Comment[]
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id    String @id @default(cuid())
+  name  String @unique
+  posts Post[]
 }

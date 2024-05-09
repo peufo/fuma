@@ -1,12 +1,8 @@
 import { jsonParse } from './jsonParse.js'
 
 export type Option = { value: string; label: string; icon?: string }
-export type Options =
-	| string
-	| string[]
-	| Option[]
-	| Record<string, string>
-	| Record<string, Omit<Option, 'value'>>
+export type OptionRecord<Values extends string> = Record<Values, Omit<Option, 'value'>>
+export type Options = string | string[] | Option[] | Record<string, string> | OptionRecord<string>
 export function parseOptions(options: Options): Option[] {
 	if (typeof options === 'string') {
 		options = jsonParse(options, [])

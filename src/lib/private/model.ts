@@ -1,13 +1,16 @@
-import { z, type ZodObj } from '$lib/validation/zod.js'
+import { toTuple, z, type ZodObj } from '$lib/validation/zod.js'
 import type { Prisma } from '@prisma/client'
+import { POST_PUBLICATION } from './constant.js'
 
 export const modelPost = {
+	title: z.string(),
 	content: z.string().min(10),
-	description: z.string().optional(),
-	aString: z.string(),
-	aBoolean: z.boolean(),
-	aDate: z.date(),
-	aNumber: z.number(),
+	isFavourite: z.boolean(),
+	likeCount: z.number(),
+	writingAt: z.date(),
+	writingDuration: z.number(),
+	publication: z.enum(toTuple(POST_PUBLICATION)),
+	type: z.relation.connect,
 	tags: z.relations.connect
 } satisfies ZodObj<Omit<Prisma.PostCreateInput, 'author'>>
 

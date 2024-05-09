@@ -2,18 +2,26 @@
 
 <script lang="ts">
 	import type { ComponentType } from 'svelte'
-	import type { Post, Tag } from '@prisma/client'
+	import type { Post, PostType, Tag } from '@prisma/client'
 	import { mdiTagPlusOutline } from '@mdi/js'
-	import { Drawer, Form, relationsProps, urlParam, type UseFormOptions } from '$lib/index.js'
+	import {
+		Drawer,
+		Form,
+		relationProps,
+		relationsProps,
+		urlParam,
+		type UseFormOptions
+	} from '$lib/index.js'
 	import { api } from '$lib/private/api.js'
 	import { modelPost } from '$lib/private/model.js'
-	type PostWithTags = Post & { tags: Tag[] }
+	import { POST_PUBLICATION } from '$lib/private/constant.js'
 
-	const FormPost: ComponentType<Form<typeof modelPost, PostWithTags>> = Form
+	type _Post = Post & { tags: Tag[]; type: PostType }
+	const FormPost: ComponentType<Form<typeof modelPost, _Post>> = Form
 
 	export let formPost: InstanceType<typeof FormPost> | undefined = undefined
-	export let post: PostWithTags | undefined = undefined
-	export let options: UseFormOptions<PostWithTags> = {}
+	export let post: _Post | undefined = undefined
+	export let options: UseFormOptions<_Post> = {}
 </script>
 
 <Drawer key="form_post" let:close title={post ? 'Edit post' : 'Create post'}>
@@ -26,6 +34,12 @@
 		data={post || {}}
 		fields={[
 			[
+				{ key: 'title', text: { label: 'Titre' } },
+				{
+					key: 'publication',
+					select: { label: 'Publication', options: POST_PUBLICATION }
+				},
+
 				{ key: 'content', colSpan: 4, textrich: {} },
 				{
 					key: 'tags',
@@ -39,14 +53,31 @@
 						createIcon: mdiTagPlusOutline
 					})
 				},
-				{ key: 'aString', text: { label: 'String' } }
-			],
-			[
-				{ key: 'aNumber', number: { label: 'Number' } },
-				{ key: 'aBoolean', boolean: { label: 'Boolean' } },
-				{ key: 'aDate', datetime: { label: 'Date' } }
+				{
+					key: 'type',
+					relation: relationProps({
+						label: 'Type',
+						search: api.PostType,
+						slotItem: (item) => item.name
+					})
+				},
+				{
+					key: 'isFavourite',
+					colSpan: 1,
+					boolean: {
+						label: 'Favorite'
+					}
+				},
+				{
+					key: 'likeCount',
+					colSpan: 1,
+					number: {
+						label: 'Likes'
+					}
+				},
+				{ key: 'writingAt', date: { label: 'Writing at' } },
+				{ key: 'writingDuration', number: { label: 'Duration' } }
 			]
 		]}
-		sections={[{ title: 'My post' }, { title: 'Random fields', isReducible: true }]}
 	/>
 </Drawer>

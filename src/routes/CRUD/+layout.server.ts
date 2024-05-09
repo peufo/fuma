@@ -11,7 +11,7 @@ export const load = async ({ url }) => {
 	return {
 		post:
 			form_post && form_post.length > 5
-				? await prisma.post.findUniqueOrThrow({ where: { id: form_post }, include: { tags: true } })
+				? await prisma.post.findUniqueOrThrow({ where: { id: form_post }, include: { tags: true, type: true } })
 				: undefined,
 		tag:
 			form_tag && form_tag.length > 5

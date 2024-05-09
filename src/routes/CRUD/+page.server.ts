@@ -16,7 +16,7 @@ export const load = async () => {
 export const actions = {
 	post_create: formAction(modelPost, async ({ data, locals: { user } }) => {
 		if (!user) error(401)
-		return prisma.post.create({ data: { ...data, authorId: user.id } })
+		return prisma.post.create({ data: { ...data, author: { connect: { id: user.id } } } })
 	}),
 	post_update: formAction(modelPostUpdate, async ({ data, locals }) => {
 		if (!locals.user) error(401)

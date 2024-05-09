@@ -1,1 +1,1 @@
-export const USE_JSON_PARSER = 'USE_JSON_PARSER_nXFVwk03nRbmhFukfyZLuzkEd43LXIKs_'
+export const USE_JSON_PARSER = 'I_LOVE_YOU_nXFVwk03nRbmhFukfyZLuzkEd43LXIKs'

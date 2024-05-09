@@ -7,7 +7,8 @@ export const apiConfig = {
 	Post: (search) => ({
 		where: { tags: { some: { name: { contains: search } } } },
 		include: { tags: true }
-	})
+	}),
+	PostType: (search) => ({ where: { name: { contains: search } } })
 } satisfies ApiConfig<Prisma.TypeMap>
 
 export const api = useApiClient<Prisma.TypeMap, typeof apiConfig>(apiConfig)

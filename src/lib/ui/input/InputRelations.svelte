@@ -1,4 +1,6 @@
 <script lang="ts">
+	import type { HTMLInputAttributes } from 'svelte/elements'
+
 	import { createEventDispatcher, tick } from 'svelte'
 	import { slide } from 'svelte/transition'
 	import { toast } from 'svelte-sonner'
@@ -26,6 +28,7 @@
 	export let flatMode = false
 	export let slotItem: ((item: RelationItem) => ComponentAndProps | string) | null = null
 	export let slotSuggestion: ((item: RelationItem) => ComponentAndProps | string) | null = slotItem
+	export let input: HTMLInputAttributes | undefined = undefined
 
 	let klass = ''
 	export { klass as class }
@@ -133,6 +136,8 @@
 							autocomplete="off"
 							{placeholder}
 							class="grow"
+							size={8}
+							{...input}
 						/>
 
 						<RelationAfter {isLoading} {createUrl} {createTitle} {createIcon} />

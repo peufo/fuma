@@ -37,7 +37,7 @@
 				{/each}
 			</div>
 
-			<div>{@html tiptapParser.toHTML(post.content)}</div>
+			<div class="prose">{@html tiptapParser.toHTML(post.content)}</div>
 		</Card>
 	{/each}
 </div>
