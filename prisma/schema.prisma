@@ -30,18 +30,26 @@ model Post {
   title   String
   content String @db.Text
 
-  // BASIC TYPES
-  isFavourite Boolean
-  likeCount   Int
-
+  // BASIC TYPES REUIRED
+  isFavourite     Boolean
+  likeCount       Int
   writingAt       DateTime
-  writingDuration Int
+  writingDuration DateTime
 
+  // BASIC TYPES OPTIONAL
+  isInteressing   Boolean?
+  viewCounter     Int?
+  publishedAt     DateTime?
+  publishedAtTime DateTime?
+
+  // RELATION
   typeId String
   type   PostType @relation(fields: [typeId], references: [id])
 
+  // RELATIONS
   tags Tag[]
 
+  // ENUM
   publication PostPublication
 
   authorId String

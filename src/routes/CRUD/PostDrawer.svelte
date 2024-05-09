@@ -52,7 +52,9 @@
 						createTitle: 'Create Tag',
 						createIcon: mdiTagPlusOutline
 					})
-				},
+				}
+			],
+			[
 				{
 					key: 'type',
 					relation: relationProps({
@@ -76,8 +78,14 @@
 					}
 				},
 				{ key: 'writingAt', date: { label: 'Writing at' } },
-				{ key: 'writingDuration', number: { label: 'Duration' } }
+				{ key: 'writingDuration', datetime: { label: 'Duration' } }
+			],
+			[
+				{ key: 'isInteressing', boolean: { label: 'Interessing ?' } },
+				{ key: 'viewCounter', number: { label: 'View counter' } },
+				{ key: 'publishedAt', date: { label: 'Published At' } }
 			]
 		]}
+		sections={[{}, { title: 'Required fields' }, { title: 'Optional fields', isReducible: true }]}
 	/>
 </Drawer>

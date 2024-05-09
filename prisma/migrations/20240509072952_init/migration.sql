@@ -27,9 +27,13 @@ CREATE TABLE `Post` (
     `isFavourite` BOOLEAN NOT NULL,
     `likeCount` INTEGER NOT NULL,
     `writingAt` DATETIME(3) NOT NULL,
-    `writingDuration` INTEGER NOT NULL,
+    `writingDuration` DATETIME(3) NOT NULL,
+    `isInteressing` BOOLEAN NULL,
+    `viewCounter` INTEGER NULL,
+    `publishedAt` DATETIME(3) NULL,
+    `publishedAtTime` DATETIME(3) NULL,
     `typeId` VARCHAR(191) NOT NULL,
-    `publication` ENUM('private', 'frends', 'public') NOT NULL,
+    `publication` ENUM('private', 'friends', 'public') NOT NULL,
     `authorId` VARCHAR(191) NOT NULL,
 
     PRIMARY KEY (`id`)
