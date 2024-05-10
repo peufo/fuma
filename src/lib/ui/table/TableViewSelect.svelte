@@ -18,9 +18,10 @@
 
 	export let key: string
 	export let views: View[]
-	export let actionCreate = '?/create_view'
-	export let actionUpdate = '?/create_view'
-	export let actionDelete = '?/delete_view'
+	export let action = ''
+	export let actionCreate = '?/view_create'
+	export let actionUpdate = '?/view_update'
+	export let actionDelete = '?/view_delete'
 
 	let dialog: HTMLDialogElement
 	const form = useForm({
@@ -121,7 +122,11 @@
 		{/if}
 	</h2>
 
-	<form action={selectedView ? actionUpdate : actionCreate} method="post" use:enhance={form.submit}>
+	<form
+		action="{action}{selectedView ? actionUpdate : actionCreate}"
+		method="post"
+		use:enhance={form.submit}
+	>
 		{#if selectedView}
 			<input type="hidden" name="id" value={selectedView.id} />
 		{/if}
@@ -137,7 +142,9 @@
 		<div class="mt-2 flex flex-row-reverse gap-2">
 			<button class="btn"> Valider </button>
 
-			<button formaction={actionDelete} class="btn btn-ghost text-error"> Supprimer </button>
+			<button formaction="{action}{actionDelete}" class="btn btn-ghost text-error">
+				Supprimer
+			</button>
 		</div>
 	</form>
 </Dialog>
