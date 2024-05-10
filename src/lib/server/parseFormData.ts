@@ -46,7 +46,8 @@ export async function parseFormData<Shape extends z.ZodRawShape>(
 function coerceFlateData(flateData: Record<string, unknown>) {
 	const coerceMap: Record<string, (value: string) => unknown> = {
 		[USE_COERCE_JSON]: (value) => jsonParse(value, {}),
-		[USE_COERCE_DATE]: (value) => (value ? new Date(value) : undefined),
+		[USE_COERCE_DATE]: (value) =>
+			value && value !== 'undefined' && value !== 'null' ? new Date(value) : undefined,
 		[USE_COERCE_NUMBER]: (value) => (value === '' || value === null ? null : +value),
 		[USE_COERCE_BOOLEAN]: (value) => value === 'true'
 	}
