@@ -98,7 +98,7 @@ export type ZodObj<T = Record<PropertyKey, unknown>> = {
 	[key in keyof T]: zod.ZodType<
 		T[key],
 		zod.ZodTypeDef,
-		Date | boolean | number | string | undefined | object
+		Date | boolean | number | string | undefined | null | object
 	>
 }
 export const toTuple = Object.keys as <T extends {}>(o: T) => UnionToTuple<keyof T>

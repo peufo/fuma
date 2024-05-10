@@ -11,8 +11,8 @@ export const modelPost = {
 	writingDuration: z.date(),
 	isInteressing: z.boolean().optional(),
 	viewCounter: z.number().optional(),
-	publishedAt: z.date().optional(),
-	publishedAtTime: z.date().optional(),
+	publishedAt: z.date().optional().nullable(),
+	publishedAtTime: z.date().optional().nullable(),
 	publication: z.enum(toTuple(POST_PUBLICATION)),
 	type: z.relation.connect,
 	tags: z.relations.connect

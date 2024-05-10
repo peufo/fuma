@@ -31,7 +31,5 @@
 		{...inputProps}
 	/>
 
-	{#if value !== undefined}
-		<input type="hidden" name={key} value="{USE_COERCE_DATE}{value?.toJSON()}" />
-	{/if}
+	<input type="hidden" name={key} value="{USE_COERCE_DATE}{value?.toJSON()}" />
 </FormControl>

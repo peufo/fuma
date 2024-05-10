@@ -24,7 +24,7 @@ export async function parseFormData<Shape extends z.ZodRawShape>(
 	const formDataFlateObject: Record<string, unknown> = Object.fromEntries(formData)
 	const formDataFlateObjectCoerced = coerceFlateData(formDataFlateObject)
 	const formDataObject = flateToNeestedObject(formDataFlateObjectCoerced)
-
+	console.log(formDataObject)
 	const parsed = shema.safeParse(formDataObject)
 	if (parsed.success === false) {
 		const issueToPOJO = (issue: Issue) => ({
@@ -44,11 +44,11 @@ export async function parseFormData<Shape extends z.ZodRawShape>(
 }
 
 function coerceFlateData(flateData: Record<string, unknown>) {
+	const isNotDefined = (value: string) => value === '' || value === 'null' || value === 'undefined'
 	const coerceMap: Record<string, (value: string) => unknown> = {
 		[USE_COERCE_JSON]: (value) => jsonParse(value, {}),
-		[USE_COERCE_DATE]: (value) =>
-			value && value !== 'undefined' && value !== 'null' ? new Date(value) : undefined,
-		[USE_COERCE_NUMBER]: (value) => (value === '' || value === null ? null : +value),
+		[USE_COERCE_DATE]: (value) => (isNotDefined(value) ? null : new Date(value)),
+		[USE_COERCE_NUMBER]: (value) => (isNotDefined(value) ? null : +value),
 		[USE_COERCE_BOOLEAN]: (value) => value === 'true'
 	}
 
