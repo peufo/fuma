@@ -62,7 +62,12 @@
 		tippyProps={{ appendTo: () => document.body }}
 	>
 		<button slot="activator" class="menu-item min-h-8 w-full flex-wrap gap-y-1">
-			<span>{field.label}</span>
+			<div class="flex gap-2">
+				<span>{field.label}</span>
+				{#if !isDefined(min) && !isDefined(max)}
+					<Icon path={mdiFilterMultipleOutline} size={15} class="opacity-50" />
+				{/if}
+			</div>
 
 			{#if isDefined(min) || isDefined(max)}
 				<span class="badge badge-primary badge-xs text-[0.7rem] font-normal text-white">
@@ -74,8 +79,6 @@
 						≤ {max}
 					{/if}
 				</span>
-			{:else}
-				<Icon path={mdiFilterMultipleOutline} size={15} class="opacity-50" />
 			{/if}
 		</button>
 

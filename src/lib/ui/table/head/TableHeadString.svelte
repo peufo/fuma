@@ -23,15 +23,18 @@
 		tippyProps={{ appendTo: () => document.body }}
 	>
 		<button slot="activator" class="menu-item min-h-8 w-full flex-wrap gap-y-1">
-			<span>{field.label}</span>
+			<div class="flex items-center gap-2">
+				<span>{field.label}</span>
+				{#if !searchValue}
+					<Icon path={mdiMagnify} size={15} class="opacity-50" />
+				{/if}
+			</div>
 
 			{#if searchValue}
 				<span class="badge badge-primary badge-xs text-[0.7rem] font-normal text-white">
 					<Icon path={mdiMagnify} size={10} class="-translate-x-1 fill-white/80" />
 					<span>{searchValue}</span>
 				</span>
-			{:else}
-				<Icon path={mdiMagnify} size={15} class="opacity-50" />
 			{/if}
 		</button>
 

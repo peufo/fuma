@@ -76,13 +76,17 @@
 		class="max-h-none"
 	>
 		<button slot="activator" class="menu-item min-h-8 w-full flex-wrap gap-y-1">
-			<span>{field.label}</span>
+			<div class="flex gap-2">
+				<span>{field.label}</span>
+				{#if !isValidPeriod}
+					<Icon path={mdiCalendarFilterOutline} size={15} class="opacity-50" />
+				{/if}
+			</div>
+
 			{#if isValidPeriod}
 				<span class="badge badge-primary badge-xs text-[0.7rem] font-normal text-white">
 					{getLabel(period, time)}
 				</span>
-			{:else}
-				<Icon path={mdiCalendarFilterOutline} size={15} class="opacity-50" />
 			{/if}
 		</button>
 

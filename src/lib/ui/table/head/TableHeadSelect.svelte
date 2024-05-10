@@ -17,6 +17,8 @@
 	let _options = initOptions($page.url)
 	page.subscribe(({ url }) => (_options = initOptions(url)))
 
+	$: optionsActive = _options.filter((option) => option.isActive)
+
 	function initOptions({ searchParams }: URL) {
 		const selection = searchParams.get(field.key)
 		const selections = jsonParse<string[]>(searchParams.get(field.key), [])
@@ -47,11 +49,16 @@
 <th class="p-1">
 	<DropDown hideOnBlur hideOnNav={!multiSelect} tippyProps={{ appendTo: () => document.body }}>
 		<button slot="activator" class="menu-item min-h-8 w-full flex-wrap gap-y-1">
-			<span>{field.label}</span>
+			<div class="flex gap-2">
+				{field.label}
+				{#if !optionsActive.length}
+					<Icon path={mdiOrderBoolAscendingVariant} size={15} class="opacity-50" />
+				{/if}
+			</div>
 
-			{#if _options.filter((option) => option.isActive).length}
+			{#if optionsActive.length}
 				<div class="flex flex-wrap gap-1">
-					{#each _options.filter((option) => option.isActive) as option}
+					{#each optionsActive as option}
 						<span class="badge badge-primary badge-xs text-[0.7rem] font-normal text-white">
 							{#if option.icon}
 								<Icon path={option.icon} size={10} class="-translate-x-1 fill-white/80" />
@@ -60,8 +67,6 @@
 						</span>
 					{/each}
 				</div>
-			{:else}
-				<Icon path={mdiOrderBoolAscendingVariant} size={15} class="opacity-50" />
 			{/if}
 		</button>
 
