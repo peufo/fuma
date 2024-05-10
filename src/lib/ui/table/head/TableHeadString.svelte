@@ -30,6 +30,8 @@
 					<Icon path={mdiMagnify} size={10} class="-translate-x-1 fill-white/80" />
 					<span>{searchValue}</span>
 				</span>
+			{:else}
+				<Icon path={mdiMagnify} size={15} class="opacity-50" />
 			{/if}
 		</button>
 

@@ -9,6 +9,8 @@
 	import { PeriodPicker } from '$lib/ui/period/index.js'
 	import { urlParam } from '$lib/store/param.js'
 	import { jsonParse } from '$lib/utils/jsonParse.js'
+	import { Icon } from '$lib/ui/icon/index.js'
+	import { mdiCalendarFilterOutline } from '@mdi/js'
 
 	type Period = { start: string; end: string }
 
@@ -79,6 +81,8 @@
 				<span class="badge badge-primary badge-xs text-[0.7rem] font-normal text-white">
 					{getLabel(period, time)}
 				</span>
+			{:else}
+				<Icon path={mdiCalendarFilterOutline} size={15} class="opacity-50" />
 			{/if}
 		</button>
 

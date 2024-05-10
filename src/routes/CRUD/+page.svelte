@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Card, Icon, urlParam } from '$lib/index.js'
+	import { Card, Icon, Table, urlParam } from '$lib/index.js'
 	import { tiptapParser } from '$lib/ui/input/textRich/tiptapParser.js'
 	import { mdiPen, mdiPlus } from '@mdi/js'
 	export let data
@@ -19,25 +19,43 @@
 </div>
 
 <div class="flex flex-col gap-4">
-	{#each data.posts as post}
-		<Card class="group max-w-xl">
-			<div class="flex">
-				<div class="title-md">By {post.author.username}</div>
-				<div class="grow"></div>
-				<a
-					class="btn btn-square btn-sm opacity-0 transition-opacity group-hover:opacity-100"
-					href={$urlParam.with({ form_post: post.id })}
-				>
-					<Icon path={mdiPen} size={18} />
-				</a>
-			</div>
-			<div class="flex gap-2">
-				{#each post.tags as tag}
-					<span class="badge">{tag.name}</span>
-				{/each}
-			</div>
-
-			<div class="prose">{@html tiptapParser.toHTML(post.content)}</div>
-		</Card>
-	{/each}
+	<Table
+		items={data.posts}
+		fields={[
+			{
+				key: 'title',
+				label: 'Title',
+				type: 'string',
+				getCell: (post) => post.title,
+				visible: true
+			},
+			{
+				key: 'author',
+				label: 'Author',
+				getCell: (post) => post.author.username,
+				visible: true
+			},
+			{
+				key: 'likeCount',
+				label: 'likes',
+				visible: true,
+				type: 'number',
+				getCell: (post) => post.likeCount
+			},
+			{
+				key: 'publishedAt',
+				type: 'date',
+				label: 'PublishedAt',
+				getCell: (post) => post.publishedAt?.toLocaleDateString() || '',
+				visible: true
+			},
+			{
+				key: 'isFavourite',
+				label: 'IsFavourite',
+				type: 'boolean',
+				visible: true,
+				getCell: (post) => post.isFavourite
+			}
+		]}
+	/>
 </div>

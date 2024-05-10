@@ -8,6 +8,7 @@
 	import { Icon } from '$lib/ui/icon/index.js'
 	import { type Options, parseOptions } from '$lib/utils/options.js'
 	import { urlParam } from '$lib/store/param.js'
+	import { mdiOrderBoolAscendingVariant } from '@mdi/js'
 
 	export let field: TableField
 	export let options: Options
@@ -59,6 +60,8 @@
 						</span>
 					{/each}
 				</div>
+			{:else}
+				<Icon path={mdiOrderBoolAscendingVariant} size={15} class="opacity-50" />
 			{/if}
 		</button>
 

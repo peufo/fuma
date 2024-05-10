@@ -10,6 +10,8 @@
 	import { urlParam } from '$lib/store/param.js'
 	import { jsonParse } from '$lib/utils/jsonParse.js'
 	import type { TableField } from '../field.js'
+	import { mdiFilterMultipleOutline } from '@mdi/js'
+	import { Icon } from '$lib/ui/icon/index.js'
 
 	export let field: TableField
 
@@ -72,6 +74,8 @@
 						≤ {max}
 					{/if}
 				</span>
+			{:else}
+				<Icon path={mdiFilterMultipleOutline} size={15} class="opacity-50" />
 			{/if}
 		</button>
 
