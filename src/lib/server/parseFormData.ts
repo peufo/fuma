@@ -1,4 +1,9 @@
-import { USE_COERCE_DATE, USE_COERCE_JSON } from '$lib/utils/constant.js'
+import {
+	USE_COERCE_BOOLEAN,
+	USE_COERCE_DATE,
+	USE_COERCE_JSON,
+	USE_COERCE_NUMBER
+} from '$lib/utils/constant.js'
 import { jsonParse } from '$lib/utils/jsonParse.js'
 import z from 'zod'
 
@@ -43,13 +48,14 @@ export async function parseFormData<Shape extends z.ZodRawShape>(
 function coerceFlateData(flateData: Record<string, unknown>) {
 	const coerceMap: Record<string, (value: string) => unknown> = {
 		[USE_COERCE_JSON]: (value) => jsonParse(value, {}),
-		[USE_COERCE_DATE]: (value) => (value ? new Date(value) : undefined)
+		[USE_COERCE_DATE]: (value) => (value ? new Date(value) : undefined),
+		[USE_COERCE_NUMBER]: (value) => (value === '' || value === null ? null : +value),
+		[USE_COERCE_BOOLEAN]: (value) => value === 'true'
 	}
 
 	function coerceValue(value: unknown) {
 		if (typeof value !== 'string') return value
 		const coerce = Object.entries(coerceMap).find(([TOKEN]) => value.startsWith(TOKEN))
-		console.log({ value, coerce })
 		if (!coerce) return value
 		return coerce[1](value.replace(coerce[0], ''))
 	}

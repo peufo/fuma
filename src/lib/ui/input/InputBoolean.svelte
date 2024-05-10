@@ -1,7 +1,8 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte'
-	import { FormControl, type InputProps, bindCheckedWithParams } from './index.js'
 	import type { HTMLInputAttributes } from 'svelte/elements'
+	import { FormControl, type InputProps, bindCheckedWithParams } from './index.js'
+	import { USE_COERCE_BOOLEAN } from '$lib/utils/constant.js'
 
 	type $$Props = InputProps<boolean> & { isRow?: boolean }
 	export let value: boolean | null | undefined = false
@@ -25,6 +26,7 @@
 		class="checkbox ml-1"
 		{...input}
 	/>
-
-	<input type="hidden" name={key} value={value ? 'true' : ''} />
+	{#if value !== undefined}
+		<input type="hidden" name={key} value="{USE_COERCE_BOOLEAN}{value}" />
+	{/if}
 </FormControl>

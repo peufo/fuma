@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { USE_COERCE_NUMBER } from '$lib/utils/constant.js'
 	import { FormControl, type InputProps } from './index.js'
 	import type { HTMLInputAttributes } from 'svelte/elements'
 
@@ -18,10 +19,12 @@
 		on:focus
 		on:blur
 		type="number"
-		name={key}
 		id={key}
 		inputmode="numeric"
 		class="input input-bordered"
 		{...input}
 	/>
+	{#if value !== undefined}
+		<input type="hidden" name={key} value="{USE_COERCE_NUMBER}{value}" />
+	{/if}
 </FormControl>

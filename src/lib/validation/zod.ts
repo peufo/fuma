@@ -85,10 +85,7 @@ export const z = {
 	arrayRaw: zod.array, // TODO: remove
 	relation,
 	relations,
-	filter,
-	number: zod.coerce.number,
-	bigint: zod.coerce.bigint,
-	boolean: zod.coerce.boolean
+	filter
 }
 
 export type ZodInfer<T extends zod.ZodType<any, any, any>> = T['_output']
