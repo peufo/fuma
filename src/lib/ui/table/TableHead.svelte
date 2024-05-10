@@ -1,10 +1,9 @@
-<script lang="ts">
+<script lang="ts" generics="Item extends {id: string}">
 	import { component, type ComponentAndProps } from '$lib/utils/component.js'
 	import { type TableField, TableFieldsEdition } from '$lib/ui/table/index.js'
 	import { tableHeadComponent } from '$lib/ui/table/head/index.js'
 	import TableHeadDefault from './head/TableHeadDefault.svelte'
 
-	type Item = $$Generic<{ id: string }>
 	export let fields: TableField<Item>[]
 	export let key: string
 	export let onCreateField: (() => void) | undefined = undefined

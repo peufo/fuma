@@ -1,4 +1,4 @@
-<script lang="ts">
+<script lang="ts" generics="Item extends {id: string}">
 	import {
 		mdiCheck,
 		mdiCheckCircleOutline,
@@ -18,7 +18,6 @@
 	import { DropDown } from '$lib/ui/menu/index.js'
 	import type { TableField } from '$lib/ui/table/index.js'
 
-	type Item = $$Generic<{ id: string }>
 	export let fields: TableField<Item>[]
 	export let key: string
 	export let onCreateField: (() => void) | undefined = undefined

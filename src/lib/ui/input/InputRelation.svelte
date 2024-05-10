@@ -1,4 +1,4 @@
-<script lang="ts">
+<script lang="ts" generics="RelationItem extends {id: string}">
 	import { createEventDispatcher, tick } from 'svelte'
 	import type { HTMLInputAttributes } from 'svelte/elements'
 	import debounce from 'debounce'
@@ -13,8 +13,6 @@
 	import type { TippyProps } from '$lib/utils/tippy.js'
 	import type { ComponentAndProps } from '$lib/utils/component.js'
 	import RelationAfter from './RelationAfter.svelte'
-
-	type RelationItem = $$Generic<{ id: string }>
 
 	export let key = Math.random().toString()
 	export let label = ''

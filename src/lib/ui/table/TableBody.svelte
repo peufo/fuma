@@ -1,10 +1,9 @@
-<script lang="ts">
+<script lang="ts" generics="Item extends {id: string}">
 	import { createEventDispatcher } from 'svelte'
 
 	import { TableCell, type TableField } from '$lib/ui/table/index.js'
 	import type { ComponentAndProps } from '$lib/utils/component.js'
 
-	type Item = $$Generic<{ id: string }>
 	export let items: Item[]
 	export let fields: TableField<Item>[]
 	export let action: ((item: Item) => ComponentAndProps) | undefined = undefined

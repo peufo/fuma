@@ -1,4 +1,4 @@
-<script lang="ts">
+<script lang="ts" generics="Item extends {id: string}">
 	import {
 		TableCellArray,
 		TableCellBoolean,
@@ -7,7 +7,6 @@
 	} from '$lib/ui/table/cell/index.js'
 	import type { TableField } from '$lib/ui/table/index.js'
 
-	type Item = $$Generic<{ id: string }>
 	export let item: Item
 	export let field: TableField<Item>
 

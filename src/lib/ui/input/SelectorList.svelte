@@ -1,11 +1,10 @@
-<script lang="ts">
+<script lang="ts" generics="Item extends {id: string}">
 	import { createEventDispatcher } from 'svelte'
 	import { selector } from '$lib/action/selector.js'
 
 	let klass = ''
 	export { klass as class }
 
-	type Item = $$Generic<{ id: string }>
 	export let items: Item[]
 	export let isError = false
 	export let isLoading = false

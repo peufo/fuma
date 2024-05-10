@@ -1,4 +1,4 @@
-<script lang="ts">
+<script lang="ts" generics="RelationItem extends {id: string}">
 	import type { HTMLInputAttributes } from 'svelte/elements'
 
 	import { createEventDispatcher, tick } from 'svelte'
@@ -14,8 +14,6 @@
 	import { DropDown } from '$lib/ui/menu/index.js'
 	import type { ComponentAndProps } from '$lib/utils/component.js'
 	import RelationAfter from './RelationAfter.svelte'
-
-	type RelationItem = $$Generic<{ id: string }>
 
 	export let key = ''
 	export let label = ''

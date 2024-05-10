@@ -1,4 +1,4 @@
-<script lang="ts">
+<script lang="ts" generics="Item extends {id: string}">
 	import { afterNavigate } from '$app/navigation'
 	import { Placeholder } from '$lib/ui/placeholder/index.js'
 	import type { ComponentAndProps } from '$lib/utils/component.js'
@@ -12,11 +12,10 @@
 		syncFieldsWithParams
 	} from '$lib/ui/table/index.js'
 
-	type Item = $$Generic<{ id: string }>
 	export let key = 'table'
 	export let fields: TableField<Item>[]
 	export let items: Item[]
-	export let action: ((item: Item) => ComponentAndProps) | undefined = undefined
+	export let slotAction: ((item: Item) => ComponentAndProps) | undefined = undefined
 	export let placholder = 'Aucun élément trouvé'
 	export let classRow = ''
 	export let hideBody = false
@@ -38,7 +37,7 @@
 	<table class="table relative">
 		<TableHead {fields} {key} {onCreateField} />
 		{#if !hideBody && items.length}
-			<TableBody {fields} {items} {action} {classRow} on:click />
+			<TableBody {fields} {items} action={slotAction} {classRow} on:click />
 		{/if}
 	</table>
 
