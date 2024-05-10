@@ -22,7 +22,7 @@
 
 	let dropDown: DropDown
 	let button: HTMLButtonElement
-	const dispatch = createEventDispatcher<{ input: string }>()
+	const dispatch = createEventDispatcher<{ input: string; select: string }>()
 
 	let focusIndex = 0
 	onMount(() => {
@@ -34,6 +34,7 @@
 		focusIndex = index
 		value = _options[index].value
 		dispatch('input', value)
+		dispatch('select', value)
 		dropDown.hide()
 	}
 </script>
