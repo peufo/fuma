@@ -40,7 +40,7 @@
 			<Tree {tree}></Tree>
 		</nav>
 	</div>
-	<div class="grow">
+	<div class="grow overflow-hidden">
 		<slot></slot>
 	</div>
 </div>
