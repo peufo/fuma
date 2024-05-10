@@ -24,7 +24,6 @@ export async function parseFormData<Shape extends z.ZodRawShape>(
 	const formDataFlateObject: Record<string, unknown> = Object.fromEntries(formData)
 	const formDataFlateObjectCoerced = coerceFlateData(formDataFlateObject)
 	const formDataObject = flateToNeestedObject(formDataFlateObjectCoerced)
-	console.log(formDataObject)
 	const parsed = shema.safeParse(formDataObject)
 	if (parsed.success === false) {
 		const issueToPOJO = (issue: Issue) => ({
