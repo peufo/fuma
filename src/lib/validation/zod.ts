@@ -75,7 +75,7 @@ const filter = {
 		start: zod.date().optional(),
 		end: zod.date().optional()
 	}).optional(),
-	boolean: zod.boolean().optional()
+	boolean: zod.coerce.boolean().optional()
 }
 
 export const z = {
