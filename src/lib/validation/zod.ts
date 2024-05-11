@@ -88,7 +88,8 @@ export const z = {
 	arrayRaw: zod.array, // TODO: remove
 	relation,
 	relations,
-	filter
+	filter,
+	booleanAsString: zod.enum(['true', 'false']).transform((value) => value === 'true')
 }
 
 export type ZodInfer<T extends zod.ZodType<any, any, any>> = T['_output']
