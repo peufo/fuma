@@ -26,7 +26,6 @@
 		class="checkbox ml-1"
 		{...input}
 	/>
-	{#if value !== undefined}
-		<input type="hidden" name={key} value="{USE_COERCE_BOOLEAN}{value}" />
-	{/if}
+
+	<input type="hidden" name={key} value="{USE_COERCE_BOOLEAN}{value}" />
 </FormControl>
