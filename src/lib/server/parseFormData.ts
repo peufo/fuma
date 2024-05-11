@@ -48,7 +48,7 @@ function coerceFlateData(flateData: Record<string, unknown>) {
 		[USE_COERCE_JSON]: (value) => jsonParse(value, {}),
 		[USE_COERCE_DATE]: (value) => (isNotDefined(value) ? null : new Date(value)),
 		[USE_COERCE_NUMBER]: (value) => (isNotDefined(value) ? null : +value),
-		[USE_COERCE_BOOLEAN]: (value) => (isNotDefined(value) ? null : value === 'true')
+		[USE_COERCE_BOOLEAN]: (value) => value === 'true'
 	}
 
 	function coerceValue(value: unknown) {
