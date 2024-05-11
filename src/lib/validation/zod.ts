@@ -77,8 +77,8 @@ const filter = {
 	}).optional(),
 	boolean: zod
 		.string()
-		.transform((v) => v === 'true')
 		.optional()
+		.transform((v) => v === 'true')
 }
 
 export const z = {
