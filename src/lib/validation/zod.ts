@@ -76,9 +76,9 @@ const filter = {
 		end: zod.date().optional()
 	}).optional(),
 	boolean: zod
-		.string()
+		.enum(['true', 'false'])
+		.transform((value) => value === 'true')
 		.optional()
-		.transform((v) => v === 'true')
 }
 
 export const z = {
@@ -88,8 +88,7 @@ export const z = {
 	arrayRaw: zod.array, // TODO: remove
 	relation,
 	relations,
-	filter,
-	booleanAsString: zod.enum(['true', 'false']).transform((value) => value === 'true')
+	filter
 }
 
 export type ZodInfer<T extends zod.ZodType<any, any, any>> = T['_output']
