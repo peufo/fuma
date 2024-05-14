@@ -112,7 +112,7 @@
 >
 	<slot />
 
-	{#if data.id}
+	{#if data?.id}
 		<input type="hidden" name="id" value={data.id} />
 	{/if}
 
@@ -153,7 +153,10 @@
 		<button class="btn btn-primary"> Valider </button>
 		<div class="grow" />
 		{#if data.id && actionDelete}
-			<ButtonDelete formaction="{action}{actionDelete}">Supprimer</ButtonDelete>
+			{@const formaction = `${action}${actionDelete}`}
+			<slot name="delete" {formaction}>
+				<ButtonDelete {formaction}>Supprimer</ButtonDelete>
+			</slot>
 		{/if}
 	</div>
 </form>
