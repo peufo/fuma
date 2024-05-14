@@ -9,8 +9,7 @@ export function getCSV<Item extends Record<string, unknown>>(
 	const headers = Object.keys(fields).join('\t')
 	const rows = items.map((m: Item) =>
 		Object.values(fields)
-			.filter((getValue) => !!getValue)
-			.map((getValue) => getValue(m))
+			.map((getValue) => !!getValue ? getValue(m) : '')
 			.join('\t')
 	)
 	return [headers, rows.join('\r\n')].join('\r\n')

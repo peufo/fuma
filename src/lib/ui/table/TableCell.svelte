@@ -21,7 +21,7 @@
 	<TableCellBoolean {value} />
 {:else if typeof value === 'string'}
 	<TableCellString {value} {field} />
-{:else if value === undefined}
+{:else if value === undefined || value === null}
 	<td>-</td>
 {:else}
 	<td>

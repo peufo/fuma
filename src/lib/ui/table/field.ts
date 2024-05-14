@@ -41,7 +41,7 @@ type TableFieldUntyped<Item = any> = {
 
 type TableFieldPrimitive<Item = any> = {
 	type: Exclude<TableFieldType, 'select' | 'multiselect'>
-	getCell: (item: Item) => ComponentAndProps | Primitive | undefined
+	getCell: (item: Item) => ComponentAndProps | Primitive | undefined | null
 }
 
 type TableFieldSelect<Item = any> = {
