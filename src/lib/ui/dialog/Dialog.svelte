@@ -2,6 +2,7 @@
 	import { createEventDispatcher, onMount } from 'svelte'
 	import { mdiClose } from '@mdi/js'
 	import { Icon } from '$lib/ui/icon/index.js'
+	import { contextContainer } from '../context.js'
 
 	export let dialog: HTMLDialogElement
 	export let hideCloseButton = false
@@ -9,6 +10,7 @@
 	export { klass as class }
 
 	const dispatch = createEventDispatcher<{ open: void; close: void }>()
+	contextContainer.set('dialog')
 
 	onMount(() => {
 		const inputsSelector = 'input:not([type=hidden], [tabindex="-1"])'

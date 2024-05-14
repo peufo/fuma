@@ -13,9 +13,6 @@
 <TagDrawer
 	tag={data.tag}
 	on:created={({ detail }) => {
-		postDrawer.formPost?.update((post) => {
-			const newPost = { ...post, tags: [...(post.tags || []), detail] }
-			return newPost
-		})
+		postDrawer.postForm?.update((post) => ({ ...post, tags: [...(post.tags || []), detail] }))
 	}}
 />

@@ -93,8 +93,10 @@
 	const actionPadding = getActionPadding()
 	function getActionPadding(): string {
 		const container = contextContainer.get()
+		console.log({ container })
 		if (container === 'card') return '-mx-2 sm:-mx-8 px-2 sm:px-8'
 		if (container === 'drawer') return '-ml-8 -mr-4 pl-8 pr-4'
+		if (container === 'dialog') return '-bottom-4 -mx-4 px-4'
 		return ''
 	}
 

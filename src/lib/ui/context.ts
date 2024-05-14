@@ -4,7 +4,7 @@ const KEYS = {
 	container: 'container'
 } as const
 
-type Container = 'drawer' | 'card'
+type Container = 'drawer' | 'card' | 'dialog'
 
 export const contextContainer = {
 	set(container: Container) {

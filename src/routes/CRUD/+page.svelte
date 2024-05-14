@@ -1,7 +1,10 @@
 <script lang="ts">
-	import { Icon, Table, urlParam } from '$lib/index.js'
+	import { Dialog, Icon, Table, urlParam } from '$lib/index.js'
 	import { mdiPlus } from '@mdi/js'
+	import PostForm from './PostForm.svelte'
 	export let data
+
+	let dialog: HTMLDialogElement
 </script>
 
 <div class="flex items-center gap-2 py-4">
@@ -15,7 +18,17 @@
 		<Icon path={mdiPlus} />
 		<span>Create post</span>
 	</a>
+	<button class="btn" on:click={() => dialog.showModal()}>
+		<Icon path={mdiPlus} />
+		<span>Create post (dialog)</span>
+	</button>
 </div>
+
+<Dialog bind:dialog>
+	<h2 slot="header" class="title">Create post</h2>
+
+	<PostForm post={data.post} />
+</Dialog>
 
 <Table
 	items={data.posts}
