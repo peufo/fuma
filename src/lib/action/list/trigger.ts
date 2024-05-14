@@ -31,7 +31,7 @@ export function mouseDragTrigger(element: HTMLElement, handler: DragHandler) {
 	}
 }
 
-/** Gestion du cycle de vie des évènements de la souris */
+/** Gestion du cycle de vie des évènements de l'écran tactile */
 export function touchDragTrigger(element: HTMLElement, handler: DragHandler) {
 	let onDrag = false
 
