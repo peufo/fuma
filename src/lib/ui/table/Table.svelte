@@ -17,6 +17,8 @@
 	export let items: Item[]
 	export let slotAction: ((item: Item) => ComponentAndProps) | undefined = undefined
 	export let placholder = 'Aucun élément trouvé'
+	let klass = ''
+	export {klass as class}
 	export let classRow = ''
 	export let hideBody = false
 	export let onCreateField: (() => void) | undefined = undefined
@@ -33,7 +35,7 @@
 	afterNavigate(initFields)
 </script>
 
-<div class="overflow-x-auto rounded-lg border bg-base-100" class:min-h-[320px]={!hideBody}>
+<div class="{klass} overflow-x-auto rounded-lg border bg-base-100" class:min-h-[320px]={!hideBody}>
 	<table class="table relative">
 		<TableHead {fields} {key} {onCreateField} />
 		{#if !hideBody && items.length}
