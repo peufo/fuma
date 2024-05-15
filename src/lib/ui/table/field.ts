@@ -35,13 +35,15 @@ type TableFieldCommon = {
 }
 
 type TableFieldUntyped<Item = any> = {
-	getCell: (item: Item) => ComponentAndProps | Primitive[] | Primitive | undefined | null
+	getCell: (
+		item: Item
+	) => ComponentAndProps[] | ComponentAndProps | Primitive[] | Primitive | undefined | null
 	head?: ComponentAndProps | ((field: TableField) => ComponentAndProps)
 }
 
 type TableFieldPrimitive<Item = any> = {
 	type: Exclude<TableFieldType, 'select' | 'multiselect'>
-	getCell: (item: Item) => ComponentAndProps | Primitive | undefined | null
+	getCell: (item: Item) => ComponentAndProps[] | ComponentAndProps | Primitive | undefined | null
 }
 
 type TableFieldSelect<Item = any> = {

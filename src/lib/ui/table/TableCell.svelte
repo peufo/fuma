@@ -15,7 +15,7 @@
 
 {#if Array.isArray(value)}
 	<TableCellArray {value} />
-{:else if typeof value === 'number'}
+{:else if typeof value === 'number'}l
 	<TableCellNumber {value} />
 {:else if typeof value === 'boolean'}
 	<TableCellBoolean {value} />
