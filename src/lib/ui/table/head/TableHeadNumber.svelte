@@ -30,10 +30,22 @@
 
 	const udpateUrl = debounce(() => {
 		if (isDefined(min) || isDefined(max)) {
-			goto($urlParam.with({ [field.key]: JSON.stringify({ min, max }) }, 'skip', 'take'), {
-				noScroll: true,
-				keepFocus: true
-			})
+			goto(
+				$urlParam.with(
+					{
+						[field.key]: JSON.stringify({
+							...(isDefined(min) ? { min } : {}),
+							...(isDefined(max) ? { max } : {})
+						})
+					},
+					'skip',
+					'take'
+				),
+				{
+					noScroll: true,
+					keepFocus: true
+				}
+			)
 			return
 		}
 		goto($urlParam.without(field.key, 'skip', 'take'), { noScroll: true, keepFocus: true })
