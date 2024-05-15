@@ -54,6 +54,13 @@
 			getCell: (post) => post.likeCount
 		},
 		{
+			key: 'writingAt',
+			type: 'date',
+			label: 'WritingAt',
+			getCell: (post) => post.writingAt.toLocaleDateString() || '',
+			visible: true
+		},
+		{
 			key: 'publishedAt',
 			type: 'date',
 			label: 'PublishedAt',

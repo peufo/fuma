@@ -4,10 +4,34 @@ import { z } from '$lib/validation/zod.js'
 
 import { modelPost, modelPostUpdate, modelTag } from '$lib/private/model.js'
 import { prisma } from '$lib/private/prisma.js'
+import { parseQuery } from '$lib/server/parseQuery.js'
+import type { Prisma } from '@prisma/client'
 
-export const load = async () => {
+export const load = async ({ url }) => {
+	const query = parseQuery(url, {
+		writingAt: z.filter.range,
+		likeCount: z.filter.number
+	})
+
+	const where: Prisma.PostWhereInput = {}
+
+	if (query.likeCount) {
+		const {min, max} = query.likeCount
+		where.likeCount = {}
+		if (min !== undefined) where.likeCount.gte = min
+		if (max !== undefined) where.likeCount.lte = max
+	}
+
+	if (query.writingAt) {
+		const { start, end } = query.writingAt
+		where.writingAt = {}
+		if (start) where.writingAt.gte = start
+		if (end) where.writingAt.lte = end
+	}
+
 	return {
 		posts: await prisma.post.findMany({
+			where,
 			include: { tags: true, author: { select: { id: true, username: true } } }
 		})
 	}

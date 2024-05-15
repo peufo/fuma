@@ -72,8 +72,8 @@ const filter = {
 	}).optional(),
 	multiselect: array(zod.string()).optional(),
 	range: json({
-		start: zod.date().optional(),
-		end: zod.date().optional()
+		start: zod.coerce.date().optional(),
+		end: zod.coerce.date().optional()
 	}).optional(),
 	boolean: zod
 		.enum(['true', 'false'])
