@@ -7,7 +7,7 @@
 	import { listEditable } from '$lib/action/list/index.js'
 
 	export let key: string
-	export let value: string | undefined = '[]'
+	export let value: string | undefined | null = '[]'
 
 	let options: string[] = JSON.parse(value || '[]')
 	let newOption = ''
