@@ -61,7 +61,7 @@
 	>
 		<div
 			class="{classHeader}
-				sticky top-0 z-10 flex items-center
+				sticky top-0 z-20 flex items-center
 				justify-between gap-32 border-b bg-base-100 p-4 pl-8
 			"
 		>
