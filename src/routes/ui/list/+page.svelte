@@ -1,7 +1,7 @@
 <script lang="ts">
+	import { mdiDrag } from '@mdi/js'
 	import { listEditable } from '$lib/index.js'
 	import Icon from '$lib/ui/icon/Icon.svelte'
-	import { mdiDrag } from '@mdi/js'
 
 	let items = Array(16)
 		.fill(0)

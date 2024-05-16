@@ -9,6 +9,7 @@ import {
 	type Limits
 } from './utils.js'
 import { scroll } from './store.js'
+import { createEventEmitter } from '$lib/utils/eventEmitter.js'
 
 export type Position = {
 	clientX: number
@@ -29,7 +30,11 @@ export function createDragHandler<Type = unknown>(
 	let indexTo = 0
 	let currentPosition: Position = { clientX: 0, clientY: 0 }
 
-	const events = createEventEmitter<'dragStart' | 'dragMove' | 'dragEnd'>({
+	const events = createEventEmitter<{
+		dragStart: void
+		dragMove: void
+		dragEnd: void
+	}>({
 		dragStart: options.onDragStart ? [options.onDragStart] : [],
 		dragMove: options.onDragMove ? [options.onDragMove] : [],
 		dragEnd: options.onDragEnd ? [options.onDragEnd] : []
@@ -90,25 +95,6 @@ export function createDragHandler<Type = unknown>(
 				options.onChange(newOrderItems)
 				options.items = newOrderItems
 			}
-		}
-	}
-}
-
-type Callback = () => void
-function createEventEmitter<EventName extends string>(
-	initialEvents: Record<EventName, Callback[]>
-) {
-	const events = { ...initialEvents }
-	return {
-		on(event: EventName, callback: Callback) {
-			events[event].push(callback)
-		},
-		off(event: EventName, callback: Callback) {
-			const index = events[event].indexOf(callback)
-			events[event].splice(index, 1)
-		},
-		emit(event: EventName) {
-			events[event].forEach((callback) => callback())
 		}
 	}
 }
