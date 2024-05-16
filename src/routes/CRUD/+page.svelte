@@ -73,6 +73,13 @@
 			type: 'boolean',
 			visible: true,
 			getCell: (post) => post.isFavourite
+		},
+		{
+			key: 'select',
+			label: 'Select Without options',
+			type: 'select',
+			visible: true,
+			getCell: () => 'yolo'
 		}
 	]}
 />

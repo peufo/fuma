@@ -13,6 +13,7 @@
 	export let field: TableField
 	export let options: Options
 	export let multiSelect = false
+	export let placeholder = 'No option'
 
 	let _options = initOptions($page.url)
 	page.subscribe(({ url }) => (_options = initOptions(url)))
@@ -84,6 +85,10 @@
 					{/if}
 					<span class="whitespace-nowrap font-normal">{label}</span>
 				</a>
+			{:else}
+				<div class="menu-item disabled px-10">
+					<span class="opacity-40">{placeholder}</span>
+				</div>
 			{/each}
 		</div>
 	</DropDown>
