@@ -23,7 +23,7 @@ export interface ListEditableOptions<Type = unknown> {
 }
 
 export function listEditable<Type = unknown>(
-	node: HTMLDivElement,
+	node: HTMLDivElement | HTMLUListElement,
 	options: ListEditableOptions<Type> = {}
 ) {
 	const { dragElementsSelector } = options

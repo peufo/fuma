@@ -6,7 +6,7 @@ import {
 	computeLimits,
 	getNewOrderIndex,
 	getListItemIndex,
-	type Limits,
+	type Limits
 } from './utils.js'
 import { scroll } from './store.js'
 
@@ -18,7 +18,7 @@ export type Position = {
 export type DragHandler = ReturnType<typeof createDragHandler>
 
 export function createDragHandler<Type = unknown>(
-	listElement: HTMLDivElement,
+	listElement: HTMLDivElement | HTMLUListElement,
 	itemElement: HTMLElement,
 	options: ListEditableOptions<Type>
 ) {
@@ -32,7 +32,7 @@ export function createDragHandler<Type = unknown>(
 	const events = createEventEmitter<'dragStart' | 'dragMove' | 'dragEnd'>({
 		dragStart: options.onDragStart ? [options.onDragStart] : [],
 		dragMove: options.onDragMove ? [options.onDragMove] : [],
-		dragEnd: options.onDragEnd ? [options.onDragEnd] : [],
+		dragEnd: options.onDragEnd ? [options.onDragEnd] : []
 	})
 
 	return {
@@ -90,7 +90,7 @@ export function createDragHandler<Type = unknown>(
 				options.onChange(newOrderItems)
 				options.items = newOrderItems
 			}
-		},
+		}
 	}
 }
 
@@ -109,6 +109,6 @@ function createEventEmitter<EventName extends string>(
 		},
 		emit(event: EventName) {
 			events[event].forEach((callback) => callback())
-		},
+		}
 	}
 }
