@@ -34,11 +34,11 @@ export function createDragHandler<Type = unknown>(
 		dragStart: void
 		dragMove: void
 		dragEnd: void
-	}>({
-		dragStart: options.onDragStart ? [options.onDragStart] : [],
-		dragMove: options.onDragMove ? [options.onDragMove] : [],
-		dragEnd: options.onDragEnd ? [options.onDragEnd] : []
-	})
+	}>()
+
+	if (options.onDragStart) events.on('dragStart', options.onDragStart)
+	if (options.onDragMove) events.on('dragStart', options.onDragMove)
+	if (options.onDragEnd) events.on('dragStart', options.onDragEnd)
 
 	return {
 		on: events.on,
