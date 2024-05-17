@@ -16,7 +16,7 @@
 	</div>
 	<slot />
 	<div class="mt-10 flex justify-end gap-2">
-		<button type="button" class="btn btn-ghost btn-sm" on:click={() => dialog.close()}>
+		<button type="button" class="btn btn-ghost" on:click={() => dialog.close()}>
 			Annuler
 		</button>
 		<slot name="action" />
