@@ -41,6 +41,10 @@
 	export let actionCreate = '_create'
 	export let actionDelete = '_delete'
 	export let actionUpdate = '_update'
+
+	/** Ignore actionCreate, actionDelete and actionUpdate */
+	export let simpleAction = false
+
 	export let options: UseFormOptions<ReturnData> = {}
 	let dataInput: Nullable<Data> = initData<Shape, Data>(fields)
 	export { dataInput as data }
@@ -105,7 +109,7 @@
 
 <form
 	method="post"
-	action="{action}{data.id ? actionUpdate : actionCreate}"
+	action="{action}{simpleAction ? '' : data.id ? actionUpdate : actionCreate}"
 	enctype="multipart/form-data"
 	class="{klass} flex flex-col gap-4"
 	use:enhance
@@ -153,7 +157,7 @@
 	>
 		<button class="btn btn-primary"> Valider </button>
 		<div class="grow" />
-		{#if data.id && actionDelete}
+		{#if !simpleAction && data.id && actionDelete}
 			{@const formaction = `${action}${actionDelete}`}
 			<slot name="delete" {formaction}>
 				<ButtonDelete {formaction}>Supprimer</ButtonDelete>
