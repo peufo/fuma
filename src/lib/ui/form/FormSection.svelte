@@ -28,7 +28,7 @@
 		<div class="h-4" transition:slide></div>
 	{/if}
 
-	<section class="{klass} flex flex-col bg-base-100">
+	<section class="{klass} flex flex-col">
 		<!-- svelte-ignore a11y-no-static-element-interactions -->
 		<div
 			on:click={open}
