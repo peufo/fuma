@@ -97,10 +97,10 @@
 	const actionPadding = getActionPadding()
 	function getActionPadding(): string {
 		const container = contextContainer.get()
-		if (container === 'card') return '-mx-2 sm:-mx-8 px-2 sm:px-8'
-		if (container === 'drawer') return '-ml-8 -mr-4 pl-8 pr-4'
+		if (container === 'drawer') return 'bottom-0 -ml-8 -mr-4 pl-8 pr-4'
+		if (container === 'card') return '-bottom-4 -mx-2 sm:-mx-8 px-2 sm:px-8'
 		if (container === 'dialog') return '-bottom-4 -mx-4 px-4'
-		return ''
+		return 'bottom-0'
 	}
 
 	const getBoolean = (bool?: BoolOrFunction<Shape>) => (_data: Nullable<Data>) =>
@@ -152,7 +152,7 @@
 	<div
 		class="
 			{classAction} {actionPadding}
-			sticky bottom-0 col-span-full mt-2 flex flex-row-reverse gap-2 border-t py-4 backdrop-blur-sm
+			sticky col-span-full mt-2 flex flex-row-reverse gap-2 border-t py-4 backdrop-blur-sm
 		"
 	>
 		<button class="btn btn-primary"> Valider </button>
