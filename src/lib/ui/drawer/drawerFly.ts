@@ -1,12 +1,21 @@
 import { cubicOut } from 'svelte/easing'
-import { writable } from 'svelte/store'
 import type { FlyParams, TransitionConfig } from 'svelte/transition'
 
-export const drawerFlyTransition = writable<{ x: number; y: number }>({ x: 0, y: 0 })
+export type DrawerFlyParams = FlyParams & {
+	onTransition?: (pos: { x: number; y: number }) => unknown
+}
 
 export function drawerFly(
 	node: HTMLElement,
-	{ delay = 0, duration = 400, easing = cubicOut, x = 0, y = 0, opacity = 0 }: FlyParams = {}
+	{
+		delay = 0,
+		duration = 400,
+		easing = cubicOut,
+		x = 0,
+		y = 0,
+		opacity = 0,
+		onTransition = () => {}
+	}: DrawerFlyParams = {}
 ): TransitionConfig {
 	const style = getComputedStyle(node)
 	const target_opacity = +style.opacity
@@ -22,7 +31,7 @@ export function drawerFly(
 			transform: ${transform} translate(${(1 - t) * xValue}${xUnit}, ${(1 - t) * yValue}${yUnit});
 			opacity: ${target_opacity - od * u}`,
 		tick: (t, u) => {
-			drawerFlyTransition.set({ x: t * xValue, y: t * yValue })
+			onTransition({ x: t * xValue, y: t * yValue })
 		}
 	}
 }

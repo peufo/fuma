@@ -7,22 +7,21 @@ export function createEventEmitter<EventMap extends Record<string, any>>() {
 	return {
 		on<K extends keyof EventMap>(eventKey: K, callback: Callback<EventMap[K]>) {
 			if (!events[eventKey]) events[eventKey] = []
-			events[eventKey].push(callback)
+			events[eventKey]!.push(callback)
 			return function unsubscribe() {
 				if (!events[eventKey]) events[eventKey] = []
-				const index = events[eventKey].indexOf(callback)
-				events[eventKey].splice(index, 1)
+				const index = events[eventKey]!.indexOf(callback)
+				events[eventKey]!.splice(index, 1)
 			}
 		},
 		off<K extends keyof EventMap>(eventKey: K, callback: Callback<EventMap[K]>) {
 			if (!events[eventKey]) events[eventKey] = []
-			const index = events[eventKey].indexOf(callback)
-			events[eventKey].splice(index, 1)
+			const index = events[eventKey]!.indexOf(callback)
+			events[eventKey]!.splice(index, 1)
 		},
 		emit<K extends keyof EventMap>(...args: EventEmitterArgs<EventMap, K>) {
 			if (!events[args[0]]) events[args[0]] = []
-			// @ts-ignore
-			events[args[0]].forEach((callback) => callback(args[1]))
+			events[args[0]]!.forEach((callback) => callback(args[1]!))
 		}
 	}
 }

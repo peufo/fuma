@@ -1,5 +1,6 @@
 <script lang="ts">
 	import Meta from '$lib/private/Meta.svelte'
+	import { drawerTransitionX } from '$lib/private/store.js'
 	import { urlParam } from '$lib/store/param.js'
 	import { Dialog, DialogConfirm } from '$lib/ui/dialog/index.js'
 	import { Drawer } from '$lib/ui/drawer/index.js'
@@ -71,6 +72,7 @@
 		key="drawer_no_overlay"
 		noOverlay
 		maxWidth="200px"
+		bind:transitionX={$drawerTransitionX}
 	>
 		<h2 class="title">Hey</h2>
 		<p>Open drawer not overlay</p>

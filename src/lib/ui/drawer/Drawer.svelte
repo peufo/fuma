@@ -8,7 +8,8 @@
 	import { Icon } from '$lib/ui/icon/index.js'
 	import { subscibeDrawerLayers } from './layers.js'
 	import { contextContainer } from '../context.js'
-	import { drawerFly } from './drawerFly.js'
+	import { drawerFly, type DrawerFlyParams } from './drawerFly.js'
+	import { writable } from 'svelte/store'
 
 	export let title = ''
 	/** Key used in url query params */
@@ -21,6 +22,7 @@
 	export let classBody = ''
 	export let duration = 180
 	export let noOverlay = false
+	export let transitionX = 0
 
 	type GotoOptions = Parameters<typeof goto>[1]
 	export function open(value = 1, options: GotoOptions = {}) {
@@ -54,7 +56,14 @@
 {#if $isActive}
 	<aside
 		bind:clientWidth
-		transition:drawerFly|local={{ x: clientWidth, duration, opacity: 1 }}
+		transition:drawerFly|local={{
+			x: clientWidth,
+			duration,
+			opacity: 1,
+			onTransition(pos) {
+				transitionX = pos.x
+			}
+		}}
 		style="
 			z-index: {10 + $index};
 			max-width: min(100%, {maxWidth});
