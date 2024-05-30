@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onDestroy } from 'svelte'
-	import { fade, fly } from 'svelte/transition'
+	import { fade } from 'svelte/transition'
 	import { mdiClose } from '@mdi/js'
 
 	import { goto } from '$app/navigation'
@@ -8,6 +8,7 @@
 	import { Icon } from '$lib/ui/icon/index.js'
 	import { subscibeDrawerLayers } from './layers.js'
 	import { contextContainer } from '../context.js'
+	import { drawerFly } from './drawerFly.js'
 
 	export let title = ''
 	/** Key used in url query params */
@@ -18,6 +19,8 @@
 	export let maxWidth = '32rem'
 	export let classHeader = ''
 	export let classBody = ''
+	export let duration = 180
+	export let noOverlay = false
 
 	type GotoOptions = Parameters<typeof goto>[1]
 	export function open(value = 1, options: GotoOptions = {}) {
@@ -34,27 +37,33 @@
 	const { offset, index, destroy, isActive } = subscibeDrawerLayers(key)
 	onDestroy(destroy)
 	contextContainer.set('drawer')
+	let clientWidth = 0
 </script>
 
-{#if $isActive}
+{#if !noOverlay && $isActive}
 	<!-- svelte-ignore a11y-no-static-element-interactions -->
 	<div
 		on:click={() => close()}
 		on:keyup={() => close()}
-		transition:fade={{ duration: 200 }}
+		transition:fade={{ duration }}
 		style="z-index: {10 + $index};"
 		class="fixed inset-0 bg-black/15 backdrop-blur-[1.5px] dark:bg-white/15"
 	/>
+{/if}
 
+{#if $isActive}
 	<aside
-		transition:fly|local={{ x: 500, duration: 200, opacity: 1 }}
+		bind:clientWidth
+		transition:drawerFly|local={{ x: clientWidth, duration, opacity: 1 }}
 		style="
 			z-index: {10 + $index};
 			max-width: min(100%, {maxWidth});
 			transform: translateX({-$offset * 4}rem);
+			transition-duration: {duration}ms;
 		"
-		class="{klass}
-      fixed bottom-0 right-0 top-0 z-10 flex
+		class:border-l={noOverlay}
+		class="{klass} fixed
+      bottom-0 right-0 top-0 z-10 flex
 			w-full flex-col overflow-y-scroll bg-base-100
 			transition-transform
     "
@@ -62,10 +71,10 @@
 		<div
 			class="{classHeader}
 				sticky top-0 z-20 flex items-center
-				justify-between gap-32 border-b bg-base-100 p-4 pl-8
+				justify-between gap-2 border-b bg-base-100 p-4 pl-8
 			"
 		>
-			<h2 class="title">{title}</h2>
+			<h2 class="title min-w-0 overflow-hidden">{title}</h2>
 			<button on:click={() => close()} class="btn btn-square btn-sm">
 				<Icon path={mdiClose} title="annuler" />
 			</button>

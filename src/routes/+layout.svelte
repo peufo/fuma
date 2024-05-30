@@ -6,6 +6,7 @@
 	import { ToggleMode } from '$lib/ui/mode/index.js'
 	import { slide } from 'svelte/transition'
 	import { enhance } from '$app/forms'
+	import { drawerFlyTransition } from '$lib/ui/drawer/drawerFly.js'
 
 	export let data
 
@@ -17,7 +18,7 @@
 
 <Toaster />
 
-<div class="flex items-start gap-4 p-2">
+<div class="flex items-start gap-4 p-2" style="padding-right: {$drawerFlyTransition.x + 8}px;">
 	<div class="sticky top-2 min-w-48 rounded-lg border">
 		<header class=" flex flex-col gap-2 rounded-md bg-base-200/50 p-2 pl-4">
 			<div class="flex items-center gap-4">

@@ -51,4 +51,30 @@
 	</Drawer>
 </Meta>
 
+<Meta component={dialogConfirmComponent} name="DialogConfirm">
+	<DialogConfirm bind:this={dialogConfirmComponent}>
+		<div slot="activator">slot="activator"</div>
+		<div slot="header">slot="header"</div>
+		slot
+		<div slot="action">slot="action"</div>
+	</DialogConfirm>
+</Meta>
+
+<Meta component={drawer} name="Drawer">
+	<a class="btn" href={$urlParam.with({ drawer_no_overlay: 1 })} data-sveltekit-noscroll>
+		Open no overlay drawer
+	</a>
+
+	<Drawer
+		title="No overlay brpo"
+		bind:this={drawer}
+		key="drawer_no_overlay"
+		noOverlay
+		maxWidth="200px"
+	>
+		<h2 class="title">Hey</h2>
+		<p>Open drawer not overlay</p>
+	</Drawer>
+</Meta>
+
 <div class="my-40 h-[1400px] rounded bg-green-300"></div>
