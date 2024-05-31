@@ -89,7 +89,7 @@
 		>
 			<h2 class="title min-w-0 overflow-hidden">{title}</h2>
 			<button on:click={() => close()} class="btn btn-square btn-sm">
-				<Icon path={mdiClose} title="annuler" />
+				<Icon path={mdiClose} title="Fermer" />
 			</button>
 		</div>
 
