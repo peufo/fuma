@@ -1,5 +1,5 @@
 <script lang="ts" generics="RelationItem extends {id: string}">
-	import { createEventDispatcher, tick } from 'svelte'
+	import { createEventDispatcher, tick, type ComponentProps } from 'svelte'
 	import type { HTMLInputAttributes } from 'svelte/elements'
 	import debounce from 'debounce'
 	import { toast } from 'svelte-sonner'
@@ -25,6 +25,7 @@
 	export let error = ''
 	export let placeholder = ''
 	export let tippyProps: Partial<TippyProps> = {}
+	export let dropdownProps: ComponentProps<DropDown> = {}
 	export let flatMode = false
 	export let slotItem: ((item: RelationItem) => ComponentAndProps | string) | null = null
 	export let slotSuggestion: ((item: RelationItem) => ComponentAndProps | string) | null = slotItem
@@ -82,7 +83,7 @@
 	}
 </script>
 
-<DropDown {tippyProps} disable={flatMode}>
+<DropDown {tippyProps} disable={flatMode} {...dropdownProps}>
 	<div class="contents" slot="activator">
 		<FormControl {key} {label} {error} class={klass} let:key>
 			<div class="flex grow gap-2" class:hidden={item}>
@@ -108,7 +109,7 @@
 			</div>
 
 			{#if item}
-				<div class="flex h-12 items-center gap-2 rounded-lg border pl-4 pr-2">
+				<div class="flex h-12 items-center gap-2 rounded-lg border bg-base-100 pl-4 pr-2">
 					<div class="grow">
 						<slot name="item" {item}>
 							<Slot slot={slotItem} args={item}>
