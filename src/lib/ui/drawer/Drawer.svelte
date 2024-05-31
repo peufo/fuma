@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { onDestroy } from 'svelte'
+	import { onDestroy, onMount } from 'svelte'
 	import { fade } from 'svelte/transition'
 	import { mdiClose } from '@mdi/js'
 
@@ -40,6 +40,10 @@
 	onDestroy(destroy)
 	contextContainer.set('drawer')
 	let clientWidth = 0
+
+	onMount(() => {
+		transitionX = $isActive ? clientWidth : 0
+	})
 </script>
 
 {#if !noOverlay && $isActive}
