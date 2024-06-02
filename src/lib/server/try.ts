@@ -4,7 +4,7 @@ import type { Issue } from './parseFormData.js'
 export async function tryOrFail<T = unknown>(
 	func: () => Promise<T>,
 	/** You can redirect on success */
-	redirectTo?: string | ((res: T) => string | undefined)
+	redirectTo?: string | URL | ((res: T) => string | URL | undefined)
 ): Promise<T | ActionFailure<{ message: string } | { issues: Issue[] }>> {
 	let result: T | null = null
 	let isSuccess = false
@@ -32,7 +32,7 @@ export async function tryOrFail<T = unknown>(
 		return fail(400, { message })
 	} finally {
 		if (isSuccess && redirectTo) {
-			if (typeof redirectTo === 'string') redirect(302, redirectTo)
+			if (typeof redirectTo === 'string' || redirectTo instanceof URL) redirect(302, redirectTo)
 			else if (result) {
 				const url = redirectTo(result)
 				if (url) redirect(302, url)
