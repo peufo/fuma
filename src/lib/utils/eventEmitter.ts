@@ -33,6 +33,9 @@ export function createEventEmitter<EventMap extends Record<string, any>>() {
 			const index = events[eventKey]!.indexOf(callback)
 			events[eventKey]!.splice(index, 1)
 		},
+		clean<K extends keyof EventMap>(eventKey: K) {
+			events[eventKey] = []
+		},
 		emit<K extends keyof EventMap>(...args: EventEmitterArgs<EventMap, K>) {
 			if (!events[args[0]]) events[args[0]] = []
 			events[args[0]]!.forEach((callback) => callback(args[1]!))
