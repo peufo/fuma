@@ -14,6 +14,20 @@ export function createEventEmitter<EventMap extends Record<string, any>>() {
 				events[eventKey]!.splice(index, 1)
 			}
 		},
+		once<K extends keyof EventMap>(eventKey: K, callback: Callback<EventMap[K]>) {
+			if (!events[eventKey]) events[eventKey] = []
+			const _callback = (arg: any) => {
+				callback(arg)
+				const index = events[eventKey]!.indexOf(callback)
+				events[eventKey]!.splice(index, 1)
+			}
+			events[eventKey]!.push(_callback)
+			return function unsubscribe() {
+				if (!events[eventKey]) events[eventKey] = []
+				const index = events[eventKey]!.indexOf(callback)
+				events[eventKey]!.splice(index, 1)
+			}
+		},
 		off<K extends keyof EventMap>(eventKey: K, callback: Callback<EventMap[K]>) {
 			if (!events[eventKey]) events[eventKey] = []
 			const index = events[eventKey]!.indexOf(callback)
