@@ -10,31 +10,21 @@
 	import { InputTime } from '$lib/ui/input/index.js'
 	import { type Period, PeriodPicker } from '$lib/ui/period/index.js'
 	import { msToTime, timeToMs } from '$lib/utils/time.js'
+	import dayjs from 'dayjs'
 
 	let dropDown: DropDown
-	const start = $page.url.searchParams.get('start')?.split('T') || []
-	const end = $page.url.searchParams.get('end')?.split('T') || []
+	const start = $page.url.searchParams.get('start') 
+	const end = $page.url.searchParams.get('end')
 
 	let period = {
-		start: start[0] || '',
-		end: end[0] || ''
+		start: start ? new Date(start) : null,
+		end: end ? new Date(end) : null
 	}
-	type Range = { start: number; end: number }
+	$: isValidPeriod = !!period.start && !!period.end
 
-	let time: Range = {
-		start: timeToMs(start[1] || '00:00'),
-		end: timeToMs(end[1] || '23:59')
-	}
-
-	$: isValidPeriod = period.start && period.end && time.start && time.start
-
-	function getLabel(_period: Period | undefined, _time: Range) {
+	function getLabel(_period: Period | undefined) {
 		if (!_period || !_period.start || !_period.end) return 'Périodes'
-
-		return formatRange({
-			start: new Date(`${_period.start}T${msToTime(_time.start)}`),
-			end: new Date(`${_period.end}T${msToTime(_time.end)}`)
-		})
+		return formatRange(_period)
 	}
 
 	function handleSubmit() {
@@ -42,8 +32,8 @@
 		if (!isValidPeriod) return
 		goto(
 			$urlParam.with({
-				start: `${period.start}T${time.start || '00:00'}`,
-				end: `${period.end}T${time.end || '23:59'}`
+				start: dayjs(period.start).format('HH:mm'),
+				end: dayjs(period.end).format('HH:mm')
 			}),
 			{ replaceState: true, noScroll: true }
 		)
@@ -51,8 +41,7 @@
 
 	function handleReset() {
 		dropDown.hide()
-		period = { start: '', end: '' }
-		time = { start: 0, end: timeToMs('23:59') }
+		period = { start: null, end: null }
 		goto($urlParam.without('start', 'end'), { replaceState: true, noScroll: true })
 	}
 </script>
@@ -61,7 +50,7 @@
 	<div slot="activator" class="join">
 		<button class="btn join-item btn-sm shrink flex-nowrap">
 			<Icon path={mdiCalendarMonthOutline} class="opacity-60" size={20} />
-			{getLabel(period, time)}
+			{getLabel(period)}
 		</button>
 		{#if isValidPeriod}
 			<button class="btn btn-square join-item btn-sm" on:click|preventDefault={handleReset}>
@@ -73,12 +62,12 @@
 	<form class="flex flex-col" on:submit|preventDefault={handleSubmit} data-sveltekit-replacestate>
 		<PeriodPicker numberOfMonths={1} bind:period />
 
-		<input class="hidden" type="text" name="start" value="{period.start}T{time.start || '00:00'}" />
-		<input class="hidden" type="text" name="end" value="{period.end}T{time.end || '23:59'}" />
+		<input class="hidden" type="text" name="start" value={period.start?.toJSON()} />
+		<input class="hidden" type="text" name="end" value={period.end?.toJSON()} />
 
 		<div class="flex gap-2 p-2">
-			<InputTime label="A partir de" bind:value={time.start} enhanceDisabled class="grow" />
-			<InputTime label="Jusqu'à" bind:value={time.end} enhanceDisabled class="grow" />
+			<InputTime label="A partir de" bind:value={period.start} enhanceDisabled class="grow" />
+			<InputTime label="Jusqu'à" bind:value={period.end} enhanceDisabled class="grow" />
 		</div>
 		<button class="btn m-2"> Valider </button>
 	</form>

@@ -39,15 +39,13 @@
 			numberOfMonths,
 			numberOfColumns,
 			showWeekNumbers,
-			startDate: period?.start ? new Date(period.start) : '',
-			endDate: period?.end ? new Date(period.end) : '',
+			startDate: period?.start ?? undefined,
+			endDate: period?.end ?? undefined,
 			setup: (picker: Litepicker) => {
 				picker.on('selected', (date1: any, date2: any) => {
-					const start = dayjs(date1.dateInstance).format('YYYY-MM-DD')
-					const end = dayjs(date2.dateInstance).format('YYYY-MM-DD')
 					period = {
-						start,
-						end
+						start: date1.dateInstance,
+						end: date2.dateInstance
 					}
 					dispatch('change', period)
 				})
