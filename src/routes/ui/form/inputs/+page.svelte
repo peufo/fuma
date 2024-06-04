@@ -10,7 +10,10 @@
 		InputSelect,
 		InputCombo,
 		InputRelation,
-		InputRelations
+		InputRelations,
+		InputDate,
+		InputDateTime,
+		InputTime
 	} from '$lib/ui/input/index.js'
 	import { Tabs } from '$lib/ui/tabs/index.js'
 	import { InputTextRich, tiptapParser } from '$lib/ui/input/textRich/index.js'
@@ -25,6 +28,11 @@
 	let inputRelation: InputRelation<Item>
 	let inputRelations: InputRelations<Item>
 	let inputTextRich: InputTextRich
+	let inputDate: InputDate
+	let inputDateTime: InputDateTime
+	let inputTime: InputTime
+
+	let inputTimeValue = 1000 * 60 * 42 + 32000
 
 	let inputTextRichValue = '<h2>Hey 👋</h2>'
 
@@ -117,6 +125,26 @@
 			{@html tiptapParser.toHTML(inputTextRichValue)}
 		</div>
 	{/if}
+</Meta>
+
+<Meta component={inputDate} name="InputDate">
+	<InputDate bind:this={inputDate} label="My Date" key="date" />
+</Meta>
+
+<Meta component={inputDateTime} name="InputDateTime">
+	<InputDateTime bind:this={inputDateTime} label="MY datetime" key="datetime" />
+</Meta>
+
+<Meta component={inputTime} name="InputTime">
+	<input type="number" bind:value={inputTimeValue} step="1000" />
+
+	<InputTime
+		bind:this={inputTime}
+		label="My time"
+		key="time"
+		bind:value={inputTimeValue}
+		input={{ step: 300 }}
+	/>
 </Meta>
 
 <div class="h-60"></div>
