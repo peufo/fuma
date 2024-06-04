@@ -32,11 +32,9 @@
 	let inputDateTime: InputDateTime
 	let inputTime: InputTime
 
-	let inputTimeValue = 1000 * 60 * 60 * 26 + 1000 * 60 * 42 + 32000
-
 	let inputTextRichValue = '<h2>Hey 👋</h2>'
-
 	let number = 42
+	let datetime = new Date()
 </script>
 
 <Meta component={inputText} name="InputText">
@@ -132,17 +130,15 @@
 </Meta>
 
 <Meta component={inputDateTime} name="InputDateTime">
-	<InputDateTime bind:this={inputDateTime} label="MY datetime" key="datetime" />
+	<InputDateTime label="MY datetime" key="datetime" bind:value={datetime} />
 </Meta>
 
 <Meta component={inputTime} name="InputTime">
-	<input type="number" bind:value={inputTimeValue} step="1000" />
-
 	<InputTime
 		bind:this={inputTime}
 		label="My time"
 		key="time"
-		bind:value={inputTimeValue}
+		bind:value={datetime}
 		input={{ step: 300 }}
 	/>
 </Meta>

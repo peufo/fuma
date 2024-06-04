@@ -2,30 +2,37 @@
 	import { createEventDispatcher } from 'svelte'
 	import type { HTMLInputAttributes, FormEventHandler } from 'svelte/elements'
 	import { FormControl, type InputProps } from './index.js'
-	import { msToTime } from '$lib/utils/time.js'
-	type $$Props = InputProps<number>
+	import dayjs from 'dayjs'
+	type $$Props = InputProps<Date>
 
-	export let value: number | null | undefined = undefined
+	export let value: Date | null | undefined = undefined
 	export let input: HTMLInputAttributes = {}
 
 	$: ({ class: inputClass = '', ...inputProps } = input)
 
-	let valueAsNumber = value
-	let valueAsString = msToTime(value)
-	$: if (value !== valueAsNumber) valueAsString = msToTime(value)
+	const dispatch = createEventDispatcher<{ input: Date | null }>()
 
-	const dispatch = createEventDispatcher<{ input: number }>()
+	const onInput: FormEventHandler<HTMLInputElement> = ({ currentTarget }) => {
+		value = getDateTime(currentTarget.value)
+		dispatch('input', value)
+	}
 
-	const onInput: FormEventHandler<HTMLInputElement> = (event) => {
-		valueAsNumber = event.currentTarget.valueAsNumber
-		value = valueAsNumber
-		dispatch('input', valueAsNumber)
+	function getDateTime(v: string | null | undefined): Date | null | undefined {
+		console.log({ v })
+		if (!v) return value
+		const date = new Date(value || 0)
+		const dateString = [
+			date.getFullYear().toString(),
+			(date.getMonth() + 1).toString().padStart(2, '0'),
+			date.getDate().toString().padStart(2, '0')
+		].join('-')
+		return new Date(`${dateString}T${v}`)
 	}
 </script>
 
 <FormControl {...$$restProps} let:key>
 	<input
-		value={valueAsString}
+		value={value && dayjs(value).format('HH:mm')}
 		on:input={onInput}
 		on:focus
 		on:blur

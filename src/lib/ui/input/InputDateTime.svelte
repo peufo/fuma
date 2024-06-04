@@ -25,7 +25,7 @@
 
 <FormControl {...$$restProps} let:key>
 	<input
-		value={value && dayjs(value).format('YYYY-MM-DDThh:mm')}
+		value={value && dayjs(value).format('YYYY-MM-DDTHH:mm')}
 		on:input={handleInput}
 		on:focus
 		on:blur
