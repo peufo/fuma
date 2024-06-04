@@ -32,7 +32,7 @@
 	let inputDateTime: InputDateTime
 	let inputTime: InputTime
 
-	let inputTimeValue = 1000 * 60 * 42 + 32000
+	let inputTimeValue = 1000 * 60 * 60 * 26 + 1000 * 60 * 42 + 32000
 
 	let inputTextRichValue = '<h2>Hey 👋</h2>'
 
