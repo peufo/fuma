@@ -1,7 +1,8 @@
 <script lang="ts">
+	import { createEventDispatcher } from 'svelte'
 	import type { HTMLInputAttributes, FormEventHandler } from 'svelte/elements'
 	import { FormControl, type InputProps } from './index.js'
-	import { createEventDispatcher } from 'svelte'
+	import { msToTime } from '$lib/utils/time.js'
 	type $$Props = InputProps<number>
 
 	export let value: number | null | undefined = undefined
@@ -10,19 +11,10 @@
 	$: ({ class: inputClass = '', ...inputProps } = input)
 
 	let valueAsNumber = value
-	let valueAsString = msToString(value)
-	$: if (value !== valueAsNumber) valueAsString = msToString(value)
+	let valueAsString = msToTime(value)
+	$: if (value !== valueAsNumber) valueAsString = msToTime(value)
 
 	const dispatch = createEventDispatcher<{ input: number }>()
-
-	function msToString(ms: number | null | undefined): string {
-		if (ms === null || ms === undefined) return ''
-		const hours = Math.floor(ms / (1000 * 60 * 60))
-		const minutes = Math.floor(ms / (1000 * 60) - hours * 60)
-		const secondes = Math.floor(ms / 1000 - minutes * 60 - hours * 60 * 60)
-		const format = (n: number) => n.toString().padStart(2, '0')
-		return [format(hours % 24), format(minutes), format(secondes)].join(':')
-	}
 
 	const onInput: FormEventHandler<HTMLInputElement> = (event) => {
 		valueAsNumber = event.currentTarget.valueAsNumber

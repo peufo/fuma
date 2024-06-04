@@ -1,16 +1,17 @@
 <script lang="ts">
 	import { goto } from '$app/navigation'
 	import { page } from '$app/stores'
+	import { mdiCalendarFilterOutline } from '@mdi/js'
+
 	import { DropDown } from '$lib/ui/menu/index.js'
 	import { InputTime } from '$lib/ui/input/index.js'
 	import type { TableField } from '$lib/ui/table/index.js'
-
 	import { formatRange } from '$lib/utils/formatRange.js'
+	import { msToTime, timeToMs } from '$lib/utils/time.js'
 	import { PeriodPicker } from '$lib/ui/period/index.js'
 	import { urlParam } from '$lib/store/param.js'
 	import { jsonParse } from '$lib/utils/jsonParse.js'
 	import { Icon } from '$lib/ui/icon/index.js'
-	import { mdiCalendarFilterOutline } from '@mdi/js'
 
 	type Period = { start: string; end: string }
 
@@ -28,17 +29,18 @@
 		start: start[0] || '',
 		end: end[0] || ''
 	}
-	let time = {
-		start: start[1] || '00:00',
-		end: end[1] || '23:59'
+	type Range = { start: number; end: number }
+	let time: Range = {
+		start: timeToMs(start[1] || '00:00'),
+		end: timeToMs(end[1] || '23:59')
 	}
 
 	$: isValidPeriod = period.start && period.end && time.start && time.start
 
-	function getLabel(_period: Period, _time: Period) {
+	function getLabel(_period: Period, _time: Range) {
 		return formatRange({
-			start: new Date(`${_period.start}T${_time.start}`),
-			end: new Date(`${_period.end}T${_time.end}`)
+			start: new Date(`${_period.start}T${msToTime(_time.start)}`),
+			end: new Date(`${_period.end}T${msToTime(_time.end)}`)
 		})
 	}
 
@@ -63,7 +65,7 @@
 	function handleReset() {
 		dropDown.hide()
 		period = { start: '', end: '' }
-		time = { start: '00:00', end: '23:59' }
+		time = { start: 0, end: timeToMs('23:59') }
 		goto($urlParam.without(field.key, 'skip', 'take'), { replaceState: true, noScroll: true })
 	}
 </script>

@@ -9,6 +9,7 @@
 	import { DropDown } from '$lib/ui/menu/index.js'
 	import { InputTime } from '$lib/ui/input/index.js'
 	import { type Period, PeriodPicker } from '$lib/ui/period/index.js'
+	import { msToTime, timeToMs } from '$lib/utils/time.js'
 
 	let dropDown: DropDown
 	const start = $page.url.searchParams.get('start')?.split('T') || []
@@ -18,19 +19,21 @@
 		start: start[0] || '',
 		end: end[0] || ''
 	}
-	let time = {
-		start: start[1] || '00:00',
-		end: end[1] || '23:59'
+	type Range = { start: number; end: number }
+
+	let time: Range = {
+		start: timeToMs(start[1] || '00:00'),
+		end: timeToMs(end[1] || '23:59')
 	}
 
 	$: isValidPeriod = period.start && period.end && time.start && time.start
 
-	function getLabel(_period: Period | undefined, _time: Period) {
+	function getLabel(_period: Period | undefined, _time: Range) {
 		if (!_period || !_period.start || !_period.end) return 'Périodes'
 
 		return formatRange({
-			start: new Date(`${_period.start}T${_time.start}`),
-			end: new Date(`${_period.end}T${_time.end}`)
+			start: new Date(`${_period.start}T${msToTime(_time.start)}`),
+			end: new Date(`${_period.end}T${msToTime(_time.end)}`)
 		})
 	}
 
@@ -49,7 +52,7 @@
 	function handleReset() {
 		dropDown.hide()
 		period = { start: '', end: '' }
-		time = { start: '00:00', end: '23:59' }
+		time = { start: 0, end: timeToMs('23:59') }
 		goto($urlParam.without('start', 'end'), { replaceState: true, noScroll: true })
 	}
 </script>
