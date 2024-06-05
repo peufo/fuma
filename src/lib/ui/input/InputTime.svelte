@@ -18,7 +18,6 @@
 	}
 
 	function getDateTime(v: string | null | undefined): Date | null | undefined {
-		console.log({ v })
 		if (!v) return value
 		const date = new Date(value || 0)
 		const dateString = [
