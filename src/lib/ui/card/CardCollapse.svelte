@@ -51,7 +51,7 @@
 	</div>
 
 	{#if isOpen}
-		<div class="card-body p-4 pt-0 md:p-8 md:pt-0 {classBody}" transition:slide={{ duration: 200 }}>
+		<div class="card-body pt-0 p-2 sm:px-5 sm:py-3 {classBody}" transition:slide={{ duration: 200 }}>
 			<slot />
 		</div>
 	{/if}
