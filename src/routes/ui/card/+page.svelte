@@ -25,9 +25,16 @@
 
 <Meta component={cardCollapse} name="CardCollapse (deprecated)">
 	<CardCollapse value="my-section" bind:this={cardCollapse}>
-		<span slot="logo">slot="logo"</span>
-		<h2 slot="title">slot="title"</h2>
-		<h3 slot="subtitle">slot="subtitle"</h3>
+		<h2 slot="title">
+			slot="title"
+			<a href="#prout" class="link-hover link">link</a>
+		</h2>
+		<h3 slot="subtitle">
+			slot="subtitle"
+			<a href="#prout-b" class="link-hover link">
+				<span>other link</span>
+			</a>
+		</h3>
 		Default slot
 	</CardCollapse>
 </Meta>
