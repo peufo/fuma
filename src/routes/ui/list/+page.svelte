@@ -10,15 +10,32 @@
 			color: `rgb(${255 - i * 2}, ${255 - i * 5}, ${255 - i * 10})`,
 			key: i
 		}))
+
+	let isDragged = false
 </script>
 
 <div class="mt-10 flex items-start justify-evenly gap-4">
+	<div>
+		<span>isDragged: {isDragged}</span>
+	</div>
+
 	<ul
 		class="min-w-40 overflow-scroll rounded border p-1"
 		use:listEditable={{
 			items,
 			onChange(newOrder) {
 				items = newOrder
+			},
+			onDragStart() {
+				console.log('START')
+				isDragged = true
+			},
+			onDragMove() {
+				console.log('MOVE')
+			},
+			onDragEnd() {
+				console.log('END')
+				isDragged = false
 			}
 		}}
 	>

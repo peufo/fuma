@@ -37,8 +37,8 @@ export function createDragHandler<Type = unknown>(
 	}>()
 
 	if (options.onDragStart) events.on('dragStart', options.onDragStart)
-	if (options.onDragMove) events.on('dragStart', options.onDragMove)
-	if (options.onDragEnd) events.on('dragStart', options.onDragEnd)
+	if (options.onDragMove) events.on('dragMove', options.onDragMove)
+	if (options.onDragEnd) events.on('dragEnd', options.onDragEnd)
 
 	return {
 		on: events.on,
