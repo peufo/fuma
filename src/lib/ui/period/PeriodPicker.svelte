@@ -43,7 +43,6 @@
 			setup: (picker: Litepicker) => {
 				picker.on('selected', (date1: any, date2: any) => {
 					const start = `${getAbsoluteDate(date1.dateInstance)}T${getAbsoluteTime(period?.start)}`
-					console.log(start)
 					period = {
 						start: new Date(
 							`${getAbsoluteDate(date1.dateInstance)}T${getAbsoluteTime(period?.start)}`
@@ -52,7 +51,6 @@
 							`${getAbsoluteDate(date2.dateInstance)}T${getAbsoluteTime(period?.end, '23:59:00')}`
 						)
 					}
-					console.log(period)
 					dispatch('change', period)
 				})
 			}
@@ -66,7 +64,6 @@
 
 	const getAbsoluteTime = (date?: Date | null, defaultTime = '00:00:00') => {
 		if (!date) return defaultTime
-		console.log(date.getHours())
 		return [date.getHours(), date.getMinutes(), date.getSeconds()]
 			.map((n) => n.toString().padStart(2, '0'))
 			.join(':')
