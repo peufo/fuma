@@ -17,16 +17,12 @@
 
 	$: isOpen = $urlParam.hasValue('section', value)
 
-	let section: HTMLElement
+
 
 	let timeout: NodeJS.Timeout
 	async function handleClick() {
 		await goto($urlParam.toggle({ section: value }), { noScroll: true, keepFocus: true })
 
-		if (!section) return
-		const bound = section.getBoundingClientRect()
-		window.scrollTo({ top: bound.top, behavior: 'smooth' })
-		timeout = setTimeout(() => {}, 225)
 	}
 
 	onDestroy(() => {
@@ -34,7 +30,7 @@
 	})
 </script>
 
-<section class="card bordered border bg-base-100 shadow-md {klass}" bind:this={section}>
+<section class="card bordered border bg-base-100 shadow-md {klass}">
 	<div
 		id={value}
 		tabindex="0"
