@@ -42,18 +42,32 @@
 			endDate: period?.end ?? undefined,
 			setup: (picker: Litepicker) => {
 				picker.on('selected', (date1: any, date2: any) => {
-					const [startDate] = date1.dateInstance.toJSON().split('T')
-					const [endDate] = date2.dateInstance.toJSON().split('T')
-					const startTime = period?.start?.toJSON().split('T').at(1) || '00:00'
-					const endTime = period?.end?.toJSON().split('T').at(1) || '00:00'
+					const start = `${getAbsoluteDate(date1.dateInstance)}T${getAbsoluteTime(period?.start)}`
+					console.log(start)
 					period = {
-						start: new Date(`${startDate}T${startTime}`),
-						end: new Date(`${endDate}T${endTime}`)
+						start: new Date(
+							`${getAbsoluteDate(date1.dateInstance)}T${getAbsoluteTime(period?.start)}`
+						),
+						end: new Date(`${getAbsoluteDate(date2.dateInstance)}T${getAbsoluteTime(period?.end)}`)
 					}
+					console.log(period)
 					dispatch('change', period)
 				})
 			}
 		})
+	}
+
+	const getAbsoluteDate = (date: Date) =>
+		[date.getFullYear(), date.getMonth() + 1, date.getDate()]
+			.map((n) => n.toString().padStart(2, '0'))
+			.join('-')
+
+	const getAbsoluteTime = (date?: Date | null) => {
+		if (!date) return '00:00:00'
+		console.log(date.getHours())
+		return [date.getHours(), date.getMinutes(), date.getSeconds()]
+			.map((n) => n.toString().padStart(2, '0'))
+			.join(':')
 	}
 </script>
 
