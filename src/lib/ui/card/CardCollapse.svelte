@@ -13,16 +13,12 @@
 	export let classHeader = ''
 	export let classBody = ''
 	export let classTitle = ''
-	export let classSubtitle = ''
 
 	$: isOpen = $urlParam.hasValue('section', value)
-
-
 
 	let timeout: NodeJS.Timeout
 	async function handleClick() {
 		await goto($urlParam.toggle({ section: value }), { noScroll: true, keepFocus: true })
-
 	}
 
 	onDestroy(() => {
@@ -39,21 +35,19 @@
 		on:click={handleClick}
 		on:keydown={(e) => e.key === ' ' && handleClick()}
 	>
-		<div class="flex gap-2">
-			<div class="min-w-0 overflow-hidden text-ellipsis font-medium {classTitle}">
-				<slot name="title" />
+		<slot name="header">
+			<div class="flex gap-2">
+				<div class="min-w-0 overflow-hidden text-ellipsis font-medium {classTitle}">
+					<slot name="title" />
+				</div>
+				<Icon
+					path={mdiChevronRight}
+					class="ml-auto opacity-80 transition-transform {isOpen ? 'rotate-90' : ''}"
+				/>
 			</div>
-			<Icon
-				path={mdiChevronRight}
-				class="ml-auto opacity-80 transition-transform {isOpen ? 'rotate-90' : ''}"
-			/>
-		</div>
 
-		{#if $$slots.subtitle}
-			<div class="text-sm {classSubtitle}">
-				<slot name="subtitle" />
-			</div>
-		{/if}
+			<slot name="subtitle" />
+		</slot>
 	</div>
 
 	{#if isOpen}
