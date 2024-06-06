@@ -1,15 +1,21 @@
-import { tippy, type TippyProps } from '$lib/utils/tippy.js'
+import { tippy, type TippyProps, type TippyInstance } from '$lib/utils/tippy.js'
 
-export function tip(
-	node: HTMLElement,
-	options: Partial<TippyProps> & { disable?: boolean } = { disable: false }
-) {
-	const { disable, ...tippyProps } = options
-	if (disable) return
-	const _tip = tippy(node, tippyProps)
+type TipOptions = Partial<TippyProps> & { disable?: boolean }
+
+export function tip(node: HTMLElement, options: TipOptions = { disable: false }) {
+	let _tip: TippyInstance | null = null
+	init(options)
+	function init({ disable, ...tippyProps }: TipOptions) {
+		_tip = disable ? null : tippy(node, tippyProps)
+	}
+
 	return {
 		destroy() {
-			_tip.destroy()
+			_tip?.destroy()
+		},
+		update(newOptions: TipOptions) {
+			_tip?.destroy()
+			init(newOptions)
 		}
 	}
 }
