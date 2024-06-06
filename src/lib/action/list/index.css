@@ -34,7 +34,7 @@
 	flex-grow: 1;
 }
 
-.item-placholder {
+.item-placeholder {
 	background: var(--background-hover);
 	border-radius: var(--border-radius);
 }
