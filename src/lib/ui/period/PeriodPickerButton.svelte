@@ -9,11 +9,10 @@
 	import { DropDown } from '$lib/ui/menu/index.js'
 	import { InputTime } from '$lib/ui/input/index.js'
 	import { type Period, PeriodPicker } from '$lib/ui/period/index.js'
-	import { msToTime, timeToMs } from '$lib/utils/time.js'
 	import dayjs from 'dayjs'
 
 	let dropDown: DropDown
-	const start = $page.url.searchParams.get('start') 
+	const start = $page.url.searchParams.get('start')
 	const end = $page.url.searchParams.get('end')
 
 	let period = {

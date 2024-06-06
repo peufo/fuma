@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { onMount, onDestroy, createEventDispatcher } from 'svelte'
-	import dayjs from 'dayjs'
 	import type { Litepicker } from 'litepicker'
 
 	import type { Period } from './index.js'
@@ -43,9 +42,13 @@
 			endDate: period?.end ?? undefined,
 			setup: (picker: Litepicker) => {
 				picker.on('selected', (date1: any, date2: any) => {
+					const [startDate] = date1.dateInstance.toJSON().split('T')
+					const [endDate] = date2.dateInstance.toJSON().split('T')
+					const startTime = period?.start?.toJSON().split('T').at(1) || '00:00'
+					const endTime = period?.end?.toJSON().split('T').at(1) || '00:00'
 					period = {
-						start: date1.dateInstance,
-						end: date2.dateInstance
+						start: new Date(`${startDate}T${startTime}`),
+						end: new Date(`${endDate}T${endTime}`)
 					}
 					dispatch('change', period)
 				})

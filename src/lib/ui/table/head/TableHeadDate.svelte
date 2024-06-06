@@ -13,7 +13,7 @@
 	import { Icon } from '$lib/ui/icon/index.js'
 	import dayjs from 'dayjs'
 
-	export let field: TableField
+	export let field: Omit<TableField, 'getCell' | 'type'>
 
 	let dropDown: DropDown
 	const initialValue = jsonParse<{ start?: string; end?: string }>(
@@ -35,8 +35,8 @@
 			$urlParam.with(
 				{
 					[field.key]: JSON.stringify({
-						start: dayjs(period.start).format('HH:mm'),
-						end: dayjs(period.end).format('HH:mm')
+						start: period.start?.toJSON(),
+						end: period.end?.toJSON()
 					})
 				},
 				'skip',
