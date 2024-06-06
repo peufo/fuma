@@ -5,23 +5,28 @@
 
 	import { Icon } from '$lib/ui/icon/index.js'
 	import { urlParam } from '$lib/store/index.js'
+	import { goto } from '$app/navigation'
 
 	export let value: string
 	let klass = ''
 	export { klass as class }
+	export let classHeader = ''
+	export let classBody = ''
+	export let classTitle = ''
+	export let classSubtitle = ''
 
 	$: isOpen = $urlParam.hasValue('section', value)
 
-	let card: HTMLDivElement
+	let section: HTMLElement
 
 	let timeout: NodeJS.Timeout
-	function handleClick() {
-		timeout = setTimeout(() => {
-			if (!card) return
-			const bound = card.getBoundingClientRect()
+	async function handleClick() {
+		await goto($urlParam.toggle({ section: value }), { noScroll: true, keepFocus: true })
 
-			window.scrollTo({ top: bound.top, behavior: 'smooth' })
-		}, 250)
+		if (!section) return
+		const bound = section.getBoundingClientRect()
+		window.scrollTo({ top: bound.top, behavior: 'smooth' })
+		timeout = setTimeout(() => {}, 225)
 	}
 
 	onDestroy(() => {
@@ -29,39 +34,35 @@
 	})
 </script>
 
-<div class="card bordered border bg-base-100 shadow-md {klass}" bind:this={card}>
-	<div class="flex gap-2">
-		<slot name="logo" />
-
-		<a
-			id={value}
-			class="min-w-0 grow p-2 md:p-8 {$$slots.logo ? 'pl-0 md:pl-0' : ''}"
-			href={$urlParam.toggle({ section: value })}
-			data-sveltekit-noscroll
-			data-sveltekit-replacestate
-			on:click={handleClick}
-		>
-			<div class="flex gap-2">
-				<div class="title min-w-0 overflow-hidden text-ellipsis">
-					<slot name="title" />
-				</div>
-				<Icon
-					path={mdiChevronRight}
-					class="ml-auto transition-transform {isOpen ? 'rotate-90' : ''}"
-				/>
+<section class="card bordered border bg-base-100 shadow-md {klass}" bind:this={section}>
+	<div
+		id={value}
+		tabindex="0"
+		class="min-w-0 grow cursor-pointer p-2 sm:px-5 sm:py-3 {classHeader}"
+		role="link"
+		on:click={handleClick}
+		on:keydown={(e) => e.key === ' ' && handleClick()}
+	>
+		<div class="flex gap-2">
+			<div class="min-w-0 overflow-hidden text-ellipsis font-medium {classTitle}">
+				<slot name="title" />
 			</div>
+			<Icon
+				path={mdiChevronRight}
+				class="ml-auto opacity-80 transition-transform {isOpen ? 'rotate-90' : ''}"
+			/>
+		</div>
 
-			{#if $$slots.subtitle}
-				<div class="mt-2 text-sm opacity-80">
-					<slot name="subtitle" />
-				</div>
-			{/if}
-		</a>
+		{#if $$slots.subtitle}
+			<div class="text-sm {classSubtitle}">
+				<slot name="subtitle" />
+			</div>
+		{/if}
 	</div>
 
 	{#if isOpen}
-		<div class="card-body p-4 pt-0 md:p-8 md:pt-0" transition:slide={{ duration: 200 }}>
+		<div class="card-body p-4 pt-0 md:p-8 md:pt-0 {classBody}" transition:slide={{ duration: 200 }}>
 			<slot />
 		</div>
 	{/if}
-</div>
+</section>
