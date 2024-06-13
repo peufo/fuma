@@ -55,7 +55,7 @@
 
 <input type="hidden" name={key} value={JSON.stringify(value)} />
 
-<DropDown bind:this={dropdown} tippyProps={{ onHide: handleSubmit }} wrapperClass="mb-[-2px]">
+<DropDown bind:this={dropdown} tippyProps={{ onHide: handleSubmit }} classWrapper="mb-[-2px]">
 	<div class="join" class:ml-2={value?.length} slot="activator">
 		<button class="btn indicator join-item btn-sm {btnClass || ''}">
 			<slot name="label">

@@ -24,7 +24,7 @@
 	export let tippyProps: Partial<TippyProps> = {}
 	let klass = ''
 	export { klass as class }
-	export let wrapperClass = ''
+	export let classWrapper = ''
 	export let classActivator = ''
 	export let useSingleton = false
 	export let autofocus = false
@@ -95,7 +95,7 @@
 </script>
 
 {#if !disable}
-	<div class={wrapperClass}>
+	<div class={classWrapper}>
 		<div class={classActivator} bind:this={activator}>
 			<slot name="activator" />
 		</div>
@@ -110,7 +110,7 @@
 		</div>
 	</div>
 {:else}
-	<div class={wrapperClass}>
+	<div class={classWrapper}>
 		<slot name="activator" />
 		<div class="{klass} mt-2">
 			<slot />

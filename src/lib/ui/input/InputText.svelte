@@ -2,7 +2,7 @@
 	import { FormControl, bindValueWithParams, type InputProps } from './index.js'
 
 	type $$Props = InputProps
-	$: ({ input, value: _value, wrapperClass, bindWithParams, ...props } = $$props as $$Props)
+	$: ({ input, value: _value, classWrapper, bindWithParams, ...props } = $$props as $$Props)
 	$: ({ class: inputClass, ...inputProps } = input || {})
 	export let value = _value
 	export let inputElement: HTMLInputElement | undefined = undefined
@@ -11,7 +11,7 @@
 <FormControl {...props} enhanceDisabled={props.enhanceDisabled || bindWithParams} let:key>
 	<slot name="label_append" slot="label_append" />
 
-	<div class={wrapperClass}>
+	<div class={classWrapper}>
 		<slot name="prepend" {value} />
 		<input
 			bind:value

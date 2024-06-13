@@ -29,7 +29,7 @@
 		autocomplete: 'fuck-off',
 		inputmode: 'search'
 	}}
-	wrapperClass="relative {klass}"
+	classWrapper="relative {klass}"
 >
 	<button
 		slot="append"
