@@ -19,15 +19,15 @@
 
 	let timeout: NodeJS.Timeout
 	async function handleClick(event: MouseEvent | null) {
-		if (isClickOnLink(event)) return
+		if (isClickOnInteractiveElement(event)) return
 		await goto($urlParam.toggle({ section: value }), { noScroll: true, keepFocus: true })
 	}
 
-	function isClickOnLink(event: MouseEvent | null) {
+	function isClickOnInteractiveElement(event: MouseEvent | null) {
 		if (!event) return false
 		const target = event.target as HTMLElement
-		const links = [...header.getElementsByTagName('a')]
-		return !!links.filter((link) => link.contains(target)).length
+		const elements = [...header.querySelectorAll('a, button')]
+		return !!elements.filter((element) => element.contains(target)).length
 	}
 
 	onDestroy(() => {
