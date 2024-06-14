@@ -4,6 +4,7 @@ import { toast } from 'svelte-sonner'
 import type { z } from 'zod'
 import { enhance } from '$app/forms'
 import { goto } from '$app/navigation'
+import { writable } from 'svelte/store'
 
 export type SetError = { [key: string]: (err: string) => void }
 export type FormContext = { setError: SetError }
@@ -42,6 +43,7 @@ export function useForm<ReturnData extends Record<string, unknown>>({
 	successMessage = 'Succès'
 }: UseFormOptions<ReturnData> = {}) {
 	const { setError } = formContext.get()
+	const isLoading = writable(false)
 
 	async function resetErrors() {
 		for (const key in setError) setError[key]('')
@@ -87,11 +89,13 @@ export function useForm<ReturnData extends Record<string, unknown>>({
 	}
 
 	const submit: SubmitFunction<ReturnData> = async (event) => {
+		isLoading.set(true)
 		if (onSubmit) await onSubmit(event)
 
 		event.submitter?.classList.add('btn-disabled')
 
 		return async ({ result, update, action }) => {
+			isLoading.set(false)
 			event.submitter?.classList.remove('btn-disabled')
 
 			if (result.type === 'error') {
@@ -130,6 +134,7 @@ export function useForm<ReturnData extends Record<string, unknown>>({
 	return {
 		enhance: (form: HTMLFormElement) => enhance(form, submit),
 		submit,
+		isLoading,
 		resetErrors,
 		setError(key: string, value: string) {
 			if (!setError[key]) {
