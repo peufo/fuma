@@ -35,6 +35,7 @@
 	let inputTextRichValue = '<h2>Hey 👋</h2>'
 	let number = 42
 	let datetime = new Date()
+	let date: Date | null = null
 </script>
 
 <Meta component={inputText} name="InputText">
@@ -126,7 +127,8 @@
 </Meta>
 
 <Meta component={inputDate} name="InputDate">
-	<InputDate bind:this={inputDate} label="My Date" key="date" bind:value={datetime} />
+	<InputDate label="My Date" key="date" bind:value={date} hint={date ? date.toString() : 'null'} />
+	<InputDate bind:this={inputDate} label="My Date binded" key="date" bind:value={datetime} />
 </Meta>
 
 <Meta component={inputDateTime} name="InputDateTime">

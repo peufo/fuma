@@ -16,7 +16,7 @@
 	const handleInput: FormEventHandler<HTMLInputElement> = ({ currentTarget }) => {
 		const newValue = currentTarget.valueAsDate
 		if (newValue === null) value = null
-		newValue?.setHours(value?.getHours() || 0, value?.getMinutes(), value?.getSeconds())
+		newValue?.setHours(value?.getHours() || 0, value?.getMinutes() || 0, value?.getSeconds() || 0)
 		value = newValue
 		dispatch('input', value)
 	}
