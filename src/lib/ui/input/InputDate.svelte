@@ -14,7 +14,10 @@
 	const dispatch = createEventDispatcher<{ input: Date | null }>()
 
 	const handleInput: FormEventHandler<HTMLInputElement> = ({ currentTarget }) => {
-		value = currentTarget.valueAsDate || null
+		const newValue = currentTarget.valueAsDate
+		if (newValue === null) value = null
+		newValue?.setHours(value?.getHours() || 0, value?.getMinutes(), value?.getSeconds())
+		value = newValue
 		dispatch('input', value)
 	}
 </script>

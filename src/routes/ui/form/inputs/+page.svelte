@@ -126,11 +126,11 @@
 </Meta>
 
 <Meta component={inputDate} name="InputDate">
-	<InputDate bind:this={inputDate} label="My Date" key="date" />
+	<InputDate bind:this={inputDate} label="My Date" key="date" bind:value={datetime} />
 </Meta>
 
 <Meta component={inputDateTime} name="InputDateTime">
-	<InputDateTime label="MY datetime" key="datetime" bind:value={datetime} />
+	<InputDateTime label="My datetime" key="datetime" bind:value={datetime} />
 </Meta>
 
 <Meta component={inputTime} name="InputTime">
