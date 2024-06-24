@@ -1,6 +1,6 @@
 {
 	"name": "fuma",
-	"version": "0.3.60",
+	"version": "0.4.0",
 	"description": "My fullstack material build with sveltekit, daisyui, zod, prisma, lucia",
 	"author": {
 		"name": "Jonas Voisard",
