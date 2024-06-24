@@ -1,19 +1,19 @@
 <script lang="ts">
 	import { onMount, onDestroy, createEventDispatcher } from 'svelte'
 	import type { Litepicker } from 'litepicker'
-
-	import type { Period } from './index.js'
+	import type { Range, RangeDate } from './types.js'
+	import dayjs from 'dayjs'
 
 	export let numberOfMonths = 3
 	export let numberOfColumns = numberOfMonths
 	export let showWeekNumbers = true
-	export let period: Period | undefined = undefined
+	export let range: Range | undefined = undefined
 
 	let startElement: HTMLInputElement
 	let endElement: HTMLInputElement
 	let picker: Litepicker
 	let parentEl: HTMLDivElement
-	const dispatch = createEventDispatcher<{ change: Period }>()
+	const dispatch = createEventDispatcher<{ change: Range }>()
 
 	onMount(() => {
 		initTimePicker()
@@ -38,20 +38,19 @@
 			numberOfMonths,
 			numberOfColumns,
 			showWeekNumbers,
-			startDate: period?.start ?? undefined,
-			endDate: period?.end ?? undefined,
+			startDate: range?.start ? dayjs(range.start).toDate() : undefined,
+			endDate: range?.end ? dayjs(range.end).toDate() : undefined,
 			setup: (picker: Litepicker) => {
 				picker.on('selected', (date1: any, date2: any) => {
-					const start = `${getAbsoluteDate(date1.dateInstance)}T${getAbsoluteTime(period?.start)}`
-					period = {
+					range = {
 						start: new Date(
-							`${getAbsoluteDate(date1.dateInstance)}T${getAbsoluteTime(period?.start)}`
+							`${getAbsoluteDate(date1.dateInstance)}T${getAbsoluteTime(range?.start)}`
 						),
 						end: new Date(
-							`${getAbsoluteDate(date2.dateInstance)}T${getAbsoluteTime(period?.end, '23:59:00')}`
+							`${getAbsoluteDate(date2.dateInstance)}T${getAbsoluteTime(range?.end, '23:59:00')}`
 						)
 					}
-					dispatch('change', period)
+					dispatch('change', range)
 				})
 			}
 		})
@@ -62,11 +61,9 @@
 			.map((n) => n.toString().padStart(2, '0'))
 			.join('-')
 
-	const getAbsoluteTime = (date?: Date | null, defaultTime = '00:00:00') => {
+	const getAbsoluteTime = (date?: RangeDate, defaultTime = '00:00:00') => {
 		if (!date) return defaultTime
-		return [date.getHours(), date.getMinutes(), date.getSeconds()]
-			.map((n) => n.toString().padStart(2, '0'))
-			.join(':')
+		return dayjs(date).format('HH:mm:ss')
 	}
 </script>
 

@@ -4,11 +4,11 @@
 	import { page } from '$app/stores'
 
 	import { urlParam } from '$lib/store/param.js'
-	import { formatRange } from '$lib/utils/formatRange.js'
+	import { formatRange } from '$lib/ui/range/format.js'
 	import { Icon } from '$lib/ui/icon/index.js'
 	import { DropDown } from '$lib/ui/menu/index.js'
 	import { InputTime } from '$lib/ui/input/index.js'
-	import { type Period, PeriodPicker } from '$lib/ui/period/index.js'
+	import { type Range, RangePicker } from '$lib/ui/range/index.js'
 	import dayjs from 'dayjs'
 
 	let dropDown: DropDown
@@ -21,9 +21,9 @@
 	}
 	$: isValidPeriod = !!period.start && !!period.end
 
-	function getLabel(_period: Period | undefined) {
-		if (!_period || !_period.start || !_period.end) return 'Périodes'
-		return formatRange(_period)
+	function getLabel(_range?: Range) {
+		if (!_range || !_range.start || !_range.end) return 'Périodes'
+		return formatRange(_range)
 	}
 
 	function handleSubmit() {
@@ -59,7 +59,7 @@
 	</div>
 
 	<form class="flex flex-col" on:submit|preventDefault={handleSubmit} data-sveltekit-replacestate>
-		<PeriodPicker numberOfMonths={1} bind:period />
+		<RangePicker numberOfMonths={1} bind:range={period} />
 
 		<input class="hidden" type="text" name="start" value={period.start?.toJSON()} />
 		<input class="hidden" type="text" name="end" value={period.end?.toJSON()} />

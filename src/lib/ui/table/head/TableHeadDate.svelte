@@ -6,12 +6,11 @@
 	import { DropDown } from '$lib/ui/menu/index.js'
 	import { InputTime } from '$lib/ui/input/index.js'
 	import type { TableField } from '$lib/ui/table/index.js'
-	import { formatRange } from '$lib/utils/formatRange.js'
-	import { PeriodPicker, type Period } from '$lib/ui/period/index.js'
+	import { formatRange } from '$lib/ui/range/format.js'
+	import { RangePicker } from '$lib/ui/range/index.js'
 	import { urlParam } from '$lib/store/param.js'
 	import { jsonParse } from '$lib/utils/jsonParse.js'
 	import { Icon } from '$lib/ui/icon/index.js'
-	import dayjs from 'dayjs'
 
 	export let field: Omit<TableField, 'getCell' | 'type'>
 
@@ -21,12 +20,12 @@
 		{}
 	)
 
-	let period = {
+	let range = {
 		start: initialValue.start ? new Date(initialValue.start) : null,
 		end: initialValue.end ? new Date(initialValue.end) : null
 	}
 
-	$: isValidPeriod = !!period.start && !!period.end
+	$: isValidPeriod = !!range.start && !!range.end
 
 	function handleSubmit() {
 		dropDown.hide()
@@ -35,8 +34,8 @@
 			$urlParam.with(
 				{
 					[field.key]: JSON.stringify({
-						start: period.start?.toJSON(),
-						end: period.end?.toJSON()
+						start: range.start?.toJSON(),
+						end: range.end?.toJSON()
 					})
 				},
 				'skip',
@@ -48,7 +47,7 @@
 
 	function handleReset() {
 		dropDown.hide()
-		period = { start: null, end: null }
+		range = { start: null, end: null }
 		goto($urlParam.without(field.key, 'skip', 'take'), { replaceState: true, noScroll: true })
 	}
 </script>
@@ -70,7 +69,7 @@
 
 			{#if isValidPeriod}
 				<span class="badge badge-primary badge-xs text-[0.7rem] font-normal text-white">
-					{formatRange(period)}
+					{formatRange(range)}
 				</span>
 			{/if}
 		</button>
@@ -80,14 +79,14 @@
 			on:submit|preventDefault={handleSubmit}
 			data-sveltekit-replacestate
 		>
-			<PeriodPicker numberOfMonths={1} bind:period />
+			<RangePicker numberOfMonths={1} bind:range />
 
-			<input class="hidden" type="text" name="start" value={period.start?.toJSON()} />
-			<input class="hidden" type="text" name="end" value={period.end?.toJSON()} />
+			<input class="hidden" type="text" name="start" value={range.start?.toJSON()} />
+			<input class="hidden" type="text" name="end" value={range.end?.toJSON()} />
 
 			<div class="m-2 flex gap-2">
-				<InputTime label="A partir de" bind:value={period.start} enhanceDisabled class="grow" />
-				<InputTime label="Jusqu'à" bind:value={period.end} enhanceDisabled class="grow" />
+				<InputTime label="A partir de" bind:value={range.start} enhanceDisabled class="grow" />
+				<InputTime label="Jusqu'à" bind:value={range.end} enhanceDisabled class="grow" />
 			</div>
 
 			<div class="m-2 flex flex-row-reverse gap-2">

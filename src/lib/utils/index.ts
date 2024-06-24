@@ -1,7 +1,6 @@
 export * from './component.js'
 export * from './jsonParse.js'
 export * from './normalizePath.js'
-export * from './formatRange.js'
 export * from './options.js'
 export * from './avatar.js'
 export * from './tippy.js'

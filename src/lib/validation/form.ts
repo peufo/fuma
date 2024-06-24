@@ -30,6 +30,7 @@ export type UseFormOptions<ReturnData> = {
 	successUpdate?: BooleanOrFunction
 	successReset?: BooleanOrFunction
 	successMessage?: SuccessMessage
+	submitOnChange?: boolean
 }
 
 export function useForm<ReturnData extends Record<string, unknown>>({
