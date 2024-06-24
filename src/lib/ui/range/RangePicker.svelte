@@ -8,6 +8,8 @@
 	export let numberOfColumns = numberOfMonths
 	export let showWeekNumbers = true
 	export let range: Range | undefined = undefined
+	export let minDate: Date | number | string | undefined = undefined
+	export let maxDate: Date | number | string | undefined = undefined
 
 	let startElement: HTMLInputElement
 	let endElement: HTMLInputElement
@@ -38,6 +40,8 @@
 			numberOfMonths,
 			numberOfColumns,
 			showWeekNumbers,
+			minDate,
+			maxDate,
 			startDate: range?.start ? dayjs(range.start).toDate() : undefined,
 			endDate: range?.end ? dayjs(range.end).toDate() : undefined,
 			setup: (picker: Litepicker) => {

@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { mdiCalendarMonthOutline, mdiClose } from '@mdi/js'
+	import dayjs from 'dayjs'
 	import { goto } from '$app/navigation'
 	import { page } from '$app/stores'
 
@@ -9,17 +10,18 @@
 	import { DropDown } from '$lib/ui/menu/index.js'
 	import { InputTime } from '$lib/ui/input/index.js'
 	import { type Range, RangePicker } from '$lib/ui/range/index.js'
-	import dayjs from 'dayjs'
+	export let minDate: Date | number | string | undefined = undefined
+	export let maxDate: Date | number | string | undefined = undefined
 
 	let dropDown: DropDown
 	const start = $page.url.searchParams.get('start')
 	const end = $page.url.searchParams.get('end')
 
-	let period = {
+	export let range = {
 		start: start ? new Date(start) : null,
 		end: end ? new Date(end) : null
 	}
-	$: isValidPeriod = !!period.start && !!period.end
+	$: isValidPeriod = !!range.start && !!range.end
 
 	function getLabel(_range?: Range) {
 		if (!_range || !_range.start || !_range.end) return 'Périodes'
@@ -31,8 +33,8 @@
 		if (!isValidPeriod) return
 		goto(
 			$urlParam.with({
-				start: dayjs(period.start).format('HH:mm'),
-				end: dayjs(period.end).format('HH:mm')
+				start: dayjs(range.start).format('HH:mm'),
+				end: dayjs(range.end).format('HH:mm')
 			}),
 			{ replaceState: true, noScroll: true }
 		)
@@ -40,7 +42,7 @@
 
 	function handleReset() {
 		dropDown.hide()
-		period = { start: null, end: null }
+		range = { start: null, end: null }
 		goto($urlParam.without('start', 'end'), { replaceState: true, noScroll: true })
 	}
 </script>
@@ -49,7 +51,7 @@
 	<div slot="activator" class="join">
 		<button class="btn join-item btn-sm shrink flex-nowrap">
 			<Icon path={mdiCalendarMonthOutline} class="opacity-60" size={20} />
-			{getLabel(period)}
+			{getLabel(range)}
 		</button>
 		{#if isValidPeriod}
 			<button class="btn btn-square join-item btn-sm" on:click|preventDefault={handleReset}>
@@ -59,14 +61,14 @@
 	</div>
 
 	<form class="flex flex-col" on:submit|preventDefault={handleSubmit} data-sveltekit-replacestate>
-		<RangePicker numberOfMonths={1} bind:range={period} />
+		<RangePicker numberOfMonths={1} bind:range {minDate} {maxDate} />
 
-		<input class="hidden" type="text" name="start" value={period.start?.toJSON()} />
-		<input class="hidden" type="text" name="end" value={period.end?.toJSON()} />
+		<input class="hidden" type="text" name="start" value={range.start?.toJSON()} />
+		<input class="hidden" type="text" name="end" value={range.end?.toJSON()} />
 
 		<div class="flex gap-2 p-2">
-			<InputTime label="A partir de" bind:value={period.start} enhanceDisabled class="grow" />
-			<InputTime label="Jusqu'à" bind:value={period.end} enhanceDisabled class="grow" />
+			<InputTime label="A partir de" bind:value={range.start} enhanceDisabled class="grow" />
+			<InputTime label="Jusqu'à" bind:value={range.end} enhanceDisabled class="grow" />
 		</div>
 		<button class="btn m-2"> Valider </button>
 	</form>

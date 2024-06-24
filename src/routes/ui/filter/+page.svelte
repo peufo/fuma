@@ -3,16 +3,16 @@
 	import PeriodPicker from '$lib/ui/range/RangePicker.svelte'
 	import TableHeadDate from '$lib/ui/table/head/TableHeadDate.svelte'
 
-	let period: { start: Date; end: Date } | undefined = undefined
+	let range: { start: Date; end: Date } | undefined = undefined
 </script>
 
-<PeriodPicker bind:range={period} />
+<PeriodPicker bind:range />
 
-<pre>{JSON.stringify(period, null, 2)}</pre>
+<pre>{JSON.stringify(range, null, 2)}</pre>
 
 <div class="divider"></div>
 
-<RangePickerButton />
+<RangePickerButton bind:range />
 
 <div class="divider"></div>
 
