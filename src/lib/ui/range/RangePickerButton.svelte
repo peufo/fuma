@@ -17,9 +17,9 @@
 	const start = $page.url.searchParams.get('start')
 	const end = $page.url.searchParams.get('end')
 
-	export let range = {
-		start: start ? new Date(start) : null,
-		end: end ? new Date(end) : null
+	export let range: Range = {
+		start: start ? new Date(start) : undefined,
+		end: end ? new Date(end) : undefined
 	}
 	$: isValidPeriod = !!range.start && !!range.end
 
@@ -42,7 +42,7 @@
 
 	function handleReset() {
 		dropDown.hide()
-		range = { start: null, end: null }
+		range = { start: undefined, end: undefined }
 		goto($urlParam.without('start', 'end'), { replaceState: true, noScroll: true })
 	}
 </script>
@@ -63,12 +63,34 @@
 	<form class="flex flex-col" on:submit|preventDefault={handleSubmit} data-sveltekit-replacestate>
 		<RangePicker numberOfMonths={1} bind:range {minDate} {maxDate} />
 
-		<input class="hidden" type="text" name="start" value={range.start?.toJSON()} />
-		<input class="hidden" type="text" name="end" value={range.end?.toJSON()} />
+		<input
+			class="hidden"
+			type="text"
+			name="start"
+			value={range.start ? dayjs(range.start).toJSON() : ''}
+		/>
+		<input
+			class="hidden"
+			type="text"
+			name="end"
+			value={range.end ? dayjs(range.end).toJSON() : ''}
+		/>
 
 		<div class="flex gap-2 p-2">
-			<InputTime label="A partir de" bind:value={range.start} enhanceDisabled class="grow" />
-			<InputTime label="Jusqu'à" bind:value={range.end} enhanceDisabled class="grow" />
+			<InputTime
+				label="A partir de"
+				value={dayjs(range.start).toDate()}
+				on:input={({ detail: newDate }) => (range.start = newDate)}
+				enhanceDisabled
+				class="grow"
+			/>
+			<InputTime
+				label="Jusqu'à"
+				value={dayjs(range.end).toDate()}
+				on:input={({ detail: newDate }) => (range.end = newDate)}
+				enhanceDisabled
+				class="grow"
+			/>
 		</div>
 		<button class="btn m-2"> Valider </button>
 	</form>
