@@ -2,7 +2,6 @@
 	import { mdiCalendarMonthOutline, mdiClose } from '@mdi/js'
 	import dayjs from 'dayjs'
 	import { goto } from '$app/navigation'
-	import { page } from '$app/stores'
 
 	import { urlParam } from '$lib/store/param.js'
 	import { formatRange } from '$lib/ui/range/format.js'
@@ -10,17 +9,14 @@
 	import { DropDown } from '$lib/ui/menu/index.js'
 	import { InputTime } from '$lib/ui/input/index.js'
 	import { type Range, RangePicker } from '$lib/ui/range/index.js'
+	import { jsonParse } from '$lib/utils/jsonParse.js'
 	export let minDate: Date | number | string | undefined = undefined
 	export let maxDate: Date | number | string | undefined = undefined
 
 	let dropDown: DropDown
-	const start = $page.url.searchParams.get('start')
-	const end = $page.url.searchParams.get('end')
 
-	export let range: Range = {
-		start: start ? new Date(start) : undefined,
-		end: end ? new Date(end) : undefined
-	}
+	export let key = 'range'
+	export let range: Range = jsonParse($urlParam.get(key), { start: null, end: null })
 	$: isValidPeriod = !!range.start && !!range.end
 
 	function getLabel(_range?: Range) {
@@ -33,8 +29,10 @@
 		if (!isValidPeriod) return
 		goto(
 			$urlParam.with({
-				start: dayjs(range.start).format('HH:mm'),
-				end: dayjs(range.end).format('HH:mm')
+				[key]: JSON.stringify({
+					start: range.start?.toJSON(),
+					end: range.end?.toJSON()
+				})
 			}),
 			{ replaceState: true, noScroll: true }
 		)
@@ -42,8 +40,8 @@
 
 	function handleReset() {
 		dropDown.hide()
-		range = { start: undefined, end: undefined }
-		goto($urlParam.without('start', 'end'), { replaceState: true, noScroll: true })
+		range = { start: null, end: null }
+		goto($urlParam.without(key), { replaceState: true, noScroll: true })
 	}
 </script>
 
@@ -60,21 +58,8 @@
 		{/if}
 	</div>
 
-	<form class="flex flex-col" on:submit|preventDefault={handleSubmit} data-sveltekit-replacestate>
+	<form class="flex flex-col" on:submit|preventDefault={handleSubmit}>
 		<RangePicker numberOfMonths={1} bind:range {minDate} {maxDate} />
-
-		<input
-			class="hidden"
-			type="text"
-			name="start"
-			value={range.start ? dayjs(range.start).toJSON() : ''}
-		/>
-		<input
-			class="hidden"
-			type="text"
-			name="end"
-			value={range.end ? dayjs(range.end).toJSON() : ''}
-		/>
 
 		<div class="flex gap-2 p-2">
 			<InputTime
