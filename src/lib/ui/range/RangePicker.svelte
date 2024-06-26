@@ -1,13 +1,13 @@
 <script lang="ts">
 	import { onMount, onDestroy, createEventDispatcher } from 'svelte'
 	import type { Litepicker } from 'litepicker'
-	import type { Range, RangeDate } from './types.js'
+	import type { Range, RangeAsDate, RangeDate } from './types.js'
 	import dayjs from 'dayjs'
 
 	export let numberOfMonths = 3
 	export let numberOfColumns = numberOfMonths
 	export let showWeekNumbers = true
-	export let range: Range | undefined = undefined
+	export let range: RangeAsDate | undefined = undefined
 	export let minDate: Date | number | string | undefined = undefined
 	export let maxDate: Date | number | string | undefined = undefined
 
@@ -24,6 +24,10 @@
 	onDestroy(() => {
 		picker?.destroy()
 	})
+
+	export function clear() {
+		picker?.clearSelection()
+	}
 
 	async function initTimePicker() {
 		const _Litepicker = (await import('litepicker')).Litepicker

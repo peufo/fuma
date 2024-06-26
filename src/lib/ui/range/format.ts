@@ -13,6 +13,7 @@ const formater = new Intl.DateTimeFormat('fr-ch', {
 
 const formaterShort = new Intl.DateTimeFormat('fr-ch', {
 	weekday: 'short',
+	month: 'long',
 	hour: 'numeric',
 	minute: 'numeric',
 	timeZone: 'Europe/Zurich'
@@ -40,7 +41,7 @@ export const formatRangeShort = (range: Range, placeholder = '') => {
 	if (!isRequiredRange(range)) return placeholder
 	const start = dayjs(range.start).toDate()
 	const end = dayjs(range.end).toDate()
-	formaterShort.formatRange(start, end)
+	return formaterShort.formatRange(start, end)
 }
 
 export const formatRangeHour = (range: Range, placeholder = '') => {

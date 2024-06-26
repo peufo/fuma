@@ -15,6 +15,7 @@
 	export let field: Omit<TableField, 'getCell' | 'type'>
 
 	let dropDown: DropDown
+	let rangePicker: RangePicker
 	const initialValue = jsonParse<{ start?: string; end?: string }>(
 		$page.url.searchParams.get(field.key),
 		{}
@@ -48,6 +49,7 @@
 	function handleReset() {
 		dropDown.hide()
 		range = { start: null, end: null }
+		rangePicker.clear()
 		goto($urlParam.without(field.key, 'skip', 'take'), { replaceState: true, noScroll: true })
 	}
 </script>
@@ -79,7 +81,7 @@
 			on:submit|preventDefault={handleSubmit}
 			data-sveltekit-replacestate
 		>
-			<RangePicker numberOfMonths={1} bind:range />
+			<RangePicker bind:this={rangePicker} numberOfMonths={1} bind:range />
 
 			<input class="hidden" type="text" name="start" value={range.start?.toJSON()} />
 			<input class="hidden" type="text" name="end" value={range.end?.toJSON()} />
