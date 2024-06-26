@@ -14,6 +14,7 @@ const formater = new Intl.DateTimeFormat('fr-ch', {
 const formaterShort = new Intl.DateTimeFormat('fr-ch', {
 	weekday: 'short',
 	month: 'long',
+	day: '2-digit',
 	hour: 'numeric',
 	minute: 'numeric',
 	timeZone: 'Europe/Zurich'
