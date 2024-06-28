@@ -37,12 +37,11 @@
 
 	$: _options = parseOptions(options)
 
-	function handleSubmit() {
-		if (!value?.length) {
-			goto($urlParam.without(key), { replaceState: true, noScroll: true })
-			return
-		}
-		goto($urlParam.with({ [key]: JSON.stringify(value) }), { replaceState: true, noScroll: true })
+	async function writeUrl() {
+		const url = value?.length
+			? $urlParam.with({ [key]: JSON.stringify(value) })
+			: $urlParam.without(key)
+		return goto(url, { replaceState: true, noScroll: true })
 	}
 
 	function handleReset() {
@@ -54,7 +53,7 @@
 
 <input type="hidden" name={key} value={JSON.stringify(value)} />
 
-<DropDown bind:this={dropdown} tippyProps={{ onHide: handleSubmit }} classWrapper="mb-[-2px]">
+<DropDown bind:this={dropdown} tippyProps={{ onHidden: writeUrl }} classWrapper="mb-[-2px]">
 	<div class="join" class:ml-2={value?.length} slot="activator">
 		<button class="btn indicator join-item btn-sm {btnClass || ''}">
 			<slot name="label">
