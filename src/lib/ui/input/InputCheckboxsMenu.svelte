@@ -38,7 +38,6 @@
 	$: _options = parseOptions(options)
 
 	function handleSubmit() {
-		if (!dropdown) return
 		if (!value?.length) {
 			goto($urlParam.without(key), { replaceState: true, noScroll: true })
 			return
