@@ -11,7 +11,7 @@
 		Data extends FormDataInput<Shape> = FormDataInput<Shape>
 	"
 >
-	import { createEventDispatcher, onMount } from 'svelte'
+	import { createEventDispatcher, onMount, tick } from 'svelte'
 	import { fade } from 'svelte/transition'
 	import { page } from '$app/stores'
 	import { contextContainer } from '$lib/ui/context.js'
@@ -50,7 +50,6 @@
 	export { dataInput as data }
 
 	let data = dataInput
-	$: $isDirty ? (dataInput = data) : (data = dataInput)
 
 	export function set<K extends keyof Shape>(key: K, value: Nullable<Data>[K]) {
 		isDirty.set(true)
@@ -83,6 +82,11 @@
 	const { handleInput, isDirty } = useHandleInput({ model, setError })
 
 	onMount(lookupValueFromParams)
+	isDirty.subscribe(async (_isDirty) => {
+		await tick()
+		if (isDirty) dataInput = data
+		else data = dataInput
+	})
 
 	function lookupValueFromParams() {
 		fields.flat().forEach(({ key }) => {
