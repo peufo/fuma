@@ -1,7 +1,7 @@
 import type { z } from 'zod'
 import debounce from 'debounce'
 import type { ComponentProps } from 'svelte'
-import {  writable, type Writable } from 'svelte/store'
+import { writable, type Writable } from 'svelte/store'
 import type { FormEventHandler } from 'svelte/elements'
 import { formInputsType, type FormInputsProps, type FormInputsType } from './formInput.js'
 
@@ -35,7 +35,9 @@ export type FormSectionProps<S extends Shape> = ComponentProps<FormSection> & {
 	hide?: BoolOrFunction<S>
 }
 
-export function initData<S extends Shape, Data extends FormDataInput<S> = FormDataInput<S>>(fields: FormField<S>[][]): Data {
+export function initData<S extends Shape, Data extends FormDataInput<S> = FormDataInput<S>>(
+	fields: FormField<S>[][]
+): Data {
 	// @ts-ignore
 	return fields.flat().reduce((acc, cur) => {
 		const inputType = getFieldType(cur)
@@ -69,7 +71,6 @@ export function useHandleInput<S extends Shape>({
 		isDirty,
 		handleInput: ({ target }) => {
 			if (!target) return
-			isDirty.set(true)
 			if (!model) return
 			const { name, type, value, valueAsNumber, valueAsDate, checked } = target as HTMLInputElement
 			const typeMapValue: Record<string, unknown> = {
@@ -82,6 +83,7 @@ export function useHandleInput<S extends Shape>({
 			if (v === undefined || name === undefined) return
 			if (name === undefined) return
 			if (!model[name]) return
+			isDirty.set(true)
 			const res = model[name].safeParse(v)
 			if (res.success) {
 				setErrorDebounced.clear()
