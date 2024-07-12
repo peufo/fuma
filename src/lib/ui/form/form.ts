@@ -72,19 +72,13 @@ export function useHandleInput<S extends Shape>({
 		handleInput: ({ target }) => {
 			if (!target) return
 			if (!model) return
-			const { name, type, value, valueAsNumber, valueAsDate, checked } = target as HTMLInputElement
-			const typeMapValue: Record<string, unknown> = {
-				number: valueAsNumber,
-				date: valueAsDate,
-				text: value,
-				checkbox: checked
-			}
-			const v = typeMapValue[type] ?? value
-			if (v === undefined || name === undefined) return
+			const { name } = target as HTMLInputElement
+			const value = getTypedValue(target as HTMLInputElement)
+			if (value === undefined) return
 			if (name === undefined) return
 			if (!model[name]) return
 			isDirty.set(true)
-			const res = model[name].safeParse(v)
+			const res = model[name].safeParse(value)
 			if (res.success) {
 				setErrorDebounced.clear()
 				setError(name, '')
@@ -93,4 +87,15 @@ export function useHandleInput<S extends Shape>({
 			}
 		}
 	}
+}
+
+function getTypedValue(target: HTMLInputElement) {
+	const { type, value, valueAsNumber, valueAsDate, checked } = target as HTMLInputElement
+	const typeMapValue: Record<string, unknown> = {
+		number: valueAsNumber,
+		date: valueAsDate,
+		text: value,
+		checkbox: checked
+	}
+	return typeMapValue[type] ?? value
 }

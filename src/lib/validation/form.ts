@@ -64,12 +64,10 @@ export function useForm<ReturnData extends Record<string, unknown>>({
 		resetErrors()
 		if (issues) {
 			issues.forEach((issue) => {
-				const key = issue.path[0]
+				const key = issue.path.join('.')
 				if (!setError[key]) {
 					toast.warning(
-						`[${issue.code}] ${issue.path.join('.')} receive "${issue.received}" instead "${
-							issue.expected
-						}"`
+						`[${issue.code}] ${key} receive "${issue.received}" instead "${issue.expected}"`
 					)
 					console.warn('Error not visible', issue)
 					return
@@ -78,7 +76,7 @@ export function useForm<ReturnData extends Record<string, unknown>>({
 			})
 
 			const issuesKeys = issues
-				.map(({ path }) => path[0])
+				.map(({ path }) => path.join('.'))
 				.filter((k, i, self) => self.indexOf(k) === i)
 			toast.warning('Invalid form', { description: issuesKeys.join(', ') })
 		}
@@ -112,21 +110,21 @@ export function useForm<ReturnData extends Record<string, unknown>>({
 				return
 			}
 
-			function tryToRun<T extends string | boolean>(valueOrFunction: T | ((action: URL) => T)): T {
+			function getValue<T extends string | boolean>(valueOrFunction: T | ((action: URL) => T)): T {
 				if (typeof valueOrFunction === 'function') return valueOrFunction(action)
 				return valueOrFunction
 			}
 
 			if (result.type === 'success') {
-				if (successMessage !== false) toast.success(tryToRun(successMessage))
-				if (successUpdate) await update({ reset: tryToRun(successReset) })
+				if (successMessage !== false) toast.success(getValue(successMessage))
+				if (successUpdate) await update({ reset: getValue(successReset) })
 				if (onSuccess) await onSuccess(action, result.data)
 				return
 			}
 
 			if (result.type === 'redirect') {
-				if (successMessage !== false) toast.success(tryToRun(successMessage))
-				await goto(result.location, { replaceState: true, invalidateAll: tryToRun(successUpdate) })
+				if (successMessage !== false) toast.success(getValue(successMessage))
+				await goto(result.location, { replaceState: true, invalidateAll: getValue(successUpdate) })
 				if (onSuccess) await onSuccess(action)
 			}
 		}

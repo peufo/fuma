@@ -5,7 +5,7 @@ function json<T extends zod.ZodRawShape>(shap: T) {
 	return zod.union([zod.object(shap), zod.string().transform(jsonParse).pipe(zod.object(shap))])
 }
 
-function array<T extends zod.ZodTypeAny>(shap: T) {
+function jsonArray<T extends zod.ZodTypeAny>(shap: T) {
 	return zod.union([zod.array(shap), zod.string().transform(jsonParse).pipe(zod.array(shap))])
 }
 
@@ -70,7 +70,7 @@ const filter = {
 		min: zod.number().optional(),
 		max: zod.number().optional()
 	}).optional(),
-	multiselect: array(zod.string()).optional(),
+	multiselect: jsonArray(zod.string()).optional(),
 	range: json({
 		start: zod.coerce.date().optional(),
 		end: zod.coerce.date().optional()
@@ -83,9 +83,8 @@ const filter = {
 
 export const z = {
 	...zod,
-	json, // TODO: rename stringAsObject
-	array, // TODO: rename stringAsArray
-	arrayRaw: zod.array, // TODO: remove
+	json,
+	arrayAsString: jsonArray,
 	relation,
 	relations,
 	filter
