@@ -84,7 +84,7 @@ const filter = {
 export const z = {
 	...zod,
 	json,
-	arrayAsString: jsonArray,
+	jsonArray,
 	relation,
 	relations,
 	filter
