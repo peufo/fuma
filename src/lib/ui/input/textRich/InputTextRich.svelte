@@ -52,14 +52,16 @@
 	}, 120)
 </script>
 
-<FormControl {...$$restProps} let:key>
-	<div class="bordered relative rounded-lg border">
-		{#if editor}
-			<ToolsBar {editor} class={classToolbar} />
+<FormControl {...$$restProps}>
+	{#snippet children({ key })}
+		<div class="bordered relative rounded-lg border">
+			{#if editor}
+				<ToolsBar {editor} class={classToolbar} />
+			{/if}
+			<div bind:this={element} class="min-h-[20rem] p-4 pb-10"></div>
+		</div>
+		{#if key}
+			<input type="hidden" name={key} {value} />
 		{/if}
-		<div bind:this={element} class="min-h-[20rem] p-4 pb-10" />
-	</div>
-	{#if key}
-		<input type="hidden" name={key} {value} />
-	{/if}
+	{/snippet}
 </FormControl>

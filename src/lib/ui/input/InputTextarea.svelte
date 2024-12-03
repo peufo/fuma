@@ -6,17 +6,18 @@
 	export let value = _value
 </script>
 
-<FormControl {...props} let:key>
-	<slot name="label_append" slot="label_append" />
-	<textarea
-		bind:value
-		on:input
-		on:focus
-		on:blur
-		name={key}
-		id={key}
-		class="textarea textarea-bordered {inputClass || ''}"
-		rows="4"
-		{...inputProps}
-	/>
+<FormControl {...props}>
+	{#snippet children({ key })}
+		<textarea
+			bind:value
+			on:input
+			on:focus
+			on:blur
+			name={key}
+			id={key}
+			class="textarea textarea-bordered {inputClass || ''}"
+			rows="4"
+			{...inputProps}
+		></textarea>
+	{/snippet}
 </FormControl>

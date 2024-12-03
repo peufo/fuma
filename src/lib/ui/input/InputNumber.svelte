@@ -10,21 +10,22 @@
 	export let inputElement: HTMLInputElement | undefined = undefined
 </script>
 
-<FormControl {...$$restProps} let:key>
-	<slot name="label_append" slot="label_append" />
-	<input
-		bind:value
-		bind:this={inputElement}
-		on:input
-		on:focus
-		on:blur
-		type="number"
-		id={key}
-		inputmode="numeric"
-		class="input input-bordered"
-		{...input}
-	/>
-	{#if value !== undefined}
-		<input type="hidden" name={key} value="{USE_COERCE_NUMBER}{value}" />
-	{/if}
+<FormControl {...$$restProps}>
+	{#snippet children({ key })}
+		<input
+			bind:value
+			bind:this={inputElement}
+			on:input
+			on:focus
+			on:blur
+			type="number"
+			id={key}
+			inputmode="numeric"
+			class="input input-bordered"
+			{...input}
+		/>
+		{#if value !== undefined}
+			<input type="hidden" name={key} value="{USE_COERCE_NUMBER}{value}" />
+		{/if}
+	{/snippet}
 </FormControl>

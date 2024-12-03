@@ -45,39 +45,41 @@
 
 <DropDown {tippyProps}>
 	<div class="contents" slot="activator">
-		<FormControl {...props} let:key>
-			<div class="flex grow gap-2" class:hidden={selectedOption}>
-				<div class="relative flex grow items-center gap-2">
-					<input
-						type="text"
-						id={key}
-						bind:this={inputElement}
-						bind:value={searchValue}
-						on:focus={() => filterOptions('')}
-						on:blur={() => (searchValue = '')}
-						on:input={(e) => filterOptions(e.currentTarget.value)}
-						autocomplete="off"
-						class="input input-bordered grow {inputClass || {}}"
-						{...inputProps}
-					/>
+		<FormControl {...props}>
+			{#snippet children({ key })}
+				<div class="flex grow gap-2" class:hidden={selectedOption}>
+					<div class="relative flex grow items-center gap-2">
+						<input
+							type="text"
+							id={key}
+							bind:this={inputElement}
+							bind:value={searchValue}
+							on:focus={() => filterOptions('')}
+							on:blur={() => (searchValue = '')}
+							on:input={(e) => filterOptions(e.currentTarget.value)}
+							autocomplete="off"
+							class="input input-bordered grow {inputClass || {}}"
+							{...inputProps}
+						/>
+					</div>
+					<slot name="append" />
 				</div>
-				<slot name="append" />
-			</div>
 
-			{#if selectedOption}
-				<button
-					type="button"
-					class="flex h-12 items-center gap-2 rounded-lg border pl-4 pr-2"
-					on:click={clear}
-					on:focus={clear}
-				>
-					{#if selectedOption.icon}
-						<Icon path={selectedOption.icon} size={21} class="opacity-70" />
-					{/if}
-					<span>{selectedOption.label}</span>
-				</button>
-				<input type="hidden" name={key} value={selectedOption.value} />
-			{/if}
+				{#if selectedOption}
+					<button
+						type="button"
+						class="flex h-12 items-center gap-2 rounded-lg border pl-4 pr-2"
+						on:click={clear}
+						on:focus={clear}
+					>
+						{#if selectedOption.icon}
+							<Icon path={selectedOption.icon} size={21} class="opacity-70" />
+						{/if}
+						<span>{selectedOption.label}</span>
+					</button>
+					<input type="hidden" name={key} value={selectedOption.value} />
+				{/if}
+			{/snippet}
 		</FormControl>
 	</div>
 

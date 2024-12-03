@@ -156,7 +156,7 @@
 		"
 	>
 		<button class="btn btn-primary"> Valider </button>
-		<div class="grow" />
+		<div class="grow"></div>
 		{#if !simpleAction && data.id && actionDelete}
 			{@const formaction = `${action}${actionDelete}`}
 			<slot name="delete" {formaction}>
