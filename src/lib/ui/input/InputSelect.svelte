@@ -41,26 +41,28 @@
 
 <DropDown bind:this={dropDown}>
 	<svelte:fragment slot="activator">
-		<FormControl {...props} let:key>
-			<button
-				bind:this={button}
-				id={key}
-				type="button"
-				class="input-bordered flex h-12 items-center gap-2 rounded-lg border pl-4 pr-2 hover:bg-base-200/50"
-			>
-				{#if selectedOption}
-					{#if selectedOption.icon}
-						<Icon path={selectedOption.icon} size={21} class="opacity-70" />
+		<FormControl {...props}>
+			{#snippet children({ key })}
+				<button
+					bind:this={button}
+					id={key}
+					type="button"
+					class="input-bordered flex h-12 items-center gap-2 rounded-lg border pl-4 pr-2 hover:bg-base-200/50"
+				>
+					{#if selectedOption}
+						{#if selectedOption.icon}
+							<Icon path={selectedOption.icon} size={21} class="opacity-70" />
+						{/if}
+						<span>{selectedOption.label}</span>
+					{:else if placeholder}
+						<span class="opacity-60">{placeholder}</span>
 					{/if}
-					<span>{selectedOption.label}</span>
-				{:else if placeholder}
-					<span class="opacity-60">{placeholder}</span>
+					<Icon class="ml-auto" path={mdiUnfoldMoreHorizontal} size={18} />
+				</button>
+				{#if value !== undefined}
+					<input type="hidden" name={key} {value} />
 				{/if}
-				<Icon class="ml-auto" path={mdiUnfoldMoreHorizontal} size={18} />
-			</button>
-			{#if value !== undefined}
-				<input type="hidden" name={key} {value} />
-			{/if}
+			{/snippet}
 		</FormControl>
 	</svelte:fragment>
 

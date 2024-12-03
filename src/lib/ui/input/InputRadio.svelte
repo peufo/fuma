@@ -48,25 +48,26 @@
 		{#each _options as option}
 			<FormControl
 				{...props}
-				let:key
 				enhanceDisabled
 				label={option.label}
 				prefixFor={option.value}
 				class="flex-row-reverse items-center justify-end gap-2"
 			>
-				<input
-					use:bindValueWithParams={{ bindEnable: props.bindWithParams }}
-					bind:group={value}
-					on:input
-					on:focus
-					on:blur
-					value={option.value}
-					type="radio"
-					name={key}
-					id="{option.value}{key}"
-					class="radio"
-					{...input}
-				/>
+				{#snippet children({ key })}
+					<input
+						use:bindValueWithParams={{ bindEnable: props.bindWithParams }}
+						bind:group={value}
+						on:input
+						on:focus
+						on:blur
+						value={option.value}
+						type="radio"
+						name={key}
+						id="{option.value}{key}"
+						class="radio"
+						{...input}
+					/>
+				{/snippet}
 			</FormControl>
 		{/each}
 	</div>

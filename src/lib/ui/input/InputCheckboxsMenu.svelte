@@ -81,22 +81,23 @@
 		{#each _options as option, index (option.value)}
 			<FormControl
 				{...props}
-				let:key
 				label={option.label}
 				prefixFor={index}
 				class="flex-row-reverse items-center justify-end gap-2 whitespace-nowrap"
 			>
-				<input
-					bind:group={value}
-					on:input
-					on:focus
-					on:blur
-					value={option.value}
-					type="checkbox"
-					id="{index}{key}"
-					class="checkbox"
-					{...input}
-				/>
+				{#snippet children({ key })}
+					<input
+						bind:group={value}
+						on:input
+						on:focus
+						on:blur
+						value={option.value}
+						type="checkbox"
+						id="{index}{key}"
+						class="checkbox"
+						{...input}
+					/>
+				{/snippet}
 			</FormControl>
 		{:else}
 			<div class="px-3 py-2 rounded opacity-70">Aucun élément</div>

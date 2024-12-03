@@ -13,19 +13,21 @@
 	const dispatch = createEventDispatcher<{ change: boolean }>()
 </script>
 
-<FormControl {...$$restProps} let:key class="">
-	<input
-		bind:this={inputElement}
-		bind:checked={value}
-		use:bindCheckedWithParams={{ bindEnable: bindWithParams }}
-		on:input={({ currentTarget: { checked } }) => dispatch('change', checked)}
-		on:focus
-		on:blur
-		type="checkbox"
-		id={key}
-		class="checkbox ml-1"
-		{...input}
-	/>
+<FormControl {...$$restProps} class="">
+	{#snippet children({ key })}
+		<input
+			bind:this={inputElement}
+			bind:checked={value}
+			use:bindCheckedWithParams={{ bindEnable: bindWithParams }}
+			on:input={({ currentTarget: { checked } }) => dispatch('change', checked)}
+			on:focus
+			on:blur
+			type="checkbox"
+			id={key}
+			class="checkbox ml-1"
+			{...input}
+		/>
 
-	<input type="hidden" name={key} value="{USE_COERCE_BOOLEAN}{value}" />
+		<input type="hidden" name={key} value="{USE_COERCE_BOOLEAN}{value}" />
+	{/snippet}
 </FormControl>

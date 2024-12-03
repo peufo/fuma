@@ -1,5 +1,5 @@
 <script lang="ts" generics="RelationItem extends {id: string}">
-	import { createEventDispatcher, tick, type ComponentProps } from 'svelte'
+	import { createEventDispatcher, tick, type ComponentProps, type Snippet } from 'svelte'
 	import type { HTMLInputAttributes } from 'svelte/elements'
 	import debounce from 'debounce'
 	import { toast } from 'svelte-sonner'
@@ -7,11 +7,9 @@
 
 	import { USE_COERCE_JSON } from '$lib/utils/constant.js'
 	import { Icon } from '$lib/ui/icon/index.js'
-	import { Slot } from '$lib/ui/slot/index.js'
 	import { DropDown } from '$lib/ui/menu/index.js'
 	import { FormControl, SelectorList } from '$lib/ui/input/index.js'
 	import type { TippyProps } from '$lib/utils/tippy.js'
-	import type { ComponentAndProps } from '$lib/utils/component.js'
 	import RelationAfter from './RelationAfter.svelte'
 
 	export let key = Math.random().toString()
@@ -27,9 +25,10 @@
 	export let tippyProps: Partial<TippyProps> = {}
 	export let dropdownProps: ComponentProps<DropDown> = {}
 	export let flatMode = false
-	export let slotItem: ((item: RelationItem) => ComponentAndProps | string) | null = null
-	export let slotSuggestion: ((item: RelationItem) => ComponentAndProps | string) | null = slotItem
+	export let slotItem: Snippet<[RelationItem]>
+	export let slotSuggestion: Snippet<[RelationItem]> = slotItem
 	export let input: HTMLInputAttributes | undefined = undefined
+	export let append: Snippet | undefined = undefined
 
 	let klass = ''
 	export { klass as class }
@@ -85,48 +84,45 @@
 
 <DropDown {tippyProps} disable={flatMode} {...dropdownProps}>
 	<div class="contents" slot="activator">
-		<FormControl {key} {label} {error} class={klass} let:key>
-			<div class="flex grow gap-2" class:hidden={item}>
-				<div class="input input-bordered flex grow items-center pr-2">
-					<input
-						type="text"
-						id={key}
-						bind:this={inputElement}
-						bind:value={searchValue}
-						on:input={(e) => searchItemsDebounce(e.currentTarget.value)}
-						on:focus={handleFocus}
-						on:blur={handleBlur}
-						autocomplete="off"
-						{placeholder}
-						class="grow"
-						size={8}
-						{...input}
-					/>
-
-					<RelationAfter {isLoading} {createUrl} {createTitle} {createIcon} />
-				</div>
-				<slot name="append" />
-			</div>
-
-			{#if item}
-				<div class="flex h-12 items-center gap-2 rounded-lg border bg-base-100 pl-4 pr-2">
-					<div class="grow">
-						<slot name="item" {item}>
-							<Slot slot={slotItem} args={item}>
-								{item.id}
-							</Slot>
-						</slot>
+		<FormControl {key} {label} {error} class={klass}>
+			{#snippet children({ key })}
+				<div class="flex grow gap-2" class:hidden={item}>
+					<div class="input input-bordered flex grow items-center pr-2">
+						<input
+							type="text"
+							id={key}
+							bind:this={inputElement}
+							bind:value={searchValue}
+							on:input={(e) => searchItemsDebounce(e.currentTarget.value)}
+							on:focus={handleFocus}
+							on:blur={handleBlur}
+							autocomplete="off"
+							{placeholder}
+							class="grow"
+							size={8}
+							{...input}
+						/>
+						<RelationAfter {isLoading} {createUrl} {createTitle} {createIcon} />
 					</div>
-					<button type="button" on:click={() => clear()} class="btn btn-square btn-sm">
-						<Icon path={mdiClose} />
-					</button>
+					{@render append?.()}
 				</div>
-				<input
-					type="hidden"
-					name={key}
-					value="{USE_COERCE_JSON}{JSON.stringify({ id: item.id })}"
-				/>
-			{/if}
+
+				{#if item}
+					<div class="flex h-12 items-center gap-2 rounded-lg border bg-base-100 pl-4 pr-2">
+						<div class="grow">
+							{@render slotItem(item)}
+						</div>
+						<button type="button" on:click={() => clear()} class="btn btn-square btn-sm">
+							<Icon path={mdiClose} />
+						</button>
+					</div>
+					<input
+						type="hidden"
+						name={key}
+						value="{USE_COERCE_JSON}{JSON.stringify({ id: item.id })}"
+					/>
+				{/if}
+			{/snippet}
 		</FormControl>
 	</div>
 
@@ -140,10 +136,6 @@
 		class="w-full min-w-40 {classList}"
 		on:select={({ detail }) => select(detail)}
 	>
-		<slot name="suggestion" item={proposedItems[index]}>
-			<Slot slot={slotSuggestion} args={proposedItems[index]}>
-				{proposedItems[index].id}
-			</Slot>
-		</slot>
+		{@render slotSuggestion(proposedItems[index])}
 	</SelectorList>
 </DropDown>

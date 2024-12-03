@@ -1,7 +1,7 @@
 <script lang="ts" generics="RelationItem extends {id: string}">
 	import type { HTMLInputAttributes } from 'svelte/elements'
 
-	import { createEventDispatcher, tick } from 'svelte'
+	import { createEventDispatcher, tick, type Snippet } from 'svelte'
 	import { slide } from 'svelte/transition'
 	import { toast } from 'svelte-sonner'
 	import { mdiClose } from '@mdi/js'
@@ -9,10 +9,8 @@
 
 	import { USE_COERCE_JSON } from '$lib/utils/constant.js'
 	import { Icon } from '$lib/ui/icon/index.js'
-	import { Slot } from '$lib/ui/slot/index.js'
 	import { FormControl, SelectorList } from '$lib/ui/input/index.js'
 	import { DropDown } from '$lib/ui/menu/index.js'
-	import type { ComponentAndProps } from '$lib/utils/component.js'
 	import RelationAfter from './RelationAfter.svelte'
 
 	export let key = ''
@@ -24,9 +22,10 @@
 	export let error = ''
 	export let placeholder = ''
 	export let flatMode = false
-	export let slotItem: ((item: RelationItem) => ComponentAndProps | string) | null = null
-	export let slotSuggestion: ((item: RelationItem) => ComponentAndProps | string) | null = slotItem
+	export let slotItem: Snippet<[RelationItem]>
+	export let slotSuggestion: Snippet<[RelationItem]> = slotItem
 	export let input: HTMLInputAttributes | undefined = undefined
+	export let append: Snippet | undefined = undefined
 
 	let klass = ''
 	export { klass as class }
@@ -103,11 +102,7 @@
 								transition:slide|local={{ axis: 'x', duration: 200 }}
 								class="badge badge-outline badge-lg items-center whitespace-nowrap pr-0 text-right"
 							>
-								<slot {item} name="item">
-									<Slot slot={slotItem} args={item}>
-										{item.id}
-									</Slot>
-								</slot>
+								{@render slotItem(item)}
 								<div
 									class="btn btn-circle btn-ghost btn-xs ml-1 mr-[2px] h-[18px] min-h-[18px] w-[18px]"
 									role="button"
@@ -140,7 +135,7 @@
 
 						<RelationAfter {isLoading} {createUrl} {createTitle} {createIcon} />
 					</div>
-					<slot name="append" />
+					{@render append?.()}
 				</div>
 			</div>
 
@@ -162,10 +157,6 @@
 		class="w-full min-w-40 {classList}"
 		on:select={({ detail }) => select(detail)}
 	>
-		<slot name="suggestion" item={proposedItems[index]}>
-			<Slot slot={slotSuggestion} args={proposedItems[index]}>
-				{proposedItems[index].id}
-			</Slot>
-		</slot>
+		{@render slotSuggestion(proposedItems[index])}
 	</SelectorList>
 </DropDown>

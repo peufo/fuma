@@ -1,21 +1,21 @@
 <script lang="ts">
 	import { slide } from 'svelte/transition'
-	import { onMount, type ComponentType } from 'svelte'
+	import { onMount, type Snippet } from 'svelte'
 	import { formContext } from '$lib/validation/form.js'
-	import type { ComponentAndProps } from '$lib/utils/index.js'
-	import { Slot } from '../index.js'
 
 	let klass = ''
 	export { klass as class }
 	export let classLabel = ''
 	export let key = ''
-	export let label: ComponentAndProps | ComponentType | string = ''
+	export let label: Snippet | string = ''
+	export let labelAppend: Snippet | null = null
 	export let error = ''
 	export let hint = ''
 	export let prefix: string | number = ''
 	export let prefixFor: string | number = ''
 	export let enhanceDisabled = false
 	export let labelPosition: LabelPosition = 'top'
+	export let children: Snippet<[{ key: string }]>
 
 	type LabelPosition = 'top' | 'left' | 'right'
 
@@ -50,14 +50,20 @@
 		{#if label}
 			<label for="{prefixFor}{_key}" class="label cursor-pointer {classLabel}">
 				<span class="label-text">
-					<Slot slot={label} />
+					{#if typeof label === 'string'}
+						{label}
+					{:else}
+						{@render label()}
+					{/if}
 				</span>
-				<slot name="label_append" />
+				{#if labelAppend}
+					{@render labelAppend()}
+				{/if}
 			</label>
 		{/if}
-
-		<slot key={_key} />
 	</div>
+
+	{@render children({ key: _key })}
 
 	{#if error}
 		<label for="{prefixFor}{_key}" class="label" transition:slide>

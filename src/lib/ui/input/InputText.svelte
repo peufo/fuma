@@ -9,25 +9,25 @@
 </script>
 
 <FormControl {...props} enhanceDisabled={props.enhanceDisabled || bindWithParams} let:key>
-	<slot name="label_append" slot="label_append" />
-
-	<div class={classWrapper}>
-		<slot name="prepend" {value} />
-		<input
-			bind:value
-			on:input
-			on:focus
-			on:blur
-			on:keydown
-			on:keyup
-			bind:this={inputElement}
-			use:bindValueWithParams={{ bindEnable: bindWithParams, initValue: (v) => (value = v) }}
-			type="text"
-			name={key}
-			id={key}
-			class="input input-bordered w-full {inputClass || ''}"
-			{...inputProps}
-		/>
-		<slot name="append" {value} />
-	</div>
+	{#snippet children({ key })}
+		<div class={classWrapper}>
+			<slot name="prepend" {value} />
+			<input
+				bind:value
+				on:input
+				on:focus
+				on:blur
+				on:keydown
+				on:keyup
+				bind:this={inputElement}
+				use:bindValueWithParams={{ bindEnable: bindWithParams, initValue: (v) => (value = v) }}
+				type="text"
+				name={key}
+				id={key}
+				class="input input-bordered w-full {inputClass || ''}"
+				{...inputProps}
+			/>
+			<slot name="append" {value} />
+		</div>
+	{/snippet}
 </FormControl>

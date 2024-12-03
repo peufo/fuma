@@ -23,17 +23,19 @@
 	}
 </script>
 
-<FormControl {...$$restProps} let:key>
-	<input
-		value={value && dayjs(value).format('YYYY-MM-DDTHH:mm')}
-		on:input={handleInput}
-		on:focus
-		on:blur
-		type="datetime-local"
-		id={key}
-		class="input input-bordered {inputClass}"
-		{...inputProps}
-	/>
+<FormControl {...$$restProps}>
+	{#snippet children({ key })}
+		<input
+			value={value && dayjs(value).format('YYYY-MM-DDTHH:mm')}
+			on:input={handleInput}
+			on:focus
+			on:blur
+			type="datetime-local"
+			id={key}
+			class="input input-bordered {inputClass}"
+			{...inputProps}
+		/>
 
-	<input type="hidden" name={key} value="{USE_COERCE_DATE}{value?.toJSON()}" />
+		<input type="hidden" name={key} value="{USE_COERCE_DATE}{value?.toJSON()}" />
+	{/snippet}
 </FormControl>

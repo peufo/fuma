@@ -34,24 +34,25 @@
 		{#each _options as option, index}
 			<FormControl
 				{...props}
-				let:key
 				label={option.label}
 				prefixFor={index}
 				class="flex-row-reverse items-center justify-end gap-2"
 			>
-				<input
-					bind:group={value}
-					on:change
-					on:input
-					on:focus
-					on:blur
-					value={option.value}
-					type="checkbox"
-					name={key}
-					id="{index}{key}"
-					class="checkbox"
-					{...input}
-				/>
+				{#snippet children({ key })}
+					<input
+						bind:group={value}
+						on:change
+						on:input
+						on:focus
+						on:blur
+						value={option.value}
+						type="checkbox"
+						name={key}
+						id="{index}{key}"
+						class="checkbox"
+						{...input}
+					/>
+				{/snippet}
 			</FormControl>
 		{/each}
 	</div>

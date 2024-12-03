@@ -7,17 +7,19 @@
 	export let autocomplete = 'current-password'
 </script>
 
-<FormControl {...props} let:key>
-	<input
-		bind:value
-		on:input
-		on:focus
-		on:blur
-		type="password"
-		name={key}
-		id={key}
-		class="input input-bordered"
-		{autocomplete}
-		{...input}
-	/>
+<FormControl {...props}>
+	{#snippet children({ key })}
+		<input
+			bind:value
+			on:input
+			on:focus
+			on:blur
+			type="password"
+			name={key}
+			id={key}
+			class="input input-bordered"
+			{autocomplete}
+			{...input}
+		/>
+	{/snippet}
 </FormControl>

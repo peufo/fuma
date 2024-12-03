@@ -30,16 +30,18 @@
 	}
 </script>
 
-<FormControl {...$$restProps} let:key>
-	<input
-		value={value && dayjs(value).format('HH:mm')}
-		on:input={onInput}
-		on:focus
-		on:blur
-		type="time"
-		name={key}
-		id={key}
-		class="input input-bordered {inputClass}"
-		{...inputProps}
-	/>
+<FormControl {...$$restProps}>
+	{#snippet children({ key })}
+		<input
+			value={value && dayjs(value).format('HH:mm')}
+			on:input={onInput}
+			on:focus
+			on:blur
+			type="time"
+			name={key}
+			id={key}
+			class="input input-bordered {inputClass}"
+			{...inputProps}
+		/>
+	{/snippet}
 </FormControl>
