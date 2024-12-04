@@ -29,7 +29,7 @@
 			<span
 				class="badge indicator-item badge-xs scale-75 border transition-none"
 				style:background={color}
-			/>
+			></span>
 			<Icon path={icon} size={19} class="opacity-70" />
 		</div>
 	</button>

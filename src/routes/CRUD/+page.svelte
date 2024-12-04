@@ -9,7 +9,7 @@
 
 <div class="flex items-center gap-2 py-4">
 	<h2 class="title">CRUD example</h2>
-	<div class="grow" />
+	<div class="grow"></div>
 	<a class="btn" href={$urlParam.with({ form_tag: 1 })}>
 		<Icon path={mdiPlus} />
 		<span>Create tag</span>

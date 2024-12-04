@@ -88,7 +88,7 @@
 				<button class="btn" formaction="/auth?/{state}">
 					{state === 'login' ? 'Connexion' : 'Valider'}
 				</button>
-				<div class="grow" />
+				<div class="grow"></div>
 
 				<button class="link-hover link" formaction="/auth?/reset_password">
 					Mot de passe oublié

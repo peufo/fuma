@@ -78,4 +78,4 @@
 <input type="hidden" bind:this={startElement} />
 <input type="hidden" bind:this={endElement} />
 
-<div bind:this={parentEl} />
+<div bind:this={parentEl}></div>

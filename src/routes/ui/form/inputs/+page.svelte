@@ -66,17 +66,21 @@
 	<InputCombo bind:this={inputCombo} key="combo" label="Input combo" {options} />
 </Meta>
 
+{#snippet slotItem(item: Item)}
+	{item.name}
+{/snippet}
+
 <Meta component={inputRelation} name="InputRelation">
 	<InputRelation
 		bind:this={inputRelation}
 		label="Input Relation"
 		search={searchItems}
-		slotItem={(item) => item.name}
+		{slotItem}
 		createUrl="/ui/form/inputs?create_item=true"
 		createTitle="Créer un item"
 	/>
 
-	<InputRelation label="Input Relation" search={searchItems} slotItem={(item) => item.name} />
+	<InputRelation label="Input Relation" search={searchItems} {slotItem} />
 </Meta>
 
 <Meta component={inputRelations} name="InputRelations">
@@ -84,12 +88,12 @@
 		bind:this={inputRelations}
 		label="Input Relations"
 		search={searchItems}
-		slotItem={(item) => item.name}
+		{slotItem}
 		createUrl="/ui/form/inputs?create_item=true"
 		createTitle="Créer un item"
 	/>
 
-	<InputRelations label="Input Relations" search={searchItems} slotItem={(item) => item.name} />
+	<InputRelations label="Input Relations" search={searchItems} {slotItem} />
 </Meta>
 
 <Meta component={inputTextRich} name="InputTextRich">

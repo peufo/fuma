@@ -51,7 +51,7 @@
 					<div
 						style:height="{24 + index * 36}px"
 						class="t-0 bordered absolute w-3 rounded-bl-lg border-b-2 border-l-2"
-					/>
+					></div>
 				{/each}
 			</div>
 			<div>
