@@ -24,7 +24,7 @@
 	<div class="flex overflow-x-auto p-2">
 		<ToolMenuNode {editor} />
 		<ToolMenuAlign {editor} />
-		<div class="mx-1 my-auto h-6 border border-y-0 border-l-0" />
+		<div class="mx-1 my-auto h-6 border border-y-0 border-l-0"></div>
 
 		<ToolMark
 			{editor}
@@ -54,7 +54,7 @@
 			setColor={(color) => editor.commands.setHighlight({ color })}
 		/>
 
-		<div class="mx-1 my-auto h-6 border border-y-0 border-l-0" />
+		<div class="mx-1 my-auto h-6 border border-y-0 border-l-0"></div>
 
 		<ToolMenuInsert
 			{editor}

@@ -51,7 +51,7 @@
 				{/if}
 			</slot>
 			{#if isReducible}
-				<div class="grow" />
+				<div class="grow"></div>
 				<button
 					type="button"
 					on:click={toggle}

@@ -33,7 +33,7 @@
 
 <div class="relative">
 	{#if isLoading}
-		<span class="loading loading-spinner absolute left-1 top-1 scale-125 opacity-25" />
+		<span class="loading loading-spinner absolute left-1 top-1 scale-125 opacity-25"></span>
 	{/if}
 	<button
 		class="btn btn-square btn-sm"

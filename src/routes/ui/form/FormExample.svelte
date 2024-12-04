@@ -6,6 +6,10 @@
 	export let form: Form<any>
 </script>
 
+{#snippet slotItem(item: any)}
+	{item.name}
+{/snippet}
+
 <Form
 	bind:this={form}
 	fields={[
@@ -14,7 +18,7 @@
 			{ key: 'age', number: { label: 'Age', input: { min: 0, max: 140 } } },
 			{
 				key: 'country',
-				relation: { label: 'Country', search: searchItems, slotItem: (item) => item.name }
+				relation: { label: 'Country', search: searchItems, slotItem }
 			}
 		],
 		[

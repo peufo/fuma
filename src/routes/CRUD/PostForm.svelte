@@ -21,6 +21,10 @@
 	export let options: UseFormOptions<PostWithTags> = {}
 </script>
 
+{#snippet slotTag(tag: Tag)}
+	{tag.name}
+{/snippet}
+
 <FormPost
 	bind:this={postForm}
 	on:success
@@ -43,7 +47,7 @@
 				relations: relationsProps({
 					label: 'Tags',
 					search: api.Tag,
-					slotItem: (item) => item.name,
+					slotItem: slotTag,
 					createUrl: $urlParam.with({ form_tag: 1 }),
 					createTitle: 'Create Tag',
 					createIcon: mdiTagPlusOutline
@@ -56,7 +60,7 @@
 				relation: relationProps({
 					label: 'Type',
 					search: api.PostType,
-					slotItem: (item) => item.name
+					slotItem: slotTag
 				})
 			},
 			{

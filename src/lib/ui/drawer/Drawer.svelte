@@ -54,7 +54,7 @@
 		transition:fade={{ duration }}
 		style="z-index: {zIndex + $index};"
 		class="fixed inset-0 bg-black/15 backdrop-blur-[1.5px] dark:bg-white/15"
-	/>
+	></div>
 {/if}
 
 {#if $isActive}

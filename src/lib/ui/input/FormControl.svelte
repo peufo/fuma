@@ -15,7 +15,7 @@
 	export let prefixFor: string | number = ''
 	export let enhanceDisabled = false
 	export let labelPosition: LabelPosition = 'top'
-	export let children: Snippet<[{ key: string }]>
+	export let children: Snippet<[{ key: string }]> | undefined = undefined
 
 	type LabelPosition = 'top' | 'left' | 'right'
 
@@ -63,7 +63,7 @@
 		{/if}
 	</div>
 
-	{@render children({ key: _key })}
+	{@render children?.({ key: _key })}
 
 	{#if error}
 		<label for="{prefixFor}{_key}" class="label" transition:slide>
