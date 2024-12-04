@@ -25,7 +25,7 @@ px prisma init --datasource-provider mysql
 mkdir -p ./src/lib/server
 source="https://raw.githubusercontent.com/peufo/fuma/main"
 curl "$source/prisma/schema.prisma" -o ./prisma/schema.prisma
-curl "$source/src/lib/server/prisma.ts" -o ./src/lib/server/prisma.ts
+curl "$source/src/lib/private/prisma.ts" -o ./src/lib/server/prisma.ts
 
 echo "DATABASE_URL=\"mysql://$mysql_username@localhost:3306/$project_name\"" > .env
 cp .env .env.example
