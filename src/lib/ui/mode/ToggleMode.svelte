@@ -8,6 +8,7 @@
 
 	let klass = ''
 	export { klass as class }
+	export let defaultMode: 'dark' | 'light' | 'system' | undefined = undefined
 
 	onMount(() => {
 		const [html] = document.getElementsByTagName('html')
@@ -25,7 +26,7 @@
 	$: path = $mode === 'light' ? mdiWhiteBalanceSunny : mdiWeatherNight
 </script>
 
-<ModeWatcher defaultMode="light" />
+<ModeWatcher {defaultMode} />
 
 <slot {toggleMode} {path}>
 	<button class="btn btn-square btn-sm {klass}" on:click={toggleMode}>
