@@ -5,6 +5,9 @@
 	import { Icon } from '$lib/ui/icon/index.js'
 	import { mdiWeatherNight, mdiWhiteBalanceSunny } from '@mdi/js'
 
+	let klass = ''
+	export { klass as class }
+
 	mode.subscribe((_mode) => {
 		if (!browser) return
 		const [html] = document.getElementsByTagName('html')
@@ -18,7 +21,7 @@
 <ModeWatcher />
 
 <slot {toggleMode} {path}>
-	<button class="btn btn-square btn-sm" on:click={toggleMode}>
+	<button class="btn btn-square btn-sm {klass}" on:click={toggleMode}>
 		<Icon {path} />
 	</button>
 </slot>
