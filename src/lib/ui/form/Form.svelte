@@ -41,6 +41,7 @@
 	export let actionCreate = '_create'
 	export let actionDelete = '_delete'
 	export let actionUpdate = '_update'
+	export let disabled = false
 
 	/** Ignore actionCreate, actionDelete and actionUpdate */
 	export let simpleAction = false
@@ -155,12 +156,12 @@
 			sticky col-span-full mt-2 flex flex-row-reverse gap-2 border-t py-4 backdrop-blur-sm
 		"
 	>
-		<button class="btn btn-primary"> Valider </button>
+		<button class="btn btn-primary" {disabled}> Valider </button>
 		<div class="grow"></div>
 		{#if !simpleAction && data.id && actionDelete}
 			{@const formaction = `${action}${actionDelete}`}
 			<slot name="delete" {formaction}>
-				<ButtonDelete {formaction}>Supprimer</ButtonDelete>
+				<ButtonDelete {formaction} {disabled}>Supprimer</ButtonDelete>
 			</slot>
 		{/if}
 	</div>
