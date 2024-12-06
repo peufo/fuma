@@ -26,7 +26,7 @@
 	input={{
 		class: 'input-sm pr-8',
 		placeholder: 'Recherche',
-		autocomplete: 'fuck-off',
+		autocomplete: 'off',
 		inputmode: 'search'
 	}}
 	classWrapper="relative {klass}"
