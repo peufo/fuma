@@ -1,4 +1,4 @@
-<script lang="ts" generics="RelationItem extends {id: string}">
+<script lang="ts" generics="RelationItem extends {id: string | number}">
 	import type { HTMLInputAttributes } from 'svelte/elements'
 
 	import { createEventDispatcher, tick, type Snippet } from 'svelte'
@@ -41,7 +41,9 @@
 	let searchValue = ''
 
 	let dropdown: DropDown
-	const dispatch = createEventDispatcher<{ input: { value: string[]; items: RelationItem[] } }>()
+	const dispatch = createEventDispatcher<{
+		input: { value: (string | number)[]; items: RelationItem[] }
+	}>()
 	let inputSearch: HTMLInputElement
 
 	async function select(index = focusIndex) {

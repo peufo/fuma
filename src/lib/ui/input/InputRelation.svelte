@@ -1,4 +1,4 @@
-<script lang="ts" generics="RelationItem extends {id: string}">
+<script lang="ts" generics="RelationItem extends {id: string | number}">
 	import { createEventDispatcher, tick, type ComponentProps, type Snippet } from 'svelte'
 	import type { HTMLInputAttributes } from 'svelte/elements'
 	import debounce from 'debounce'
