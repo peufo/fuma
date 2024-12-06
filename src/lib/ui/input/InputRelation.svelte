@@ -25,6 +25,7 @@
 	export let tippyProps: Partial<TippyProps> = {}
 	export let dropdownProps: ComponentProps<DropDown> = {}
 	export let flatMode = false
+	export let snippetSelected: Snippet<[RelationItem]> | undefined = undefined
 	export let slotItem: Snippet<[RelationItem]>
 	export let slotSuggestion: Snippet<[RelationItem]> = slotItem
 	export let input: HTMLInputAttributes | undefined = undefined
@@ -108,14 +109,22 @@
 				</div>
 
 				{#if item}
-					<div class="flex h-12 items-center gap-2 rounded-lg border bg-base-100 pl-4 pr-2">
-						<div class="grow">
-							{@render slotItem(item)}
+					{#if snippetSelected}
+						{@render snippetSelected(item)}
+					{:else}
+						<div class="flex h-12 items-center gap-2 rounded-lg border bg-base-100 pl-4 pr-2">
+							<div class="grow">
+								{@render slotItem(item)}
+							</div>
+							<button
+								type="button"
+								on:click|stopPropagation={() => clear()}
+								class="btn btn-square btn-sm"
+							>
+								<Icon path={mdiClose} />
+							</button>
 						</div>
-						<button type="button" on:click={() => clear()} class="btn btn-square btn-sm">
-							<Icon path={mdiClose} />
-						</button>
-					</div>
+					{/if}
 					<input
 						type="hidden"
 						name={key}
