@@ -1,6 +1,5 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+@plugin "daisyui";
 
 @layer components {
 	.menu-item {
@@ -36,7 +35,7 @@
 	.suggestion {
 		@apply mx-1 inline-block !whitespace-nowrap rounded border px-2 text-sm shadow;
 	}
-
+	/*
 	.border,
 	.border-t,
 	.border-r,
@@ -44,6 +43,7 @@
 	.border-l {
 		@apply dark:input-bordered;
 	}
+	*/
 
 	.dark .tab {
 		--tab-border-color: var(--fallback-bc, oklch(var(--bc) / 0.2));

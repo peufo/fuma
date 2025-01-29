@@ -1,5 +1,5 @@
 <script lang="ts">
-	import '../app.pcss'
+	import '../app.css'
 
 	import { Toaster } from 'svelte-sonner'
 	import Tree from './Tree.svelte'
