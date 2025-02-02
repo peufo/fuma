@@ -115,11 +115,11 @@
 	use:enhance
 	on:input={handleInput}
 >
-	<slot />
-
 	{#if data?.id}
 		<input type="hidden" name="id" value={data.id} />
 	{/if}
+
+	<slot />
 
 	{#each fields as groupFields, groupIndex}
 		{@const section = sections[groupIndex] || {}}
