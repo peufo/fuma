@@ -4,6 +4,7 @@ import { mouseDragTrigger, touchDragTrigger, scrollTrigger } from './trigger.js'
 export const CLASSNAME_LIST = 'editable-list'
 export const CLASSNAME_DRAG_ACTIVE = 'drag-active'
 export const CLASSNAME_PLACEHOLDER = 'item-placeholder'
+export { mouseDragTrigger, touchDragTrigger, scrollTrigger }
 
 export interface ListEditableOptions<Type = unknown> {
 	onDragStart?: () => void
