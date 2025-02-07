@@ -1,17 +1,23 @@
 import type { DragHandler } from './handlers.js'
 import { scroll } from './store.js'
 
+type Handler = {
+	start: (event: MouseEvent) => unknown
+	move: (event: MouseEvent) => unknown
+	end: (event: MouseEvent) => unknown
+}
+
 /** Gestion du cycle de vie des évènements de la souris */
-export function mouseDragTrigger(element: HTMLElement, handler: DragHandler) {
+export function mouseDragTrigger(element: HTMLElement, handler: Handler) {
 	function startHandler(event: MouseEvent) {
 		handler.start(event)
 		document.addEventListener('mousemove', handler.move)
 		document.addEventListener('mouseup', endHandler, { once: true })
 	}
 
-	function endHandler() {
+	function endHandler(event: MouseEvent) {
 		document.removeEventListener('mousemove', handler.move)
-		handler.end()
+		handler.end(event)
 	}
 
 	function stopPropagation(event: Event) {
