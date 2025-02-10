@@ -2,6 +2,7 @@
 	import { mdiClipboardTextOutline } from '@mdi/js'
 	import { toast } from 'svelte-sonner'
 	import { Icon } from '$lib/ui/icon/index.js'
+	import { createEventDispatcher } from 'svelte'
 	let valueOrGetValue: string | (() => Promise<string>)
 	export { valueOrGetValue as value }
 	export let title = ''
@@ -12,6 +13,7 @@
 	export { klass as class }
 
 	let isLoading = false
+	const disptach = createEventDispatcher<{ success: void }>()
 
 	async function loadValue(): Promise<string> {
 		if (typeof valueOrGetValue === 'string') return valueOrGetValue
@@ -27,6 +29,7 @@
 			.writeText(value)
 			.then(() => {
 				toast.success(successMessage)
+				disptach('success')
 			})
 			.catch((error) => {
 				toast.error(error)
@@ -36,7 +39,7 @@
 
 <div class="relative">
 	{#if isLoading}
-		<span class="loading loading-spinner absolute left-1 top-1 scale-125 opacity-25" />
+		<span class="loading loading-spinner absolute left-1 top-1 scale-125 opacity-25"></span>
 	{/if}
 	<button
 		class={klass ? klass : `btn btn-sm ${label ? '' : ' btn-square'}`}
