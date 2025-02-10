@@ -39,7 +39,7 @@
 		<span class="loading loading-spinner absolute left-1 top-1 scale-125 opacity-25" />
 	{/if}
 	<button
-		class="{klass} btn btn-sm {label ? '' : 'btn-square'}"
+		class={klass ? klass : `btn btn-sm ${label ? '' : ' btn-square'}`}
 		on:click|preventDefault={handleClick}
 		class:btn-disabled={isLoading}
 	>
