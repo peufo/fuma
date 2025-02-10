@@ -5,8 +5,11 @@
 	let valueOrGetValue: string | (() => Promise<string>)
 	export { valueOrGetValue as value }
 	export let title = ''
+	export let label = ''
 	export let icon = mdiClipboardTextOutline
 	export let successMessage = 'Copied'
+	let klass = ''
+	export { klass as class }
 
 	let isLoading = false
 
@@ -36,7 +39,7 @@
 		<span class="loading loading-spinner absolute left-1 top-1 scale-125 opacity-25" />
 	{/if}
 	<button
-		class="btn btn-square btn-sm"
+		class="{klass} btn btn-sm {label ? '' : 'btn-square'}"
 		on:click|preventDefault={handleClick}
 		class:btn-disabled={isLoading}
 	>
@@ -46,5 +49,8 @@
 			{title}
 			class="transition-transform {isLoading ? 'scale-75' : ''}"
 		/>
+		{#if label}
+			<span>{label}</span>
+		{/if}
 	</button>
 </div>
