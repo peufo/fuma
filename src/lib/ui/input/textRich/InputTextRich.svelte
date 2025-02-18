@@ -25,6 +25,11 @@
 		}
 	})
 
+	export function setImage(image: { src: string; alt: string }) {
+		if (!editor) return false
+		return editor.commands.setImage(image)
+	}
+
 	function initEditor() {
 		const valueAsHtml = !value.startsWith('{') && value !== 'null'
 		editor = new Editor({
