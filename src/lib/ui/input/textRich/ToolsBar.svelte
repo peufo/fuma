@@ -56,9 +56,6 @@
 
 		<div class="mx-1 my-auto h-6 border border-y-0 border-l-0" />
 
-		<ToolMenuInsert
-			{editor}
-			on:insertMedia={() => toast.warning('TODO: import SelectMedia like benev.io')}
-		/>
+		<ToolMenuInsert {editor} on:insertMedia />
 	</div>
 </div>

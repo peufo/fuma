@@ -55,7 +55,7 @@
 <FormControl {...$$restProps} let:key>
 	<div class="bordered relative rounded-lg border">
 		{#if editor}
-			<ToolsBar {editor} class={classToolbar} />
+			<ToolsBar {editor} class={classToolbar} on:insertMedia />
 		{/if}
 		<div bind:this={element} class="min-h-[20rem] p-4 pb-10" />
 	</div>
