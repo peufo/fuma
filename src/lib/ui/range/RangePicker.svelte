@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onMount, onDestroy, createEventDispatcher } from 'svelte'
 	import type { Litepicker } from 'litepicker'
-	import type { Range, RangeAsDate, RangeDate } from './types.js'
+	import type { RangeAsDate, RangeDate } from './types.js'
 	import dayjs from 'dayjs'
 
 	export let numberOfMonths = 3
@@ -15,7 +15,7 @@
 	let endElement: HTMLInputElement
 	let picker: Litepicker
 	let parentEl: HTMLDivElement
-	const dispatch = createEventDispatcher<{ change: Range }>()
+	const dispatch = createEventDispatcher<{ change: RangeAsDate }>()
 
 	onMount(() => {
 		initTimePicker()
