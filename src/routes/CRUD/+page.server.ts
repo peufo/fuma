@@ -14,14 +14,14 @@ export const load = async ({ url }) => {
 	})
 
 	const where: Prisma.PostWhereInput = {}
-	const orderBy: Prisma.PostOrderByWithRelationInput = {}
+	const orderBy: Prisma.PostOrderByWithRelationInput[] = []
 
 	if (query.likeCount) {
 		const { min, max, order } = query.likeCount
 		where.likeCount = {}
 		if (min !== undefined) where.likeCount.gte = min
 		if (max !== undefined) where.likeCount.lte = max
-		if (order) orderBy.likeCount = order
+		if (order) orderBy.push({ likeCount: order })
 	}
 
 	if (query.writingAt) {
@@ -29,7 +29,7 @@ export const load = async ({ url }) => {
 		where.writingAt = {}
 		if (start) where.writingAt.gte = start
 		if (end) where.writingAt.lte = end
-		if (order) orderBy.writingAt = order
+		if (order) orderBy.push({ writingAt: order })
 	}
 
 	return {
