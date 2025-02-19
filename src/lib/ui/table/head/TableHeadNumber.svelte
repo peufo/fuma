@@ -10,7 +10,7 @@
 	import { urlParam } from '$lib/store/param.js'
 	import { jsonParse } from '$lib/utils/jsonParse.js'
 	import type { TableField } from '../field.js'
-	import { mdiFilterMultipleOutline, mdiSortReverseVariant, mdiSortVariant } from '@mdi/js'
+	import { mdiFilterMultipleOutline, mdiSortAscending, mdiSortDescending } from '@mdi/js'
 	import { Icon } from '$lib/ui/icon/index.js'
 	import OrderButtons from './OrderButtons.svelte'
 
@@ -97,7 +97,7 @@
 			{/if}
 			{#if order}
 				<Icon
-					path={order === 'asc' ? mdiSortReverseVariant : mdiSortVariant}
+					path={order === 'asc' ? mdiSortAscending : mdiSortDescending}
 					size={18}
 					class="fill-primary"
 				/>

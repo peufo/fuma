@@ -1,12 +1,12 @@
 <script lang="ts">
 	import { Icon } from '$lib/ui/icon/index.js'
-	import { mdiSortReverseVariant, mdiSortVariant } from '@mdi/js'
+	import { mdiSortAscending, mdiSortDescending } from '@mdi/js'
 	import { createEventDispatcher } from 'svelte'
 
 	type Order = 'asc' | 'desc' | undefined
 	export let order: Order
-	export let iconAsc = mdiSortReverseVariant
-	export let iconDesc = mdiSortVariant
+	export let iconAsc = mdiSortAscending
+	export let iconDesc = mdiSortDescending
 
 	const dispatch = createEventDispatcher<{ change: Order }>()
 
