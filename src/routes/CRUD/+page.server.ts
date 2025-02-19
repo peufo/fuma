@@ -14,24 +14,28 @@ export const load = async ({ url }) => {
 	})
 
 	const where: Prisma.PostWhereInput = {}
+	const orderBy: Prisma.PostOrderByWithRelationInput = {}
 
 	if (query.likeCount) {
-		const {min, max} = query.likeCount
+		const { min, max, order } = query.likeCount
 		where.likeCount = {}
 		if (min !== undefined) where.likeCount.gte = min
 		if (max !== undefined) where.likeCount.lte = max
+		if (order) orderBy.likeCount = order
 	}
 
 	if (query.writingAt) {
-		const { start, end } = query.writingAt
+		const { start, end, order } = query.writingAt
 		where.writingAt = {}
 		if (start) where.writingAt.gte = start
 		if (end) where.writingAt.lte = end
+		if (order) orderBy.writingAt = order
 	}
 
 	return {
 		posts: await prisma.post.findMany({
 			where,
+			orderBy,
 			include: { tags: true, author: { select: { id: true, username: true } } }
 		})
 	}

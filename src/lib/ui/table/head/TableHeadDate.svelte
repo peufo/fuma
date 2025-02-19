@@ -1,7 +1,11 @@
 <script lang="ts">
 	import { goto } from '$app/navigation'
 	import { page } from '$app/stores'
-	import { mdiCalendarFilterOutline } from '@mdi/js'
+	import {
+		mdiCalendarFilterOutline,
+		mdiSortClockAscendingOutline,
+		mdiSortClockDescendingOutline
+	} from '@mdi/js'
 
 	import { DropDown } from '$lib/ui/menu/index.js'
 	import { InputTime } from '$lib/ui/input/index.js'
@@ -11,7 +15,7 @@
 	import { urlParam } from '$lib/store/param.js'
 	import { jsonParse } from '$lib/utils/jsonParse.js'
 	import { Icon } from '$lib/ui/icon/index.js'
-	import { onMount } from 'svelte'
+	import OrderButtons from './OrderButtons.svelte'
 
 	export let field: Omit<TableField, 'getCell' | 'type'>
 
@@ -21,6 +25,7 @@
 		$page.url.searchParams.get(field.key),
 		{}
 	)
+	let { order } = jsonParse<{ order?: 'asc' | 'desc' }>($page.url.searchParams.get(field.key), {})
 
 	let range: RangeAsDate = {
 		start: initialValue.start ? new Date(initialValue.start) : null,
@@ -29,22 +34,27 @@
 
 	let isValidPeriod = !!range.start && !!range.end
 
-	onMount(() => {
-		console.log('mount')
-		return () => {
-			console.log('destroy')
-		}
-	})
-
 	function updateUrl() {
 		isValidPeriod = !!range.start && !!range.end
-		if (!isValidPeriod) return
+		if (!isValidPeriod && !order) {
+			goto($urlParam.without(field.key, 'skip', 'take'), {
+				replaceState: true,
+				noScroll: true,
+				keepFocus: true
+			})
+			return
+		}
 		goto(
 			$urlParam.with(
 				{
 					[field.key]: JSON.stringify({
-						start: range.start?.toJSON(),
-						end: range.end?.toJSON()
+						...(isValidPeriod
+							? {
+									start: range.start?.toJSON(),
+									end: range.end?.toJSON()
+								}
+							: {}),
+						...(order ? { order } : {})
 					})
 				},
 				'skip',
@@ -88,10 +98,27 @@
 					{formatRange(range)}
 				</span>
 			{/if}
+			{#if order}
+				<Icon
+					path={order === 'asc' ? mdiSortClockAscendingOutline : mdiSortClockDescendingOutline}
+					size={18}
+					class="fill-primary"
+				/>
+			{/if}
 		</button>
 
+		<OrderButtons
+			bind:order
+			on:change={() => {
+				updateUrl()
+				dropDown.hide()
+			}}
+			iconAsc={mdiSortClockAscendingOutline}
+			iconDesc={mdiSortClockDescendingOutline}
+		/>
+
 		<form
-			class="flex flex-col font-normal"
+			class="mt-6 flex flex-col font-normal"
 			on:submit|preventDefault={() => dropDown.hide()}
 			data-sveltekit-replacestate
 		>

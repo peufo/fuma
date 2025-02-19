@@ -68,12 +68,14 @@ const relations = {
 const filter = {
 	number: json({
 		min: zod.number().optional(),
-		max: zod.number().optional()
+		max: zod.number().optional(),
+		order: zod.enum(['asc', 'desc']).optional()
 	}).optional(),
 	multiselect: jsonArray(zod.string()).optional(),
 	range: json({
 		start: zod.coerce.date().optional(),
-		end: zod.coerce.date().optional()
+		end: zod.coerce.date().optional(),
+		order: zod.enum(['asc', 'desc']).optional()
 	}).optional(),
 	boolean: zod
 		.enum(['true', 'false'])
