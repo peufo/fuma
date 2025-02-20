@@ -1,4 +1,4 @@
-<script lang="ts">
+<script lang="ts" generics="Item extends {id: string}">
 	import { onMount } from 'svelte'
 	import type { TippyInstance } from '$lib/utils/tippy.js'
 	import debounce from 'debounce'
@@ -14,7 +14,7 @@
 	import { Icon } from '$lib/ui/icon/index.js'
 	import OrderButtons from './OrderButtons.svelte'
 
-	export let field: TableField
+	export let field: TableField<Item>
 
 	let tip: TippyInstance
 	type Range = { min: number | undefined; max: number | undefined }
@@ -104,17 +104,17 @@
 			{/if}
 		</button>
 
-		<OrderButtons
-			bind:order
-			on:change={() => {
-				updateUrl()
-				tip.hide()
-			}}
-		/>
-
-		<div class="divider"></div>
-
-		<span class="p-1 py-1 text-sm font-semibold opacity-70">Filtre:</span>
+		{#if field.sortable !== false}
+			<OrderButtons
+				bind:order
+				on:change={() => {
+					updateUrl()
+					tip.hide()
+				}}
+			/>
+			<div class="divider"></div>
+			<span class="p-1 py-1 text-sm font-semibold opacity-70">Filtre:</span>
+		{/if}
 		<form class="grid grid-cols-2 gap-2 p-1" on:submit|preventDefault={() => tip.hide()}>
 			<InputNumber bind:value={min} on:input={updateUrl} input={{ placeholder: 'Min' }} />
 			<InputNumber

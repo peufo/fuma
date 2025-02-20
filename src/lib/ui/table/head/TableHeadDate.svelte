@@ -1,4 +1,4 @@
-<script lang="ts">
+<script lang="ts" generics="Item extends {id: string}">
 	import { goto } from '$app/navigation'
 	import { page } from '$app/stores'
 	import {
@@ -17,7 +17,7 @@
 	import { Icon } from '$lib/ui/icon/index.js'
 	import OrderButtons from './OrderButtons.svelte'
 
-	export let field: Omit<TableField, 'getCell' | 'type'>
+	export let field: Omit<TableField<Item>, 'getCell' | 'type'>
 
 	let dropDown: DropDown
 	let rangePicker: RangePicker
@@ -107,20 +107,23 @@
 			{/if}
 		</button>
 
-		<OrderButtons
-			bind:order
-			on:change={() => {
-				updateUrl()
-				dropDown.hide()
-			}}
-			iconAsc={mdiSortClockAscendingOutline}
-			iconDesc={mdiSortClockDescendingOutline}
-		/>
+		{#if field.sortable !== false}
+			<OrderButtons
+				bind:order
+				on:change={() => {
+					updateUrl()
+					dropDown.hide()
+				}}
+				iconAsc={mdiSortClockAscendingOutline}
+				iconDesc={mdiSortClockDescendingOutline}
+			/>
+		{/if}
 
 		<form
-			class="mt-6 flex flex-col font-normal"
 			on:submit|preventDefault={() => dropDown.hide()}
 			data-sveltekit-replacestate
+			class="flex flex-col font-normal"
+			class:mt-6={field.sortable !== false}
 		>
 			<RangePicker
 				bind:this={rangePicker}

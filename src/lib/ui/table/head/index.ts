@@ -1,7 +1,7 @@
 import type { ComponentProps, ComponentType } from 'svelte'
 
 import type { ComponentAndProps } from '$lib/utils/component.js'
-import type { TableField, TableFieldType } from '$lib/ui/table/field.js'
+import type { ItemBase, TableField, TableFieldType } from '$lib/ui/table/field.js'
 import { default as TableHeadSelect } from './TableHeadSelect.svelte'
 import { default as TableHeadDate } from './TableHeadDate.svelte'
 import { default as TableHeadBoolean } from './TableHeadBoolean.svelte'
@@ -21,8 +21,8 @@ const tableHeadComponentRecord = {
 export function tableHeadComponent<T extends TableFieldType>(
 	type: T,
 	props: Omit<ComponentProps<InstanceType<(typeof tableHeadComponentRecord)[T]>>, 'field'>
-): (field: TableField) => ComponentAndProps {
-	return (field: TableField) => {
+): <Item extends ItemBase>(field: TableField<Item>) => ComponentAndProps {
+	return (field) => {
 		const component = tableHeadComponentRecord[type]
 		if (type !== 'multiselect') return { component, props: { ...props, field } }
 		return { component, props: { ...props, field, multiSelect: true } }

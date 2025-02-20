@@ -1,4 +1,4 @@
-<script lang="ts">
+<script lang="ts" generics="Item extends {id: string}">
 	import type { TippyInstance } from '$lib/utils/tippy.js'
 	import { mdiMagnify } from '@mdi/js'
 	import { page } from '$app/stores'
@@ -8,7 +8,7 @@
 	import { InputSearch } from '$lib/ui/input/index.js'
 	import type { TableField } from '$lib/ui/table/index.js'
 
-	export let field: TableField
+	export let field: TableField<Item>
 
 	let tip: TippyInstance
 	let searchValue = $page.url.searchParams.get(field.key) || ''

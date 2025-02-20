@@ -26,7 +26,7 @@
 
 	const { KEY_FIELDS_VISIBLE, KEY_FIELDS_HIDDEN, KEY_FIELDS_ORDER } = context.get(key)
 
-	function getFieldHref(field: TableField) {
+	function getFieldHref(field: TableField<Item>) {
 		if (field.locked) return
 		const url = toggleParam(field.visible ? KEY_FIELDS_HIDDEN : KEY_FIELDS_VISIBLE, field.key)
 		if (url.searchParams.has(field.key)) {
@@ -106,7 +106,7 @@
 							<Icon path={mdiCheck} class="fill-base-content/50" size={21} />
 						{:else if $urlParam.has(field.key)}
 							<Icon path={mdiCheckCircleOutline} class="fill-primary" size={21} />
-						{:else if field.$visible}
+						{:else if field._visible}
 							<Icon path={mdiCheck} class="fill-success" size={21} />
 						{:else}
 							<Icon path={mdiCircleSmall} class="fill-base-content/50" size={21} />

@@ -5,6 +5,8 @@ import { jsonParse } from '$lib/utils/jsonParse.js'
 import type { Options } from '$lib/utils/options.js'
 import { createKeys } from './context.js'
 
+export type ItemBase = { id: string }
+
 export type TableFieldType =
 	| 'string'
 	| 'textarea'
@@ -14,7 +16,7 @@ export type TableFieldType =
 	| 'multiselect'
 	| 'date'
 
-export type TableField<Item = any> = TableFieldCommon &
+export type TableField<Item extends ItemBase> = TableFieldCommon &
 	(
 		| TableFieldUntyped<Item>
 		| TableFieldPrimitive<Item>
@@ -30,28 +32,29 @@ type TableFieldCommon = {
 	hint?: string
 	locked?: boolean
 	visible?: boolean
+	sortable?: boolean
 	/** Internal usage */
-	$visible?: boolean
+	_visible?: boolean
 }
 
-type TableFieldUntyped<Item = any> = {
+type TableFieldUntyped<Item extends ItemBase> = {
 	getCell: (
 		item: Item
 	) => ComponentAndProps[] | ComponentAndProps | Primitive[] | Primitive | undefined | null
-	head?: ComponentAndProps | ((field: TableField) => ComponentAndProps)
+	head?: ComponentAndProps | ((field: TableField<Item>) => ComponentAndProps)
 }
 
-type TableFieldPrimitive<Item = any> = {
+type TableFieldPrimitive<Item extends ItemBase> = {
 	type: Exclude<TableFieldType, 'select' | 'multiselect'>
 	getCell: (item: Item) => ComponentAndProps[] | ComponentAndProps | Primitive | undefined | null
 }
 
-type TableFieldSelect<Item = any> = {
+type TableFieldSelect<Item extends ItemBase> = {
 	type: 'select'
 	getCell: (item: Item) => Primitive | undefined | null
 	options: Options
 }
-type TableFieldMultiselect<Item = any> = {
+type TableFieldMultiselect<Item extends ItemBase> = {
 	type: 'multiselect'
 	getCell: (item: Item) => Primitive[] | undefined | null
 	options: Options
@@ -60,7 +63,10 @@ type TableFieldMultiselect<Item = any> = {
 /**
  * Initialise fields from url query
  */
-export function syncFieldsWithParams(tablekey: string, fields: TableField[]) {
+export function syncFieldsWithParams<Item extends ItemBase>(
+	tablekey: string,
+	fields: TableField<Item>[]
+) {
 	const { KEY_FIELDS_VISIBLE, KEY_FIELDS_HIDDEN, KEY_FIELDS_ORDER } = createKeys(tablekey)
 	const {
 		url: { searchParams }
@@ -73,7 +79,7 @@ export function syncFieldsWithParams(tablekey: string, fields: TableField[]) {
 	// Init correct visible prop
 	const _fields = fields.map((field) => ({
 		...field,
-		$visible:
+		_visible:
 			field.locked ||
 			(field.visible ? !fieldsHidden.includes(field.key) : fieldsVisible.includes(field.key))
 	}))

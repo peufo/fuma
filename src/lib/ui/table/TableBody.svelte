@@ -11,7 +11,7 @@
 
 	const dispatch = createEventDispatcher<{ click: Item }>()
 
-	$: _fields = fields.filter((f) => f.$visible)
+	$: _fields = fields.filter((f) => f._visible)
 
 	function handleClickRow(event: MouseEvent, item: Item) {
 		dispatch('click', item)

@@ -8,11 +8,11 @@
 	export let key: string
 	export let onCreateField: (() => void) | undefined = undefined
 
-	function getComponent(field: TableField): ComponentAndProps {
+	function getComponent(field: TableField<Item>): ComponentAndProps {
 		if (field.type === 'select' || field.type === 'multiselect')
 			return tableHeadComponent(field.type, { options: field.options || [] })(field)
 		if (field.type) return tableHeadComponent(field.type, {})(field)
-		if (!field.head) return component(TableHeadDefault, { field })
+		if (!field.head) return component(TableHeadDefault<Item>, { field })
 		if (typeof field.head === 'function') return field.head(field)
 		if (typeof field.head === 'string') return tableHeadComponent(field.head, {})(field)
 		return field.head
@@ -21,7 +21,7 @@
 
 <thead>
 	<tr class="shadow">
-		{#each fields.filter((f) => f.$visible) as field (field.key)}
+		{#each fields.filter((f) => f._visible) as field (field.key)}
 			{@const { component, props } = getComponent(field)}
 			<svelte:component this={component} {...props} />
 		{/each}

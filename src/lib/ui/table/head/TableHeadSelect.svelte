@@ -1,4 +1,4 @@
-<script lang="ts">
+<script lang="ts" generics="Item extends {id: string}">
 	import { derived } from 'svelte/store'
 	import { page } from '$app/stores'
 
@@ -10,7 +10,7 @@
 	import { urlParam } from '$lib/store/param.js'
 	import { mdiOrderBoolAscendingVariant } from '@mdi/js'
 
-	export let field: TableField
+	export let field: TableField<Item>
 	export let options: Options
 	export let multiSelect = false
 	export let placeholder = 'No option'
