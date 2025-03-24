@@ -7,6 +7,7 @@
 
 	export let value: Date | null | undefined = undefined
 	export let input: HTMLInputAttributes = {}
+	export let getDefaultDate = () => new Date(0)
 
 	$: ({ class: inputClass = '', ...inputProps } = input)
 
@@ -19,7 +20,7 @@
 
 	function getDateTime(v: string | null | undefined): Date | null | undefined {
 		if (!v) return value
-		const date = new Date(value || 0)
+		const date = value ? new Date(value) : getDefaultDate()
 		const dateString = [
 			date.getFullYear().toString(),
 			(date.getMonth() + 1).toString().padStart(2, '0'),
