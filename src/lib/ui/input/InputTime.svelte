@@ -3,7 +3,7 @@
 	import type { HTMLInputAttributes, FormEventHandler } from 'svelte/elements'
 	import { FormControl, type InputProps } from './index.js'
 	import dayjs from 'dayjs'
-	type $$Props = InputProps<Date>
+	type $$Props = InputProps<Date> & { getDefaultDate?: () => Date }
 
 	export let value: Date | null | undefined = undefined
 	export let input: HTMLInputAttributes = {}
