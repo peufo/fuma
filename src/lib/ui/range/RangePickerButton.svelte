@@ -10,17 +10,20 @@
 	import { InputTime } from '$lib/ui/input/index.js'
 	import { type RangeAsDate, RangePicker } from '$lib/ui/range/index.js'
 	import { jsonParse } from '$lib/utils/jsonParse.js'
-	export let minDate: Date | number | string | undefined = undefined
-	export let maxDate: Date | number | string | undefined = undefined
 
 	let dropDown: DropDown
 	let rangePicker: RangePicker
+	let klass = ''
 
 	export let key = 'range'
 	export let range: RangeAsDate = jsonParse<RangeAsDate>($urlParam.get(key), {
 		start: null,
 		end: null
 	})
+	export let minDate: Date | number | string | undefined = undefined
+	export let maxDate: Date | number | string | undefined = undefined
+	export { klass as class }
+	export let classLabel = ''
 
 	$: isValidPeriod = !!range.start && !!range.end
 
@@ -44,12 +47,12 @@
 </script>
 
 <DropDown bind:this={dropDown} tippyProps={{ onHidden: writeURL }} class="max-h-full">
-	<button slot="activator" class="btn btn-sm">
+	<button slot="activator" class="min-width-0 btn btn-sm flex-nowrap {klass}">
 		<Icon path={mdiCalendarMonthOutline} class="opacity-60" size={20} />
 		{#if isValidPeriod}
 			<span
 				transition:slide={{ axis: 'x', duration: 200 }}
-				class="whitespace-nowrap text-xs font-medium opacity-80"
+				class="whitespace-nowrap text-xs font-medium opacity-80 {classLabel}"
 			>
 				{getLabel(range)}
 			</span>
