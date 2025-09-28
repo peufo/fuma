@@ -120,6 +120,7 @@ importers:
         version: 7.1.7(@types/node@24.5.2)(jiti@2.6.0)(lightningcss@1.30.1)(yaml@2.8.1)
       zod:
 <<<<<<< HEAD
+<<<<<<< HEAD
         specifier: ^3.22.4
         version: 3.22.5
     devDependencies:
@@ -146,6 +147,10 @@ importers:
 =======
         specifier: ^3.25.76
         version: 3.25.76
+=======
+        specifier: ^4.1.11
+        version: 4.1.11
+>>>>>>> b708544 (upgrade zod)
     devDependencies:
       '@sveltejs/adapter-auto':
         specifier: ^3.3.1
@@ -3640,9 +3645,14 @@ packages:
   zimmerframe@1.1.4:
     resolution: {integrity: sha512-B58NGBEoc8Y9MWWCQGl/gq9xBCe4IiKM0a2x7GZdQKOW5Exr8S1W24J6OgM1njK8xCRGvAJIL/MxXHf6SkmQKQ==}
 
+<<<<<<< HEAD
   zod@3.25.76:
     resolution: {integrity: sha512-gzUt/qt81nXsFGKIFcC3YnfEAx5NkunCfnDlvuBSSFS02bcXu4Lmea0AFIUwbLWxWPx3d9p8S5QoaujKcNQxcQ==}
 >>>>>>> c27f0b5 (update packages)
+=======
+  zod@4.1.11:
+    resolution: {integrity: sha512-WPsqwxITS2tzx1bzhIKsEs19ABD5vmCVa4xBo2tq/SrV4RNZtfws1EnCWQXM6yh8bD08a1idvkB5MZSBiZsjwg==}
+>>>>>>> b708544 (upgrade zod)
 
 snapshots:
 
@@ -6744,5 +6754,9 @@ snapshots:
 =======
   zimmerframe@1.1.4: {}
 
+<<<<<<< HEAD
   zod@3.25.76: {}
 >>>>>>> c27f0b5 (update packages)
+=======
+  zod@4.1.11: {}
+>>>>>>> b708544 (upgrade zod)

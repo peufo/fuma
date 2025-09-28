@@ -1,6 +1,6 @@
 {
 	"name": "fuma",
-	"version": "2.0.0",
+	"version": "2.0.1",
 	"description": "My fullstack material build with sveltekit, daisyui, zod, prisma, lucia",
 	"author": {
 		"name": "Jonas Voisard",
@@ -69,24 +69,6 @@
 		"!dist/**/*.test.*",
 		"!dist/**/*.spec.*"
 	],
-<<<<<<< HEAD
-	"peerDependencies": {
-		"@sveltejs/kit": "^2.5.6",
-		"svelte": "^4.0.0"
-	},
-	"devDependencies": {
-		"@sveltejs/adapter-auto": "^3.0.0",
-		"@sveltejs/kit": "^2.5.7",
-		"@sveltejs/package": "^2.3.1",
-		"@sveltejs/vite-plugin-svelte": "^3.1.0",
-		"@tailwindcss/typography": "^0.5.13",
-		"@types/debounce": "^1.2.4",
-		"@types/eslint": "^8.56.0",
-		"@types/node": "^20.12.7",
-		"@typescript-eslint/eslint-plugin": "^7.7.0",
-		"@typescript-eslint/parser": "^7.7.0",
-		"autoprefixer": "^10.4.19",
-=======
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "^3.3.1",
 		"@sveltejs/kit": "^2.43.5",
@@ -99,7 +81,6 @@
 		"@typescript-eslint/eslint-plugin": "^7.18.0",
 		"@typescript-eslint/parser": "^7.18.0",
 		"autoprefixer": "^10.4.21",
->>>>>>> c27f0b5 (update packages)
 		"daisyui": "5.0.0-beta.3",
 		"eslint": "^8.57.1",
 		"eslint-config-prettier": "^9.1.2",
@@ -121,37 +102,7 @@
 		"@lucia-auth/adapter-prisma": "^4.0.1",
 		"@mdi/js": "^7.4.47",
 		"@prisma/client": "5.22.0",
-<<<<<<< HEAD
 		"@sveltejs/vite-plugin-svelte": "5.0.1",
-		"@tailwindcss/vite": "^4.0.1",
-		"@tiptap/core": "^2.3.0",
-		"@tiptap/extension-color": "^2.3.0",
-		"@tiptap/extension-highlight": "^2.3.0",
-		"@tiptap/extension-image": "^2.3.0",
-		"@tiptap/extension-link": "^2.3.0",
-		"@tiptap/extension-mention": "^2.3.0",
-		"@tiptap/extension-placeholder": "^2.3.0",
-		"@tiptap/extension-text-align": "^2.3.0",
-		"@tiptap/extension-text-style": "^2.3.0",
-		"@tiptap/extension-youtube": "^2.3.0",
-		"@tiptap/html": "^2.3.0",
-		"@tiptap/pm": "^2.3.0",
-		"@tiptap/starter-kit": "^2.3.0",
-		"@tiptap/suggestion": "^2.3.0",
-		"axios": "^1.6.8",
-		"dayjs": "^1.11.10",
-		"debounce": "^2.0.0",
-		"devalue": "^4.3.2",
-		"litepicker": "^2.0.12",
-		"lucia": "^3.1.1",
-		"mode-watcher": "^0.3.0",
-		"oslo": "^1.2.0",
-		"svelte-easy-crop": "^2.0.3",
-		"svelte-sonner": "^0.3.22",
-		"tippy.js": "^6.3.7",
-		"ts-node": "^10.9.2",
-		"zod": "^3.22.4"
-=======
 		"@tailwindcss/vite": "^4.1.13",
 		"@tiptap/core": "^2.26.2",
 		"@tiptap/extension-color": "^2.26.2",
@@ -181,7 +132,6 @@
 		"tippy.js": "^6.3.7",
 		"ts-node": "^10.9.2",
 		"vite": "^7.1.7",
-		"zod": "^3.25.76"
->>>>>>> c27f0b5 (update packages)
+		"zod": "^4.1.11"
 	}
 }

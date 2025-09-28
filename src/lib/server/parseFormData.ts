@@ -7,18 +7,22 @@ import {
 import { jsonParse } from '$lib/utils/jsonParse.js'
 import z from 'zod'
 
-export type Issue = z.ZodIssue & { received: string; expected: string; unionErrors?: z.ZodError[] }
+export type Issue = z.core.$ZodIssue & {
+	received: string
+	expected: string
+	unionErrors?: z.ZodError[]
+}
 
-export async function parseFormData<Shape extends z.ZodRawShape>(
+export async function parseFormData<Shape extends z.core.$ZodShape>(
 	requestOrFormData: Request | FormData,
-	shapes: Shape | Shape[],
-	validation?: z.SuperRefinement<z.objectOutputType<Shape, z.ZodTypeAny>>
+	shapes: Shape | Shape[]
+	//validation?: (arg: z.core.output<Shape>, ctx: z.core.$RefinementCtx<z.core.output<Shape>>) => void
 ) {
 	const formData =
 		requestOrFormData instanceof Request ? await requestOrFormData.formData() : requestOrFormData
 
 	const [firstShap, ...unionShaps] = Array.isArray(shapes) ? shapes : [shapes]
-	const shema = z.object(firstShap).superRefine(validation || (() => {}))
+	const shema = z.object(firstShap) //.superRefine(validation)
 	unionShaps.forEach((shap) => shema.or(z.object(shap)))
 
 	const formDataFlateObject: Record<string, unknown> = Object.fromEntries(formData)

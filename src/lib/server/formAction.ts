@@ -5,25 +5,25 @@ import { tryOrFail } from './try.js'
 
 export function formAction<
 	E extends RequestEvent,
-	Shape extends z.ZodRawShape = z.ZodRawShape,
+	Shape extends z.core.$ZodShape = z.core.$ZodShape,
 	ReturnType extends unknown = unknown
 >(
 	shapes: Shape | Shape[],
 	func: (
 		arg: E & {
 			event: E
-			data: z.baseObjectOutputType<Shape>
+			data: z.core.$InferObjectOutput<Shape, {}>
 			formData: FormData
 		}
 	) => Promise<ReturnType>,
 	options: {
-		validation?: z.SuperRefinement<z.objectOutputType<Shape, z.ZodTypeAny>>
+		//validation?: z.SuperRefinement<z.objectOutputType<Shape, z.ZodTypeAny>>
 		redirectTo?: string | URL | ((res: ReturnType) => string | URL | undefined)
 	} = {}
 ) {
 	return (event: E) =>
 		tryOrFail(async () => {
-			const { data, formData } = await parseFormData(event.request, shapes, options.validation)
+			const { data, formData } = await parseFormData(event.request, shapes) //, options.validation)
 			return func({ ...event, event, data, formData })
 		}, options.redirectTo)
 }
