@@ -9,19 +9,19 @@
 		@apply bg-base-300/80;
 	}
 	.menu-item.disabled {
-		@apply cursor-default bg-base-200/50 hover:bg-base-200/50;
+		@apply bg-base-200/50 hover:bg-base-200/50 cursor-default;
 	}
 
 	.title {
-		@apply text-xl font-semibold text-base-content/70;
+		@apply text-base-content/70 text-xl font-semibold;
 	}
 
 	.title-sm {
-		@apply text-xs font-bold text-base-content/60;
+		@apply text-base-content/60 text-xs font-bold;
 	}
 
 	.title-md {
-		@apply font-semibold text-base-content/60;
+		@apply text-base-content/60 font-semibold;
 	}
 
 	.btn-primary {
@@ -33,7 +33,7 @@
 	}
 
 	.suggestion {
-		@apply mx-1 inline-block !whitespace-nowrap rounded border px-2 text-sm shadow;
+		@apply whitespace-nowrap! mx-1 inline-block rounded border px-2 text-sm shadow;
 	}
 	/*
 	.border,

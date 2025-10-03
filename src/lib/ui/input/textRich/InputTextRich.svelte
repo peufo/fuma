@@ -63,7 +63,7 @@
 			{#if editor}
 				<ToolsBar {editor} class={classToolbar} />
 			{/if}
-			<div bind:this={element} class="min-h-[20rem] p-4 pb-10"></div>
+			<div bind:this={element} class="min-h-80 p-4 pb-10"></div>
 		</div>
 		{#if key}
 			<input type="hidden" name={key} {value} />
