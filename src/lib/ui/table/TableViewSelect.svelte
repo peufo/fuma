@@ -57,7 +57,7 @@
 		class="menu-item bordered btn-sm gap-1 rounded-lg border font-semibold opacity-90"
 	>
 		<span>{isNewView ? 'Nouvelle vue' : selectedView?.name || 'Vue simple'}</span>
-		<Icon path={mdiChevronDown} size={20} class="translate-x-1 translate-y-[1px] opacity-90" />
+		<Icon path={mdiChevronDown} size={20} class="translate-x-1 translate-y-px opacity-90" />
 	</button>
 
 	<ul class="flex flex-col gap-1">

@@ -6,7 +6,7 @@
 <script
 	lang="ts"
 	generics="
-		Shape extends z.ZodRawShape,
+		Shape extends z.core.$ZodShape,
 		ReturnData extends Record<string, unknown> = FormDataInput<Shape>,
 		Data extends FormDataInput<Shape> = FormDataInput<Shape>
 	"
@@ -110,7 +110,7 @@
 
 <form
 	method="post"
-	action="{action}{simpleAction ? '' : data.id ? actionUpdate : actionCreate}"
+	action="{action}{simpleAction ? '' : data?.id ? actionUpdate : actionCreate}"
 	enctype="multipart/form-data"
 	class="{klass} flex flex-col gap-4"
 	use:enhance
@@ -158,7 +158,7 @@
 	>
 		<button class="btn btn-primary" {disabled}> Valider </button>
 		<div class="grow"></div>
-		{#if !simpleAction && data.id && actionDelete}
+		{#if !simpleAction && data?.id && actionDelete}
 			{@const formaction = `${action}${actionDelete}`}
 			<slot name="delete" {formaction}>
 				<ButtonDelete {formaction} {disabled}>Supprimer</ButtonDelete>

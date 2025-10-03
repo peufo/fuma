@@ -42,7 +42,7 @@
 				<span class="text-sm font-light">{toolSelected.label}</span>
 			{/if}
 		</slot>
-		<Icon path={mdiChevronDown} size={20} class="translate-y-[1px] opacity-70" />
+		<Icon path={mdiChevronDown} size={20} class="translate-y-px opacity-70" />
 	</button>
 
 	{#each tools as tool}
