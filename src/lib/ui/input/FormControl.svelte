@@ -49,7 +49,7 @@
 	>
 		{#if label}
 			<label for="{prefixFor}{_key}" class="label cursor-pointer {classLabel}">
-				<span class="label-text">
+				<span class="py-1.5 text-xs font-extrabold">
 					{#if typeof label === 'string'}
 						{label}
 					{:else}
@@ -67,11 +67,11 @@
 
 	{#if error}
 		<label for="{prefixFor}{_key}" class="label" transition:slide>
-			<span class="label-text-alt text-warning">{error}</span>
+			<span class="text-warning text-xs font-extrabold">{error}</span>
 		</label>
 	{:else if hint}
 		<label for="{prefixFor}{_key}" class="label" transition:slide>
-			<span class="label-text-alt text-neutral">{hint}</span>
+			<span class="text-neutral text-xs font-extrabold">{hint}</span>
 		</label>
 	{/if}
 </div>
