@@ -37,13 +37,13 @@
 			key: 'title',
 			label: 'Title',
 			type: 'string',
-			getCell: (post) => post.title,
+			cell: (post) => post.title,
 			visible: true
 		},
 		{
 			key: 'author',
 			label: 'Author',
-			getCell: (post) => post.author.username,
+			cell: (post) => post.author.username,
 			visible: true
 		},
 		{
@@ -51,20 +51,20 @@
 			label: 'likes',
 			visible: true,
 			type: 'number',
-			getCell: (post) => post.likeCount
+			cell: (post) => post.likeCount
 		},
 		{
 			key: 'writingAt',
 			type: 'date',
 			label: 'WritingAt',
-			getCell: (post) => post.writingAt.toLocaleDateString() || '',
+			cell: (post) => post.writingAt.toLocaleDateString() || '',
 			visible: true
 		},
 		{
 			key: 'publishedAt',
 			type: 'date',
 			label: 'PublishedAt',
-			getCell: (post) => post.publishedAt?.toLocaleDateString() || '',
+			cell: (post) => post.publishedAt?.toLocaleDateString() || '',
 			visible: true
 		},
 		{
@@ -72,14 +72,14 @@
 			label: 'IsFavourite',
 			type: 'boolean',
 			visible: true,
-			getCell: (post) => post.isFavourite
+			cell: (post) => post.isFavourite
 		},
 		{
 			key: 'select',
 			label: 'Select Without options',
 			type: 'select',
 			visible: true,
-			getCell: () => 'yolo'
+			cell: () => 'yolo'
 		}
 	]}
 />

@@ -1,16 +1,27 @@
 <script lang="ts">
 	import { mdiClose } from '@mdi/js'
 	import { browser } from '$app/environment'
-	import { page } from '$app/stores'
+	import { page } from '$app/state'
 	import { Icon } from '$lib/ui/icon/index.js'
 	import { InputText } from '$lib/ui/input/index.js'
 
-	let klass = ''
-	export { klass as class }
-	export let key = 'search'
-	export let value = $page.url.searchParams.get(key) || ''
+	let {
+		class: klass = '',
+		key = 'search',
+		value = page.url.searchParams.get(key) || '',
+		oninput,
+		onclear,
+		onkeydown
+	}: {
+		class?: string
+		key?: string
+		value?: string
+		oninput?: (value: string) => void
+		onclear?: () => void
+		onkeydown?: (event: KeyboardEvent) => void
+	} = $props()
 
-	let inputElement: HTMLInputElement
+	let inputElement = $state<HTMLInputElement>()
 </script>
 
 <InputText
@@ -18,9 +29,8 @@
 	bind:inputElement
 	bind:value
 	on:blur
-	on:blur
-	on:input
-	on:keydown
+	on:input={() => oninput?.(value)}
+	on:keydown={(e) => onkeydown?.(e)}
 	on:keyup
 	bindWithParams
 	input={{
@@ -31,17 +41,19 @@
 	}}
 	classWrapper="relative {klass}"
 >
-	<button
-		slot="append"
-		class="btn btn-square btn-sm absolute right-0"
-		class:hidden={!browser}
-		style:scale={!!value ? 0.75 : 0}
-		on:click={() => {
-			value = ''
-			inputElement.dispatchEvent(new Event('input', { bubbles: true }))
-		}}
-		tabindex={!!value ? 0 : -1}
-	>
-		<Icon path={mdiClose} />
-	</button>
+	{#snippet append()}
+		<button
+			class="btn btn-square btn-sm absolute right-0"
+			class:hidden={!browser}
+			style:scale={!!value ? 0.75 : 0}
+			onclick={() => {
+				value = ''
+				oninput?.(value)
+				onclear?.()
+			}}
+			tabindex={!!value ? 0 : -1}
+		>
+			<Icon path={mdiClose} />
+		</button>
+	{/snippet}
 </InputText>

@@ -1,33 +1,19 @@
-import { page } from '$app/stores'
-import { get } from 'svelte/store'
-import type { ComponentAndProps, Primitive } from '$lib/utils/component.js'
+import { page } from '$app/state'
 import { jsonParse } from '$lib/utils/jsonParse.js'
 import type { Options } from '$lib/utils/options.js'
+import type { Snippet } from 'svelte'
 import { createKeys } from './context.js'
+import type { Primitive } from '$lib/utils/component.js'
 
 export type ItemBase = { id: string | number }
 
-export type TableFieldType =
-	| 'string'
-	| 'textarea'
-	| 'number'
-	| 'boolean'
-	| 'select'
-	| 'multiselect'
-	| 'date'
+export type TableField<Item = ItemBase> =
+	| (TableFieldCommon<Item> & TableFieldPrimitve)
+	| (TableFieldCommon<Item> & TableFieldSelect)
 
-export type TableField<Item extends ItemBase> = TableFieldCommon &
-	(
-		| TableFieldUntyped<Item>
-		| TableFieldPrimitive<Item>
-		| TableFieldSelect<Item>
-		| TableFieldMultiselect<Item>
-	)
-
-type TableFieldCommon = {
+type TableFieldCommon<Item> = {
 	key: string
 	label: string
-	type?: TableFieldType
 	options?: Options
 	hint?: string
 	locked?: boolean
@@ -35,28 +21,18 @@ type TableFieldCommon = {
 	sortable?: boolean
 	/** Internal usage */
 	_visible?: boolean
+	cell:
+		| ((item: Item) => Snippet<[item: Item]>)
+		| ((item: Item) => null | undefined | Primitive | Primitive[])
+	head?: Snippet<[item: Item]>
 }
 
-type TableFieldUntyped<Item extends ItemBase> = {
-	getCell: (
-		item: Item
-	) => ComponentAndProps[] | ComponentAndProps | Primitive[] | Primitive | undefined | null
-	head?: ComponentAndProps | ((field: TableField<Item>) => ComponentAndProps)
+type TableFieldPrimitve = {
+	type?: 'string' | 'textarea' | 'number' | 'boolean' | 'date'
 }
 
-type TableFieldPrimitive<Item extends ItemBase> = {
-	type: Exclude<TableFieldType, 'select' | 'multiselect'>
-	getCell: (item: Item) => ComponentAndProps[] | ComponentAndProps | Primitive | undefined | null
-}
-
-type TableFieldSelect<Item extends ItemBase> = {
-	type: 'select'
-	getCell: (item: Item) => Primitive | undefined | null
-	options: Options
-}
-type TableFieldMultiselect<Item extends ItemBase> = {
-	type: 'multiselect'
-	getCell: (item: Item) => Primitive[] | undefined | null
+type TableFieldSelect = {
+	type: 'select' | 'multiselect'
 	options: Options
 }
 
@@ -68,13 +44,10 @@ export function syncFieldsWithParams<Item extends ItemBase>(
 	fields: TableField<Item>[]
 ) {
 	const { KEY_FIELDS_VISIBLE, KEY_FIELDS_HIDDEN, KEY_FIELDS_ORDER } = createKeys(tablekey)
-	const {
-		url: { searchParams }
-	} = get(page)
-
-	const fieldsVisible = jsonParse<string[]>(searchParams.get(KEY_FIELDS_VISIBLE), [])
-	const fieldsHidden = jsonParse<string[]>(searchParams.get(KEY_FIELDS_HIDDEN), [])
-	const fieldsOrder = jsonParse(searchParams.get(KEY_FIELDS_ORDER), [])
+	const getParam = (key: string) => page.url.searchParams.get(key)
+	const fieldsVisible = jsonParse<string[]>(getParam(KEY_FIELDS_VISIBLE), [])
+	const fieldsHidden = jsonParse<string[]>(getParam(KEY_FIELDS_HIDDEN), [])
+	const fieldsOrder = jsonParse(getParam(KEY_FIELDS_ORDER), [])
 
 	// Init correct visible prop
 	const _fields = fields.map((field) => ({

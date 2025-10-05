@@ -1,17 +1,31 @@
 <script lang="ts">
+	import type { Snippet } from 'svelte'
 	import { FormControl, bindValueWithParams, type InputProps } from './index.js'
 
-	type $$Props = InputProps
-	$: ({ input, value: _value, classWrapper, bindWithParams, ...props } = $$props as $$Props)
-	$: ({ class: inputClass, ...inputProps } = input || {})
-	export let value = _value
-	export let inputElement: HTMLInputElement | undefined = undefined
+	let {
+		input,
+		value = $bindable(),
+		classWrapper,
+		bindWithParams,
+		inputElement = $bindable(),
+		prepend,
+		append,
+		...controlProps
+	}: InputProps & {
+		prepend?: Snippet<[value: string | null | undefined]>
+		append?: Snippet<[value: string | null | undefined]>
+	} = $props()
+
+	let inputProps = $derived({
+		...input,
+		class: `input input-bordered w-full ${input?.class || ''}`
+	})
 </script>
 
-<FormControl {...props} enhanceDisabled={props.enhanceDisabled || bindWithParams} let:key>
+<FormControl {...controlProps} enhanceDisabled={controlProps.enhanceDisabled || bindWithParams}>
 	{#snippet children({ key })}
 		<div class={classWrapper}>
-			<slot name="prepend" {value} />
+			{@render prepend?.(value)}
 			<input
 				bind:value
 				on:input
@@ -24,10 +38,9 @@
 				type="text"
 				name={key}
 				id={key}
-				class="input input-bordered w-full {inputClass || ''}"
 				{...inputProps}
 			/>
-			<slot name="append" {value} />
+			{@render append?.(value)}
 		</div>
 	{/snippet}
 </FormControl>

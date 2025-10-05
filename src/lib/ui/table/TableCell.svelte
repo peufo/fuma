@@ -1,30 +1,29 @@
-<script lang="ts" generics="Item extends {id: string | number}">
+<script lang="ts" generics="Item extends ItemBase">
 	import {
 		TableCellArray,
 		TableCellBoolean,
 		TableCellNumber,
 		TableCellString
 	} from '$lib/ui/table/cell/index.js'
-	import type { TableField } from '$lib/ui/table/index.js'
+	import type { ItemBase, TableField } from '$lib/ui/table/index.js'
 
-	export let item: Item
-	export let field: TableField<Item>
+	let { item, field }: { item: Item; field: TableField<Item> } = $props()
 
-	$: value = field.getCell(item)
+	let cell = $derived(field.cell(item))
 </script>
 
-{#if Array.isArray(value)}
-	<TableCellArray {value} />
-{:else if typeof value === 'number'}
-	<TableCellNumber {value} />
-{:else if typeof value === 'boolean'}
-	<TableCellBoolean {value} />
-{:else if typeof value === 'string'}
-	<TableCellString {value} {field} />
-{:else if value === undefined || value === null}
+{#if Array.isArray(cell)}
+	<TableCellArray {cell} />
+{:else if typeof cell === 'number'}
+	<TableCellNumber {cell} />
+{:else if typeof cell === 'boolean'}
+	<TableCellBoolean {cell} />
+{:else if typeof cell === 'string'}
+	<TableCellString {cell} {field} />
+{:else if cell === undefined || cell === null}
 	<td>-</td>
 {:else}
 	<td>
-		<svelte:component this={value.component} {...value.props} />
+		{@render cell(item)}
 	</td>
 {/if}

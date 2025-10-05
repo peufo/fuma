@@ -1,29 +1,41 @@
-<script lang="ts" generics="Item extends {id: string | number}">
-	import { component, type ComponentAndProps } from '$lib/utils/component.js'
+<script lang="ts">
 	import { type TableField, TableFieldsEdition } from '$lib/ui/table/index.js'
-	import { tableHeadComponent } from '$lib/ui/table/head/index.js'
-	import TableHeadDefault from './head/TableHeadDefault.svelte'
+	import {
+		TableHeadBoolean,
+		TableHeadDate,
+		TableHeadDefault,
+		TableHeadNumber,
+		TableHeadSelect,
+		TableHeadString
+	} from './head/index.js'
 
-	export let fields: TableField<Item>[]
-	export let key: string
-	export let onCreateField: (() => void) | undefined = undefined
-
-	function getComponent(field: TableField<Item>): ComponentAndProps {
-		if (field.type === 'select' || field.type === 'multiselect')
-			return tableHeadComponent(field.type, { options: field.options || [] })(field)
-		if (field.type) return tableHeadComponent(field.type, {})(field)
-		if (!field.head) return component(TableHeadDefault<Item>, { field })
-		if (typeof field.head === 'function') return field.head(field)
-		if (typeof field.head === 'string') return tableHeadComponent(field.head, {})(field)
-		return field.head
-	}
+	let {
+		fields,
+		key,
+		onCreateField
+	}: {
+		fields: TableField[]
+		key: string
+		onCreateField?: () => void
+	} = $props()
 </script>
 
 <thead>
 	<tr class="shadow">
 		{#each fields.filter((f) => f._visible) as field (field.key)}
-			{@const { component, props } = getComponent(field)}
-			<svelte:component this={component} {...props} />
+			{#if !field.type}
+				<TableHeadDefault {field} />
+			{:else if field.type === 'string' || field.type === 'textarea'}
+				<TableHeadString {field} />
+			{:else if field.type === 'number'}
+				<TableHeadNumber {field} />
+			{:else if field.type === 'boolean'}
+				<TableHeadBoolean {field} />
+			{:else if field.type === 'date'}
+				<TableHeadDate {field} />
+			{:else if field.options}
+				<TableHeadSelect {field} options={field.options} />
+			{/if}
 		{/each}
 		<TableFieldsEdition {fields} {key} {onCreateField} />
 	</tr>

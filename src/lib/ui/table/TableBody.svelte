@@ -1,33 +1,33 @@
-<script lang="ts" generics="Item extends {id: string | number}">
-	import { createEventDispatcher } from 'svelte'
+<script lang="ts" generics="Item extends ItemBase">
+	import { TableCell, type ItemBase, type TableField } from '$lib/ui/table/index.js'
+	import type { Snippet } from 'svelte'
 
-	import { TableCell, type TableField } from '$lib/ui/table/index.js'
-	import type { ComponentAndProps } from '$lib/utils/component.js'
+	let {
+		items,
+		fields,
+		actions,
+		classRow,
+		onclick
+	}: {
+		items: Item[]
+		fields: TableField<Item>[]
+		actions?: Snippet<[item: Item]>
+		classRow?: string
+		onclick?: (item?: Item) => void
+	} = $props()
 
-	export let items: Item[]
-	export let fields: TableField<Item>[]
-	export let action: ((item: Item) => ComponentAndProps) | undefined = undefined
-	export let classRow = ''
-
-	const dispatch = createEventDispatcher<{ click: Item }>()
-
-	$: _fields = fields.filter((f) => f._visible)
-
-	function handleClickRow(event: MouseEvent, item: Item) {
-		dispatch('click', item)
-	}
+	let fieldsVisible = $derived(fields.filter((f) => f._visible))
 </script>
 
 <tbody>
 	{#each items as item (item.id)}
-		<tr class={classRow} on:click={(event) => handleClickRow(event, item)}>
-			{#each _fields as field (field.key)}
+		<tr class={classRow} onclick={() => onclick?.(item)}>
+			{#each fieldsVisible as field (field.key)}
 				<TableCell {item} {field} />
 			{/each}
 			<td align="right">
-				{#if action}
-					{@const { component, props } = action(item)}
-					<svelte:component this={component} {...props} />
+				{#if actions}
+					{@render actions(item)}
 				{/if}
 			</td>
 		</tr>

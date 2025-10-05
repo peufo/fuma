@@ -1,6 +1,6 @@
-<script lang="ts" generics="Item extends {id: string}">
+<script lang="ts">
 	import { goto } from '$app/navigation'
-	import { page } from '$app/stores'
+	import { page } from '$app/state'
 	import {
 		mdiCalendarFilterOutline,
 		mdiSortClockAscendingOutline,
@@ -17,22 +17,22 @@
 	import { Icon } from '$lib/ui/icon/index.js'
 	import OrderButtons from './OrderButtons.svelte'
 
-	export let field: Omit<TableField<Item>, 'getCell' | 'type'>
+	let { field }: { field: TableField } = $props()
 
 	let dropDown: DropDown
 	let rangePicker: RangePicker
-	const initialValue = jsonParse<{ start?: string; end?: string }>(
-		$page.url.searchParams.get(field.key),
+	let initialValue = jsonParse<{ start?: string; end?: string; order?: 'asc' | 'desc' }>(
+		page.url.searchParams.get(field.key),
 		{}
 	)
-	let { order } = jsonParse<{ order?: 'asc' | 'desc' }>($page.url.searchParams.get(field.key), {})
 
-	let range: RangeAsDate = {
+	let range: RangeAsDate = $state({
 		start: initialValue.start ? new Date(initialValue.start) : null,
 		end: initialValue.end ? new Date(initialValue.end) : null
-	}
+	})
+	let order = $state(initialValue.order)
 
-	let isValidPeriod = !!range.start && !!range.end
+	let isValidPeriod = $derived(!!range.start && !!range.end)
 
 	function updateUrl() {
 		isValidPeriod = !!range.start && !!range.end
@@ -120,7 +120,10 @@
 		{/if}
 
 		<form
-			on:submit|preventDefault={() => dropDown.hide()}
+			onsubmit={(e) => {
+				e.preventDefault()
+				dropDown.hide()
+			}}
 			data-sveltekit-replacestate
 			class="flex flex-col font-normal"
 			class:mt-6={field.sortable !== false}
@@ -156,7 +159,7 @@
 
 			<div class="m-2 flex flex-row-reverse gap-2">
 				<button class="btn">Ok</button>
-				<button class="btn btn-ghost" type="button" on:click={handleReset}>Effacer</button>
+				<button class="btn btn-ghost" type="button" onclick={handleReset}>Effacer</button>
 			</div>
 		</form>
 	</DropDown>

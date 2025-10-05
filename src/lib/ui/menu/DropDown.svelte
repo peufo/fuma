@@ -97,23 +97,23 @@
 {#if !disable}
 	<div class={classWrapper}>
 		<div class={classActivator} bind:this={activator}>
-			<slot name="activator" />
+			<slot name="activator" {tip} />
 		</div>
 
 		<div class="hidden">
 			<div
-				class="{klass} max-h-80 overflow-auto rounded-lg border bg-base-100 p-1 shadow-lg"
+				class="{klass} bg-base-100 max-h-80 overflow-auto rounded-lg border p-1 shadow-lg"
 				bind:this={content}
 			>
-				<slot />
+				<slot {tip} />
 			</div>
 		</div>
 	</div>
 {:else}
 	<div class={classWrapper}>
-		<slot name="activator" />
+		<slot name="activator" {tip} />
 		<div class="{klass} mt-2">
-			<slot />
+			<slot {tip} />
 		</div>
 	</div>
 {/if}

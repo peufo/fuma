@@ -1,10 +1,10 @@
-<script lang="ts" generics="Item extends {id: string}">
-	import type { TableField } from '$lib/ui/table/index.js'
+<script lang="ts" generics="Item extends ItemBase">
+	import type { ItemBase, TableField } from '$lib/ui/table/index.js'
 
-	export let value: string
-	export let field: TableField<Item>
+	let { cell, field }: { cell: string; field: TableField<Item> } = $props()
 </script>
 
 <td data-field-key={field.key} data-field-type={field.type === 'textarea' ? 'textarea' : 'string'}>
-	<span>{@html value}</span>
+	<!-- TODO: Sanitize -->
+	<span>{@html cell}</span>
 </td>

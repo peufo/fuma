@@ -1,7 +1,7 @@
 <script lang="ts">
-	export let value: number
+	let { cell }: { cell: number } = $props()
 </script>
 
 <td>
-	<span class="badge">{value}</span>
+	<span class="badge">{cell}</span>
 </td>

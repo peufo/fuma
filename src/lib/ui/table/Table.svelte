@@ -1,27 +1,41 @@
-<script lang="ts" generics="Item extends {id: string | number}">
+<script lang="ts" generics="Item extends ItemBase">
 	import { afterNavigate } from '$app/navigation'
 	import { Placeholder } from '$lib/ui/placeholder/index.js'
-	import type { ComponentAndProps } from '$lib/utils/component.js'
 
 	import {
 		type TableField,
+		type ItemBase,
 		TableHead,
 		TableBody,
 		context,
 		createKeys,
 		syncFieldsWithParams
 	} from '$lib/ui/table/index.js'
+	import type { Snippet } from 'svelte'
 
-	export let key = 'table'
-	export let fields: TableField<Item>[]
-	export let items: Item[]
-	export let slotAction: ((item: Item) => ComponentAndProps) | undefined = undefined
-	export let placholder = 'Aucun élément trouvé'
-	let klass = ''
-	export { klass as class }
-	export let classRow = ''
-	export let hideBody = false
-	export let onCreateField: (() => void) | undefined = undefined
+	let {
+		key = 'table',
+		fields,
+		items,
+		actions,
+		placholder = 'placholder',
+		class: klass,
+		classRow,
+		hideBody = false,
+		onCreateField,
+		onclick
+	}: {
+		key?: string
+		fields: TableField<Item>[]
+		items: Item[]
+		actions?: Snippet<[item: Item]>
+		placholder?: string
+		class?: string
+		classRow?: string
+		hideBody?: boolean
+		onCreateField?: () => void
+		onclick?: (item?: Item) => void
+	} = $props()
 
 	const { KEY_FIELDS_VISIBLE, KEY_FIELDS_HIDDEN, KEY_FIELDS_ORDER } = createKeys(key)
 	context.set(key, {
@@ -39,7 +53,7 @@
 	<table class="relative table">
 		<TableHead {fields} {key} {onCreateField} />
 		{#if !hideBody && items.length}
-			<TableBody {fields} {items} action={slotAction} {classRow} on:click />
+			<TableBody {fields} {items} {actions} {classRow} {onclick} />
 		{/if}
 	</table>
 

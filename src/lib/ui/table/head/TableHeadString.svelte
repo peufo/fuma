@@ -1,22 +1,21 @@
-<script lang="ts" generics="Item extends {id: string}">
-	import type { TippyInstance } from '$lib/utils/tippy.js'
+<script lang="ts">
 	import { mdiMagnify } from '@mdi/js'
-	import { page } from '$app/stores'
+	import { page } from '$app/state'
 
 	import { DropDown } from '$lib/ui/menu/index.js'
 	import { Icon } from '$lib/ui/icon/index.js'
 	import { InputSearch } from '$lib/ui/input/index.js'
 	import type { TableField } from '$lib/ui/table/index.js'
+	import { goto } from '$app/navigation'
+	import { urlParam } from '$lib/store/param.js'
+	let { field }: { field: TableField } = $props()
 
-	export let field: TableField<Item>
-
-	let tip: TippyInstance
-	let searchValue = $page.url.searchParams.get(field.key) || ''
+	let searchValue = $derived(page.url.searchParams.get(field.key) || '')
 </script>
 
 <th class="p-1">
 	<DropDown
-		bind:tip
+		let:tip
 		hideOnBlur
 		hideOnNav={false}
 		autofocus
@@ -41,8 +40,9 @@
 		<InputSearch
 			class="m-1"
 			key={field.key}
-			bind:value={searchValue}
-			on:keydown={(e) => e.key === 'Enter' && tip.hide()}
+			value={searchValue}
+			onkeydown={(e) => e.key === 'Enter' && tip?.hide()}
+			onclear={() => goto($urlParam.without(field.key))}
 		/>
 	</DropDown>
 </th>
