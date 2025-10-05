@@ -1,4 +1,4 @@
-<script lang="ts" generics="Item extends {id: string}">
+<script lang="ts" generics="Item extends {id: string | number}">
 	import { afterNavigate } from '$app/navigation'
 	import { Placeholder } from '$lib/ui/placeholder/index.js'
 	import type { ComponentAndProps } from '$lib/utils/component.js'
@@ -18,7 +18,7 @@
 	export let slotAction: ((item: Item) => ComponentAndProps) | undefined = undefined
 	export let placholder = 'Aucun élément trouvé'
 	let klass = ''
-	export {klass as class}
+	export { klass as class }
 	export let classRow = ''
 	export let hideBody = false
 	export let onCreateField: (() => void) | undefined = undefined
@@ -35,8 +35,8 @@
 	afterNavigate(initFields)
 </script>
 
-<div class="{klass} overflow-x-auto rounded-lg border bg-base-100" class:min-h-[320px]={!hideBody}>
-	<table class="table relative">
+<div class="{klass} bg-base-100 overflow-x-auto rounded-lg border" class:min-h-[320px]={!hideBody}>
+	<table class="relative table">
 		<TableHead {fields} {key} {onCreateField} />
 		{#if !hideBody && items.length}
 			<TableBody {fields} {items} action={slotAction} {classRow} on:click />

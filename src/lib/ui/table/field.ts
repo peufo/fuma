@@ -5,7 +5,7 @@ import { jsonParse } from '$lib/utils/jsonParse.js'
 import type { Options } from '$lib/utils/options.js'
 import { createKeys } from './context.js'
 
-export type ItemBase = { id: string }
+export type ItemBase = { id: string | number }
 
 export type TableFieldType =
 	| 'string'

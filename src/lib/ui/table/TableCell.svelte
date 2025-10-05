@@ -1,4 +1,4 @@
-<script lang="ts" generics="Item extends {id: string}">
+<script lang="ts" generics="Item extends {id: string | number}">
 	import {
 		TableCellArray,
 		TableCellBoolean,

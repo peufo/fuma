@@ -1,4 +1,4 @@
-<script lang="ts" generics="Item extends {id: string}">
+<script lang="ts" generics="Item extends {id: string | number}">
 	import { component, type ComponentAndProps } from '$lib/utils/component.js'
 	import { type TableField, TableFieldsEdition } from '$lib/ui/table/index.js'
 	import { tableHeadComponent } from '$lib/ui/table/head/index.js'
