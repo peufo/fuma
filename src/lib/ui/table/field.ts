@@ -5,6 +5,10 @@ import type { Snippet } from 'svelte'
 import { createKeys } from './context.js'
 import type { Primitive } from '$lib/utils/component.js'
 
+type SnippetLike<Args extends unknown[] = unknown[]> =
+	| Snippet<Args>
+	| ((...args: Args) => ReturnType<Snippet>)
+
 export type ItemBase = { id: string | number }
 
 export type TableField<Item = ItemBase> =
@@ -22,9 +26,9 @@ type TableFieldCommon<Item> = {
 	/** Internal usage */
 	_visible?: boolean
 	cell:
-		| ((item: Item) => Snippet<[item: Item]>)
+		| ((item: Item) => SnippetLike<[item: Item]>)
 		| ((item: Item) => null | undefined | Primitive | Primitive[])
-	head?: Snippet<[item: Item]>
+	head?: SnippetLike<[item: Item]>
 }
 
 type TableFieldPrimitve = {
