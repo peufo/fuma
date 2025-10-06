@@ -1,21 +1,17 @@
 import { page } from '$app/state'
 import { jsonParse } from '$lib/utils/jsonParse.js'
 import type { Options } from '$lib/utils/options.js'
-import type { Snippet } from 'svelte'
 import { createKeys } from './context.js'
 import type { Primitive } from '$lib/utils/component.js'
+import type { SnippetLike } from './type.js'
 
-type SnippetLike<Args extends unknown[] = unknown[]> =
-	| Snippet<Args>
-	| ((...args: Args) => ReturnType<Snippet>)
+export type ItemBase = { id: number | number }
 
-export type ItemBase = { id: string | number }
-
-export type TableField<Item = ItemBase> =
+export type TableField<Item extends ItemBase> =
 	| (TableFieldCommon<Item> & TableFieldPrimitve)
 	| (TableFieldCommon<Item> & TableFieldSelect)
 
-type TableFieldCommon<Item> = {
+type TableFieldCommon<Item extends ItemBase> = {
 	key: string
 	label: string
 	options?: Options
@@ -26,9 +22,9 @@ type TableFieldCommon<Item> = {
 	/** Internal usage */
 	_visible?: boolean
 	cell:
-		| ((item: Item) => SnippetLike<[item: Item]>)
+		| ((item: Item) => SnippetLike<[Item]>)
 		| ((item: Item) => null | undefined | Primitive | Primitive[])
-	head?: SnippetLike<[item: Item]>
+	head?: SnippetLike<[Item]>
 }
 
 type TableFieldPrimitve = {

@@ -1,5 +1,5 @@
-<script lang="ts">
-	import { type TableField, TableFieldsEdition } from '$lib/ui/table/index.js'
+<script lang="ts" generics="Item extends ItemBase">
+	import { type ItemBase, type TableField, TableFieldsEdition } from '$lib/ui/table/index.js'
 	import {
 		TableHeadBoolean,
 		TableHeadDate,
@@ -14,7 +14,7 @@
 		key,
 		onCreateField
 	}: {
-		fields: TableField[]
+		fields: TableField<Item>[]
 		key: string
 		onCreateField?: () => void
 	} = $props()

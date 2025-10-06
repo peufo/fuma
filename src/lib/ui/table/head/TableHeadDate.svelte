@@ -1,4 +1,4 @@
-<script lang="ts">
+<script lang="ts" generics="Item extends ItemBase">
 	import { goto } from '$app/navigation'
 	import { page } from '$app/state'
 	import {
@@ -9,7 +9,7 @@
 
 	import { DropDown } from '$lib/ui/menu/index.js'
 	import { InputTime } from '$lib/ui/input/index.js'
-	import type { TableField } from '$lib/ui/table/index.js'
+	import type { ItemBase, TableField } from '$lib/ui/table/index.js'
 	import { formatRange } from '$lib/ui/range/format.js'
 	import { RangePicker, type RangeAsDate } from '$lib/ui/range/index.js'
 	import { urlParam } from '$lib/store/param.js'
@@ -17,7 +17,7 @@
 	import { Icon } from '$lib/ui/icon/index.js'
 	import OrderButtons from './OrderButtons.svelte'
 
-	let { field }: { field: TableField } = $props()
+	let { field }: { field: TableField<Item> } = $props()
 
 	let dropDown: DropDown
 	let rangePicker: RangePicker

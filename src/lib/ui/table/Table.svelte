@@ -11,7 +11,7 @@
 		createKeys,
 		syncFieldsWithParams
 	} from '$lib/ui/table/index.js'
-	import type { Snippet } from 'svelte'
+	import type { SnippetLike } from './type.js'
 
 	let {
 		key = 'table',
@@ -28,7 +28,7 @@
 		key?: string
 		fields: TableField<Item>[]
 		items: Item[]
-		actions?: Snippet<[item: Item]>
+		actions?: SnippetLike<[Item]>
 		placholder?: string
 		class?: string
 		classRow?: string

@@ -1,9 +1,9 @@
-<script lang="ts" generics="Item extends {id: string}">
+<script lang="ts" generics="Item extends ItemBase">
 	import { derived } from 'svelte/store'
 	import { page } from '$app/stores'
 
 	import { jsonParse } from '$lib/utils/jsonParse.js'
-	import type { TableField } from '$lib/ui/table/index.js'
+	import type { ItemBase, TableField } from '$lib/ui/table/index.js'
 	import { DropDown } from '$lib/ui/menu/index.js'
 	import { Icon } from '$lib/ui/icon/index.js'
 	import { type Options, parseOptions } from '$lib/utils/options.js'
@@ -83,7 +83,7 @@
 					{#if icon}
 						<Icon path={icon} size={18} class="opacity-60" />
 					{/if}
-					<span class="whitespace-nowrap font-normal">{label}</span>
+					<span class="font-normal whitespace-nowrap">{label}</span>
 				</a>
 			{:else}
 				<div class="menu-item disabled px-10">

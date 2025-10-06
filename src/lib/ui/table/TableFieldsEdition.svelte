@@ -1,4 +1,4 @@
-<script lang="ts" generics="Item extends {id: string}">
+<script lang="ts" generics="Item extends ItemBase">
 	import {
 		mdiCheck,
 		mdiCheckCircleOutline,
@@ -16,7 +16,7 @@
 	import { context } from '$lib/ui/table/context.js'
 	import { Icon } from '$lib/ui/icon/index.js'
 	import { DropDown } from '$lib/ui/menu/index.js'
-	import type { TableField } from '$lib/ui/table/index.js'
+	import type { ItemBase, TableField } from '$lib/ui/table/index.js'
 
 	export let fields: TableField<Item>[]
 	export let key: string
@@ -69,7 +69,7 @@
 		</button>
 
 		{#if onCreateField}
-			<div class="bordered flex items-center gap-2 border-b pb-1 pl-2 pr-1">
+			<div class="bordered flex items-center gap-2 border-b pr-1 pb-1 pl-2">
 				<span class=" font-semibold opacity-70">Champs</span>
 				<button
 					type="button"

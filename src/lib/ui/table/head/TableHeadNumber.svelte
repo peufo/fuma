@@ -1,4 +1,4 @@
-<script lang="ts" generics="Item extends {id: string}">
+<script lang="ts" generics="Item extends ItemBase">
 	import { onMount } from 'svelte'
 	import type { TippyInstance } from '$lib/utils/tippy.js'
 	import debounce from 'debounce'
@@ -9,7 +9,7 @@
 	import { InputNumber } from '$lib/ui/input/index.js'
 	import { urlParam } from '$lib/store/param.js'
 	import { jsonParse } from '$lib/utils/jsonParse.js'
-	import type { TableField } from '../field.js'
+	import type { ItemBase, TableField } from '../field.js'
 	import { mdiFilterMultipleOutline, mdiSortAscending, mdiSortDescending } from '@mdi/js'
 	import { Icon } from '$lib/ui/icon/index.js'
 	import OrderButtons from './OrderButtons.svelte'
