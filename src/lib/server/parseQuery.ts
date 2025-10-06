@@ -9,5 +9,5 @@ export function parseQuery<Shape extends z.core.$ZodShape>(url: URL, shape: Shap
 	})
 	const parsed = z.object(shape).safeParse(queryRaw)
 	if (parsed.success === false) error(400, { message: parsed.error.message })
-	return parsed.data
+	return parsed.data as z.output<z.ZodObject<Shape>>
 }
