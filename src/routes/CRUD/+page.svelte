@@ -2,6 +2,7 @@
 	import { Dialog, Icon, Table, urlParam } from '$lib/index.js'
 	import { mdiPlus } from '@mdi/js'
 	import PostForm from './PostForm.svelte'
+	import { POST_PUBLICATION } from '$lib/private/constant.js'
 	export let data
 
 	let dialog: HTMLDialogElement
@@ -57,14 +58,14 @@
 			key: 'writingAt',
 			type: 'date',
 			label: 'WritingAt',
-			cell: (post) => post.writingAt.toLocaleDateString() || '',
+			cell: (post) => post.writingAt,
 			visible: true
 		},
 		{
 			key: 'publishedAt',
 			type: 'date',
 			label: 'PublishedAt',
-			cell: (post) => post.publishedAt?.toLocaleDateString() || '',
+			cell: (post) => post.publishedAt,
 			visible: true
 		},
 		{
@@ -75,11 +76,11 @@
 			cell: (post) => post.isFavourite
 		},
 		{
-			key: 'select',
-			label: 'Select Without options',
+			key: 'publication',
+			label: 'Publication',
 			type: 'select',
-			visible: true,
-			cell: () => 'yolo'
+			cell: (post) => post.publication,
+			options: POST_PUBLICATION
 		}
 	]}
 />

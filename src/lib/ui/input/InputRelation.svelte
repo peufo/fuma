@@ -88,7 +88,7 @@
 		<FormControl {key} {label} {error} class={klass}>
 			{#snippet children({ key })}
 				<div class="flex grow gap-2" class:hidden={item}>
-					<div class="input input-bordered flex grow items-center pr-2">
+					<div class="input flex grow items-center pr-2">
 						<input
 							type="text"
 							id={key}
@@ -112,7 +112,7 @@
 					{#if noSlotItemWrapper}
 						{@render slotItem(item)}
 					{:else}
-						<div class="flex h-12 items-center gap-2 rounded-lg border bg-base-100 pl-4 pr-2">
+						<div class="bg-base-100 flex h-12 items-center gap-2 rounded-lg border pr-2 pl-4">
 							<div class="grow">
 								{@render slotItem(item)}
 							</div>

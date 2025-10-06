@@ -1,6 +1,5 @@
 import { mdiAccountGroup, mdiFileLockOutline, mdiWeb } from '@mdi/js'
 import type { OptionRecord } from '$lib/utils/options.js'
-
 import type { PostPublication } from '@prisma/client'
 
 export const POST_PUBLICATION = {

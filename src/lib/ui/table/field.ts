@@ -6,7 +6,7 @@ import type { SnippetLike } from './type.js'
 
 export type Primitive = string | number | boolean | Date
 
-export type ItemBase = { id: number | number }
+export type ItemBase = { id: string | number }
 
 export type TableField<Item extends ItemBase> =
 	| (TableFieldCommon<Item> & TableFieldPrimitve)

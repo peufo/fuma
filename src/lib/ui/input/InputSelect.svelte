@@ -43,12 +43,7 @@
 	<svelte:fragment slot="activator">
 		<FormControl {...props}>
 			{#snippet children({ key })}
-				<button
-					bind:this={button}
-					id={key}
-					type="button"
-					class="input-bordered flex h-12 items-center gap-2 rounded-lg border pl-4 pr-2 hover:bg-base-200/50"
-				>
+				<button bind:this={button} id={key} type="button" class="input flex grow items-center pr-2">
 					{#if selectedOption}
 						{#if selectedOption.icon}
 							<Icon path={selectedOption.icon} size={21} class="opacity-70" />
@@ -77,6 +72,6 @@
 		{#if item.icon}
 			<Icon path={item.icon} size={18} class="opacity-70" />
 		{/if}
-		<span class="whitespace-nowrap pr-4">{item.label}</span>
+		<span class="pr-4 whitespace-nowrap">{item.label}</span>
 	</SelectorList>
 </DropDown>
