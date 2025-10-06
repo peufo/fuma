@@ -2,8 +2,9 @@ import { page } from '$app/state'
 import { jsonParse } from '$lib/utils/jsonParse.js'
 import type { Options } from '$lib/utils/options.js'
 import { createKeys } from './context.js'
-import type { Primitive } from '$lib/utils/component.js'
 import type { SnippetLike } from './type.js'
+
+export type Primitive = string | number | boolean | Date
 
 export type ItemBase = { id: number | number }
 

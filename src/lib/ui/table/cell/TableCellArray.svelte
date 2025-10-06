@@ -1,5 +1,5 @@
 <script lang="ts">
-	let { cell }: { cell: (string | number | boolean)[] } = $props()
+	let { cell }: { cell: (string | number | boolean | Date)[] } = $props()
 </script>
 
 <td>
