@@ -1,6 +1,7 @@
+import type { Snippet } from 'svelte'
 import { jsonParse } from './jsonParse.js'
 
-export type Option = { value: string; label: string; icon?: string }
+export type Option = { value: string; label: string; icon?: string | Snippet }
 export type OptionRecord<Values extends string> = Record<Values, Omit<Option, 'value'>>
 export type Options = string | string[] | Option[] | Record<string, string> | OptionRecord<string>
 export function parseOptions(options: Options): Option[] {
