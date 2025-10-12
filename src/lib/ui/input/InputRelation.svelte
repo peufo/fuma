@@ -11,6 +11,7 @@
 	import { FormControl, SelectorList } from '$lib/ui/input/index.js'
 	import type { TippyProps } from '$lib/utils/tippy.js'
 	import RelationAfter from './RelationAfter.svelte'
+	import type { SnippetLike } from '../table/type.js'
 
 	export let key = Math.random().toString()
 	export let label = ''
@@ -26,8 +27,8 @@
 	export let dropdownProps: ComponentProps<DropDown> = {}
 	export let flatMode = false
 	export let noSlotItemWrapper = false
-	export let slotItem: Snippet<[RelationItem]>
-	export let slotSuggestion: Snippet<[RelationItem]> = slotItem
+	export let slotItem: SnippetLike<[RelationItem]>
+	export let slotSuggestion: SnippetLike<[RelationItem]> = slotItem
 	export let input: HTMLInputAttributes | undefined = undefined
 	export let append: Snippet | undefined = undefined
 

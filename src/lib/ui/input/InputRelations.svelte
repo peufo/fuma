@@ -12,6 +12,7 @@
 	import { FormControl, SelectorList } from '$lib/ui/input/index.js'
 	import { DropDown } from '$lib/ui/menu/index.js'
 	import RelationAfter from './RelationAfter.svelte'
+	import type { SnippetLike } from '../table/type.js'
 
 	export let key = ''
 	export let label = ''
@@ -22,8 +23,8 @@
 	export let error = ''
 	export let placeholder = ''
 	export let flatMode = false
-	export let slotItem: Snippet<[RelationItem]>
-	export let slotSuggestion: Snippet<[RelationItem]> = slotItem
+	export let slotItem: SnippetLike<[RelationItem]>
+	export let slotSuggestion: SnippetLike<[RelationItem]> = slotItem
 	export let input: HTMLInputAttributes | undefined = undefined
 	export let append: Snippet | undefined = undefined
 
@@ -102,11 +103,11 @@
 						{#each items || [] as item, index (item.id)}
 							<div
 								transition:slide|local={{ axis: 'x', duration: 200 }}
-								class="badge badge-outline badge-lg items-center whitespace-nowrap pr-0 text-right"
+								class="badge badge-outline badge-lg items-center pr-0 text-right whitespace-nowrap"
 							>
 								{@render slotItem(item)}
 								<div
-									class="btn btn-circle btn-ghost btn-xs ml-1 mr-[2px] h-[18px] min-h-[18px] w-[18px]"
+									class="btn btn-circle btn-ghost btn-xs mr-[2px] ml-1 h-[18px] min-h-[18px] w-[18px]"
 									role="button"
 									tabindex="0"
 									on:click={() => remove(index)}
