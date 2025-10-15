@@ -113,7 +113,7 @@
 					{#if noSlotItemWrapper}
 						{@render slotItem(item)}
 					{:else}
-						<div class="input h-auto min-h-10 grow items-start pt-2 pr-2">
+						<div class="input h-auto min-h-10 w-full grow items-start pt-2 pr-2">
 							<div class="grow">
 								{@render slotItem(item)}
 							</div>
