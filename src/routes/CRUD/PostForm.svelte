@@ -22,7 +22,7 @@
 </script>
 
 {#snippet slotTag(tag: Tag)}
-	{tag.name}
+	<span>{tag.name}</span>
 {/snippet}
 
 <FormPost

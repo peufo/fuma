@@ -24,7 +24,7 @@
 {:else if createUrl}
 	<a
 		href={createUrl}
-		class="btn btn-square btn-sm"
+		class="btn btn-square btn-xs"
 		in:fade|local={{ duration: 200 }}
 		data-sveltekit-noscroll
 		data-sveltekit-replacestate

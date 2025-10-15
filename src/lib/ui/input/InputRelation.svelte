@@ -89,7 +89,7 @@
 		<FormControl {key} {label} {error} class={klass}>
 			{#snippet children({ key })}
 				<div class="flex grow gap-2" class:hidden={item}>
-					<div class="input flex grow items-center pr-2">
+					<div class="input grow pr-2">
 						<input
 							type="text"
 							id={key}
@@ -113,14 +113,14 @@
 					{#if noSlotItemWrapper}
 						{@render slotItem(item)}
 					{:else}
-						<div class="bg-base-100 flex h-12 items-center gap-2 rounded-lg border pr-2 pl-4">
+						<div class="input h-auto min-h-10 grow items-start pt-2 pr-2">
 							<div class="grow">
 								{@render slotItem(item)}
 							</div>
 							<button
 								type="button"
 								on:click|stopPropagation={() => clear()}
-								class="btn btn-square btn-sm"
+								class="btn btn-square btn-xs"
 							>
 								<Icon path={mdiClose} />
 							</button>
