@@ -48,7 +48,7 @@
 		class:justify-end={labelPosition === 'right'}
 	>
 		{#if label}
-			<label for="{prefixFor}{_key}" class="label cursor-pointer {classLabel}">
+			<label for="{prefixFor}{_key}" class="label block cursor-pointer {classLabel}">
 				<span class="py-1.5 text-xs font-extrabold">
 					{#if typeof label === 'string'}
 						{label}
