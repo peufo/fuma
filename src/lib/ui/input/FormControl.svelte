@@ -66,12 +66,12 @@
 	{@render children?.({ key: _key })}
 
 	{#if error}
-		<label for="{prefixFor}{_key}" class="label" transition:slide>
-			<span class="text-warning text-xs font-extrabold">{error}</span>
-		</label>
+		<div transition:slide>
+			<span class="text-warning text-xs">{error}</span>
+		</div>
 	{:else if hint}
-		<label for="{prefixFor}{_key}" class="label" transition:slide>
-			<span class="text-neutral text-xs font-extrabold">{hint}</span>
-		</label>
+		<div transition:slide>
+			<span class="text-neutral text-xs">{hint}</span>
+		</div>
 	{/if}
 </div>
