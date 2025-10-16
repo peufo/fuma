@@ -45,11 +45,12 @@
 	let focusIndex = 0
 	let searchValue = ''
 
-	const dispatch = createEventDispatcher<{ input: { value: RelationItem } }>()
+	const dispatch = createEventDispatcher<{ input: { value: RelationItem | null } }>()
 
 	export async function clear() {
 		searchValue = ''
 		item = null
+		dispatch('input', { value: item })
 		await tick()
 		inputElement.focus()
 	}
