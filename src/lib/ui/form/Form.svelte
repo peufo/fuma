@@ -47,16 +47,16 @@
 	export let simpleAction = false
 
 	export let options: UseFormOptions<ReturnData> = {}
-	let dataInput: Nullable<Data> = initData<Shape, Data>(fields)
+	let dataInput: Partial<Data> = initData<Shape, Data>(fields)
 	export { dataInput as data }
 
 	let data = dataInput
 
-	export function set<K extends keyof Shape>(key: K, value: Nullable<Data>[K]) {
+	export function set<K extends keyof Data>(key: K, value: Partial<Data>[K]) {
 		isDirty.set(true)
 		data[key] = value
 	}
-	export function update(updater: (currentData: Nullable<Data>) => Nullable<Data>) {
+	export function update(updater: (currentData: Partial<Data>) => Partial<Data>) {
 		isDirty.set(true)
 		data = updater(data)
 	}
