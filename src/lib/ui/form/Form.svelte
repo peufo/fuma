@@ -47,10 +47,10 @@
 	export let simpleAction = false
 
 	export let options: UseFormOptions<ReturnData> = {}
-	let dataInput: Partial<Data> = initData<Shape, Data>(fields)
+	let dataInput: Partial<Data> | null = initData<Shape, Data>(fields)
 	export { dataInput as data }
 
-	let data = dataInput
+	let data: Partial<Data> = dataInput || {}
 
 	export function set<K extends keyof Data>(key: K, value: Partial<Data>[K]) {
 		isDirty.set(true)
@@ -83,7 +83,7 @@
 	const { handleInput, isDirty } = useHandleInput({ model, setError })
 
 	onMount(lookupValueFromParams)
-	$: $isDirty ? (dataInput = data) : (data = dataInput)
+	$: $isDirty ? (dataInput = data) : (data = dataInput || {})
 
 	function lookupValueFromParams() {
 		fields.flat().forEach(({ key }) => {
