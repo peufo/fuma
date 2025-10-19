@@ -36,6 +36,7 @@
 	export { klass as class }
 	export let classList = ''
 	export let inputElement: HTMLInputElement
+	export let dropdown: DropDown
 
 	let proposedItems: RelationItem[] = []
 
@@ -90,7 +91,7 @@
 	}
 </script>
 
-<DropDown {tippyProps} disable={flatMode} {...dropdownProps}>
+<DropDown bind:this={dropdown} {tippyProps} disable={flatMode} {...dropdownProps}>
 	<div class="contents" slot="activator">
 		<FormControl {key} {label} {error} class={klass}>
 			{#snippet children({ key })}
