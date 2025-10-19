@@ -36,7 +36,7 @@
 	export { klass as class }
 	export let classList = ''
 	export let inputElement: HTMLInputElement
-	export let dropdown: DropDown
+	export let dropdown: DropDown | undefined
 
 	let proposedItems: RelationItem[] = []
 
