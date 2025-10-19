@@ -46,12 +46,13 @@
 
 	const dispatch = createEventDispatcher<{ input: { value: RelationItem | null } }>()
 
-	export async function clear() {
+	export function clear() {
 		searchValue = ''
 		item = null
 		dispatch('input', { value: item })
-		await tick()
-		inputElement.focus()
+		return {
+			focus: () => inputElement.focus()
+		}
 	}
 
 	export async function select(index = focusIndex) {
@@ -115,7 +116,7 @@
 					{:else}
 						<button
 							type="button"
-							on:click|stopPropagation={() => clear()}
+							on:click|stopPropagation={() => clear().focus()}
 							class="input h-auto min-h-10 w-full grow items-start pt-2 pr-2"
 						>
 							{@render slotItem(item)}
