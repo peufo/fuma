@@ -45,20 +45,24 @@
 	let searchValue = ''
 
 	const dispatch = createEventDispatcher<{
-		input: { value: RelationItem | null; focus: () => void }
+		input: { value: RelationItem | null }
 	}>()
 
 	export async function clear() {
 		searchValue = ''
 		item = null
-		dispatch('input', { value: item, focus: () => inputElement.focus() })
+		dispatch('input', { value: item })
 		await tick()
 		inputElement.focus()
 	}
 
 	export async function select(index = focusIndex) {
 		item = proposedItems[index]
-		dispatch('input', { value: item, focus: () => inputElement.focus() })
+		dispatch('input', { value: item })
+	}
+
+	export function focus() {
+		inputElement.focus()
 	}
 
 	export async function searchItems(searchValue = '') {
