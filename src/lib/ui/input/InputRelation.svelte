@@ -59,7 +59,7 @@
 		dispatch('input', { value: item })
 	}
 
-	async function searchItems(searchValue = '') {
+	export async function searchItems(searchValue = '') {
 		try {
 			isLoading = true
 			isError = false
