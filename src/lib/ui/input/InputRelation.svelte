@@ -35,8 +35,8 @@
 	let klass = ''
 	export { klass as class }
 	export let classList = ''
-	export let inputElement: HTMLInputElement
-	export let dropdown: DropDown | undefined
+	export let inputElement: HTMLInputElement | undefined = undefined
+	export let dropdown: DropDown | undefined = undefined
 
 	let proposedItems: RelationItem[] = []
 
@@ -54,7 +54,7 @@
 		item = null
 		dispatch('input', { value: item })
 		await tick()
-		inputElement.focus()
+		inputElement?.focus()
 	}
 
 	export async function select(index = focusIndex) {
@@ -63,7 +63,7 @@
 	}
 
 	export function focus() {
-		inputElement.focus()
+		inputElement?.focus()
 	}
 
 	export async function searchItems(searchValue = '') {
