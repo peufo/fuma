@@ -35,8 +35,7 @@
 	let klass = ''
 	export { klass as class }
 	export let classList = ''
-
-	let inputElement: HTMLInputElement
+	export let inputElement: HTMLInputElement
 
 	let proposedItems: RelationItem[] = []
 
@@ -55,7 +54,7 @@
 		inputElement.focus()
 	}
 
-	async function select(index = focusIndex) {
+	export async function select(index = focusIndex) {
 		item = proposedItems[index]
 		dispatch('input', { value: item })
 	}
