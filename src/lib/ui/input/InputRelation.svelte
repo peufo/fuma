@@ -44,20 +44,21 @@
 	let focusIndex = 0
 	let searchValue = ''
 
-	const dispatch = createEventDispatcher<{ input: { value: RelationItem | null } }>()
+	const dispatch = createEventDispatcher<{
+		input: { value: RelationItem | null; focus: () => void }
+	}>()
 
-	export function clear() {
+	export async function clear() {
 		searchValue = ''
 		item = null
-		dispatch('input', { value: item })
-		return {
-			focus: () => inputElement.focus()
-		}
+		dispatch('input', { value: item, focus: () => inputElement.focus() })
+		await tick()
+		inputElement.focus()
 	}
 
 	export async function select(index = focusIndex) {
 		item = proposedItems[index]
-		dispatch('input', { value: item })
+		dispatch('input', { value: item, focus: () => inputElement.focus() })
 	}
 
 	export async function searchItems(searchValue = '') {
@@ -116,7 +117,7 @@
 					{:else}
 						<button
 							type="button"
-							on:click|stopPropagation={() => clear().focus()}
+							on:click|stopPropagation={() => clear()}
 							class="input h-auto min-h-10 w-full grow items-start pt-2 pr-2"
 						>
 							{@render slotItem(item)}
