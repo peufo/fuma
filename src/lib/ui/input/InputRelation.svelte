@@ -114,18 +114,13 @@
 					{#if noSlotItemWrapper}
 						{@render slotItem(item)}
 					{:else}
-						<div class="input h-auto min-h-10 w-full grow items-start pt-2 pr-2">
-							<div class="grow">
-								{@render slotItem(item)}
-							</div>
-							<button
-								type="button"
-								on:click|stopPropagation={() => clear()}
-								class="btn btn-square btn-xs"
-							>
-								<Icon path={mdiClose} />
-							</button>
-						</div>
+						<button
+							type="button"
+							on:click|stopPropagation={() => clear()}
+							class="input h-auto min-h-10 w-full grow items-start pt-2 pr-2"
+						>
+							{@render slotItem(item)}
+						</button>
 					{/if}
 					<input
 						type="hidden"
