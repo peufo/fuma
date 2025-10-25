@@ -31,7 +31,7 @@
 	action="/CRUD?/post"
 	{options}
 	model={modelPost}
-	data={post || {}}
+	data={post}
 	fields={[
 		[
 			{ key: 'title', text: { label: 'Titre' } },

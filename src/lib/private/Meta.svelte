@@ -56,18 +56,18 @@
 					{
 						key: 'name',
 						label: 'Prop',
-						getCell: (p) => p.id,
+						cell: (p) => p.id,
 						locked: true
 					},
 					{
 						key: 'type',
 						label: 'Type',
-						getCell: (p) => typeof p.value
+						cell: (p) => typeof p.value
 					},
 					{
 						key: 'value',
 						label: 'Value',
-						getCell: (p) => p.value,
+						cell: (p) => p.value,
 						visible: true
 					}
 				]}

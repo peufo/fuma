@@ -64,7 +64,7 @@
 	<SelectorList
 		trigger={button}
 		{focusIndex}
-		items={_options.map((opt) => ({ id: opt.value, ...opt }))}
+		items={_options.map((opt) => ({ id: opt.value, ...opt })).filter((opt) => !opt.disable)}
 		let:item
 		on:select={({ detail }) => onSelect(detail)}
 		class="w-full"
