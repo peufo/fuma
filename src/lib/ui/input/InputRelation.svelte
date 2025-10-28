@@ -3,7 +3,6 @@
 	import type { HTMLInputAttributes } from 'svelte/elements'
 	import debounce from 'debounce'
 	import { toast } from 'svelte-sonner'
-	import { mdiClose } from '@mdi/js'
 
 	import { USE_COERCE_JSON } from '$lib/utils/constant.js'
 	import { Icon } from '$lib/ui/icon/index.js'
@@ -31,6 +30,7 @@
 	export let slotSuggestion: SnippetLike<[RelationItem]> = slotItem
 	export let input: HTMLInputAttributes | undefined = undefined
 	export let append: Snippet | undefined = undefined
+	export let disabled = false
 
 	let klass = ''
 	export { klass as class }
@@ -122,6 +122,7 @@
 					{:else}
 						<button
 							type="button"
+							{disabled}
 							on:click|stopPropagation={() => clear()}
 							class="input h-auto min-h-10 w-full grow items-start pt-2 pr-2"
 						>

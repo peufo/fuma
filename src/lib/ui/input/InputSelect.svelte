@@ -13,8 +13,9 @@
 		options: Options
 		tippyProps?: TippyProps
 		placeholder?: string
+		disabled?: boolean
 	}
-	$: ({ value: _value, options, tippyProps, placeholder, ...props } = $$props as $$Props)
+	$: ({ value: _value, options, tippyProps, placeholder, disabled, ...props } = $$props as $$Props)
 	export let value = _value
 
 	$: _options = parseOptions(options)
@@ -43,7 +44,13 @@
 	<svelte:fragment slot="activator">
 		<FormControl {...props}>
 			{#snippet children({ key })}
-				<button bind:this={button} id={key} type="button" class="input flex grow items-center pr-2">
+				<button
+					bind:this={button}
+					id={key}
+					{disabled}
+					type="button"
+					class="input flex grow items-center pr-2"
+				>
 					{#if selectedOption}
 						{#if selectedOption.icon}
 							<Icon path={selectedOption.icon} size={21} class="opacity-70" />
