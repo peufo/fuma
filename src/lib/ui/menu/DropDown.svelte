@@ -58,7 +58,7 @@
 		if (useSingleton && tip) {
 			tips.push(tip)
 			if (!sigleton) {
-				sigleton = createSingleton(tips)
+				sigleton = createSingleton(tips, tip.props)
 			} else {
 				sigleton?.setInstances(tips)
 			}
