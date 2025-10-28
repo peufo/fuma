@@ -1,23 +1,14 @@
 <script lang="ts" context="module">
 	import { createSingleton, type TippyInstance } from '$lib/utils/tippy.js'
+	import type { CreateSingletonInstance } from 'tippy.js'
 
-	const sigleton = browser
-		? createSingleton([], {
-				theme: 'dropdown',
-				arrow: false,
-				moveTransition: 'transform 0.1s ease-out',
-				interactive: true,
-				interactiveDebounce: 50
-			})
-		: null
-
+	let sigleton: CreateSingletonInstance | null = null
 	const tips: TippyInstance[] = []
 </script>
 
 <script lang="ts">
 	import { tippy, type TippyProps } from '$lib/utils/tippy.js'
 	import { onMount } from 'svelte'
-	import { browser } from '$app/environment'
 	import { beforeNavigate } from '$app/navigation'
 	import './dropdown.css'
 
@@ -56,6 +47,7 @@
 			trigger: 'click focus',
 			interactive: true,
 			interactiveDebounce: 50,
+			moveTransition: 'transform 0.1s ease-out',
 			appendTo: 'parent',
 			onShown() {
 				if (autofocus) focusables[0]?.select()
@@ -65,7 +57,11 @@
 
 		if (useSingleton && tip) {
 			tips.push(tip)
-			sigleton?.setInstances(tips)
+			if (!sigleton) {
+				sigleton = createSingleton(tips)
+			} else {
+				sigleton?.setInstances(tips)
+			}
 		}
 
 		const lastFocusable = focusables.at(-1)
@@ -76,6 +72,10 @@
 			if (useSingleton && tip) {
 				tips.splice(tips.indexOf(tip), 1)
 				tip.destroy()
+				if (tips.length === 0) {
+					sigleton?.destroy()
+					sigleton = null
+				}
 			}
 		}
 	})
