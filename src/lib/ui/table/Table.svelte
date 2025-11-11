@@ -25,7 +25,7 @@
 		hideBody = false,
 		onCreateField,
 		onclick,
-		screenPadding = 16
+		screenPadding
 	}: {
 		key?: string
 		fields: TableField<Item>[]
@@ -52,15 +52,11 @@
 	afterNavigate(initFields)
 </script>
 
-<div
-	class="{klass} bg-base-100 overflow-x-auto rounded-lg border"
-	class:min-h-[320px]={!hideBody}
-	use:maxHeightScreen={{ padding: screenPadding }}
->
+<div class="{klass} bg-base-100 overflow-x-auto rounded-lg border" class:min-h-[320px]={!hideBody}>
 	<table class="relative table">
 		<TableHead {fields} {key} {onCreateField} />
 		{#if !hideBody && items.length}
-			<TableBody {fields} {items} {actions} {classRow} {onclick} />
+			<TableBody {fields} {items} {actions} {classRow} {onclick} {screenPadding} />
 		{/if}
 	</table>
 
