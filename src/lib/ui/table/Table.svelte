@@ -52,7 +52,11 @@
 	afterNavigate(initFields)
 </script>
 
-<div class="{klass} bg-base-100 overflow-x-auto rounded-lg border" class:min-h-[320px]={!hideBody}>
+<div
+	class="{klass} bg-base-100 overflow-x-auto rounded-lg border"
+	class:min-h-[320px]={!hideBody}
+	use:maxHeightScreen={{ padding: screenPadding }}
+>
 	<table class="relative table">
 		<TableHead {fields} {key} {onCreateField} />
 		{#if !hideBody && items.length}
