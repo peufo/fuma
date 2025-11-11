@@ -20,7 +20,7 @@
 	} = $props()
 </script>
 
-<thead>
+<thead class="bg-base-100 sticky top-0 z-10">
 	<tr class="shadow">
 		{#each fields.filter((f) => f._visible) as field (field.key)}
 			{#if !field.type}

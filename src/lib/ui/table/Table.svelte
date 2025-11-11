@@ -60,7 +60,7 @@
 	<table class="relative table">
 		<TableHead {fields} {key} {onCreateField} />
 		{#if !hideBody && items.length}
-			<TableBody {fields} {items} {actions} {classRow} {onclick} {screenPadding} />
+			<TableBody {fields} {items} {actions} {classRow} {onclick} />
 		{/if}
 	</table>
 
