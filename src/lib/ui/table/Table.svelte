@@ -1,5 +1,6 @@
 <script lang="ts" generics="Item extends ItemBase">
 	import { afterNavigate } from '$app/navigation'
+	import { maxHeightScreen } from '$lib/action/maxHeightScreen.js'
 	import { Placeholder } from '$lib/ui/placeholder/index.js'
 
 	import {
@@ -23,7 +24,8 @@
 		classRow,
 		hideBody = false,
 		onCreateField,
-		onclick
+		onclick,
+		screenPadding = 16
 	}: {
 		key?: string
 		fields: TableField<Item>[]
@@ -35,6 +37,7 @@
 		hideBody?: boolean
 		onCreateField?: () => void
 		onclick?: (item?: Item) => void
+		screenPadding?: number
 	} = $props()
 
 	const { KEY_FIELDS_VISIBLE, KEY_FIELDS_HIDDEN, KEY_FIELDS_ORDER } = createKeys(key)
@@ -49,7 +52,11 @@
 	afterNavigate(initFields)
 </script>
 
-<div class="{klass} bg-base-100 overflow-x-auto rounded-lg border" class:min-h-[320px]={!hideBody}>
+<div
+	class="{klass} bg-base-100 overflow-x-auto rounded-lg border"
+	class:min-h-[320px]={!hideBody}
+	use:maxHeightScreen={{ padding: screenPadding }}
+>
 	<table class="relative table">
 		<TableHead {fields} {key} {onCreateField} />
 		{#if !hideBody && items.length}
