@@ -107,7 +107,7 @@
 	<div class="contents" slot="activator">
 		<FormControl {key} {label} {error} class={klass}>
 			{#snippet children({ key })}
-				<label class="input" class:hidden={item}>
+				<label class="input w-full" class:hidden={item}>
 					<svelte:component this={Icon} class="h-5 w-5 shrink-0 opacity-70" />
 					<input
 						type="text"
