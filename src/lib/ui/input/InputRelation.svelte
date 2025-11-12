@@ -49,6 +49,7 @@
 
 	let isLoading = false
 	let isError = false
+	let isFocus = false
 	let focusIndex = 0
 	let searchValue = ''
 
@@ -91,9 +92,11 @@
 	const searchItemsDebounce = debounce(searchItems, 150)
 
 	function handleFocus() {
+		isFocus = true
 		searchItems()
 	}
 	async function handleBlur() {
+		isFocus = false
 		searchValue = ''
 	}
 </script>
@@ -119,7 +122,7 @@
 						{...input}
 					/>
 					<RelationAfter {isLoading} {createUrl} {createTitle} {createIcon} />
-					{#if shortcutKey}
+					{#if shortcutKey && !isFocus}
 						<kbd class="kbd kbd-xs text-base-content/50 shrink-0">
 							{shortcutKey}
 						</kbd>
