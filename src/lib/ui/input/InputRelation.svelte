@@ -137,11 +137,7 @@
 							on:click|stopPropagation={() => clear()}
 							class="input h-auto min-h-10 w-full grow items-start pt-2 pr-2"
 						>
-							<svelte:component this={Icon} class="h-5 opacity-70" />
 							{@render slotItem(item)}
-							{#if shortcutKey}
-								<kbd class="kbd kbd-xs text-base-content/50">{shortcutKey}</kbd>
-							{/if}
 						</button>
 					{/if}
 					<input
