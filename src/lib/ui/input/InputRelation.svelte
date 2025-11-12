@@ -103,7 +103,7 @@
 		<FormControl {key} {label} {error} class={klass}>
 			{#snippet children({ key })}
 				<label class="input" class:hidden={item}>
-					<svelte:component this={Icon} class="h-5 opacity-70" />
+					<svelte:component this={Icon} class="h-5 w-5 shrink-0 opacity-70" />
 					<input
 						type="text"
 						id={key}
@@ -120,7 +120,9 @@
 					/>
 					<RelationAfter {isLoading} {createUrl} {createTitle} {createIcon} />
 					{#if shortcutKey}
-						<kbd class="kbd kbd-xs text-base-content/50">{shortcutKey}</kbd>
+						<kbd class="kbd kbd-xs text-base-content/50 shrink-0">
+							{shortcutKey}
+						</kbd>
 					{/if}
 				</label>
 				{@render append?.()}
