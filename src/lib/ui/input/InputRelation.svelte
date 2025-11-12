@@ -1,11 +1,16 @@
 <script lang="ts" generics="RelationItem extends {id: string | number}">
-	import { createEventDispatcher, tick, type ComponentProps, type Snippet } from 'svelte'
+	import {
+		createEventDispatcher,
+		tick,
+		type Component,
+		type ComponentProps,
+		type Snippet
+	} from 'svelte'
 	import type { HTMLInputAttributes } from 'svelte/elements'
 	import debounce from 'debounce'
 	import { toast } from 'svelte-sonner'
 
 	import { USE_COERCE_JSON } from '$lib/utils/constant.js'
-	import { Icon } from '$lib/ui/icon/index.js'
 	import { DropDown } from '$lib/ui/menu/index.js'
 	import { FormControl, SelectorList } from '$lib/ui/input/index.js'
 	import type { TippyProps } from '$lib/utils/tippy.js'
@@ -31,6 +36,8 @@
 	export let input: HTMLInputAttributes | undefined = undefined
 	export let append: Snippet | undefined = undefined
 	export let disabled = false
+	export let shortcutKey = ''
+	export let Icon: Component<{ class: string }> | undefined = undefined
 
 	let klass = ''
 	export { klass as class }
@@ -95,26 +102,28 @@
 	<div class="contents" slot="activator">
 		<FormControl {key} {label} {error} class={klass}>
 			{#snippet children({ key })}
-				<div class="flex grow gap-2" class:hidden={item}>
-					<div class="input grow pr-2">
-						<input
-							type="text"
-							id={key}
-							bind:this={inputElement}
-							bind:value={searchValue}
-							on:input={(e) => searchItemsDebounce(e.currentTarget.value)}
-							on:focus={handleFocus}
-							on:blur={handleBlur}
-							autocomplete="off"
-							{placeholder}
-							class="grow"
-							size={8}
-							{...input}
-						/>
-						<RelationAfter {isLoading} {createUrl} {createTitle} {createIcon} />
-					</div>
-					{@render append?.()}
-				</div>
+				<label class="input" class:hidden={item}>
+					<svelte:component this={Icon} class="h-5 opacity-70" />
+					<input
+						type="text"
+						id={key}
+						bind:this={inputElement}
+						bind:value={searchValue}
+						on:input={(e) => searchItemsDebounce(e.currentTarget.value)}
+						on:focus={handleFocus}
+						on:blur={handleBlur}
+						autocomplete="off"
+						{placeholder}
+						class="grow"
+						size={8}
+						{...input}
+					/>
+					<RelationAfter {isLoading} {createUrl} {createTitle} {createIcon} />
+					{#if shortcutKey}
+						<kbd class="kbd kbd-xs text-base-content/50">{shortcutKey}</kbd>
+					{/if}
+				</label>
+				{@render append?.()}
 
 				{#if item}
 					{#if noSlotItemWrapper}
@@ -126,7 +135,11 @@
 							on:click|stopPropagation={() => clear()}
 							class="input h-auto min-h-10 w-full grow items-start pt-2 pr-2"
 						>
+							<svelte:component this={Icon} class="h-5 opacity-70" />
 							{@render slotItem(item)}
+							{#if shortcutKey}
+								<kbd class="kbd kbd-xs text-base-content/50">{shortcutKey}</kbd>
+							{/if}
 						</button>
 					{/if}
 					<input
