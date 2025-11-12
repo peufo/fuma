@@ -101,10 +101,7 @@
 		</div>
 
 		<div class="hidden">
-			<div
-				class="{klass} bg-base-100 max-h-80 overflow-auto rounded-lg border p-1 shadow-lg"
-				bind:this={content}
-			>
+			<div class="{klass} bg-base-100 rounded-lg border p-1 shadow-lg" bind:this={content}>
 				<slot {tip} />
 			</div>
 		</div>

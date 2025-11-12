@@ -26,7 +26,6 @@ export function selector(
 
 	function handleKeydown(event: KeyboardEvent) {
 		const items = node.querySelectorAll<HTMLElement>(itemsQuerySelector)
-		console.log('DEBUG', { items })
 		if (event.key === 'Enter') {
 			if (keyDownPreventDefault) event.preventDefault()
 			onSelect(focusIndex)
@@ -52,13 +51,11 @@ export function selector(
 
 	function scrollToSelected(items: NodeListOf<HTMLElement>) {
 		const list = node.tagName === 'UL' ? node : node.querySelector<HTMLElement>(listQuerySelector)
-		console.log('DEBUG', { list })
 		if (!(list instanceof HTMLElement)) {
 			console.error('wrapper element not found')
 			return
 		}
 		const item = items[focusIndex]
-		console.log('DEBUG', { item })
 		if (!item) return
 		const top = item.offsetTop - 4
 		if (top < list.scrollTop) {
