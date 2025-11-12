@@ -55,6 +55,7 @@
 
 	const dispatch = createEventDispatcher<{
 		input: { value: RelationItem | null }
+		blur: void
 	}>()
 
 	export async function clear() {
@@ -98,6 +99,7 @@
 	async function handleBlur() {
 		isFocus = false
 		searchValue = ''
+		dispatch('blur')
 	}
 </script>
 
