@@ -27,6 +27,7 @@
 	export let slotSuggestion: SnippetLike<[RelationItem]> = slotItem
 	export let input: HTMLInputAttributes | undefined = undefined
 	export let append: Snippet | undefined = undefined
+	export let debounceMs = 150
 
 	let klass = ''
 	export { klass as class }
@@ -82,7 +83,7 @@
 		}
 	}
 
-	const searchItemsDebounce = debounce(searchItems, 150)
+	const searchItemsDebounce = debounce(searchItems, debounceMs)
 
 	function handleFocus() {
 		searchItems()

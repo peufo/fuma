@@ -38,6 +38,7 @@
 	export let disabled = false
 	export let shortcutKey = ''
 	export let Icon: Component<{ class: string }> | undefined = undefined
+	export let debounceMs = 150
 
 	let klass = ''
 	export { klass as class }
@@ -90,7 +91,7 @@
 		}
 	}
 
-	const searchItemsDebounce = debounce(searchItems, 150)
+	const searchItemsDebounce = debounce(searchItems, debounceMs)
 
 	function handleFocus() {
 		isFocus = true
