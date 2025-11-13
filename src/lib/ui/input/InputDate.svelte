@@ -6,7 +6,7 @@
 	import { FormControl, type InputProps } from './index.js'
 	import { USE_COERCE_DATE } from '$lib/utils/constant.js'
 
-	type $$Props = InputProps<Date | null | undefined> & { noTime?: boolean }
+	type $$Props = InputProps<Date | null | undefined> & { noPreserveTime?: boolean }
 	export let value: Date | null | undefined = undefined
 	export let input: HTMLInputAttributes = {}
 	export let noPreserveTime = false
