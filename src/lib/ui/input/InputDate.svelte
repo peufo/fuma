@@ -6,17 +6,24 @@
 	import { FormControl, type InputProps } from './index.js'
 	import { USE_COERCE_DATE } from '$lib/utils/constant.js'
 
-	type $$Props = InputProps<Date | null | undefined>
+	type $$Props = InputProps<Date | null | undefined> & { noTime?: boolean }
 	export let value: Date | null | undefined = undefined
 	export let input: HTMLInputAttributes = {}
+	export let noPreserveTime = false
 	$: ({ class: inputClass = '', ...inputProps } = input)
 
 	const dispatch = createEventDispatcher<{ input: Date | null }>()
 
 	const handleInput: FormEventHandler<HTMLInputElement> = ({ currentTarget }) => {
 		const newValue = currentTarget.valueAsDate
-		if (newValue === null) value = null
-		newValue?.setHours(value?.getHours() || 0, value?.getMinutes() || 0, value?.getSeconds() || 0)
+		if (noPreserveTime) newValue?.setHours(0, 0, 0, 0)
+		else
+			newValue?.setHours(
+				value?.getHours() || 0,
+				value?.getMinutes() || 0,
+				value?.getSeconds() || 0,
+				0
+			)
 		value = newValue
 		dispatch('input', value)
 	}
