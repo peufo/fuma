@@ -36,7 +36,7 @@
 				role="menuitem"
 				on:click={() => dispatch('select', index)}
 				on:keydown={() => dispatch('select', index)}
-				class="flex cursor-pointer items-center justify-start gap-3 rounded px-3 py-2 hover:bg-base-200"
+				class="hover:bg-base-200 flex cursor-pointer items-center justify-start gap-3 rounded px-3 py-2"
 				class:bg-base-300={isFocused}
 			>
 				<slot {item} {index} />

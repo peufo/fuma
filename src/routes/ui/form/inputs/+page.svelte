@@ -79,7 +79,6 @@
 		createUrl="/ui/form/inputs?create_item=true"
 		createTitle="Créer un item"
 	/>
-
 	<InputRelation label="Input Relation" search={searchItems} {slotItem} />
 </Meta>
 

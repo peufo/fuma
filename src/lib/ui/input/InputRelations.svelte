@@ -156,7 +156,7 @@
 		items={proposedItems}
 		{isError}
 		{isLoading}
-		{focusIndex}
+		bind:focusIndex
 		let:index
 		class="w-full min-w-40 {classList}"
 		on:select={({ detail }) => select(detail)}
