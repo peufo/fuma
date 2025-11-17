@@ -1,6 +1,6 @@
 <script lang="ts" generics="Item extends ItemBase">
 	import { afterNavigate } from '$app/navigation'
-	import { maxHeightScreen } from '$lib/action/maxHeightScreen.js'
+	import { maxHeightScreen } from '$lib/action/heightScreen.js'
 	import { Placeholder } from '$lib/ui/placeholder/index.js'
 
 	import {
