@@ -1,6 +1,7 @@
-import { toTuple, z, type ZodObj } from '$lib/validation/zod.js'
+import z from 'zod'
 import type { Prisma } from '@prisma/client'
 import { POST_PUBLICATION } from './constant.js'
+import { enumOfObject, type ShapeOf, prismaRelation, prismaRelations } from '$lib/validation/zod.js'
 
 export const modelPost = {
 	title: z.string().min(1, 'Required'),
@@ -13,17 +14,17 @@ export const modelPost = {
 	viewCounter: z.number().optional(),
 	publishedAt: z.date().optional().nullable(),
 	publishedAtTime: z.date().optional().nullable(),
-	publication: z.enum(toTuple(POST_PUBLICATION)),
-	type: z.relation.connect,
-	tags: z.relations.connect
-} satisfies ZodObj<Omit<Prisma.PostCreateInput, 'author'>>
+	publication: z.enum(enumOfObject(POST_PUBLICATION)),
+	type: prismaRelation.connect,
+	tags: prismaRelations.connect
+} satisfies ShapeOf<Omit<Prisma.PostCreateInput, 'author'>>
 
 export const modelPostUpdate = {
 	...modelPost,
 	id: z.string(),
-	tags: z.relations.set
-} satisfies ZodObj<Omit<Prisma.PostUpdateInput, 'author'>>
+	tags: prismaRelations.set
+} satisfies ShapeOf<Omit<Prisma.PostUpdateInput, 'author'>>
 
 export const modelTag = {
 	name: z.string().min(1, 'Required')
-} satisfies ZodObj<Prisma.TagCreateInput>
+} satisfies ShapeOf<Prisma.TagCreateInput>

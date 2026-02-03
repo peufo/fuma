@@ -17,7 +17,6 @@ export function formAction<
 		}
 	) => Promise<ReturnType>,
 	options: {
-		//validation?: z.SuperRefinement<z.objectOutputType<Shape, z.ZodTypeAny>>
 		redirectTo?: string | URL | ((res: ReturnType) => string | URL | undefined)
 	} = {}
 ) {

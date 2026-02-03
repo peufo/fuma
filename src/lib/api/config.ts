@@ -1,5 +1,6 @@
-import { z, type ZodObj } from '$lib/validation/zod.js'
-import type { OperationPayload, GetResult, Args } from '@prisma/client/runtime/library.js'
+import z from 'zod'
+import { type ShapeOf } from '$lib/validation/zod.js'
+import type { OperationPayload, GetResult } from '@prisma/client/runtime/library.js'
 
 export type Operation =
 	| 'findFirst'
@@ -85,4 +86,4 @@ export const modelApiQuery = {
 	search: z.string().default(''),
 	take: z.number().default(10),
 	skip: z.number().default(0)
-} satisfies ZodObj<ModelApiQuery>
+} satisfies ShapeOf<ModelApiQuery>

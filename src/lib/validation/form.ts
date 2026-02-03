@@ -30,7 +30,6 @@ export type UseFormOptions<ReturnData> = {
 	successUpdate?: BooleanOrFunction
 	successReset?: BooleanOrFunction
 	successMessage?: SuccessMessage
-	submitOnChange?: boolean
 }
 
 export function useForm<ReturnData extends Record<string, unknown>>({
@@ -55,7 +54,7 @@ export function useForm<ReturnData extends Record<string, unknown>>({
 		issues,
 		message
 	}: {
-		issues?: (z.ZodIssue & {
+		issues?: (z.core.$ZodIssue & {
 			received?: string
 			expected?: string
 		})[]
