@@ -2,14 +2,10 @@
 	import Meta from '$lib/private/Meta.svelte'
 	import { Tabs, TabsIcon } from '$lib/ui/tabs/index.js'
 	import { mdiCardMultipleOutline, mdiFormatListBulleted } from '@mdi/js'
-
-	let tabsComponent: Tabs
-	let tabsIconComponent: TabsIcon
 </script>
 
-<Meta component={tabsComponent} name="Tabs">
+<Meta name="Tabs">
 	<Tabs
-		bind:this={tabsComponent}
 		tabs={[
 			{
 				href: '#card',
@@ -22,10 +18,9 @@
 	/>
 </Meta>
 
-<Meta component={tabsIconComponent} name="TabsIcon">
+<Meta name="TabsIcon">
 	<div class="flex justify-start">
 		<TabsIcon
-			bind:this={tabsIconComponent}
 			key="display"
 			options={[
 				{ value: 'list', label: 'Cartes', icon: mdiCardMultipleOutline },

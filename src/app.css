@@ -5,7 +5,7 @@
 
 @layer components {
 	.menu-item {
-		@apply hover:bg-base-200 flex cursor-pointer items-center gap-3 rounded-md px-3 py-[5px] text-ellipsis whitespace-nowrap;
+		@apply hover:bg-base-200 flex cursor-pointer items-center gap-3 rounded-md px-3 py-1.25 text-ellipsis whitespace-nowrap;
 	}
 	.menu-item.active {
 		@apply bg-base-300/80;
@@ -31,7 +31,7 @@
 	}
 
 	.tiptap .ProseMirror-selectednode {
-		@apply outline-primary rounded outline outline-2;
+		@apply outline-primary rounded outline-2;
 	}
 
 	.suggestion {

@@ -4,21 +4,28 @@
 	import { page } from '$app/state'
 	import { Icon } from '$lib/ui/icon/index.js'
 	import { InputText } from '$lib/ui/input/index.js'
+	import type { FocusEventHandler, FormEventHandler, KeyboardEventHandler } from 'svelte/elements'
 
 	let {
 		class: klass = '',
 		key = 'search',
 		value = page.url.searchParams.get(key) || '',
-		oninput,
 		onclear,
-		onkeydown
+		oninput,
+		onfocus,
+		onblur,
+		onkeydown,
+		onkeyup
 	}: {
 		class?: string
 		key?: string
 		value?: string
-		oninput?: (value: string) => void
 		onclear?: () => void
-		onkeydown?: (event: KeyboardEvent) => void
+		oninput?: FormEventHandler<HTMLInputElement>
+		onfocus?: FocusEventHandler<HTMLInputElement>
+		onblur?: FocusEventHandler<HTMLInputElement>
+		onkeydown?: KeyboardEventHandler<HTMLInputElement>
+		onkeyup?: KeyboardEventHandler<HTMLInputElement>
 	} = $props()
 
 	let inputElement = $state<HTMLInputElement>()
@@ -28,10 +35,11 @@
 	{key}
 	bind:inputElement
 	bind:value
-	on:blur
-	on:input={() => oninput?.(value)}
-	on:keydown={(e) => onkeydown?.(e)}
-	on:keyup
+	{oninput}
+	{onfocus}
+	{onblur}
+	{onkeydown}
+	{onkeyup}
 	bindWithParams
 	input={{
 		class: 'input-sm pr-8',
@@ -48,7 +56,7 @@
 			style:scale={!!value ? 0.75 : 0}
 			onclick={() => {
 				value = ''
-				oninput?.(value)
+				inputElement?.dispatchEvent(new Event('input', { bubbles: true }))
 				onclear?.()
 			}}
 			tabindex={!!value ? 0 : -1}

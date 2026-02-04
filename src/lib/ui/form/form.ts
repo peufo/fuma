@@ -7,7 +7,6 @@ import { formInputsType, type FormInputsProps, type FormInputsType } from './for
 
 import type FormSection from './FormSection.svelte'
 
-type Shape = z.ZodRawShape
 type PickOne<T> = {
 	[P in keyof T]: Record<P, T[P]> & Partial<Record<Exclude<keyof T, P>, undefined>>
 }[keyof T]
@@ -16,13 +15,13 @@ export type Nullable<T> = {
 	[P in keyof T]?: T[P] | null
 }
 
-export type BoolOrFunction<S extends Shape> =
+export type BoolOrFunction<S extends z.core.$ZodShape> =
 	| boolean
 	| ((data: Nullable<FormDataInput<S>>) => unknown)
 
-export type FormDataInput<S extends Shape> = z.input<z.core.$ShapeOfect<S>>
+export type FormDataInput<S extends z.core.$ZodShape> = z.input<z.core.$ZodObject<S>>
 
-export type FormField<S extends Shape> = {
+export type FormField<S extends z.core.$ZodShape> = {
 	key: string & keyof S
 	/** number col used by field */
 	colSpan?: number
@@ -30,14 +29,15 @@ export type FormField<S extends Shape> = {
 	hide?: BoolOrFunction<S>
 } & PickOne<FormInputsProps>
 
-export type FormSectionProps<S extends Shape> = ComponentProps<FormSection> & {
+export type FormSectionProps<S extends z.core.$ZodShape> = ComponentProps<FormSection> & {
 	/** hide group if true */
 	hide?: BoolOrFunction<S>
 }
 
-export function initData<S extends Shape, Data extends FormDataInput<S> = FormDataInput<S>>(
-	fields: FormField<S>[][]
-): Data {
+export function initData<
+	S extends z.core.$ZodShape,
+	Data extends FormDataInput<S> = FormDataInput<S>
+>(fields: FormField<S>[][]): Data {
 	// @ts-ignore
 	return fields.flat().reduce((acc, cur) => {
 		const inputType = getFieldType(cur)
@@ -46,18 +46,18 @@ export function initData<S extends Shape, Data extends FormDataInput<S> = FormDa
 	}, {})
 }
 
-export function getFieldType<S extends Shape>(field: FormField<S>): FormInputsType {
+export function getFieldType<S extends z.core.$ZodShape>(field: FormField<S>): FormInputsType {
 	const inputType = formInputsType.find((t) => field[t])
 	if (!inputType) return 'text'
 	return inputType
 }
 
-type HandleInputOptions<S extends Shape> = {
+type HandleInputOptions<S extends z.core.$ZodShape> = {
 	model?: S
 	setError: (key: string, value: string) => void
 }
 
-export function useHandleInput<S extends Shape>({
+export function useHandleInput<S extends z.core.$ZodShape>({
 	model,
 	setError
 }: HandleInputOptions<S>): {
@@ -78,6 +78,8 @@ export function useHandleInput<S extends Shape>({
 			if (name === undefined) return
 			if (!model[name]) return
 			isDirty.set(true)
+			// TODO: fix this type error please
+			// @ts-ignore
 			const res = model[name].safeParse(value)
 			if (res.success) {
 				setErrorDebounced.clear()

@@ -1,10 +1,10 @@
 <script lang="ts">
 	import type { Editor } from '@tiptap/core'
 	import { mdiLinkVariant } from '@mdi/js'
+	import z from 'zod'
 
 	import { Dialog } from '$lib/ui/dialog/index.js'
 	import { InputText } from '$lib/ui/input/index.js'
-	import { z } from '$lib/validation/zod.js'
 	import ToolMark from './ToolMark.svelte'
 
 	export let editor: Editor
@@ -61,10 +61,10 @@
 <Dialog bind:dialog={dialogLink}>
 	<h3 slot="header" class="title">Éditer un lien</h3>
 	<div class="flex flex-col gap-2">
-		<InputText bind:value={linkHref} bind:error={linkError} on:keydown={handleKeyDown} />
+		<InputText bind:value={linkHref} bind:error={linkError} onkeydown={handleKeyDown} />
 		<div class="flex flex-row-reverse gap-2">
-			<button type="button" class="btn" on:click={handleNewLink}> Valider </button>
-			<button type="button" class="btn btn-ghost text-error" on:click={handleRemoveLink}>
+			<button type="button" class="btn" onclick={handleNewLink}> Valider </button>
+			<button type="button" class="btn btn-ghost text-error" onclick={handleRemoveLink}>
 				Supprimer
 			</button>
 		</div>

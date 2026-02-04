@@ -13,7 +13,7 @@
 	const dispatch = createEventDispatcher<{ change: boolean }>()
 </script>
 
-<FormControl {...$$restProps} class="">
+<FormControl {...$$restProps}>
 	{#snippet children({ key })}
 		<input
 			bind:this={inputElement}

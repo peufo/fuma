@@ -47,7 +47,7 @@
 	export let simpleAction = false
 
 	export let options: UseFormOptions<ReturnData> = {}
-	let dataInput: Partial<Data> | null = initData<Shape, Data>(fields)
+	let dataInput: Partial<Data> | null | undefined = initData<Shape, Data>(fields)
 	export { dataInput as data }
 
 	let data: Partial<Data> = dataInput || {}
@@ -135,12 +135,13 @@
 									style={`grid-column: span ${field.colSpan || 2};`}
 									in:fade|local={{ duration: 200 }}
 								>
-									<FormInput
+									<!-- TODO: not a good aproach -->
+									<!-- <FormInput
 										key={field.key}
 										type={inputType}
 										bind:value={data[field.key]}
 										{...field[inputType]}
-									/>
+									/> -->
 								</div>
 							{/if}
 						{/each}

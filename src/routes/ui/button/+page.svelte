@@ -24,13 +24,13 @@
 	}
 </script>
 
-<Meta component={buttonCopy} name="ButtonCopy">
+<Meta name="ButtonCopy">
 	<div class="mx-auto flex gap-2">
 		<ButtonCopy bind:this={buttonCopy} title="Copy me !" value="Hey 👋" />
 		<ButtonCopy title="Copy async data" value={getValue} icon={mdiDownload} />
 	</div>
 </Meta>
 
-<Meta component={buttonDelete} name="ButtonDelete" description="Doit être placé dans un <form />">
+<Meta name="ButtonDelete" description="Doit être placé dans un <form />">
 	<ButtonDelete bind:this={buttonDelete} formaction="?/delete" />
 </Meta>

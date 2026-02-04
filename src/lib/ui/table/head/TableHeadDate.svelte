@@ -17,11 +17,12 @@
 	import { Icon } from '$lib/ui/icon/index.js'
 	import OrderButtons from './OrderButtons.svelte'
 
-	let { field }: { field: TableField<Item> } = $props()
+	let { field }: { field: Omit<TableField<Item>, 'cell'> } = $props()
 
 	let dropDown: DropDown
 	let rangePicker: RangePicker
 	let initialValue = jsonParse<{ start?: string; end?: string; order?: 'asc' | 'desc' }>(
+		// svelte-ignore state_referenced_locally
 		page.url.searchParams.get(field.key),
 		{}
 	)

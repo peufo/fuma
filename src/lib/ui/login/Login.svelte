@@ -12,7 +12,6 @@
 		onSuccess,
 		successMessage(action) {
 			if (action.search === '?/reset_password') {
-				recorverDialog.close()
 				state = 'login'
 				return "Un lien de récupération t'a été envoyé par email"
 			}
@@ -24,7 +23,6 @@
 				return
 			}
 			if (err === 'This account already created from an invitation') {
-				recorverDialog.showModal()
 				return
 			}
 		}
@@ -32,8 +30,6 @@
 	let state: 'login' | 'register' = 'login'
 
 	$: redirectTo = $page.url.searchParams.get('redirectTo')
-
-	let recorverDialog: HTMLDialogElement
 </script>
 
 <div class="grid place-content-center p-10">
@@ -62,7 +58,7 @@
 		</div>
 
 		<form
-			class="card-body rounded-b-lg border border-t-0 border-base-300 bg-base-100"
+			class="card-body border-base-300 bg-base-100 rounded-b-lg border border-t-0"
 			method="post"
 			use:enhance
 		>

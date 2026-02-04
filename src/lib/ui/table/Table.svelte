@@ -40,12 +40,15 @@
 		screenPadding?: number
 	} = $props()
 
-	const { KEY_FIELDS_VISIBLE, KEY_FIELDS_HIDDEN, KEY_FIELDS_ORDER } = createKeys(key)
-	context.set(key, {
-		KEY_FIELDS_VISIBLE,
-		KEY_FIELDS_HIDDEN,
-		KEY_FIELDS_ORDER
+	$effect(() => {
+		const { KEY_FIELDS_VISIBLE, KEY_FIELDS_HIDDEN, KEY_FIELDS_ORDER } = createKeys(key)
+		context.set(key, {
+			KEY_FIELDS_VISIBLE,
+			KEY_FIELDS_HIDDEN,
+			KEY_FIELDS_ORDER
+		})
 	})
+
 
 	const initFields = () => (fields = syncFieldsWithParams(key, fields))
 	initFields()

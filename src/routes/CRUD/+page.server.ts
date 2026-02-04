@@ -1,16 +1,17 @@
+import z from 'zod'
 import { error } from '@sveltejs/kit'
 import { formAction } from '$lib/server/formAction.js'
-import { z } from '$lib/validation/zod.js'
 
 import { modelPost, modelPostUpdate, modelTag } from '$lib/private/model.js'
 import { prisma } from '$lib/private/prisma.js'
 import { parseQuery } from '$lib/server/parseQuery.js'
 import type { Prisma } from '@prisma/client'
+import { tableFilter } from '$lib/index.js'
 
 export const load = async ({ url }) => {
 	const query = parseQuery(url, {
-		writingAt: z.filter.range,
-		likeCount: z.filter.number
+		writingAt: tableFilter.range,
+		likeCount: tableFilter.number
 	})
 
 	const where: Prisma.PostWhereInput = {}

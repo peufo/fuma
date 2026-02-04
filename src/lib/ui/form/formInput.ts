@@ -29,7 +29,7 @@ export const formInputs = {
 
 export type FormInputs = typeof formInputs
 export type FormInputsType = keyof FormInputs
-export type FormInputProps<T extends FormInputsType> = ComponentProps<InstanceType<FormInputs[T]>>
+export type FormInputProps<T extends FormInputsType> = ComponentProps<FormInputs[T]>
 export type FormInputsProps = { [T in FormInputsType]: FormInputProps<T> }
 
 export const formInputsType = Object.keys(formInputs) as FormInputsType[]

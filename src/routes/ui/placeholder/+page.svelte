@@ -1,15 +1,12 @@
 <script lang="ts">
 	import Meta from '$lib/private/Meta.svelte'
 	import { Placeholder, PlaceholderImage } from '$lib/ui/placeholder/index.js'
-
-	let placeholder: Placeholder
-	let placeholderImage: PlaceholderImage
 </script>
 
-<Meta component={placeholder} name="Placeholder">
-	<Placeholder bind:this={placeholder}>default slot</Placeholder>
+<Meta name="Placeholder">
+	<Placeholder>default slot</Placeholder>
 </Meta>
 
-<Meta component={placeholderImage} name="PlaceholderImage">
-	<PlaceholderImage bind:this={placeholderImage} x={200} y={300} />
+<Meta name="PlaceholderImage">
+	<PlaceholderImage x={200} y={300} />
 </Meta>

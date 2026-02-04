@@ -8,7 +8,7 @@
 	let drawer: Drawer
 </script>
 
-<Meta component={form} name="Form">
+<Meta name="Form">
 	<button class="btn" on:click={() => form.set('country', { id: 1, name: 'Irland' })}>
 		set country
 	</button>
@@ -16,10 +16,10 @@
 	<FormExample bind:form />
 </Meta>
 
-<Meta component={form} name="Form in drawer">
+<Meta name="Form in drawer">
 	<button class="btn" on:click={() => drawer.open()}> Open </button>
 
-	<Drawer key="form-example" bind:this={drawer} title="Form in drawer" class="w-[500px]">
+	<Drawer key="form-example" bind:this={drawer} title="Form in drawer" class="w-125">
 		<FormExample bind:form />
 	</Drawer>
 </Meta>

@@ -9,7 +9,7 @@
 	let cardFullScreen: CardFullScreen
 </script>
 
-<Meta component={card} name="Card">
+<Meta name="Card">
 	<Card bind:this={card} class="bg-red-500" bodyClass="bg-green-400">
 		<div slot="top">slot="top"</div>
 		<h2 slot="title">slot="title"</h2>
@@ -19,11 +19,11 @@
 	</Card>
 </Meta>
 
-<Meta component={cardBasic} name="CardBasic">
+<Meta name="CardBasic">
 	<CardBasic bind:this={cardBasic} title="Title">Default slot</CardBasic>
 </Meta>
 
-<Meta component={cardCollapse} name="CardCollapse (deprecated)">
+<Meta name="CardCollapse (deprecated)">
 	<CardCollapse value="my-section" bind:this={cardCollapse}>
 		<h2 slot="title">
 			slot="title"
@@ -39,11 +39,11 @@
 	</CardCollapse>
 </Meta>
 
-<Meta component={cardLink} name="CardLink">
+<Meta name="CardLink">
 	<CardLink bind:this={cardLink} title="Title" href="#">Default slot</CardLink>
 </Meta>
 
-<Meta component={cardFullScreen} name="CardFullScreen">
+<Meta name="CardFullScreen">
 	<CardFullScreen bind:this={cardFullScreen}>
 		<h2 slot="title">slot="title"</h2>
 		<div slot="action">slot="action"</div>

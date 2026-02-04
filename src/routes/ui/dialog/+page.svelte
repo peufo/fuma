@@ -5,26 +5,21 @@
 	import { Dialog, DialogConfirm } from '$lib/ui/dialog/index.js'
 	import { Drawer } from '$lib/ui/drawer/index.js'
 
-	let dialogComponent: Dialog
 	let dialogElement: HTMLDialogElement
-
-	let dialogConfirmComponent: DialogConfirm
-
-	let drawer: Drawer
 </script>
 
-<Meta component={dialogComponent} name="Dialog">
+<Meta name="Dialog">
 	<button class="btn" on:click={() => dialogElement.showModal()}>Ouvrir dialog</button>
 
-	<Dialog bind:this={dialogComponent} bind:dialog={dialogElement}>
+	<Dialog bind:dialog={dialogElement}>
 		<div slot="header">slot="header"</div>
 		slot
 		<div slot="footer">slot="footer"</div>
 	</Dialog>
 </Meta>
 
-<Meta component={dialogConfirmComponent} name="DialogConfirm">
-	<DialogConfirm bind:this={dialogConfirmComponent}>
+<Meta name="DialogConfirm">
+	<DialogConfirm>
 		<div slot="activator">slot="activator"</div>
 		<div slot="header">slot="header"</div>
 		slot
@@ -32,10 +27,10 @@
 	</DialogConfirm>
 </Meta>
 
-<Meta component={drawer} name="Drawer">
+<Meta name="Drawer">
 	<a class="btn" href={$urlParam.with({ 'drawer-1': 1 })} data-sveltekit-noscroll> Open drawer 1</a>
 
-	<Drawer title="Drawer 1" bind:this={drawer} key="drawer-1">
+	<Drawer title="Drawer 1" key="drawer-1">
 		<h2 class="title">Hey 1</h2>
 		<a class="btn" href={$urlParam.with({ 'drawer-2': 1 })} data-sveltekit-noscroll>
 			Open drawer 2
@@ -52,8 +47,8 @@
 	</Drawer>
 </Meta>
 
-<Meta component={dialogConfirmComponent} name="DialogConfirm">
-	<DialogConfirm bind:this={dialogConfirmComponent}>
+<Meta name="DialogConfirm">
+	<DialogConfirm>
 		<div slot="activator">slot="activator"</div>
 		<div slot="header">slot="header"</div>
 		slot
@@ -61,14 +56,13 @@
 	</DialogConfirm>
 </Meta>
 
-<Meta component={drawer} name="Drawer">
+<Meta name="Drawer">
 	<a class="btn" href={$urlParam.with({ drawer_no_overlay: 1 })} data-sveltekit-noscroll>
 		Open no overlay drawer
 	</a>
 
 	<Drawer
 		title="No overlay brpo"
-		bind:this={drawer}
 		key="drawer_no_overlay"
 		noOverlay
 		maxWidth="200px"
@@ -79,4 +73,4 @@
 	</Drawer>
 </Meta>
 
-<div class="my-40 h-[1400px] rounded bg-green-300"></div>
+<div class="my-40 h-350 rounded bg-green-300"></div>

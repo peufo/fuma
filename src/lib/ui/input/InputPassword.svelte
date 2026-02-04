@@ -1,10 +1,11 @@
 <script lang="ts">
+	import type { FullAutoFill } from 'svelte/elements'
 	import { FormControl, type InputProps } from './index.js'
 
-	type $$Props = InputProps & { autocomplete?: string }
+	type $$Props = InputProps & { autocomplete?: FullAutoFill }
 	$: ({ input, value: _value, ...props } = $$props as $$Props)
 	export let value = _value
-	export let autocomplete = 'current-password'
+	export let autocomplete: FullAutoFill = 'current-password'
 </script>
 
 <FormControl {...props}>

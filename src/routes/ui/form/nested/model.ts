@@ -1,7 +1,4 @@
-import { type ShapeOf } from '$lib/index.js'
-import type { Prisma } from '@prisma/client'
-
-// TODO: real exemple
+import z from 'zod'
 
 export const model = {
 	name: z.string(),
@@ -11,4 +8,4 @@ export const model = {
 			age: z.number().min(10)
 		})
 	)
-} satisfies ShapeOf<Prisma.UserCreateInput>
+}

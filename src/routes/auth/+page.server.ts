@@ -1,8 +1,8 @@
 import { fail, redirect } from '@sveltejs/kit'
+import z from 'zod'
 import { Argon2id } from 'oslo/password'
 import type { RequestEvent } from './$types.js'
 import type { User } from '@prisma/client'
-import { z } from '$lib/validation/zod.js'
 import { formAction } from '$lib/server/index.js'
 
 import { lucia } from '$lib/server/auth.js'

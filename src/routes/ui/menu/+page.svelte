@@ -7,21 +7,19 @@
 	import { DropDown, ContextMenu, DropDownMenu } from '$lib/ui/menu/index.js'
 	import MenuContent, { menuOptions } from './MenuContent.svelte'
 
-	let dropdown: DropDown
 	let contextMenu: ContextMenu
-	let dropdownMenu: DropDownMenu
 </script>
 
-<Meta component={dropdown} name="DropDown">
-	<DropDown bind:this={dropdown}>
+<Meta name="DropDown">
+	<DropDown>
 		<button class="btn" slot="activator">slot="activator"</button>
 		<MenuContent />
 	</DropDown>
 </Meta>
 
-<Meta component={contextMenu} name="ContextMenu">
+<Meta name="ContextMenu">
 	<button
-		class="bordered grid h-80 place-content-center rounded border bg-base-200"
+		class="bordered bg-base-200 grid h-80 place-content-center rounded border"
 		on:click={(event) => contextMenu.show(event)}
 	>
 		<span>Click on me !</span>
@@ -33,13 +31,9 @@
 	</ContextMenu>
 </Meta>
 
-<Meta component={dropdownMenu} name="DropDownMenu">
+<Meta name="DropDownMenu">
 	<div class="flex justify-around">
-		<DropDownMenu
-			bind:this={dropdownMenu}
-			options={menuOptions}
-			on:select={({ detail: value }) => toast(value)}
-		/>
+		<DropDownMenu options={menuOptions} on:select={({ detail: value }) => toast(value)} />
 		<DropDownMenu options={menuOptions} on:select={({ detail: value }) => toast(value)}>
 			<button type="button" class="btn btn-square">
 				<Icon path={mdiWan} />

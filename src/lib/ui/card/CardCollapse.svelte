@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { onDestroy } from 'svelte'
 	import { slide } from 'svelte/transition'
 	import { mdiChevronRight } from '@mdi/js'
 
@@ -17,7 +16,6 @@
 	$: isOpen = $urlParam.hasValue('section', value)
 	let header: HTMLDivElement
 
-	let timeout: NodeJS.Timeout
 	async function handleClick(event: MouseEvent | null) {
 		if (isClickOnInteractiveElement(event)) return
 		await goto($urlParam.toggle({ section: value }), { noScroll: true, keepFocus: true })
@@ -29,13 +27,9 @@
 		const elements = [...header.querySelectorAll('a, button')]
 		return !!elements.filter((element) => element.contains(target)).length
 	}
-
-	onDestroy(() => {
-		clearTimeout(timeout)
-	})
 </script>
 
-<section class="card bordered border bg-base-100 shadow-md {klass}">
+<section class="card bordered bg-base-100 border shadow-md {klass}">
 	<div
 		id={value}
 		bind:this={header}
@@ -47,7 +41,7 @@
 	>
 		<slot name="header">
 			<div class="flex gap-2">
-				<div class="min-w-0 overflow-hidden text-ellipsis font-medium {classTitle}">
+				<div class="min-w-0 overflow-hidden font-medium text-ellipsis {classTitle}">
 					<slot name="title" />
 				</div>
 				<Icon
