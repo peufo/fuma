@@ -1,24 +1,28 @@
 <script lang="ts">
 	import { Dialog } from '$lib/ui/dialog/index.js'
+	import type { Snippet } from 'svelte'
 
-	let dialog: HTMLDialogElement
-	let klass = ''
-	export { klass as class }
+	let {
+		activator,
+		header,
+		children,
+		action
+	}: {
+		activator: Snippet<[{ showModal: () => void }]>
+		header?: Snippet
+		children?: Snippet
+		action?: Snippet
+	} = $props()
+
+	let dialog = $state<HTMLDialogElement>()
 </script>
 
-<button type="button" on:click={() => dialog.showModal()} class="btn btn-ghost {klass}">
-	<slot name="activator">Confirm button</slot>
-</button>
+{@render activator({ showModal: () => dialog?.showModal() })}
 
-<Dialog bind:dialog>
-	<div slot="header" class="contents">
-		<slot name="header">Confirmation</slot>
-	</div>
-	<slot />
+<Dialog bind:dialog {header}>
+	{@render children?.()}
 	<div class="mt-10 flex justify-end gap-2">
-		<button type="button" class="btn btn-ghost" on:click={() => dialog.close()}>
-			Annuler
-		</button>
-		<slot name="action" />
+		<button type="button" class="btn btn-ghost" onclick={() => dialog?.close()}> Annuler </button>
+		{@render action?.()}
 	</div>
 </Dialog>

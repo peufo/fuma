@@ -1,7 +1,6 @@
 <script lang="ts">
-	import { mdiDrag } from '@mdi/js'
 	import { listEditable } from '$lib/index.js'
-	import Icon from '$lib/ui/icon/Icon.svelte'
+	import { GripIcon } from '@lucide/svelte'
 
 	let items = Array(16)
 		.fill(0)
@@ -59,7 +58,7 @@
 		{#each items as item (item.key)}
 			<li class="menu-item" style="background: {item.color};">
 				<span>{item.label}</span>
-				<Icon path={mdiDrag} class="drag-button btn btn-square btn-ghost btn-sm ml-auto" />
+				<GripIcon class="drag-button btn btn-square btn-ghost btn-sm ml-auto" />
 			</li>
 		{/each}
 	</ul>
@@ -78,7 +77,7 @@
 			{#each items as item (item.key)}
 				<li class="menu-item" style="background: {item.color};">
 					<span>{item.label}</span>
-					<Icon path={mdiDrag} class="drag-button btn btn-square btn-ghost btn-sm ml-auto" />
+					<GripIcon class="drag-button btn btn-square btn-ghost btn-sm ml-auto" />
 				</li>
 			{/each}
 		</div>
@@ -110,7 +109,7 @@
 				<td>{item.label}</td>
 				<td>{item.color}</td>
 				<td>
-					<Icon path={mdiDrag} class="drag-button btn btn-square btn-ghost btn-sm ml-auto" />
+					<GripIcon class="drag-button btn btn-square btn-ghost btn-sm ml-auto" />
 				</td>
 			</tr>
 		{/each}

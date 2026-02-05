@@ -1,52 +1,33 @@
 <script lang="ts">
-	import Meta from '$lib/private/Meta.svelte'
-	import { Card, CardBasic, CardCollapse, CardLink, CardFullScreen } from '$lib/ui/card/index.js'
-
-	let card: Card
-	let cardBasic: CardBasic
-	let cardCollapse: CardCollapse
-	let cardLink: CardLink
-	let cardFullScreen: CardFullScreen
+	import { Card, CardBasic, CardLink, CardFullScreen } from '$lib/ui/card/index.js'
 </script>
 
-<Meta name="Card">
-	<Card bind:this={card} class="bg-red-500" bodyClass="bg-green-400">
-		<div slot="top">slot="top"</div>
-		<h2 slot="title">slot="title"</h2>
-		<h3 slot="subtitle">slot="subtitle"</h3>
-		<div slot="action">slot="action"</div>
-		Default slot
-	</Card>
-</Meta>
+<Card class="bg-red-500" bodyClass="bg-green-400">
+	{#snippet top()}
+		snippet top
+	{/snippet}
+	{#snippet title()}
+		snippet title
+	{/snippet}
+	{#snippet subtitle()}
+		snippet subtitle
+	{/snippet}
+	{#snippet action()}
+		snippet action
+	{/snippet}
+	<span>children</span>
+</Card>
 
-<Meta name="CardBasic">
-	<CardBasic bind:this={cardBasic} title="Title">Default slot</CardBasic>
-</Meta>
+<CardBasic title="Title">Default slot</CardBasic>
 
-<Meta name="CardCollapse (deprecated)">
-	<CardCollapse value="my-section" bind:this={cardCollapse}>
-		<h2 slot="title">
-			slot="title"
-			<a href="#prout" class="link-hover link">link</a>
-		</h2>
-		<h3 slot="subtitle">
-			slot="subtitle"
-			<a href="#prout-b" class="link-hover link">
-				<span>other link</span>
-			</a>
-		</h3>
-		Default slot
-	</CardCollapse>
-</Meta>
+<CardLink title="Title" href="#">Default slot</CardLink>
 
-<Meta name="CardLink">
-	<CardLink bind:this={cardLink} title="Title" href="#">Default slot</CardLink>
-</Meta>
-
-<Meta name="CardFullScreen">
-	<CardFullScreen bind:this={cardFullScreen}>
-		<h2 slot="title">slot="title"</h2>
-		<div slot="action">slot="action"</div>
-		Default slot
-	</CardFullScreen>
-</Meta>
+<CardFullScreen>
+	{#snippet title()}
+		<h2>snippet title</h2>
+	{/snippet}
+	{#snippet action()}
+		<div>snippet action</div>
+	{/snippet}
+	<span>children</span>
+</CardFullScreen>

@@ -1,8 +1,17 @@
 <script lang="ts">
-	export let href: string
-	export let title = ''
-	let klass = ''
-	export { klass as class }
+	import type { Snippet } from 'svelte'
+
+	let {
+		href,
+		title = '',
+		class: klass = '',
+		children
+	}: {
+		href: string
+		title?: string
+		class?: string
+		children: Snippet
+	} = $props()
 </script>
 
 <div
@@ -17,6 +26,6 @@
 			{title}
 		</h2>
 	{/if}
-	<slot />
+	{@render children()}
 	<a {href} class="absolute inset-0">{' '}</a>
 </div>

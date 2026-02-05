@@ -1,24 +1,20 @@
-<script lang="ts" context="module">
+<script lang="ts" module>
 	import { type Options } from '$lib/utils/options.js'
+	import { InstagramIcon, FacebookIcon, TwitterIcon } from '@lucide/svelte'
 
 	export const menuOptions = {
-		facebook: { label: 'Facebook', icon: mdiFacebook },
-		insta: { label: 'Instagram', icon: mdiInstagram },
-		google: { label: 'Google', icon: mdiGoogle }
+		facebook: { label: 'Facebook', icon: FacebookIcon },
+		insta: { label: 'Instagram', icon: InstagramIcon },
+		twitter: { label: 'Twitter', icon: TwitterIcon }
 	} satisfies Options
 </script>
 
-<script lang="ts">
-	import { mdiGoogle, mdiFacebook, mdiInstagram } from '@mdi/js'
-	import { Icon } from '$lib/ui/icon/index.js'
-</script>
-
 <ul>
-	{#each Object.entries(menuOptions) as [value, { label, icon }]}
+	{#each Object.entries(menuOptions) as [value, option]}
 		<li>
 			<a class="menu-item" href="#{value}">
-				<Icon path={icon} size={18} />
-				<span>{label}</span>
+				<option.icon />
+				<span>{option.label}</span>
 			</a>
 		</li>
 	{/each}

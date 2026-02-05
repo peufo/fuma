@@ -1,31 +1,39 @@
 <script lang="ts">
-	import { mdiArrowCollapse, mdiArrowExpand } from '@mdi/js'
-	import { Icon } from '$lib/ui/icon/index.js'
+	import type { Snippet } from 'svelte'
+	import { Maximize2Icon, Minimize2Icon } from '@lucide/svelte'
 	import { Card } from '$lib/ui/card/index.js'
 
-	export let isFullScreen = false
-	let klass = ''
-	export { klass as class }
+	let {
+		isFullScreen = false,
+		class: klass = '',
+		title,
+		action: propAction,
+		children
+	}: {
+		isFullScreen?: boolean
+		class?: string
+		title?: Snippet
+		action?: Snippet
+		children: Snippet<[{ isFullScreen: boolean }]>
+	} = $props()
 </script>
 
 <Card
 	class="{isFullScreen ? 'fixed inset-2 p-2' : ''} {klass}"
 	bodyClass={isFullScreen ? 'sm:p-2 grow overflow-hidden' : ''}
+	{title}
 >
-	<div class="contents" slot="title">
-		<slot name="title" />
-	</div>
-
-	<div slot="action" class="flex gap-2">
-		<slot name="action" />
-		<button class="btn btn-square btn-sm" on:click={() => (isFullScreen = !isFullScreen)}>
-			{#if isFullScreen}
-				<Icon path={mdiArrowCollapse} />
-			{:else}
-				<Icon path={mdiArrowExpand} />
-			{/if}
-		</button>
-	</div>
-
-	<slot {isFullScreen} />
+	{#snippet action()}
+		<div class="flex gap-2">
+			{@render propAction?.()}
+			<button class="btn btn-square btn-sm" onclick={() => (isFullScreen = !isFullScreen)}>
+				{#if isFullScreen}
+					<Minimize2Icon />
+				{:else}
+					<Maximize2Icon />
+				{/if}
+			</button>
+		</div>
+	{/snippet}
+	{@render children({ isFullScreen })}
 </Card>

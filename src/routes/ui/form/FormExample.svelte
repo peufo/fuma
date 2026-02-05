@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { mdiGenderFemale, mdiGenderMale, mdiGenderNonBinary } from '@mdi/js'
+	import { MarsIcon, VenusIcon, VenusAndMarsIcon } from '@lucide/svelte'
 	import { Form } from '$lib/ui/form/index.js'
 	import { searchItems } from './example.js'
 
@@ -27,9 +27,9 @@
 				select: {
 					label: 'Gender',
 					options: {
-						female: { label: 'Female', icon: mdiGenderFemale },
-						male: { label: 'Male', icon: mdiGenderMale },
-						nonBinary: { label: 'Non binary', icon: mdiGenderNonBinary }
+						female: { label: 'Female', icon: VenusIcon },
+						male: { label: 'Male', icon: MarsIcon },
+						nonBinary: { label: 'Non binary', icon: VenusAndMarsIcon }
 					}
 				}
 			},

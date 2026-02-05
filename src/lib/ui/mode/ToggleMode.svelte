@@ -1,20 +1,29 @@
 <script lang="ts">
 	import { ModeWatcher, toggleMode, mode } from 'mode-watcher'
-	import { mdiWeatherNight, mdiWhiteBalanceSunny } from '@mdi/js'
+	import { SunIcon, MoonIcon } from '@lucide/svelte'
+	import type { Snippet } from 'svelte'
 
-	import { Icon } from '$lib/ui/icon/index.js'
-
-	let klass = ''
-	export { klass as class }
-	export let defaultMode: 'dark' | 'light' | 'system' | undefined = undefined
-
-	$: path = $mode === 'light' ? mdiWhiteBalanceSunny : mdiWeatherNight
+	let {
+		class: klass = '',
+		defaultMode,
+		children
+	}: {
+		class?: string
+		defaultMode?: 'dark' | 'light' | 'system'
+		children?: Snippet<[{ toggleMode: () => void; mode: typeof mode }]>
+	} = $props()
 </script>
 
 <ModeWatcher {defaultMode} />
 
-<slot {toggleMode} {path}>
-	<button class="btn btn-square btn-sm {klass}" on:click={toggleMode}>
-		<Icon {path} />
+{#if children}
+	{@render children({ toggleMode, mode })}
+{:else}
+	<button class="btn btn-square btn-sm {klass}" onclick={toggleMode}>
+		{#if mode.current === 'light'}
+			<SunIcon />
+		{:else}
+			<MoonIcon />
+		{/if}
 	</button>
-</slot>
+{/if}

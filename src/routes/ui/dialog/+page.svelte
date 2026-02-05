@@ -1,6 +1,4 @@
 <script lang="ts">
-	import Meta from '$lib/private/Meta.svelte'
-	import { drawerTransitionX } from '$lib/private/store.js'
 	import { urlParam } from '$lib/store/param.js'
 	import { Dialog, DialogConfirm } from '$lib/ui/dialog/index.js'
 	import { Drawer } from '$lib/ui/drawer/index.js'
@@ -8,69 +6,69 @@
 	let dialogElement: HTMLDialogElement
 </script>
 
-<Meta name="Dialog">
-	<button class="btn" on:click={() => dialogElement.showModal()}>Ouvrir dialog</button>
+<button class="btn" on:click={() => dialogElement.showModal()}>Ouvrir dialog</button>
 
-	<Dialog bind:dialog={dialogElement}>
-		<div slot="header">slot="header"</div>
-		slot
-		<div slot="footer">slot="footer"</div>
-	</Dialog>
-</Meta>
+<Dialog bind:dialog={dialogElement}>
+	{#snippet header()}
+		<div>snippet="header"</div>
+	{/snippet}
+	children
+	{#snippet footer()}
+		<div>snippet="footer"</div>
+	{/snippet}
+</Dialog>
 
-<Meta name="DialogConfirm">
-	<DialogConfirm>
-		<div slot="activator">slot="activator"</div>
-		<div slot="header">slot="header"</div>
-		slot
-		<div slot="action">slot="action"</div>
-	</DialogConfirm>
-</Meta>
+<DialogConfirm>
+	{#snippet activator()}
+		<div>snippet="activator"</div>
+	{/snippet}
+	{#snippet header()}
+		<div>snippet="header"</div>
+	{/snippet}
+	children
+	{#snippet action()}
+		<div>snippet="action"</div>
+	{/snippet}
+</DialogConfirm>
 
-<Meta name="Drawer">
-	<a class="btn" href={$urlParam.with({ 'drawer-1': 1 })} data-sveltekit-noscroll> Open drawer 1</a>
+<a class="btn" href={$urlParam.with({ 'drawer-1': 1 })} data-sveltekit-noscroll> Open drawer 1</a>
 
-	<Drawer title="Drawer 1" key="drawer-1">
-		<h2 class="title">Hey 1</h2>
-		<a class="btn" href={$urlParam.with({ 'drawer-2': 1 })} data-sveltekit-noscroll>
-			Open drawer 2
-		</a>
-	</Drawer>
-	<Drawer title="Drawer 3" key="drawer-3">
-		<h2 class="title">Hey 3</h2>
-	</Drawer>
-	<Drawer title="Drawer 2" key="drawer-2">
-		<h2 class="title">Hey 2</h2>
-		<a class="btn" href={$urlParam.with({ 'drawer-3': 1 })} data-sveltekit-noscroll>
-			Open drawer 3
-		</a>
-	</Drawer>
-</Meta>
-
-<Meta name="DialogConfirm">
-	<DialogConfirm>
-		<div slot="activator">slot="activator"</div>
-		<div slot="header">slot="header"</div>
-		slot
-		<div slot="action">slot="action"</div>
-	</DialogConfirm>
-</Meta>
-
-<Meta name="Drawer">
-	<a class="btn" href={$urlParam.with({ drawer_no_overlay: 1 })} data-sveltekit-noscroll>
-		Open no overlay drawer
+<Drawer title="Drawer 1" key="drawer-1">
+	<h2 class="title">Hey 1</h2>
+	<a class="btn" href={$urlParam.with({ 'drawer-2': 1 })} data-sveltekit-noscroll>
+		Open drawer 2
 	</a>
+</Drawer>
+<Drawer title="Drawer 3" key="drawer-3">
+	<h2 class="title">Hey 3</h2>
+</Drawer>
+<Drawer title="Drawer 2" key="drawer-2">
+	<h2 class="title">Hey 2</h2>
+	<a class="btn" href={$urlParam.with({ 'drawer-3': 1 })} data-sveltekit-noscroll>
+		Open drawer 3
+	</a>
+</Drawer>
 
-	<Drawer
-		title="No overlay brpo"
-		key="drawer_no_overlay"
-		noOverlay
-		maxWidth="200px"
-		bind:transitionX={$drawerTransitionX}
-	>
-		<h2 class="title">Hey</h2>
-		<p>Open drawer not overlay</p>
-	</Drawer>
-</Meta>
+<DialogConfirm>
+	{#snippet activator()}
+		<button class="btn btn-ghost">snippet="activator"</button>
+	{/snippet}
+	{#snippet header()}
+		<div>snippet="header"</div>
+	{/snippet}
+	<span>children</span>
+	{#snippet action()}
+		<div>snippet="action"</div>
+	{/snippet}
+</DialogConfirm>
+
+<a class="btn" href={$urlParam.with({ drawer_no_overlay: 1 })} data-sveltekit-noscroll>
+	Open no overlay drawer
+</a>
+
+<Drawer title="No overlay brpo" key="drawer_no_overlay" noOverlay maxWidth="200px">
+	<h2 class="title">Hey</h2>
+	<p>Open drawer not overlay</p>
+</Drawer>
 
 <div class="my-40 h-350 rounded bg-green-300"></div>

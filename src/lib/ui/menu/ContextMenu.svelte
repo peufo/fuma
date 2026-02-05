@@ -1,22 +1,30 @@
 <script lang="ts">
-	import { createEventDispatcher } from 'svelte'
+	import { MediaQuery } from 'svelte/reactivity'
 	import type { TippyProps } from '$lib/utils/tippy.js'
-
 	import { Dialog } from '$lib/ui/dialog/index.js'
 	import { DropDown } from '$lib/ui/menu/index.js'
-	import { isSmallScreen } from '$lib/store/index.js'
+	import type { Snippet } from 'svelte'
 
-	export let tippyProps: Partial<TippyProps> = {}
-	let klass = ''
-	export { klass as class }
+	let {
+		tippyProps = {},
+		class: klass = '',
+		onShow,
+		onHide,
+		children
+	}: {
+		tippyProps?: Partial<TippyProps>
+		class?: string
+		onShow?: () => void
+		onHide?: () => void
+		children: Snippet
+	} = $props()
 
-	const dispatch = createEventDispatcher<{ show: void; hide: void }>()
-
-	let dropdown: DropDown
-	let dialog: HTMLDialogElement
+	const isSmallScreen = new MediaQuery('max-width: 600px;')
+	let dropdown: DropDown | undefined = $state()
+	let dialog: HTMLDialogElement | undefined = $state()
 
 	export function show(event: MouseEvent) {
-		if ($isSmallScreen) {
+		if (isSmallScreen.current) {
 			dialog?.showModal()
 		} else {
 			const target = event.target as HTMLElement
@@ -26,29 +34,22 @@
 			})
 			dropdown?.show()
 		}
-
-		dispatch('show')
+		onShow?.()
 	}
 
 	export function hide() {
-		if ($isSmallScreen) dialog?.close()
+		if (isSmallScreen.current) dialog?.close()
 		else dropdown?.hide()
-		dispatch('hide')
+		onHide?.()
 	}
 </script>
 
-{#if $isSmallScreen}
+{#if isSmallScreen.current}
 	<Dialog bind:dialog class={klass}>
-		<div slot="header" class="contents">
-			<slot name="header" />
-		</div>
-		<slot />
+		{@render children()}
 	</Dialog>
 {:else}
 	<DropDown class={klass} bind:this={dropdown} tippyProps={{ offset: [0, -5], ...tippyProps }}>
-		<div class="flex flex-col gap-2 p-1">
-			<slot name="header" />
-			<slot />
-		</div>
+		{@render children()}
 	</DropDown>
 {/if}

@@ -1,10 +1,10 @@
-import { mdiAbacus, mdiAbjadArabic, mdiAbTesting } from '@mdi/js'
+import {AmbulanceIcon, AirVentIcon, AppleIcon} from '@lucide/svelte'
 import type { Options } from '$lib/utils/options.js'
 
 export const options: Options = {
-	a: { label: 'Option A', icon: mdiAbTesting },
-	b: { label: 'Option B', icon: mdiAbacus },
-	c: { label: 'Option C', icon: mdiAbjadArabic }
+	a: { label: 'Option A', icon: AmbulanceIcon },
+	b: { label: 'Option B', icon: AirVentIcon },
+	c: { label: 'Option C', icon: AppleIcon }
 }
 
 export type Item = { id: string; name: string }

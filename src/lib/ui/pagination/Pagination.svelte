@@ -1,29 +1,33 @@
 <script lang="ts">
-	import { mdiChevronLeft, mdiChevronRight } from '@mdi/js'
-	import { Icon } from '$lib/ui/icon/index.js'
-	import { urlParam } from '$lib/store/index.js'
+	import { ChevronLeftIcon, ChevronRightIcon } from '@lucide/svelte'
+	import { param, urlParam } from '$lib/state/index.js'
+	import { tip } from '$lib/action/tip.js'
 
-	export let take = 20
+	let { take = 20 }: { take?: number } = $props()
 
-	$: skip = +($urlParam.get('skip') || 0)
-	$: _take = +($urlParam.get('take') || take)
+	let skip = $derived(+(param.get('skip') || 0))
+	$effect(() => {
+		take = +(param.get('take') || take)
+	})
 </script>
 
 <div class="join">
 	<a
-		href={$urlParam.with({ skip: skip - _take, take: _take })}
+		href={urlParam.with({ skip: skip - take, take })}
 		data-sveltekit-replacestate
-		class:btn-disabled={skip - _take < 0}
+		class:btn-disabled={skip - take < 0}
 		class="btn btn-square join-item btn-sm"
+		use:tip={{ content: 'Afficher les données précédentes' }}
 	>
-		<Icon path={mdiChevronLeft} title="Afficher les données précédentes" />
+		<ChevronLeftIcon />
 	</a>
 	<a
-		href={$urlParam.with({ skip: skip + _take, take: _take })}
+		href={urlParam.with({ skip: skip + take, take })}
 		data-sveltekit-replacestate
 		class="btn join-item btn-sm pr-1"
+		use:tip={{ content: 'Afficher les données suivante' }}
 	>
-		{skip + 1} - {skip + _take}
-		<Icon path={mdiChevronRight} title="Afficher les données suivantes" />
+		{skip + 1} - {skip + take}
+		<ChevronRightIcon />
 	</a>
 </div>

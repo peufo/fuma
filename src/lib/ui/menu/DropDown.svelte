@@ -1,4 +1,4 @@
-<script lang="ts" context="module">
+<script lang="ts" module>
 	import { createSingleton, type TippyInstance } from '$lib/utils/tippy.js'
 	import type { CreateSingletonInstance } from 'tippy.js'
 
@@ -8,37 +8,55 @@
 
 <script lang="ts">
 	import { tippy, type TippyProps } from '$lib/utils/tippy.js'
-	import { onMount } from 'svelte'
+	import { onMount, type Snippet } from 'svelte'
 	import { beforeNavigate } from '$app/navigation'
 	import './dropdown.css'
 
-	export let tippyProps: Partial<TippyProps> = {}
-	let klass = ''
-	export { klass as class }
-	export let classWrapper = ''
-	export let classActivator = ''
-	export let useSingleton = false
-	export let autofocus = false
-	export let hideOnBlur = false
-	export let hideOnNav = true
-	export let tip: TippyInstance | undefined = undefined
-	// By pass dropdown for use in flat mode
-	export let disable = false
-	export let content: HTMLDivElement | undefined = undefined
-	let activator: HTMLDivElement
+	let {
+		tippyProps = {},
+		class: klass = '',
+		classWrapper = '',
+		classActivator = '',
+		useSingleton = false,
+		autofocus = false,
+		hideOnBlur = false,
+		hideOnNav = true,
+		disable = false,
+		tip,
+		content,
+		activator,
+		children
+	}: {
+		tippyProps?: Partial<TippyProps>
+		class?: string
+		classWrapper?: string
+		classActivator?: string
+		useSingleton?: boolean
+		autofocus?: boolean
+		hideOnBlur?: boolean
+		hideOnNav?: boolean
+		tip?: TippyInstance
+		// By pass dropdown for use in flat mode
+		disable?: boolean
+		content?: HTMLDivElement
+		activator?: Snippet<[{ tip?: TippyInstance }]>
+		children: Snippet<[{ tip?: TippyInstance }]>
+	} = $props()
+
+	let activatorElement: HTMLDivElement | undefined = $state()
 
 	beforeNavigate(() => hideOnNav && hide())
 
 	onMount(() => {
-		if (disable) return
+		if (disable || !activatorElement) return
 
-		const triggerTarget = activator.querySelector('button, input') || activator
+		const triggerTarget = activatorElement.querySelector('button, input') || activatorElement
 		const focusables = Array.from(
 			content!.querySelectorAll<HTMLInputElement>(
 				'a[href], button, input, textarea, select, details, [tabindex]'
 			)
 		)
-		tip = tippy(activator, {
+		tip = tippy(activatorElement, {
 			content,
 			placement: 'bottom-start',
 			theme: 'dropdown',
@@ -96,21 +114,21 @@
 
 {#if !disable}
 	<div class={classWrapper}>
-		<div class={classActivator} bind:this={activator}>
-			<slot name="activator" {tip} />
+		<div class={classActivator} bind:this={activatorElement}>
+			{@render activator?.({ tip })}
 		</div>
 
 		<div class="hidden">
 			<div class="{klass} bg-base-100 rounded-lg border p-1 shadow-lg" bind:this={content}>
-				<slot {tip} />
+				{@render children({ tip })}
 			</div>
 		</div>
 	</div>
 {:else}
 	<div class={classWrapper}>
-		<slot name="activator" {tip} />
+		{@render activator?.({ tip })}
 		<div class="{klass} mt-2">
-			<slot {tip} />
+			{@render children({ tip })}
 		</div>
 	</div>
 {/if}

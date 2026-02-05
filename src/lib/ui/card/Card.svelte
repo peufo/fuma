@@ -1,43 +1,61 @@
 <script lang="ts">
-	import { mdiArrowLeft } from '@mdi/js'
-	import { Icon } from '$lib/ui/icon/index.js'
+	import type { Snippet } from 'svelte'
+	import { ArrowLeftIcon } from '@lucide/svelte'
 	import { contextContainer } from '../context.js'
 
-	let klass = ''
-	export { klass as class }
-	export let bodyClass = ''
-	export let headerClass = ''
-	export let returnUrl = ''
-	export let style = ''
+	let {
+		class: klass = '',
+		bodyClass = '',
+		headerClass = '',
+		returnUrl = '',
+		style = '',
+		title,
+		action,
+		subtitle,
+		top,
+		children
+	}: {
+		class?: string
+		bodyClass?: string
+		headerClass?: string
+		returnUrl?: string
+		style?: string
+		title?: Snippet
+		action?: Snippet
+		subtitle?: Snippet
+		top?: Snippet
+		children: Snippet
+	} = $props()
 
 	contextContainer.set('card')
 </script>
 
 <div class="card bordered border bg-base-100 shadow-lg {klass}" {style}>
-	<slot name="top" />
+	{@render top?.()}
 
 	<div class="card-body rounded-b-2xl p-2 sm:p-8 {bodyClass}">
-		{#if $$slots.title || $$slots.action}
+		{#if title || action}
 			<div class="flex flex-wrap items-center gap-2 {headerClass}">
 				{#if returnUrl}
 					<a href={returnUrl} class="btn btn-square btn-ghost btn-sm">
-						<Icon path={mdiArrowLeft} size={20} />
+						<ArrowLeftIcon size={20} />
 					</a>
 				{/if}
-
-				<div class="title grow">
-					<slot name="title" />
-				</div>
-				<slot name="action" />
+				{#if title}
+					<div class="title grow">
+						{@render title()}
+					</div>
+				{/if}
+				{@render action?.()}
 			</div>
 
-			{#if $$slots.subtitle}
+			{#if subtitle}
 				<div class="my-4 text-sm opacity-80">
-					<slot name="subtitle" />
+					{@render subtitle()}
 				</div>
 			{/if}
 		{/if}
 
-		<slot />
+		{@render children()}
 	</div>
 </div>

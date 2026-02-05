@@ -1,8 +1,17 @@
 <script lang="ts">
-	export let title = ''
-	let klass = ''
-	export { klass as class }
-	export let style = ''
+	import type { Snippet } from 'svelte'
+
+	let {
+		title = '',
+		style = '',
+		class: klass = '',
+		children
+	}: {
+		title?: string
+		style?: string
+		class?: string
+		children: Snippet
+	} = $props()
 </script>
 
 <div class="{klass} bg-base-100 border rounded-lg p-2 sm:p-5" {style}>
@@ -11,5 +20,5 @@
 			{title}
 		</h2>
 	{/if}
-	<slot />
+	{@render children()}
 </div>
