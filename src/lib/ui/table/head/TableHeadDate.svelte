@@ -1,26 +1,22 @@
 <script lang="ts" generics="Item extends ItemBase">
 	import { goto } from '$app/navigation'
 	import { page } from '$app/state'
-	import {
-		mdiCalendarFilterOutline,
-		mdiSortClockAscendingOutline,
-		mdiSortClockDescendingOutline
-	} from '@mdi/js'
+	import { CalendarSearchIcon, CalendarArrowDownIcon, CalendarArrowUpIcon } from '@lucide/svelte'
 
 	import { DropDown } from '$lib/ui/menu/index.js'
 	import { InputTime } from '$lib/ui/input/index.js'
 	import type { ItemBase, TableField } from '$lib/ui/table/index.js'
 	import { formatRange } from '$lib/ui/range/format.js'
 	import { RangePicker, type RangeAsDate } from '$lib/ui/range/index.js'
-	import { urlParam } from '$lib/store/param.js'
+	import { urlParam } from '$lib/state/param.svelte.js'
 	import { jsonParse } from '$lib/utils/jsonParse.js'
-	import { Icon } from '$lib/ui/icon/index.js'
 	import OrderButtons from './OrderButtons.svelte'
 
 	let { field }: { field: Omit<TableField<Item>, 'cell'> } = $props()
 
 	let dropDown: DropDown
 	let rangePicker: RangePicker
+
 	let initialValue = jsonParse<{ start?: string; end?: string; order?: 'asc' | 'desc' }>(
 		// svelte-ignore state_referenced_locally
 		page.url.searchParams.get(field.key),
@@ -38,7 +34,7 @@
 	function updateUrl() {
 		isValidPeriod = !!range.start && !!range.end
 		if (!isValidPeriod && !order) {
-			goto($urlParam.without(field.key, 'skip', 'take'), {
+			goto(urlParam.without(field.key, 'skip', 'take'), {
 				replaceState: true,
 				noScroll: true,
 				keepFocus: true
@@ -46,7 +42,7 @@
 			return
 		}
 		goto(
-			$urlParam.with(
+			urlParam.with(
 				{
 					[field.key]: JSON.stringify({
 						...(isValidPeriod
@@ -71,7 +67,7 @@
 		range = { start: null, end: null }
 		dropDown.hide()
 		rangePicker.clear()
-		goto($urlParam.without(field.key, 'skip', 'take'), {
+		goto(urlParam.without(field.key, 'skip', 'take'), {
 			replaceState: true,
 			noScroll: true,
 			keepFocus: true
@@ -86,37 +82,37 @@
 		hideOnNav={false}
 		class="max-h-none"
 	>
-		<button slot="activator" class="menu-item min-h-8 w-full flex-wrap gap-y-1">
-			<div class="flex gap-2">
-				<span>{field.label}</span>
-				{#if !isValidPeriod}
-					<Icon path={mdiCalendarFilterOutline} size={15} class="opacity-50" />
-				{/if}
-			</div>
+		{#snippet activator()}
+			<button class="menu-item min-h-8 w-full flex-wrap gap-y-1">
+				<div class="flex gap-2">
+					<span>{field.label}</span>
+					{#if !isValidPeriod}
+						<CalendarSearchIcon size={15} class="opacity-50" />
+					{/if}
+				</div>
 
-			{#if isValidPeriod}
-				<span class="badge badge-primary badge-xs text-[0.7rem] font-normal text-white">
-					{formatRange(range)}
-				</span>
-			{/if}
-			{#if order}
-				<Icon
-					path={order === 'asc' ? mdiSortClockAscendingOutline : mdiSortClockDescendingOutline}
-					size={18}
-					class="fill-primary"
-				/>
-			{/if}
-		</button>
+				{#if isValidPeriod}
+					<span class="badge badge-primary badge-xs text-[0.7rem] font-normal text-white">
+						{formatRange(range)}
+					</span>
+				{/if}
+				{#if order === 'asc'}
+					<CalendarArrowDownIcon size={18} class="fill-primary" />
+				{:else if order === 'desc'}
+					<CalendarArrowUpIcon size={18} class="fill-primary" />
+				{/if}
+			</button>
+		{/snippet}
 
 		{#if field.sortable !== false}
 			<OrderButtons
 				bind:order
-				on:change={() => {
+				onChange={() => {
 					updateUrl()
 					dropDown.hide()
 				}}
-				iconAsc={mdiSortClockAscendingOutline}
-				iconDesc={mdiSortClockDescendingOutline}
+				IconAsc={CalendarArrowDownIcon}
+				IconDesc={CalendarArrowUpIcon}
 			/>
 		{/if}
 

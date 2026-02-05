@@ -1,87 +1,91 @@
 <script lang="ts" generics="Item extends ItemBase">
-	import { derived } from 'svelte/store'
-	import { page } from '$app/stores'
+	import { page } from '$app/state'
+	import { ListFilterIcon } from '@lucide/svelte'
 
 	import { jsonParse } from '$lib/utils/jsonParse.js'
 	import type { ItemBase, TableField } from '$lib/ui/table/index.js'
 	import { DropDown } from '$lib/ui/menu/index.js'
-	import { Icon } from '$lib/ui/icon/index.js'
 	import { type Options, parseOptions } from '$lib/utils/options.js'
-	import { urlParam } from '$lib/store/param.js'
-	import { mdiOrderBoolAscendingVariant } from '@mdi/js'
+	import { urlParam } from '$lib/state/param.svelte.js'
 
-	export let field: TableField<Item>
-	export let options: Options
-	export let multiSelect = false
-	export let placeholder = 'No option'
+	let {
+		field,
+		options: propOptions,
+		multiSelect = false,
+		placeholder = 'No option'
+	}: {
+		field: TableField<Item>
+		options: Options
+		multiSelect?: boolean
+		placeholder?: string
+	} = $props()
 
-	let _options = initOptions($page.url)
-	page.subscribe(({ url }) => (_options = initOptions(url)))
-
-	$: optionsActive = _options.filter((option) => option.isActive)
-
-	function initOptions({ searchParams }: URL) {
-		const selection = searchParams.get(field.key)
-		const selections = jsonParse<string[]>(searchParams.get(field.key), [])
+	let options = $derived.by(() => {
+		const selection = page.url.searchParams.get(field.key)
+		const selections = jsonParse<string[]>(page.url.searchParams.get(field.key), [])
 
 		function getActive(value: string) {
 			if (!multiSelect) return selection === value
 			return selections.includes(value)
 		}
 
-		return parseOptions(options).map((option) => ({
+		return parseOptions(propOptions).map((option) => ({
 			...option,
 			isActive: getActive(option.value)
 		}))
-	}
+	})
 
-	const getHref = derived(urlParam, (params) => (value: string) => {
-		const selections = jsonParse<string[]>(params.get(field.key), [])
-		if (!multiSelect) return params.toggle({ [field.key]: value }, 'skip', 'take')
+	let optionsActive = $derived(options.filter((option) => option.isActive))
+
+	const getHref = $derived((value: string) => {
+		const selections = jsonParse<string[]>(urlParam.get(field.key), [])
+		if (!multiSelect) return urlParam.toggle({ [field.key]: value }, 'skip', 'take')
 		if (selections.includes(value)) {
 			const newSelections = selections.filter((v) => v !== value)
-			if (!newSelections.length) return params.without(field.key)
-			return params.with({ [field.key]: JSON.stringify(newSelections) }, 'skip', 'take')
+			if (!newSelections.length) return urlParam.without(field.key)
+			return urlParam.with({ [field.key]: JSON.stringify(newSelections) }, 'skip', 'take')
 		}
-		return params.with({ [field.key]: JSON.stringify([...selections, value]) }, 'skip', 'take')
+		return urlParam.with({ [field.key]: JSON.stringify([...selections, value]) }, 'skip', 'take')
 	})
 </script>
 
 <th class="p-1">
 	<DropDown hideOnBlur hideOnNav={!multiSelect} tippyProps={{ appendTo: () => document.body }}>
-		<button slot="activator" class="menu-item min-h-8 w-full flex-wrap gap-y-1">
-			<div class="flex gap-2">
-				{field.label}
-				{#if !optionsActive.length}
-					<Icon path={mdiOrderBoolAscendingVariant} size={15} class="opacity-50" />
-				{/if}
-			</div>
-
-			{#if optionsActive.length}
-				<div class="flex flex-wrap gap-1">
-					{#each optionsActive as option}
-						<span class="badge badge-primary badge-xs text-[0.7rem] font-normal text-white">
-							{#if option.icon}
-								<Icon path={option.icon} size={10} class="-translate-x-1 fill-white/80" />
-							{/if}
-							{option.label}
-						</span>
-					{/each}
+		{#snippet activator()}
+			<button class="menu-item min-h-8 w-full flex-wrap gap-y-1">
+				<div class="flex gap-2">
+					{field.label}
+					{#if !optionsActive.length}
+						<ListFilterIcon size={15} class="opacity-50" />
+					{/if}
 				</div>
-			{/if}
-		</button>
+
+				{#if optionsActive.length}
+					<div class="flex flex-wrap gap-1">
+						{#each optionsActive as option}
+							<span class="badge badge-primary badge-xs text-[0.7rem] font-normal text-white">
+								{#if option.icon}
+									<option.icon size={10} class="-translate-x-1 fill-white/80" />
+								{/if}
+								{option.label}
+							</span>
+						{/each}
+					</div>
+				{/if}
+			</button>
+		{/snippet}
 
 		<div class="flex flex-col gap-1">
-			{#each _options as { isActive, icon, label, value }}
+			{#each options as { isActive, icon: Icon, label, value }}
 				<a
-					href={$getHref(value)}
+					href={getHref(value)}
 					class="menu-item px-3 py-2"
 					class:active={isActive}
 					data-sveltekit-noscroll
 					data-sveltekit-replacestate
 				>
-					{#if icon}
-						<Icon path={icon} size={18} class="opacity-60" />
+					{#if Icon}
+						<Icon size={18} class="opacity-60" />
 					{/if}
 					<span class="font-normal whitespace-nowrap">{label}</span>
 				</a>

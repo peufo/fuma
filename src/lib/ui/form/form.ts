@@ -1,11 +1,9 @@
 import type { z } from 'zod'
 import debounce from 'debounce'
-import type { ComponentProps } from 'svelte'
 import { writable, type Writable } from 'svelte/store'
 import type { FormEventHandler } from 'svelte/elements'
 import { formInputsType, type FormInputsProps, type FormInputsType } from './formInput.js'
 
-import type FormSection from './FormSection.svelte'
 
 type PickOne<T> = {
 	[P in keyof T]: Record<P, T[P]> & Partial<Record<Exclude<keyof T, P>, undefined>>
@@ -28,11 +26,6 @@ export type FormField<S extends z.core.$ZodShape> = {
 	/** hide field if true */
 	hide?: BoolOrFunction<S>
 } & PickOne<FormInputsProps>
-
-export type FormSectionProps<S extends z.core.$ZodShape> = ComponentProps<FormSection> & {
-	/** hide group if true */
-	hide?: BoolOrFunction<S>
-}
 
 export function initData<
 	S extends z.core.$ZodShape,

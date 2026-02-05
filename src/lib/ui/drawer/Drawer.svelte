@@ -4,7 +4,7 @@
 	import { mdiClose } from '@mdi/js'
 
 	import { goto } from '$app/navigation'
-	import { urlParam } from '$lib/store/param.js'
+	import { urlParam } from '$lib/state/param.svelte.js'
 	import { Icon } from '$lib/ui/icon/index.js'
 	import { subscibeDrawerLayers } from './layers.js'
 	import { contextContainer } from '../context.js'
@@ -26,14 +26,14 @@
 
 	type GotoOptions = Parameters<typeof goto>[1]
 	export function open(value = 1, options: GotoOptions = {}) {
-		return goto($urlParam.with({ [key]: value }), {
+		return goto(urlParam.with({ [key]: value }), {
 			...options,
 			replaceState: true,
 			noScroll: true
 		})
 	}
 	export function close(options: GotoOptions = {}) {
-		return goto($urlParam.without(key), { ...options, replaceState: true, noScroll: true })
+		return goto(urlParam.without(key), { ...options, replaceState: true, noScroll: true })
 	}
 
 	const { offset, index, destroy, isActive } = subscibeDrawerLayers(key)

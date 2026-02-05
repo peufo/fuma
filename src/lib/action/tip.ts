@@ -5,8 +5,8 @@ type TipOptions = Partial<TippyProps> & { disable?: boolean }
 export function tip(node: HTMLElement, options: TipOptions = { disable: false }) {
 	let _tip: TippyInstance | null = null
 	init(options)
-	function init({ disable, ...tippyProps }: TipOptions) {
-		_tip = disable ? null : tippy(node, tippyProps)
+	function init({ disable, content, ...tippyProps }: TipOptions) {
+		_tip = (disable || !content) ? null : tippy(node, {...tippyProps, content})
 	}
 
 	return {

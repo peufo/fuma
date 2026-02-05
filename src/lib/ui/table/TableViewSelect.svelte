@@ -1,10 +1,8 @@
 <script lang="ts">
-	import { onMount } from 'svelte'
-	import { mdiChevronDown, mdiContentSaveEditOutline, mdiPlus } from '@mdi/js'
-	import { page } from '$app/stores'
+	import { ChevronDownIcon, SaveIcon, PlusIcon } from '@lucide/svelte'
+	import { page } from '$app/state'
 	import { enhance } from '$app/forms'
 
-	import { Icon } from '$lib/ui/icon/index.js'
 	import { Dialog } from '$lib/ui/dialog/index.js'
 	import { DropDown } from '$lib/ui/menu/index.js'
 	import { InputText } from '$lib/ui/input/index.js'
@@ -16,70 +14,71 @@
 		query: string
 	}
 
-	export let key: string
-	export let views: View[]
-	export let action = ''
-	export let actionCreate = '?/view_create'
-	export let actionUpdate = '?/view_update'
-	export let actionDelete = '?/view_delete'
+	let {
+		key,
+		views,
+		action = '',
+		actionCreate = '?/view_create',
+		actionUpdate = '?/view_update',
+		actionDelete = '?/view_delete'
+	}: {
+		key: string
+		views: View[]
+		action?: string
+		actionCreate?: string
+		actionUpdate?: string
+		actionDelete?: string
+	} = $props()
 
-	let dialog: HTMLDialogElement
+	let dialog = $state<HTMLDialogElement>()
 	const form = useForm({
 		onSuccess() {
-			dialog.close()
+			dialog?.close()
 		}
 	})
 
-	let query = getQuery($page.url)
-	let selectedView = views.find((v) => v.query === query)
-	let isNewView = !!query && !selectedView
-
-	onMount(() =>
-		page.subscribe(({ url }) => {
-			query = getQuery(url)
-			selectedView = views.find((v) => v.query === query)
-			isNewView = !!query && !selectedView
-		})
-	)
-
-	function getQuery({ searchParams }: URL) {
-		const searchParam = new URLSearchParams(searchParams)
+	let query = $derived.by(() => {
+		const searchParam = new URLSearchParams(page.url.searchParams)
 		searchParam.delete('skip')
 		searchParam.delete('take')
 		return searchParam.toString()
-	}
+	})
+
+	let selectedView = $derived(views.find((v) => v.query === query))
+	let isNewView = $derived(!!query && !selectedView)
 </script>
 
 <DropDown>
-	<button
-		type="button"
-		slot="activator"
-		class="menu-item bordered btn-sm gap-1 rounded-lg border font-semibold opacity-90"
-	>
-		<span>{isNewView ? 'Nouvelle vue' : selectedView?.name || 'Vue simple'}</span>
-		<Icon path={mdiChevronDown} size={20} class="translate-x-1 translate-y-px opacity-90" />
-	</button>
+	{#snippet activator()}
+		<button
+			type="button"
+			class="menu-item bordered btn-sm gap-1 rounded-lg border font-semibold opacity-90"
+		>
+			<span>{isNewView ? 'Nouvelle vue' : selectedView?.name || 'Vue simple'}</span>
+			<ChevronDownIcon size={20} class="translate-x-1 translate-y-px opacity-90" />
+		</button>
+	{/snippet}
 
 	<ul class="flex flex-col gap-1">
 		{#if isNewView}
 			<li>
 				<button
 					type="button"
-					class="menu-item w-full pr-[6px]"
-					on:click={() => {
+					class="menu-item w-full pr-1.5"
+					onclick={() => {
 						selectedView = undefined
-						dialog.showModal()
+						dialog?.showModal()
 					}}
 				>
 					<span>Ajouter la nouvelle vue</span>
-					<Icon path={mdiPlus} class="ml-auto opacity-80" size={21} />
+					<PlusIcon class="ml-auto opacity-80" size={21} />
 				</button>
 				<hr class="my-1" />
 			</li>
 		{/if}
 
 		<li>
-			<a href={$page.url.pathname} class="menu-item" class:active={!query}>
+			<a href={page.url.pathname} class="menu-item" class:active={!query}>
 				<span class="grow">Vue simple</span>
 			</a>
 		</li>
@@ -87,7 +86,7 @@
 		{#each views as view (view.id)}
 			<li>
 				<a
-					href="{$page.url.pathname}?{view.query}"
+					href="{page.url.pathname}?{view.query}"
 					class="menu-item group pr-1"
 					class:active={view.id === selectedView?.id}
 				>
@@ -95,13 +94,13 @@
 					<button
 						type="button"
 						class="btn btn-square btn-ghost btn-xs rounded"
-						on:click|preventDefault={() => {
+						onclick={(e) => {
+							e.preventDefault()
 							selectedView = view
-							dialog.showModal()
+							dialog?.showModal()
 						}}
 					>
-						<Icon
-							path={mdiContentSaveEditOutline}
+						<SaveIcon
 							class="opacity-50 group-hover:opacity-80"
 							size={18}
 							title="Modifier la vue '{view.name}'"
@@ -114,13 +113,15 @@
 </DropDown>
 
 <Dialog bind:dialog>
-	<h2 slot="header" class="title">
-		{#if selectedView}
-			Modifier la vue
-		{:else}
-			Ajouter la nouvelle vue
-		{/if}
-	</h2>
+	{#snippet header()}
+		<h2 class="title">
+			{#if selectedView}
+				Modifier la vue
+			{:else}
+				Ajouter la nouvelle vue
+			{/if}
+		</h2>
+	{/snippet}
 
 	<form
 		action="{action}{selectedView ? actionUpdate : actionCreate}"

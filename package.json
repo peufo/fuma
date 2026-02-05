@@ -44,6 +44,10 @@
 			"types": "./dist/store/index.d.ts",
 			"default": "./dist/store/index.js"
 		},
+		"./state": {
+			"types": "./dist/state/index.d.ts",
+			"default": "./dist/state/index.js"
+		},
 		"./validation": {
 			"types": "./dist/validation/index.d.ts",
 			"default": "./dist/validation/index.js"

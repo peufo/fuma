@@ -30,7 +30,8 @@ function addPathname<Args extends unknown[]>(fn: (...args: Args) => string): ((.
 	return (...args) => page.url.pathname + fn(...args)
 }
 export let urlParam = $derived({
+	...param,
 	with: addPathname(param.with),
 	without: addPathname(param.without),
-	toggle: addPathname(param.toggle)
+	toggle: addPathname(param.toggle),
 })

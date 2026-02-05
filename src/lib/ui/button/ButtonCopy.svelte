@@ -1,26 +1,37 @@
 <script lang="ts">
-	import { mdiClipboardTextOutline } from '@mdi/js'
+	import { tip } from '$lib/action/tip.js'
+	import { CopyIcon, type IconProps } from '@lucide/svelte'
+	import type { Component, Snippet } from 'svelte'
 	import { toast } from 'svelte-sonner'
-	import { Icon } from '$lib/ui/icon/index.js'
-	import { createEventDispatcher } from 'svelte'
-	let valueOrGetValue: string | (() => Promise<string>)
-	export { valueOrGetValue as value }
-	export let title = ''
-	export let label = ''
-	export let icon = mdiClipboardTextOutline
-	export let successMessage = 'Copied'
-	let klass = ''
-	export { klass as class }
+	import type { MouseEventHandler } from 'svelte/elements'
 
-	let isLoading = false
-	const disptach = createEventDispatcher<{ success: void }>()
+	let {
+		value,
+		title = '',
+		label = '',
+		Icon = CopyIcon,
+		class: klass = '',
+		successMessage = 'Copied',
+		onSuccess
+	}: {
+		value: string | (() => Promise<string>)
+		title?: string
+		label?: string
+		Icon?: Component<IconProps>
+		class?: string
+		successMessage?: string
+		onSuccess?: () => void
+	} = $props()
+
+	let isLoading = $state(false)
 
 	async function loadValue(): Promise<string> {
-		if (typeof valueOrGetValue === 'string') return valueOrGetValue
-		return valueOrGetValue()
+		if (typeof value === 'string') return value
+		return value()
 	}
 
-	async function handleClick() {
+	const onclick: MouseEventHandler<HTMLButtonElement> = async (event) => {
+		event.preventDefault()
 		if (isLoading) return
 		isLoading = true
 		const value = await loadValue().finally(() => (isLoading = false))
@@ -29,7 +40,7 @@
 			.writeText(value)
 			.then(() => {
 				toast.success(successMessage)
-				disptach('success')
+				onSuccess?.()
 			})
 			.catch((error) => {
 				toast.error(error)
@@ -42,16 +53,13 @@
 		<span class="loading loading-spinner absolute top-1 left-1 scale-125 opacity-25"></span>
 	{/if}
 	<button
+		type="button"
 		class={klass ? klass : `btn btn-sm ${label ? '' : ' btn-square'}`}
-		on:click|preventDefault={handleClick}
+		{onclick}
 		class:btn-disabled={isLoading}
+		use:tip={{ content: title }}
 	>
-		<Icon
-			path={icon}
-			size={20}
-			{title}
-			class="transition-transform {isLoading ? 'scale-75' : ''}"
-		/>
+		<Icon size={20} class="transition-transform {isLoading ? 'scale-75' : ''}" />
 		{#if label}
 			<span>{label}</span>
 		{/if}

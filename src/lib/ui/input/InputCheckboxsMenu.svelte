@@ -39,15 +39,15 @@
 
 	async function writeUrl() {
 		const url = value?.length
-			? $urlParam.with({ [key]: JSON.stringify(value) })
-			: $urlParam.without(key)
+			? urlParam.with({ [key]: JSON.stringify(value) })
+			: urlParam.without(key)
 		return goto(url, { replaceState: true, noScroll: true })
 	}
 
 	function handleReset() {
 		dropdown.hide()
 		value = []
-		goto($urlParam.without(key), { replaceState: true })
+		goto(urlParam.without(key), { replaceState: true })
 	}
 </script>
 

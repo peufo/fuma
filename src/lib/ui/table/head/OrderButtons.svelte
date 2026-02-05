@@ -1,19 +1,24 @@
 <script lang="ts">
-	import { Icon } from '$lib/ui/icon/index.js'
-	import { mdiSortAscending, mdiSortDescending } from '@mdi/js'
-	import { createEventDispatcher } from 'svelte'
+	import { ArrowDownNarrowWideIcon, ArrowDownWideNarrowIcon, type IconProps } from '@lucide/svelte'
+	import type { Component } from 'svelte'
 
 	type Order = 'asc' | 'desc' | undefined
-	export let order: Order
-	export let iconAsc = mdiSortAscending
-	export let iconDesc = mdiSortDescending
-
-	const dispatch = createEventDispatcher<{ change: Order }>()
+	let {
+		order = $bindable(),
+		IconAsc = ArrowDownNarrowWideIcon,
+		IconDesc = ArrowDownWideNarrowIcon,
+		onChange
+	}: {
+		order: Order
+		IconAsc?: Component<IconProps>
+		IconDesc?: Component<IconProps>
+		onChange?: (order: Order) => void
+	} = $props()
 
 	const handleOrderClick = (orderBy: 'asc' | 'desc') => () => {
 		if (order === orderBy) order = undefined
 		else order = orderBy
-		dispatch('change', order)
+		onChange?.(order)
 	}
 </script>
 
@@ -23,17 +28,17 @@
 		<button
 			class="btn ring-primary"
 			class:ring-2={order === 'asc'}
-			on:click={handleOrderClick('asc')}
+			onclick={handleOrderClick('asc')}
 		>
-			<Icon path={iconAsc} />
+			<IconAsc />
 			<span>Ascendant</span>
 		</button>
 		<button
 			class="btn ring-primary"
 			class:ring-2={order === 'desc'}
-			on:click={handleOrderClick('desc')}
+			onclick={handleOrderClick('desc')}
 		>
-			<Icon path={iconDesc} />
+			<IconDesc />
 			<span>Descendant</span>
 		</button>
 	</div>

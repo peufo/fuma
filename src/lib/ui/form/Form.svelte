@@ -1,5 +1,5 @@
 <script lang="ts" context="module">
-	import type { z } from 'zod'
+	import { boolean, type z } from 'zod'
 	import type { FormDataInput } from '$lib/ui/form/form.js'
 </script>
 
@@ -11,14 +11,13 @@
 		Data extends FormDataInput<Shape> = FormDataInput<Shape>
 	"
 >
-	import { createEventDispatcher, onMount } from 'svelte'
+	import { onMount, type ComponentProps } from 'svelte'
 	import { fade } from 'svelte/transition'
-	import { page } from '$app/stores'
+	import { page } from '$app/state'
 	import { contextContainer } from '$lib/ui/context.js'
 	import {
 		initData,
 		type FormField,
-		type FormSectionProps,
 		type BoolOrFunction,
 		type Nullable,
 		getFieldType,
@@ -27,28 +26,43 @@
 	import ButtonDelete from '$lib/ui/button/ButtonDelete.svelte'
 
 	import { useForm, type UseFormOptions } from '$lib/validation/form.js'
-	import FormInput from './FormInput.svelte'
 	import FormSection from './FormSection.svelte'
 
-	let klass = ''
-	export { klass as class }
-	export let classSection = ''
-	export let classAction = ''
-	export let model: Shape | undefined = undefined
-	export let fields: FormField<Shape>[][] = []
-	export let sections: FormSectionProps<Shape>[] = [{}]
-	export let action = ''
-	export let actionCreate = '_create'
-	export let actionDelete = '_delete'
-	export let actionUpdate = '_update'
-	export let disabled = false
+	let {
+		class: klass = '',
+		classSection = '',
+		classAction = '',
+		model = undefined,
+		fields = [],
+		sections = [],
+		action = '',
+		actionCreate = '_create',
+		actionDelete = '_delete',
+		actionUpdate = '_update',
+		disabled = false,
 
-	/** Ignore actionCreate, actionDelete and actionUpdate */
-	export let simpleAction = false
+		/** Ignore actionCreate, actionDelete and actionUpdate */
+		simpleAction = false,
+		data: inputData,
+		options = {}
+	}: {
+		class?: string
+		classSection?: string
+		classAction?: string
+		model?: Shape
+		fields?: FormField<Shape>[][]
+		sections?: ComponentProps<typeof FormSection>[]
+		action?: string
+		actionCreate?: string
+		actionDelete?: string
+		actionUpdate?: string
+		disabled?: boolean
 
-	export let options: UseFormOptions<ReturnData> = {}
-	let dataInput: Partial<Data> | null | undefined = initData<Shape, Data>(fields)
-	export { dataInput as data }
+		/** Ignore actionCreate, actionDelete and actionUpdate */
+		simpleAction?: boolean
+		data: Data
+		options?: UseFormOptions<ReturnData>
+	} = $props()
 
 	let data: Partial<Data> = dataInput || {}
 

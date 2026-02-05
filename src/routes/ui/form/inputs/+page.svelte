@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { jsonParse } from '$lib/utils/jsonParse.js'
-	import { urlParam } from '$lib/store/param.js'
+	import { urlParam } from '$lib/state/param.svelte.js'
 	import {
 		InputText,
 		InputBoolean,
@@ -70,20 +70,20 @@
 
 <div class="flex">
 	<a
-		href={$urlParam.with({ outputTextRich: 'html' })}
-		class:underline={$urlParam.hasValue('outputTextRich', 'html')}
+		href={urlParam.with({ outputTextRich: 'html' })}
+		class:underline={urlParam.hasValue('outputTextRich', 'html')}
 	>
 		HTML
 	</a>
 	<a
-		href={$urlParam.with({ outputTextRich: 'json' })}
-		class:underline={$urlParam.hasValue('outputTextRich', 'json')}
+		href={urlParam.with({ outputTextRich: 'json' })}
+		class:underline={urlParam.hasValue('outputTextRich', 'json')}
 	>
 		JSON
 	</a>
 </div>
 
-{#if $urlParam.hasValue('outputTextRich', 'json')}
+{#if urlParam.hasValue('outputTextRich', 'json')}
 	<pre>{JSON.stringify(jsonParse(inputTextRichValue, []), null, 2)}</pre>
 {:else}
 	<div class="prose">

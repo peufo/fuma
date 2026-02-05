@@ -1,5 +1,5 @@
 <script lang="ts" generics="Item extends ItemBase">
-	import { mdiCheck, mdiClose } from '@mdi/js'
+	import { CheckIcon, XIcon } from '@lucide/svelte'
 	import type { ItemBase, TableField } from '$lib/ui/table/index.js'
 	import TableHeadSelect from './TableHeadSelect.svelte'
 
@@ -9,7 +9,7 @@
 <TableHeadSelect
 	{field}
 	options={[
-		{ value: 'true', label: 'Oui', icon: mdiCheck },
-		{ value: 'false', label: 'Non', icon: mdiClose }
+		{ value: 'true', label: 'Oui', icon: CheckIcon },
+		{ value: 'false', label: 'Non', icon: XIcon }
 	]}
 />

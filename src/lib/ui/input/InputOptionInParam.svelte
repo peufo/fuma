@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Icon } from '$lib/ui/icon/index.js'
 	import { parseOptions, type Options } from '$lib/utils/options.js'
-	import { urlParam } from '$lib/store/param.js'
+	import { urlParam } from '$lib/state/param.svelte.js'
 
 	let klass = ''
 	export { klass as class }
@@ -14,9 +14,9 @@
 
 <div class="join {klass}">
 	{#each _options as opt}
-		{@const active = $urlParam.hasValue(key, opt.value)}
+		{@const active = urlParam.hasValue(key, opt.value)}
 		<a
-			href={$urlParam.toggle({ [key]: opt.value }, ...removeKeys)}
+			href={urlParam.toggle({ [key]: opt.value }, ...removeKeys)}
 			class="btn join-item btn-sm"
 			class:btn-primary={active}
 			class:w-9={opt.icon}

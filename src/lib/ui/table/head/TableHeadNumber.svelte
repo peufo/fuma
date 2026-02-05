@@ -1,133 +1,126 @@
 <script lang="ts" generics="Item extends ItemBase">
-	import { onMount } from 'svelte'
-	import type { TippyInstance } from '$lib/utils/tippy.js'
+	import z from 'zod'
 	import debounce from 'debounce'
 	import { goto } from '$app/navigation'
-	import { page } from '$app/stores'
+	import { page } from '$app/state'
+	import { FunnelIcon, ArrowDownWideNarrowIcon, ArrowDownNarrowWideIcon } from '@lucide/svelte'
 
 	import { DropDown } from '$lib/ui/menu/index.js'
 	import { InputNumber } from '$lib/ui/input/index.js'
-	import { urlParam } from '$lib/store/param.js'
-	import { jsonParse } from '$lib/utils/jsonParse.js'
+	import { urlParam } from '$lib/state/param.svelte.js'
 	import type { ItemBase, TableField } from '../field.js'
-	import { mdiFilterMultipleOutline, mdiSortAscending, mdiSortDescending } from '@mdi/js'
-	import { Icon } from '$lib/ui/icon/index.js'
 	import OrderButtons from './OrderButtons.svelte'
+	import { zodCoerceJsonRecord } from '$lib/validation/zod.js'
 
-	export let field: TableField<Item>
+	let { field }: { field: TableField<Item> } = $props()
 
-	let tip: TippyInstance
-	type Range = { min: number | undefined; max: number | undefined }
+	const paramModel = zodCoerceJsonRecord
+		.pipe(
+			z.object({
+				min: z.number().optional(),
+				max: z.number().optional(),
+				order: z.enum(['asc', 'desc']).optional()
+			})
+		)
+		.default({})
 
-	let { min, max, order } = initRange($page.url)
-	onMount(() => page.subscribe(({ url }) => ({ min, max, order } = initRange(url))))
-
-	function initRange({ searchParams }: URL) {
-		return jsonParse<Range & { order?: 'asc' | 'desc' }>(searchParams.get(field.key), {
-			min: undefined,
-			max: undefined,
-			order: undefined
-		})
-	}
+	let { min, max, order } = $derived(paramModel.parse(page.url.searchParams.get(field.key)))
+	let isNegatifRange = $derived(min !== undefined && max !== undefined && max < min)
 
 	const updateUrl = debounce(() => {
-		if (isDefined(min) || isDefined(max) || order) {
-			goto(
-				$urlParam.with(
-					{
-						[field.key]: JSON.stringify({
-							...(isDefined(min) ? { min } : {}),
-							...(isDefined(max) ? { max } : {}),
-							...(order ? { order } : {})
-						})
-					},
-					'skip',
-					'take'
-				),
-				{
-					noScroll: true,
-					keepFocus: true
-				}
-			)
-			return
-		}
-		goto($urlParam.without(field.key, 'skip', 'take'), { noScroll: true, keepFocus: true })
+		const query: Record<string, string | number> = {}
+		if (order) query.order = order
+		if (min !== undefined) query.min = min
+		if (max !== undefined) query.max = max
+		if (!Object.keys(query).length) return resetFilter()
+		goto(urlParam.with({ [field.key]: JSON.stringify(query) }, 'skip', 'take'), {
+			noScroll: true,
+			keepFocus: true
+		})
 	}, 250)
 
-	function handleReset() {
-		min = undefined
-		max = undefined
-		tip.hide()
-		goto($urlParam.without(field.key, 'skip', 'take'), { noScroll: true, keepFocus: true })
+	function resetFilter() {
+		return goto(urlParam.without(field.key, 'skip', 'take'), {
+			replaceState: true,
+			noScroll: true,
+			keepFocus: true
+		})
 	}
-
-	function isDefined(v: number | undefined | null): v is number {
-		return typeof v === 'number'
-	}
-
-	$: isNegatifRange = isDefined(min) && isDefined(max) && max < min
 </script>
 
 <th class="p-1">
-	<DropDown
-		bind:tip
-		hideOnBlur
-		hideOnNav={false}
-		autofocus
-		tippyProps={{ appendTo: () => document.body }}
-	>
-		<button slot="activator" class="menu-item min-h-8 w-full flex-wrap gap-y-1">
-			<div class="flex gap-2">
-				<span>{field.label}</span>
-				{#if !isDefined(min) && !isDefined(max)}
-					<Icon path={mdiFilterMultipleOutline} size={15} class="opacity-50" />
+	<DropDown hideOnBlur hideOnNav={false} autofocus tippyProps={{ appendTo: () => document.body }}>
+		{#snippet activator()}
+			<button class="menu-item min-h-8 w-full flex-wrap gap-y-1">
+				<div class="flex gap-2">
+					<span>{field.label}</span>
+					{#if min === undefined && max === undefined}
+						<FunnelIcon size={15} class="opacity-50" />
+					{/if}
+				</div>
+
+				{#if min !== undefined || max !== undefined}
+					<span class="badge badge-primary badge-xs text-[0.7rem] font-normal text-white">
+						{#if min !== undefined}
+							{min} ≤
+						{/if}
+						x
+						{#if max !== undefined}
+							≤ {max}
+						{/if}
+					</span>
 				{/if}
-			</div>
+				{#if order === 'asc'}
+					<ArrowDownNarrowWideIcon size={18} class="fill-primary" />
+				{:else if order === 'desc'}
+					<ArrowDownWideNarrowIcon size={18} class="fill-primary" />
+				{/if}
+			</button>
+		{/snippet}
 
-			{#if isDefined(min) || isDefined(max)}
-				<span class="badge badge-primary badge-xs text-[0.7rem] font-normal text-white">
-					{#if isDefined(min)}
-						{min} ≤
-					{/if}
-					x
-					{#if isDefined(max)}
-						≤ {max}
-					{/if}
-				</span>
-			{/if}
-			{#if order}
-				<Icon
-					path={order === 'asc' ? mdiSortAscending : mdiSortDescending}
-					size={18}
-					class="fill-primary"
+		{#snippet children({ tip })}
+			{#if field.sortable !== false}
+				<OrderButtons
+					bind:order
+					onChange={() => {
+						updateUrl()
+						tip?.hide()
+					}}
 				/>
+				<div class="divider"></div>
+				<span class="p-1 py-1 text-sm font-semibold opacity-70">Filtre:</span>
 			{/if}
-		</button>
-
-		{#if field.sortable !== false}
-			<OrderButtons
-				bind:order
-				on:change={() => {
-					updateUrl()
-					tip.hide()
+			<form
+				class="grid grid-cols-2 gap-2 p-1"
+				onsubmit={(e) => {
+					e.preventDefault()
+					tip?.hide()
 				}}
-			/>
-			<div class="divider"></div>
-			<span class="p-1 py-1 text-sm font-semibold opacity-70">Filtre:</span>
-		{/if}
-		<form class="grid grid-cols-2 gap-2 p-1" on:submit|preventDefault={() => tip.hide()}>
-			<InputNumber bind:value={min} on:input={updateUrl} input={{ placeholder: 'Min' }} />
-			<InputNumber
-				bind:value={max}
-				on:input={updateUrl}
-				hint={isNegatifRange ? 'Doit être plus grand' : ''}
-				input={{ placeholder: 'Max' }}
-			/>
+			>
+				<InputNumber bind:value={min} on:input={updateUrl} input={{ placeholder: 'Min' }} />
+				<InputNumber
+					bind:value={max}
+					on:input={updateUrl}
+					hint={isNegatifRange ? 'Doit être plus grand' : ''}
+					input={{ placeholder: 'Max' }}
+				/>
 
-			<div class="col-span-full flex justify-end gap-2">
-				<button class="btn btn-ghost" type="button" on:click={handleReset}>Effacer</button>
-				<button class="btn">Ok</button>
-			</div>
-		</form>
+				<div class="col-span-full flex justify-end gap-2">
+					<button
+						class="btn btn-ghost"
+						type="button"
+						onclick={() => {
+							min = undefined
+							max = undefined
+							tip?.hide()
+							resetFilter()
+						}}
+					>
+						Effacer
+					</button>
+					<button class="btn">Ok</button>
+				</div>
+			</form>
+		{/snippet}
 	</DropDown>
 </th>

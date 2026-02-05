@@ -3,7 +3,7 @@
 	import PeriodPicker from '$lib/ui/range/RangePicker.svelte'
 	import TableHeadDate from '$lib/ui/table/head/TableHeadDate.svelte'
 
-	let range = jsonParse<RangeAsDate>($urlParam.get('range'), { start: null, end: null })
+	let range = jsonParse<RangeAsDate>(urlParam.get('range'), { start: null, end: null })
 </script>
 
 <PeriodPicker bind:range />
