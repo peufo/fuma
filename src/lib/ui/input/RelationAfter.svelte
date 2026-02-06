@@ -1,25 +1,26 @@
 <script lang="ts">
+	import type { Component } from 'svelte'
 	import { fade } from 'svelte/transition'
-	import { createEventDispatcher } from 'svelte'
-	import { mdiLoading, mdiPlus } from '@mdi/js'
+	import { LoaderCircleIcon, PlusIcon, type IconProps } from '@lucide/svelte'
 
-	import Icon from '$lib/ui/icon/Icon.svelte'
-
-	export let isLoading: boolean
-	export let createUrl = ''
-	export let createTitle = ''
-	export let createIcon = mdiPlus
-
-	const dispatch = createEventDispatcher<{ unselect: void; create: void }>()
+	let {
+		isLoading = $bindable(false),
+		createUrl = '',
+		createTitle = '',
+		CreateIcon = PlusIcon,
+		onCreate
+	}: {
+		isLoading: boolean
+		createUrl?: string
+		createTitle?: string
+		CreateIcon?: Component<IconProps>
+		onCreate?: () => void
+	} = $props()
 </script>
 
 {#if isLoading}
 	<div in:fade|local>
-		<Icon
-			path={mdiLoading}
-			class="w-9"
-			classSVG="animate-spin fill-primary-ligther stroke-primary-ligther"
-		/>
+		<LoaderCircleIcon class="w-9 animate-spin fill-primary-ligther stroke-primary-ligther" />
 	</div>
 {:else if createUrl}
 	<a
@@ -29,6 +30,6 @@
 		data-sveltekit-noscroll
 		data-sveltekit-replacestate
 	>
-		<Icon path={createIcon} on:click={() => dispatch('create')} title={createTitle} />
+		<CreateIcon onclick={onCreate} title={createTitle} />
 	</a>
 {/if}

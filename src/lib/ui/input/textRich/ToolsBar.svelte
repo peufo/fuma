@@ -1,7 +1,6 @@
 <script lang="ts">
 	import type { Editor } from '@tiptap/core'
-	import { mdiFormatBold, mdiFormatColorFill, mdiFormatColorText, mdiFormatItalic } from '@mdi/js'
-	import { toast } from 'svelte-sonner'
+	import { BoldIcon, PaletteIcon, BrushIcon, ItalicIcon } from '@lucide/svelte'
 
 	import ToolMenuNode from './ToolMenuNode.svelte'
 	import ToolMark from './ToolMark.svelte'
@@ -10,9 +9,15 @@
 	import ToolMenuAlign from './ToolMenuAlign.svelte'
 	import ToolMenuInsert from './ToolMenuInsert.svelte'
 
-	export let editor: Editor
-	let klass = ''
-	export { klass as class }
+	let {
+		editor,
+		class: klass = '',
+		onInsertMedia
+	}: {
+		editor: Editor
+		class?: string
+		onInsertMedia?: () => void
+	} = $props()
 </script>
 
 <div
@@ -30,25 +35,25 @@
 			{editor}
 			key="bold"
 			label="Gras (Ctrl+B)"
-			icon={mdiFormatBold}
+			Icon={BoldIcon}
 			action={() => editor.chain().focus().toggleBold().run()}
 		/>
 		<ToolMark
 			{editor}
 			key="italic"
 			label="Italic (Ctrl+C)"
-			icon={mdiFormatItalic}
+			Icon={ItalicIcon}
 			action={() => editor.chain().focus().toggleItalic().run()}
 		/>
 		<ToolMarkLink {editor} />
 		<ToolMarkColor
-			icon={mdiFormatColorText}
+			Icon={BrushIcon}
 			label="Couleur du text"
 			color={editor.getAttributes('textStyle').color || '#000000'}
 			setColor={editor.commands.setColor}
 		/>
 		<ToolMarkColor
-			icon={mdiFormatColorFill}
+			Icon={PaletteIcon}
 			label="Couleur du fond"
 			color={editor.getAttributes('highlight').color || '#e51f68'}
 			setColor={(color) => editor.commands.setHighlight({ color })}
@@ -56,6 +61,6 @@
 
 		<div class="mx-1 my-auto h-6 border border-y-0 border-l-0"></div>
 
-		<ToolMenuInsert {editor} on:insertMedia />
+		<ToolMenuInsert {editor} {onInsertMedia} />
 	</div>
 </div>

@@ -1,11 +1,19 @@
 <script lang="ts">
-	import { Icon } from '$lib/ui/icon/index.js'
 	import { tip } from '$lib/action/tip.js'
+	import type { IconProps } from '@lucide/svelte'
+	import type { Component } from 'svelte'
 
-	export let icon: string
-	export let label: string
-	export let color: string
-	export let setColor: (color: string) => void
+	let {
+		Icon,
+		label,
+		color,
+		setColor
+	}: {
+		Icon: Component<IconProps>
+		label: string
+		color: string
+		setColor: (color: string) => void
+	} = $props()
 
 	let inputColor: HTMLInputElement
 
@@ -22,15 +30,15 @@
 		bind:value={color}
 		class="h-0 w-0 translate-y-8 border-none opacity-0 outline-none"
 		bind:this={inputColor}
-		on:input={() => setColor(color)}
+		oninput={() => setColor(color)}
 	/>
-	<button type="button" class="menu-item gap-2" on:click={handleClick} use:tip={{ content: label }}>
+	<button type="button" class="menu-item gap-2" onclick={handleClick} use:tip={{ content: label }}>
 		<div class="indicator">
 			<span
 				class="badge indicator-item badge-xs scale-75 border transition-none"
 				style:background={color}
 			></span>
-			<Icon path={icon} size={19} class="opacity-70" />
+			<Icon size={19} class="opacity-70" />
 		</div>
 	</button>
 </div>

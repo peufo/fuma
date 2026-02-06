@@ -1,50 +1,60 @@
 <script lang="ts">
-	import { createEventDispatcher } from 'svelte'
-	import { mdiUnfoldMoreHorizontal } from '@mdi/js'
+	import { ChevronsUpDownIcon } from '@lucide/svelte'
 
-	import { Icon } from '$lib/ui/icon/index.js'
 	import { DropDown } from '$lib/ui/menu/index.js'
 	import { SelectorList } from '$lib/ui/input/index.js'
 	import { type Options, parseOptions } from '$lib/utils/options.js'
 	import type { TippyProps } from '$lib/utils/tippy.js'
+	import type { Snippet } from 'svelte'
 
-	export let options: Options
-	export let tippyProps: Partial<TippyProps> = {}
+	let {
+		options: optionsProp,
+		tippyProps = {},
+		onSelect,
+		children: childrenProp
+	}: {
+		options: Options
+		tippyProps: Partial<TippyProps>
+		onSelect?: (value: string) => void
+		children?: Snippet
+	} = $props()
 
-	$: _options = parseOptions(options)
-
-	let trigger: HTMLDivElement
-
-	let dropDown: DropDown
-	const dispatch = createEventDispatcher<{ select: string }>()
-
-	function onSelect(index: number) {
-		const option = _options[index]
-		dispatch('select', option.value)
-		dropDown.hide()
-	}
+	let options = $derived(parseOptions(optionsProp))
+	let trigger = $state<HTMLElement>()
 </script>
 
-<DropDown bind:this={dropDown} {tippyProps}>
-	<div class="contents" bind:this={trigger} slot="activator">
-		<slot>
-			<button type="button" class="flex h-12 items-center gap-2 rounded-lg border pl-4 pr-2">
+<DropDown {tippyProps}>
+	{#snippet activator()}
+		<button
+			bind:this={trigger}
+			type="button"
+			class="flex h-12 items-center gap-2 rounded-lg border pl-4 pr-2"
+		>
+			{#if childrenProp}
+				{@render childrenProp()}
+			{:else}
 				<span>Menu</span>
-				<Icon class="ml-auto" path={mdiUnfoldMoreHorizontal} size={18} />
-			</button>
-		</slot>
-	</div>
+			{/if}
+			<ChevronsUpDownIcon class="ml-auto" size={18} />
+		</button>
+	{/snippet}
 
-	<SelectorList
-		{trigger}
-		items={_options.map((opt) => ({ id: opt.value, ...opt }))}
-		let:item
-		on:select={({ detail }) => onSelect(detail)}
-		class="w-full"
-	>
-		{#if item.icon}
-			<Icon path={item.icon} size={18} class="opacity-70" />
-		{/if}
-		<span class="whitespace-nowrap pr-4">{item.label}</span>
-	</SelectorList>
+	{#snippet children({ hide })}
+		<SelectorList
+			{trigger}
+			items={options.map((opt) => ({ id: opt.value, ...opt }))}
+			onSelect={(index) => {
+				onSelect?.(options[index].value)
+				hide()
+			}}
+			class="w-full"
+		>
+			{#snippet children({ item })}
+				{#if item.icon}
+					<item.icon size={18} class="opacity-70" />
+				{/if}
+				<span class="whitespace-nowrap pr-4">{item.label}</span>
+			{/snippet}
+		</SelectorList>
+	{/snippet}
 </DropDown>

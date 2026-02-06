@@ -1,22 +1,31 @@
 <script lang="ts">
 	import type { Editor } from '@tiptap/core'
-	import { Icon } from '$lib/ui/icon/index.js'
 	import { tip } from '$lib/action/tip.js'
+	import type { Component } from 'svelte'
+	import type { IconProps } from '@lucide/svelte'
 
-	export let editor: Editor
-	export let key: string
-	export let label: string
-	export let icon: string
-	export let action: () => void
+	let {
+		editor,
+		key,
+		label,
+		Icon,
+		action
+	}: {
+		editor: Editor
+		key: string
+		label: string
+		Icon: Component<IconProps>
+		action: () => void
+	} = $props()
 
-	$: isActive = editor.isActive(key)
+	let isActive = $derived(editor.isActive(key))
 </script>
 
 <button
 	type="button"
 	use:tip={{ content: label, arrow: true }}
 	class="menu-item {isActive ? 'bg-base-200/60' : ''}"
-	on:click={action}
+	onclick={action}
 >
-	<Icon path={icon} size={19} class={isActive ? 'opacity-90' : 'opacity-60'} />
+	<Icon size={19} class={isActive ? 'opacity-90' : 'opacity-60'} />
 </button>

@@ -1,33 +1,31 @@
 <script lang="ts">
-	import { createEventDispatcher } from 'svelte'
 	import type { Editor } from '@tiptap/core'
-	import { mdiPlus, mdiMinus, mdiImageOutline, mdiYoutube, mdiAt } from '@mdi/js'
+	import { PlusIcon, MinusIcon, ImagePlusIcon, YoutubeIcon, AtSignIcon } from '@lucide/svelte'
 
-	import { Icon } from '$lib/ui/icon/index.js'
 	import ToolMenu from './ToolMenu.svelte'
 	import { suggestionItems } from './suggestion.js'
 
-	export let editor: Editor
-
-	const dispatch = createEventDispatcher<{ insertMedia: void }>()
+	let { editor, onInsertMedia }: { editor: Editor; onInsertMedia?: () => void } = $props()
 </script>
 
 <ToolMenu
 	{editor}
+	hideLabel
+	Icon={PlusIcon}
 	tools={[
 		{
 			label: 'Séparateur',
-			icon: mdiMinus,
+			icon: MinusIcon,
 			action: () => editor.commands.setHorizontalRule()
 		},
 		{
 			label: 'Image',
-			icon: mdiImageOutline,
-			action: () => dispatch('insertMedia')
+			icon: ImagePlusIcon,
+			action: () => onInsertMedia?.()
 		},
 		{
 			label: 'Vidéo',
-			icon: mdiYoutube,
+			icon: YoutubeIcon,
 			action: () => {
 				const src = prompt('Lien youtube')
 				if (!src) return
@@ -36,7 +34,7 @@
 		},
 		{
 			label: 'Valeur dynamic',
-			icon: mdiAt,
+			icon: AtSignIcon,
 			disable: !$suggestionItems.length,
 			action: () => {
 				const { from } = editor.state.selection
@@ -46,9 +44,4 @@
 			}
 		}
 	]}
-	hideLabel
->
-	<svelte:fragment slot="activator">
-		<Icon path={mdiPlus} size={20} class="opacity-70" />
-	</svelte:fragment>
-</ToolMenu>
+/>
