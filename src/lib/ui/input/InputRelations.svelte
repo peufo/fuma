@@ -1,64 +1,77 @@
 <script lang="ts" generics="RelationItem extends {id: string | number}">
 	import type { HTMLInputAttributes } from 'svelte/elements'
 
-	import { createEventDispatcher, tick, type Snippet } from 'svelte'
+	import { tick, type Snippet } from 'svelte'
 	import { slide } from 'svelte/transition'
 	import { toast } from 'svelte-sonner'
-	import { mdiClose } from '@mdi/js'
+	import { XIcon } from '@lucide/svelte'
 	import debounce from 'debounce'
 
 	import { USE_COERCE_JSON } from '$lib/utils/constant.js'
-	import { Icon } from '$lib/ui/icon/index.js'
 	import { FormControl, SelectorList } from '$lib/ui/input/index.js'
 	import { DropDown } from '$lib/ui/menu/index.js'
 	import RelationAfter from './RelationAfter.svelte'
 	import type { SnippetLike } from '../table/type.js'
 
-	export let key = ''
-	export let label = ''
-	export let search: (q: string) => Promise<RelationItem[]>
-	export let createUrl = ''
-	export let createTitle = ''
-	export let createIcon: string | undefined = undefined
-	export let error = ''
-	export let placeholder = ''
-	export let flatMode = false
-	export let slotItem: SnippetLike<[RelationItem]>
-	export let slotSuggestion: SnippetLike<[RelationItem]> = slotItem
-	export let input: HTMLInputAttributes | undefined = undefined
-	export let append: Snippet | undefined = undefined
-	export let debounceMs = 150
+	let {
+		search,
+		value: items = $bindable(null),
+		key = '',
+		label = '',
+		class: klass = '',
+		classList = '',
+		createUrl = '',
+		createTitle = '',
+		createIcon,
+		error = '',
+		placeholder = '',
+		flatMode = false,
+		debounceMs = 150,
+		input,
+		snipItem,
+		snipSuggestion,
+		snipAppend,
+		onInput
+	}: {
+		search: (q: string) => Promise<RelationItem[]>
+		value: RelationItem[] | null
+		key?: string
+		label?: string
+		class?: string
+		classList?: string
+		createUrl?: string
+		createTitle?: string
+		createIcon?: string
+		error?: string
+		placeholder?: string
+		flatMode?: boolean
+		debounceMs?: number
+		input?: HTMLInputAttributes
+		snipItem: Snippet<[RelationItem]>
+		snipSuggestion?: Snippet<[RelationItem]>
+		snipAppend?: Snippet
+		onInput?: (value: RelationItem[]) => void
+	} = $props()
 
-	let klass = ''
-	export { klass as class }
-	export let classList = ''
-
-	let proposedItems: RelationItem[] = []
-	let items: RelationItem[] | null = null
-	export { items as value }
-
-	let isLoading = false
-	let isError = false
-	let focusIndex = 0
-	let searchValue = ''
-
-	let dropdown: DropDown
-	const dispatch = createEventDispatcher<{
-		input: { value: (string | number)[]; items: RelationItem[] }
-	}>()
-	let inputSearch: HTMLInputElement
+	let proposedItems = $state<RelationItem[]>([])
+	let isLoading = $state(false)
+	let isError = $state(false)
+	let focusIndex = $state(0)
+	let searchValue = $state('')
+	let dropdown = $state<DropDown>()
+	let inputSearch = $state<HTMLInputElement>()
 
 	async function select(index = focusIndex) {
 		const proposedItem = proposedItems[index]
 		if (!proposedItem) return
 		if (!items) items = [proposedItem]
 		else items = [...items, proposedItem]
-		dropdown.hide()
-		inputSearch.select()
+		dropdown?.hide()
+		inputSearch?.select()
 		proposedItems = [...proposedItems.slice(0, index), ...proposedItems.slice(index + 1)]
-		dispatch('input', { value: items.map(({ id }) => id), items })
+		onInput?.(items)
 		await tick()
-		setTimeout(() => dropdown.show(), 200)
+		setTimeout(() => dropdown?.show(), 200)
 	}
 
 	function remove(index: number) {
@@ -83,20 +96,18 @@
 		}
 	}
 
-	const searchItemsDebounce = debounce(searchItems, debounceMs)
+	const searchItemsDebounce = $derived(debounce(searchItems, debounceMs))
 
 	function handleFocus() {
 		searchItems()
-		// dropdown.show()
 	}
 	async function handleBlur() {
-		// dropdown.hide()
 		searchValue = ''
 	}
 </script>
 
 <DropDown bind:this={dropdown} disable={flatMode}>
-	<div slot="activator">
+	{#snippet activator()}
 		<FormControl {key} {label} {error} class={klass}>
 			<div class="flex flex-col gap-2">
 				{#if items && items.length}
@@ -106,15 +117,15 @@
 								transition:slide|local={{ axis: 'x', duration: 200 }}
 								class="badge badge-outline badge-lg items-center pr-0 text-right whitespace-nowrap"
 							>
-								{@render slotItem(item)}
+								{@render snipItem(item)}
 								<div
-									class="btn btn-circle btn-ghost btn-xs mr-[2px] ml-1 h-[18px] min-h-[18px] w-[18px]"
+									class="btn btn-circle btn-ghost btn-xs mr-0.5 ml-1 h-4.5 min-h-4.5 w-4.5"
 									role="button"
 									tabindex="0"
-									on:click={() => remove(index)}
-									on:keyup={(event) => event.key === 'Enter' && remove(index)}
+									onclick={() => remove(index)}
+									onkeyup={(event) => event.key === 'Enter' && remove(index)}
 								>
-									<Icon path={mdiClose} size={16} />
+									<XIcon size={16} />
 								</div>
 							</div>
 						{/each}
@@ -127,9 +138,9 @@
 							id={key}
 							bind:this={inputSearch}
 							bind:value={searchValue}
-							on:input={(e) => searchItemsDebounce(e.currentTarget.value)}
-							on:focus={handleFocus}
-							on:blur={handleBlur}
+							oninput={(e) => searchItemsDebounce(e.currentTarget.value)}
+							onfocus={handleFocus}
+							onblur={handleBlur}
 							autocomplete="off"
 							{placeholder}
 							class="grow"
@@ -139,7 +150,7 @@
 
 						<RelationAfter {isLoading} {createUrl} {createTitle} {createIcon} />
 					</div>
-					{@render append?.()}
+					{@render snipAppend?.()}
 				</div>
 			</div>
 
@@ -149,7 +160,7 @@
 				value="{USE_COERCE_JSON}{JSON.stringify(items?.map(({ id }) => ({ id })) || [])}"
 			/>
 		</FormControl>
-	</div>
+	{/snippet}
 
 	<SelectorList
 		trigger={inputSearch}
@@ -161,6 +172,10 @@
 		class="w-full min-w-40 {classList}"
 		on:select={({ detail }) => select(detail)}
 	>
-		{@render slotSuggestion(proposedItems[index])}
+		{#if snipSuggestion}
+			{@render snipSuggestion(proposedItems[index])}
+		{:else}
+			{@render snipItem(proposedItems[index])}
+		{/if}
 	</SelectorList>
 </DropDown>
