@@ -1,84 +1,85 @@
 <script lang="ts">
 	import { goto } from '$app/navigation'
-	import { page } from '$app/stores'
-	import { mdiClose } from '@mdi/js'
+	import { XIcon } from '@lucide/svelte'
 
-	import { urlParam } from '$lib/store/index.js'
-	import { jsonParse, type Options, parseOptions } from '$lib/utils/index.js'
-	import { Icon } from '$lib/ui/icon/index.js'
+	import { urlParam } from '$lib/state/index.js'
+	import { type Options, parseOptions } from '$lib/utils/index.js'
 	import { DropDown } from '$lib/ui/menu/index.js'
 	import { FormControl, type InputProps } from './index.js'
+	import type { Snippet } from 'svelte'
 
-	type $$Props = InputProps<string[]> & {
-		key: string
-		options: Options
-		right?: boolean
-		btnClass?: string
-		badgePrimary?: boolean
-	}
-	$: ({
+	let {
+		key,
 		input,
-		value: _value,
-		options: _1,
+		value,
+		options: optionsProp,
 		class: klass,
 		label,
 		right,
 		btnClass,
 		badgePrimary,
+		activator,
 		...props
-	} = $$props as $$Props)
+	}: InputProps<string[]> & {
+		key: string
+		options: Options
+		right?: boolean
+		btnClass?: string
+		badgePrimary?: boolean
+		activator?: Snippet<[{ dropwdown: DropDown }]>
+	} = $props()
 
-	export let key: string
-	export let options: Options
-	export let value: string[] | null | undefined =
-		_value || jsonParse($page.url.searchParams.get(key), [])
+	let dropdown = $state<DropDown>()
+	let options = $derived(parseOptions(optionsProp))
 
-	let dropdown: DropDown
-
-	$: _options = parseOptions(options)
-
-	async function writeUrl() {
+	async function updateUrl() {
 		const url = value?.length
 			? urlParam.with({ [key]: JSON.stringify(value) })
 			: urlParam.without(key)
 		return goto(url, { replaceState: true, noScroll: true })
 	}
-
-	function handleReset() {
-		dropdown.hide()
-		value = []
-		goto(urlParam.without(key), { replaceState: true })
-	}
 </script>
 
 <input type="hidden" name={key} value={JSON.stringify(value)} />
 
-<DropDown bind:this={dropdown} tippyProps={{ onHidden: writeUrl }} classWrapper="mb-[-2px]">
-	<div class="join" class:ml-2={value?.length} slot="activator">
-		<button class="btn indicator join-item btn-sm {btnClass || ''}">
-			<slot name="label">
-				<span>{label}</span>
-			</slot>
-			{#if !!value?.length}
-				<span
-					class="
+<DropDown tippyProps={{ onHidden: updateUrl }} classWrapper="mb-[-2px]">
+	{#snippet activator({ hide })}
+		<div class="join" class:ml-2={value?.length}>
+			<button class="btn indicator join-item btn-sm {btnClass || ''}">
+				{#if typeof label === 'string'}
+					<span>{label}</span>
+				{:else if label}
+					{@render label()}
+				{/if}
+
+				{#if !!value?.length}
+					<span
+						class="
 						badge indicator-item badge-sm indicator-start
 						{badgePrimary ? 'badge-primary' : 'badge-outline bg-base-100'}
 					"
-				>
-					{value?.length}
-				</span>
-			{/if}
-		</button>
-		{#if !!value?.length}
-			<button class="btn btn-square join-item btn-sm" on:click={handleReset}>
-				<Icon path={mdiClose} class="fill-base-content" />
+					>
+						{value?.length}
+					</span>
+				{/if}
 			</button>
-		{/if}
-	</div>
+			{#if !!value?.length}
+				<button
+					class="btn btn-square join-item btn-sm"
+					onclick={() => {
+						hide()
+						value = []
+						goto(urlParam.without(key), { replaceState: true })
+					}}
+				>
+					<XIcon class="fill-base-content" />
+				</button>
+			{/if}
+		</div>
+	{/snippet}
 
 	<div class={klass}>
-		{#each _options as option, index (option.value)}
+		{#each options as option, index (option.value)}
 			<FormControl
 				{...props}
 				label={option.label}
@@ -88,9 +89,6 @@
 				{#snippet children({ key })}
 					<input
 						bind:group={value}
-						on:input
-						on:focus
-						on:blur
 						value={option.value}
 						type="checkbox"
 						id="{index}{key}"

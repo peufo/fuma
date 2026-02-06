@@ -4,26 +4,16 @@ import { toast } from 'svelte-sonner'
 import type { z } from 'zod'
 import { enhance } from '$app/forms'
 import { goto } from '$app/navigation'
-import { writable } from 'svelte/store'
 
 export type SetError = { [key: string]: (err: string) => void }
-export type FormContext = { setError: SetError }
-
-const formContextKey = {}
-export const formContext = {
-	get: () => {
-		if (hasContext(formContextKey)) return getContext<FormContext>(formContextKey)
-		return setContext<FormContext>(formContextKey, { setError: {} })
-	}
-}
 
 type MaybePromise<T> = T | Promise<T>
 
 type SuccessMessage = false | string | ((action: URL) => string)
 type BooleanOrFunction = boolean | ((action: URL) => boolean)
-export type UseFormOptions<ReturnData> = {
+export type UseFormOptions<Data> = {
 	onSubmit?: (...args: Parameters<SubmitFunction>) => MaybePromise<any>
-	onSuccess?: (action: URL, data?: ReturnData) => MaybePromise<any>
+	onSuccess?: (action: URL, data?: Data) => MaybePromise<any>
 	onResetError?: () => unknown
 	onError?: (err: any) => MaybePromise<unknown>
 	onFail?: (failure: Record<string, any> | undefined) => MaybePromise<unknown>
@@ -43,7 +33,7 @@ export function useForm<ReturnData extends Record<string, unknown>>({
 	successMessage = 'Succès'
 }: UseFormOptions<ReturnData> = {}) {
 	const { setError } = formContext.get()
-	const isLoading = writable(false)
+	let isLoading = $state(false)
 
 	async function resetErrors() {
 		for (const key in setError) setError[key]('')
@@ -87,13 +77,13 @@ export function useForm<ReturnData extends Record<string, unknown>>({
 	}
 
 	const submit: SubmitFunction<ReturnData> = async (event) => {
-		isLoading.set(true)
+		isLoading = true
 		if (onSubmit) await onSubmit(event)
 
 		event.submitter?.classList.add('btn-disabled')
 
 		return async ({ result, update, action }) => {
-			isLoading.set(false)
+			isLoading  = false
 			event.submitter?.classList.remove('btn-disabled')
 
 			if (result.type === 'error') {

@@ -39,8 +39,8 @@
 		// By pass dropdown for use in flat mode
 		disable?: boolean
 		content?: HTMLDivElement
-		activator?: Snippet<[{ tip?: TippyInstance }]>
-		children: Snippet<[{ tip?: TippyInstance }]>
+		activator?: Snippet<[{ tip?: TippyInstance; hide: () => void; show: () => void }]>
+		children: Snippet<[{ tip?: TippyInstance; hide: () => void; show: () => void }]>
 	} = $props()
 
 	let activatorElement: HTMLDivElement | undefined = $state()
@@ -115,20 +115,20 @@
 {#if !disable}
 	<div class={classWrapper}>
 		<div class={classActivator} bind:this={activatorElement}>
-			{@render activator?.({ tip })}
+			{@render activator?.({ tip, hide, show })}
 		</div>
 
 		<div class="hidden">
 			<div class="{klass} bg-base-100 rounded-lg border p-1 shadow-lg" bind:this={content}>
-				{@render children({ tip })}
+				{@render children({ tip, hide, show })}
 			</div>
 		</div>
 	</div>
 {:else}
 	<div class={classWrapper}>
-		{@render activator?.({ tip })}
+		{@render activator?.({ tip, hide, show })}
 		<div class="{klass} mt-2">
-			{@render children({ tip })}
+			{@render children({ tip, hide, show })}
 		</div>
 	</div>
 {/if}

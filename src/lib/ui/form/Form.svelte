@@ -1,17 +1,15 @@
 <script lang="ts" context="module">
-	import { boolean, type z } from 'zod'
-	import type { FormDataInput } from '$lib/ui/form/form.js'
+	import { type z } from 'zod'
 </script>
 
 <script
 	lang="ts"
 	generics="
 		Shape extends z.core.$ZodShape,
-		ReturnData extends Record<string, unknown> = FormDataInput<Shape>,
-		Data extends FormDataInput<Shape> = FormDataInput<Shape>
+		Data extends z.input<z.core.$ZodObject<Shape>>,
 	"
 >
-	import { onMount, type ComponentProps } from 'svelte'
+	import { onMount } from 'svelte'
 	import { fade } from 'svelte/transition'
 	import { page } from '$app/state'
 	import { contextContainer } from '$lib/ui/context.js'
@@ -29,69 +27,51 @@
 	import FormSection from './FormSection.svelte'
 
 	let {
+		shape,
 		class: klass = '',
-		classSection = '',
-		classAction = '',
-		model = undefined,
 		fields = [],
-		sections = [],
 		action = '',
-		actionCreate = '_create',
-		actionDelete = '_delete',
-		actionUpdate = '_update',
-		disabled = false,
-
-		/** Ignore actionCreate, actionDelete and actionUpdate */
-		simpleAction = false,
-		data: inputData,
-		options = {}
+		data = {},
+		options = {},
+		onCreate,
+		onUpdate,
+		onDelete
 	}: {
+		shape: Shape
+		data: Partial<Data>
+		options?: UseFormOptions<Data>
 		class?: string
-		classSection?: string
-		classAction?: string
-		model?: Shape
 		fields?: FormField<Shape>[][]
-		sections?: ComponentProps<typeof FormSection>[]
 		action?: string
-		actionCreate?: string
-		actionDelete?: string
-		actionUpdate?: string
-		disabled?: boolean
-
-		/** Ignore actionCreate, actionDelete and actionUpdate */
-		simpleAction?: boolean
-		data: Data
-		options?: UseFormOptions<ReturnData>
+		onCreate?: (data: Data) => void
+		onUpdate?: (data: Data) => void
+		onDelete?: () => void
 	} = $props()
 
-	let data: Partial<Data> = dataInput || {}
+	let actionCreate = $derived(action + '_create')
+	let actionUpdate = $derived(action + '_update')
+	let actionDelete = $derived(action + '_delete')
+
+	let isDirty = $state(false)
 
 	export function set<K extends keyof Data>(key: K, value: Partial<Data>[K]) {
-		isDirty.set(true)
+		isDirty = true
 		data[key] = value
 	}
 	export function update(updater: (currentData: Partial<Data>) => Partial<Data>) {
-		isDirty.set(true)
+		isDirty = true
 		data = updater(data)
 	}
 
-	const dispatch = createEventDispatcher<{
-		success: { action: URL; data?: ReturnData }
-		created: ReturnData
-		updated: ReturnData
-		deleted: void
-	}>()
-
-	const { enhance, setError } = useForm<ReturnData>({
+	const { enhance, setError } = useForm<Data>({
 		...options,
 		async onSuccess(url, data) {
 			if (options.onSuccess) await options.onSuccess(url, data)
-			dispatch('success', { action: url, data })
 			const actionPath = url.pathname + url.search
-			if (actionPath.includes(action + actionDelete)) dispatch('deleted')
+			if (actionPath.includes(actionDelete)) onDelete?.()
 			if (!data) return
-			if (actionPath.includes(action + actionCreate)) dispatch('created', data)
-			if (actionPath.includes(action + actionUpdate)) dispatch('updated', data)
+			if (actionPath.includes(actionCreate)) onCreate?.(data)
+			if (actionPath.includes(actionUpdate)) onUpdate?.(data)
 		}
 	})
 	const { handleInput, isDirty } = useHandleInput({ model, setError })
@@ -171,13 +151,11 @@
 			sticky col-span-full mt-2 flex flex-row-reverse gap-2 border-t py-4 backdrop-blur-sm
 		"
 	>
-		<button class="btn btn-primary" {disabled}> Valider </button>
+		<button class="btn btn-primary"> Valider </button>
 		<div class="grow"></div>
-		{#if !simpleAction && data?.id && actionDelete}
+		{#if data?.id && actionDelete}
 			{@const formaction = `${action}${actionDelete}`}
-			<slot name="delete" {formaction}>
-				<ButtonDelete {formaction} {disabled}>Supprimer</ButtonDelete>
-			</slot>
+			<ButtonDelete {formaction}>Supprimer</ButtonDelete>
 		{/if}
 	</div>
 </form>

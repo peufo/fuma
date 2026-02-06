@@ -2,12 +2,6 @@
 	import { Form, InputText } from '$lib/index.js'
 	import InputNumber from '$lib/ui/input/InputNumber.svelte'
 	import { model } from './model.js'
-	import type { FormDataInput } from '$lib/ui/form/form.js'
-
-	let data: FormDataInput<typeof model> = {
-		name: 'Jonas',
-		friends: []
-	}
 </script>
 
 <Form

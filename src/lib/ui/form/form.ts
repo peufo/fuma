@@ -17,7 +17,7 @@ export type BoolOrFunction<S extends z.core.$ZodShape> =
 	| boolean
 	| ((data: Nullable<FormDataInput<S>>) => unknown)
 
-export type FormDataInput<S extends z.core.$ZodShape> = z.input<z.core.$ZodObject<S>>
+type FormDataInput<S extends z.core.$ZodShape> = z.input<z.core.$ZodObject<S>>
 
 export type FormField<S extends z.core.$ZodShape> = {
 	key: string & keyof S

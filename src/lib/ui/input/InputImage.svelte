@@ -1,31 +1,39 @@
-<script lang="ts" context="module">
-	export type Crop = { width: number; height: number; x: number; y: number }
-</script>
-
 <script lang="ts">
-	import { onMount, createEventDispatcher } from 'svelte'
-	import Cropper from 'svelte-easy-crop'
-	import { mdiTrayArrowUp } from '@mdi/js'
-
-	import type { TippyInstance } from '$lib/utils/tippy.js'
-	import { Icon } from '$lib/ui/icon/index.js'
-	import { DropDown } from '$lib/ui/menu/index.js'
+	import { type Snippet } from 'svelte'
+	import Cropper, { type CropArea } from 'svelte-easy-crop'
 	import { Dialog } from '$lib/ui/dialog/index.js'
 
-	export let aspect = 1
-	export let title = 'Image'
-	export let formaction: string | undefined = undefined
-	export let key = ''
-	let dialog: HTMLDialogElement
-	let tip: TippyInstance
-	let image = ''
-	let crop: Crop | undefined = undefined
-	let inputFile: HTMLInputElement
+	let {
+		key = '',
+		aspect = 1,
+		title = 'Image',
+		formaction,
+		onSubmit,
+		activator
+	}: {
+		key?: string
+		aspect?: number
+		title?: string
+		formaction?: string
+		onSubmit?: (value: { crop: CropArea; image: string }) => void
+		activator: Snippet<[{ show: () => void; close: () => void }]>
+	} = $props()
 
-	const dispatch = createEventDispatcher<{ submit: { crop: Crop; image: string } }>()
+	let dialog = $state<HTMLDialogElement>()
+	let image = $state('')
+	let crop = $state<CropArea>()
+	let inputFile = $state<HTMLInputElement>()
 
-	function onFileSelected() {
-		if (!inputFile.files) return
+	export function show() {
+		inputFile?.click()
+	}
+
+	export function close() {
+		dialog?.close()
+	}
+
+	function onFileChange() {
+		if (!inputFile?.files) return
 		const file = inputFile.files[0]
 		const reader = new FileReader()
 		reader.onload = ({ target }) => {
@@ -35,54 +43,29 @@
 		reader.readAsDataURL(file)
 	}
 
-	export function close() {
-		tip?.hide()
-		dialog?.close()
-	}
-
-	onMount(() => {
-		if (!$$slots.actions) tip.disable()
-	})
-	function handleClickActivator() {
-		if (!$$slots.actions) inputFile.click()
-	}
-
 	function handleValidation() {
 		close()
-		if (crop && image) dispatch('submit', { crop, image })
+		if (crop && image) onSubmit?.({ crop, image })
 	}
 </script>
 
-<DropDown tippyProps={{ arrow: true }} hideOnBlur bind:tip>
-	<button
-		slot="activator"
-		type="button"
-		class="block overflow-hidden rounded-lg transition-shadow hover:shadow-lg"
-		on:click={handleClickActivator}
-	>
-		<slot>image</slot>
-	</button>
-	{#if $$slots.actions}
-		<div class="flex flex-col">
-			<button
-				type="button"
-				class="menu-item relative"
-				on:click={() => {
-					inputFile.click()
-				}}
-			>
-				<Icon path={mdiTrayArrowUp} class="opacity-70" size={20} />
-				<span>Charger une image</span>
-			</button>
-			<slot name="actions" />
-		</div>
-	{/if}
-</DropDown>
+{@render activator({ show, close })}
+
+<input
+	class="hidden"
+	type="file"
+	name="{key ? `${key}_` : ''}image"
+	accept="image/jpeg, image/png, image/webp, image/gif, image/avif, image/tiff"
+	bind:this={inputFile}
+	onchange={onFileChange}
+/>
 
 <Dialog bind:dialog>
-	<h2 slot="header" class="card-title">
-		{title}
-	</h2>
+	{#snippet header()}
+		<h2 class="card-title">
+			{title}
+		</h2>
+	{/snippet}
 
 	<div class="relative aspect-square overflow-hidden rounded-lg">
 		<Cropper
@@ -90,25 +73,17 @@
 			{aspect}
 			showGrid={false}
 			zoomSpeed={0.2}
-			on:cropcomplete={(e) => (crop = e.detail.pixels)}
+			oncropcomplete={(value) => (crop = value.pixels)}
 		/>
 	</div>
 	<div class="mt-2 flex justify-end">
 		<input type="hidden" name="{key ? `${key}_` : ''}crop" value={JSON.stringify(crop)} />
-		<input
-			class="hidden"
-			type="file"
-			name="{key ? `${key}_` : ''}image"
-			accept="image/jpeg, image/png, image/webp, image/gif, image/avif, image/tiff"
-			bind:this={inputFile}
-			on:change={onFileSelected}
-		/>
 
 		<button
 			{formaction}
 			type={formaction ? 'submit' : 'button'}
 			class="btn btn-primary"
-			on:click={handleValidation}
+			onclick={handleValidation}
 		>
 			Valider
 		</button>

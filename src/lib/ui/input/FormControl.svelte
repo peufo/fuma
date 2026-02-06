@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { slide } from 'svelte/transition'
 	import { onMount, type Snippet } from 'svelte'
-	import { formContext } from '$lib/validation/form.js'
 
 	let klass = ''
 	export { klass as class }
@@ -20,11 +19,6 @@
 	type LabelPosition = 'top' | 'left' | 'right'
 
 	$: _key = prefix && key ? `${prefix}_${key}` : key || ''
-
-	if (!enhanceDisabled) {
-		const { setError } = formContext.get()
-		setError[key] = (err) => (error = err)
-	}
 
 	let formControl: HTMLDivElement
 	onMount(() => {

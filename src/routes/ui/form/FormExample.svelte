@@ -48,5 +48,4 @@
 			}
 		]
 	]}
-	sections={[{}, { title: 'Details', isReducible: true }]}
 />

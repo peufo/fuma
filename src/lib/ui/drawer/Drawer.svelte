@@ -1,28 +1,42 @@
+<script lang="ts" module>
+	export const transitionX = writable(0)
+</script>
+
 <script lang="ts">
-	import { onDestroy, onMount } from 'svelte'
+	import { onDestroy, type Snippet } from 'svelte'
 	import { fade } from 'svelte/transition'
-	import { mdiClose } from '@mdi/js'
+	import { XIcon } from '@lucide/svelte'
 
 	import { goto } from '$app/navigation'
 	import { urlParam } from '$lib/state/param.svelte.js'
-	import { Icon } from '$lib/ui/icon/index.js'
 	import { subscibeDrawerLayers } from './layers.js'
 	import { contextContainer } from '../context.js'
 	import { drawerFly } from './drawerFly.js'
+	import { writable } from 'svelte/store'
 
-	export let title = ''
-	/** Key used in url query params */
-	export let key: string
-
-	let klass = ''
-	export { klass as class }
-	export let maxWidth = '32rem'
-	export let classHeader = ''
-	export let classBody = ''
-	export let duration = 180
-	export let noOverlay = false
-	export let transitionX = 0
-	export let zIndex = 50
+	let {
+		key,
+		title,
+		class: klass = '',
+		maxWidth = '32rem',
+		classHeader = '',
+		classBody = '',
+		duration = 180,
+		noOverlay = false,
+		zIndex = 50,
+		children
+	}: {
+		key: string
+		title?: string
+		class?: string
+		maxWidth?: string
+		classHeader?: string
+		classBody?: string
+		duration?: number
+		noOverlay?: boolean
+		zIndex?: number
+		children: Snippet<[{ open: typeof open; close: typeof close }]>
+	} = $props()
 
 	type GotoOptions = Parameters<typeof goto>[1]
 	export function open(value = 1, options: GotoOptions = {}) {
@@ -32,25 +46,23 @@
 			noScroll: true
 		})
 	}
+
 	export function close(options: GotoOptions = {}) {
 		return goto(urlParam.without(key), { ...options, replaceState: true, noScroll: true })
 	}
 
-	const { offset, index, destroy, isActive } = subscibeDrawerLayers(key)
-	onDestroy(destroy)
+	let { offset, index, destroy, isActive } = $derived(subscibeDrawerLayers(key))
+	onDestroy(() => destroy())
 	contextContainer.set('drawer')
-	let clientWidth = 0
-
-	onMount(() => {
-		transitionX = $isActive ? clientWidth : 0
-	})
+	let clientWidth = $state(0)
 </script>
 
 {#if !noOverlay && $isActive}
-	<!-- svelte-ignore a11y-no-static-element-interactions -->
 	<div
-		on:click={() => close()}
-		on:keyup={() => close()}
+		role="button"
+		onclick={() => close()}
+		onkeyup={() => close()}
+		tabindex={-1}
 		transition:fade={{ duration }}
 		style="z-index: {zIndex + $index};"
 		class="fixed inset-0 bg-black/15 backdrop-blur-[1.5px] dark:bg-white/15"
@@ -65,7 +77,7 @@
 			duration,
 			opacity: 1,
 			onTransition(pos) {
-				transitionX = pos.x
+				$transitionX = pos.x
 			}
 		}}
 		style="
@@ -88,13 +100,13 @@
 			"
 		>
 			<h2 class="title min-w-0 overflow-hidden">{title}</h2>
-			<button on:click={() => close()} class="btn btn-square btn-sm">
-				<Icon path={mdiClose} title="Fermer" />
+			<button onclick={() => close()} class="btn btn-square btn-sm">
+				<XIcon title="Fermer" />
 			</button>
 		</div>
 
 		<div class="{classBody} grow pl-8 pr-4">
-			<slot {open} {close} />
+			{@render children({ open, close })}
 		</div>
 	</aside>
 {/if}
