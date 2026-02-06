@@ -1,17 +1,21 @@
 <script lang="ts">
 	import { slide } from 'svelte/transition'
-	import { mdiPlus, mdiTrashCanOutline } from '@mdi/js'
 	import { toast } from 'svelte-sonner'
-
-	import { Icon } from '$lib/ui/icon/index.js'
+	import z from 'zod'
+	import { PlusIcon, Trash2Icon } from '@lucide/svelte'
 	import { listEditable } from '$lib/action/list/index.js'
+	import { zodCoerceJsonValue } from '$lib/validation/zod.js'
 
-	export let key: string
-	export let value: string | undefined | null = '[]'
+	let {
+		key,
+		value = $bindable('[]')
+	}: {
+		key: string
+		value?: string | null
+	} = $props()
 
-	let options: string[] = JSON.parse(value || '[]')
-	let newOption = ''
-	let optionInput: HTMLInputElement
+	let options = $derived(zodCoerceJsonValue.pipe(z.array(z.string())).default([]).parse(value))
+	let optionInput = $state<HTMLInputElement>()
 
 	function handleKeyDown(e: KeyboardEvent) {
 		if (e.key === 'Enter') {
@@ -21,10 +25,12 @@
 	}
 
 	function createOption() {
-		if (!newOption) return
-		if (options.includes(newOption)) return toast.warning('Cette option éxiste déjà !')
-		options = [...options, newOption]
-		newOption = ''
+		if (!optionInput) return
+		if (options.includes(optionInput.value)) {
+			return toast.warning('Cette option éxiste déjà !')
+		}
+		options = [...options, optionInput.value]
+		optionInput.value = ''
 		value = JSON.stringify(options)
 		optionInput.focus()
 	}
@@ -56,9 +62,9 @@
 				<button
 					type="button"
 					class="btn btn-square btn-ghost btn-sm"
-					on:click={() => removeOption(index)}
+					onclick={() => removeOption(index)}
 				>
-					<Icon path={mdiTrashCanOutline} size={20} class="fill-error" />
+					<Trash2Icon size={20} class="fill-error" />
 				</button>
 			</div>
 		{/each}
@@ -70,16 +76,15 @@
 			type="text"
 			placeholder="Nouvelle option"
 			class="input join-item input-bordered grow"
-			bind:value={newOption}
-			on:keydown={handleKeyDown}
+			onkeydown={handleKeyDown}
 		/>
 		<button
 			type="button"
 			class="btn btn-square join-item"
-			disabled={!newOption}
-			on:click={createOption}
+			disabled={!optionInput?.value}
+			onclick={createOption}
 		>
-			<Icon path={mdiPlus} title="Ajouter" />
+			<PlusIcon title="Ajouter" />
 		</button>
 	</div>
 </div>
