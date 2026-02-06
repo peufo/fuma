@@ -1,8 +1,7 @@
 <script lang="ts">
-	import { mdiClose } from '@mdi/js'
+	import { XIcon } from '@lucide/svelte'
 	import { browser } from '$app/environment'
 	import { page } from '$app/state'
-	import { Icon } from '$lib/ui/icon/index.js'
 	import { InputText } from '$lib/ui/input/index.js'
 	import type { FocusEventHandler, FormEventHandler, KeyboardEventHandler } from 'svelte/elements'
 
@@ -61,7 +60,7 @@
 			}}
 			tabindex={!!value ? 0 : -1}
 		>
-			<Icon path={mdiClose} />
+			<XIcon />
 		</button>
 	{/snippet}
 </InputText>
