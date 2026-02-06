@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { InputImage, type Crop } from './index.js'
+	import { type CropArea } from 'svelte-easy-crop'
+	import { InputImage } from './index.js'
 	import { PlaceholderImage } from '$lib/ui/placeholder/index.js'
 
 	export let key = ''
@@ -12,19 +13,19 @@
 	export let y: number
 	export let aspect = x / y
 
-	let crop: Crop | null = null
+	let crop: CropArea | null = null
 	let image = ''
 	let scale = 0
 	let preview: HTMLImageElement
 
-	async function handleSubmit(detail: { crop: Crop; image: string }) {
+	function onSubmit(detail: { crop: CropArea; image: string }) {
 		crop = detail.crop
 		image = detail.image
 		scale = x / crop.width
 	}
 </script>
 
-<InputImage {key} {title} {aspect} on:submit={({ detail }) => handleSubmit(detail)}>
+<InputImage {key} {title} {aspect} {onSubmit}>
 	{#if crop && image}
 		<div
 			class="relative overflow-hidden rounded-lg border"

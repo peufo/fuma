@@ -1,17 +1,16 @@
 <script lang="ts" generics="RelationItem extends {id: string | number}">
 	import type { HTMLInputAttributes } from 'svelte/elements'
 
-	import { tick, type Snippet } from 'svelte'
+	import { tick, type Component, type Snippet } from 'svelte'
 	import { slide } from 'svelte/transition'
 	import { toast } from 'svelte-sonner'
-	import { XIcon } from '@lucide/svelte'
+	import { XIcon, type IconProps } from '@lucide/svelte'
 	import debounce from 'debounce'
 
 	import { USE_COERCE_JSON } from '$lib/utils/constant.js'
 	import { FormControl, SelectorList } from '$lib/ui/input/index.js'
 	import { DropDown } from '$lib/ui/menu/index.js'
 	import RelationAfter from './RelationAfter.svelte'
-	import type { SnippetLike } from '../table/type.js'
 
 	let {
 		search,
@@ -22,7 +21,7 @@
 		classList = '',
 		createUrl = '',
 		createTitle = '',
-		createIcon,
+		CreateIcon,
 		error = '',
 		placeholder = '',
 		flatMode = false,
@@ -34,14 +33,14 @@
 		onInput
 	}: {
 		search: (q: string) => Promise<RelationItem[]>
-		value: RelationItem[] | null
+		value?: RelationItem[] | null
 		key?: string
 		label?: string
 		class?: string
 		classList?: string
 		createUrl?: string
 		createTitle?: string
-		createIcon?: string
+		CreateIcon?: Component<IconProps>
 		error?: string
 		placeholder?: string
 		flatMode?: boolean
@@ -61,7 +60,7 @@
 	let dropdown = $state<DropDown>()
 	let inputSearch = $state<HTMLInputElement>()
 
-	async function select(index = focusIndex) {
+	async function onSelect(index = focusIndex) {
 		const proposedItem = proposedItems[index]
 		if (!proposedItem) return
 		if (!items) items = [proposedItem]
@@ -148,7 +147,7 @@
 							{...input}
 						/>
 
-						<RelationAfter {isLoading} {createUrl} {createTitle} {createIcon} />
+						<RelationAfter {isLoading} {createUrl} {createTitle} {CreateIcon} />
 					</div>
 					{@render snipAppend?.()}
 				</div>
@@ -168,14 +167,15 @@
 		{isError}
 		{isLoading}
 		bind:focusIndex
-		let:index
 		class="w-full min-w-40 {classList}"
-		on:select={({ detail }) => select(detail)}
+		{onSelect}
 	>
-		{#if snipSuggestion}
-			{@render snipSuggestion(proposedItems[index])}
-		{:else}
-			{@render snipItem(proposedItems[index])}
-		{/if}
+		{#snippet children({ index })}
+			{#if snipSuggestion}
+				{@render snipSuggestion(proposedItems[index])}
+			{:else}
+				{@render snipItem(proposedItems[index])}
+			{/if}
+		{/snippet}
 	</SelectorList>
 </DropDown>

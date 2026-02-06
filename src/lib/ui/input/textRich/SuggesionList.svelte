@@ -6,7 +6,7 @@
 	export let props: SuggestionProps<SuggestionItem>
 	export let keyDownEvent: KeyboardEvent | undefined = undefined
 
-	function handleSelect(index: number) {
+	function onSelect(index: number) {
 		const item = props.items[index]
 		if (!item) return
 		props.command(item)
@@ -17,9 +17,10 @@
 	items={props.items}
 	{keyDownEvent}
 	keyDownPreventDefault={false}
-	let:item
-	on:select={(event) => handleSelect(event.detail)}
+	{onSelect}
 	class=" max-h-64 overflow-auto"
 >
-	<span>{item.label}</span>
+	{#snippet children({ item })}
+		<span>{item.label}</span>
+	{/snippet}
 </SelectorList>

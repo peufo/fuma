@@ -1,4 +1,3 @@
-import { get } from 'svelte/store'
 import debounce from 'debounce'
 import { urlParam } from '$lib/state/param.svelte.js'
 import { goto } from '$app/navigation'
@@ -23,16 +22,14 @@ export function bindValueWithParams(
 	if (!name || !bindEnable) return
 
 	const importValueFromParams = () => {
-		const _urlParam = get(urlParam)
-		const value = _urlParam.get(name)
+		const value = urlParam.get(name)
 		if (value) return initValue(value)
 	}
 
 	const handleInput = debounce(async () => {
-		const _urlParam = get(urlParam)
 		const newUrl = node.value
-			? _urlParam.with({ [name]: node.value }, 'skip', 'take')
-			: _urlParam.without(name, 'skip', 'take')
+			? urlParam.with({ [name]: node.value }, 'skip', 'take')
+			: urlParam.without(name, 'skip', 'take')
 		await goto(newUrl, { replaceState: true, keepFocus: true, noScroll: true })
 	}, debounceTime)
 
@@ -59,17 +56,15 @@ export function bindCheckedWithParams(
 	if (!name || !bindEnable) return
 
 	const importValueFromParams = () => {
-		const _urlParam = get(urlParam)
-		if (!_urlParam.has(name)) return
-		const paramValue = _urlParam.get(name)
+		if (!urlParam.has(name)) return
+		const paramValue = urlParam.get(name)
 		if (paramValue) initValue(paramValue)
 	}
 
 	const handleInput = debounce(async () => {
-		const _urlParam = get(urlParam)
 		const newUrl = node.checked
-			? _urlParam.with({ [name]: node.value }, 'skip', 'take')
-			: _urlParam.without(name, 'skip', 'take')
+			? urlParam.with({ [name]: node.value }, 'skip', 'take')
+			: urlParam.without(name, 'skip', 'take')
 		await goto(newUrl, { replaceState: true, keepFocus: true, noScroll: true })
 	}, debounceTime)
 

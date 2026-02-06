@@ -40,10 +40,6 @@
 			"types": "./dist/utils/index.d.ts",
 			"default": "./dist/utils/index.js"
 		},
-		"./store": {
-			"types": "./dist/store/index.d.ts",
-			"default": "./dist/store/index.js"
-		},
 		"./state": {
 			"types": "./dist/state/index.d.ts",
 			"default": "./dist/state/index.js"

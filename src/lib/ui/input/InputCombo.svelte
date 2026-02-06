@@ -6,7 +6,6 @@
 	import { type Options, type Option, parseOptions } from '$lib/utils/options.js'
 	import { FormControl, SelectorList } from '$lib/ui/input/index.js'
 	import { DropDown } from '$lib/ui/menu/index.js'
-	import { Icon } from '$lib/ui/icon/index.js'
 
 	type $$Props = InputProps & { options: Options; tippyProps?: TippyProps }
 	$: ({ input, value: _value, options, tippyProps, ...props } = $$props as $$Props)
@@ -37,14 +36,14 @@
 		inputElement?.focus()
 	}
 
-	async function select(index = focusIndex) {
+	function onSelect(index = focusIndex) {
 		value = _options[index].value
 		dispatch('input', value)
 	}
 </script>
 
 <DropDown {tippyProps}>
-	<div class="contents" slot="activator">
+	{#snippet activator()}
 		<FormControl {...props}>
 			{#snippet children({ key })}
 				<div class="flex grow gap-2" class:hidden={selectedOption}>
@@ -73,7 +72,7 @@
 						on:focus={clear}
 					>
 						{#if selectedOption.icon}
-							<Icon path={selectedOption.icon} size={21} class="opacity-70" />
+							<selectedOption.icon size={21} class="opacity-70" />
 						{/if}
 						<span>{selectedOption.label}</span>
 					</button>
@@ -81,19 +80,20 @@
 				{/if}
 			{/snippet}
 		</FormControl>
-	</div>
+	{/snippet}
 
 	<SelectorList
 		items={filteredOptions}
 		trigger={inputElement}
 		{focusIndex}
-		let:item
 		class="w-full"
-		on:select={({ detail }) => select(detail)}
+		{onSelect}
 	>
-		{#if item.icon}
-			<Icon path={item.icon} size={21} class="opacity-70" />
-		{/if}
-		<span class="whitespace-nowrap pr-4">{item.label}</span>
+		{#snippet children({ item })}
+			{#if item.icon}
+				<item.icon size={21} class="opacity-70" />
+			{/if}
+			<span class="whitespace-nowrap pr-4">{item.label}</span>
+		{/snippet}
 	</SelectorList>
 </DropDown>

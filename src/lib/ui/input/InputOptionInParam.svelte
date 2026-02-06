@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { Icon } from '$lib/ui/icon/index.js'
 	import { parseOptions, type Options } from '$lib/utils/options.js'
 	import { urlParam } from '$lib/state/param.svelte.js'
 
@@ -22,8 +21,7 @@
 			class:w-9={opt.icon}
 		>
 			{#if opt.icon}
-				<Icon
-					path={opt.icon}
+				<opt.icon
 					title={opt.label}
 					class={active ? 'fill-primary-content' : 'opacity-70'}
 					size={20}

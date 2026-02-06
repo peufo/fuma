@@ -9,7 +9,7 @@
 	}: {
 		x: number
 		y: number
-		children: Snippet
+		children?: Snippet
 	} = $props()
 </script>
 

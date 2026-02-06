@@ -73,8 +73,8 @@
 	<RangePicker bind:this={rangePicker} numberOfMonths={1} bind:range {minDate} {maxDate} />
 
 	<div class="flex gap-2 p-2">
-		<InputTime label="A partir de" bind:value={range.start} enhanceDisabled class="grow" />
-		<InputTime label="Jusqu'à" bind:value={range.end} enhanceDisabled class="grow" />
+		<InputTime label="A partir de" bind:value={range.start} class="grow" />
+		<InputTime label="Jusqu'à" bind:value={range.end} class="grow" />
 	</div>
 
 	<div class="m-2 flex justify-end gap-2">

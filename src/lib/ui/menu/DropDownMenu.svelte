@@ -14,7 +14,7 @@
 		children: childrenProp
 	}: {
 		options: Options
-		tippyProps: Partial<TippyProps>
+		tippyProps?: Partial<TippyProps>
 		onSelect?: (value: string) => void
 		children?: Snippet
 	} = $props()

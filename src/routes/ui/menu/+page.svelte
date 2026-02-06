@@ -26,8 +26,8 @@
 </ContextMenu>
 
 <div class="flex justify-around">
-	<DropDownMenu options={menuOptions} on:select={({ detail: value }) => toast(value)} />
-	<DropDownMenu options={menuOptions} on:select={({ detail: value }) => toast(value)}>
+	<DropDownMenu options={menuOptions} onSelect={(value) => toast(value)} />
+	<DropDownMenu options={menuOptions} onSelect={(value) => toast(value)}>
 		<button type="button" class="btn btn-square">
 			<PrinterCheckIcon />
 		</button>

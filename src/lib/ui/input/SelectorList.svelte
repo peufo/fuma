@@ -7,7 +7,7 @@
 		class: klass = '',
 		isError = false,
 		isLoading = false,
-		focusIndex = 0,
+		focusIndex = $bindable(0),
 		trigger,
 		keyDownEvent,
 		keyDownPreventDefault = true,

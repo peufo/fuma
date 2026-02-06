@@ -1,9 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte'
 	import { slide } from 'svelte/transition'
-
 	import { type Options, parseOptions } from '$lib/utils/options.js'
-	import { formContext } from '$lib/validation/form.js'
 	import { FormControl, bindValueWithParams, type InputProps } from './index.js'
 
 	type $$Props = InputProps & { options: Options; optionsClass?: string }
@@ -23,10 +21,8 @@
 	$: _options = parseOptions(options)
 
 	let formControl: HTMLDivElement
-	const { setError } = formContext.get()
-	onMount(() => {
-		if (props.key) setError[props.key] = (err) => (error = err)
 
+	onMount(() => {
 		const inputs = formControl.querySelectorAll('input')
 		const handleInput = () => (error = '')
 		inputs.forEach((input) => input.addEventListener('input', handleInput))
@@ -48,7 +44,6 @@
 		{#each _options as option}
 			<FormControl
 				{...props}
-				enhanceDisabled
 				label={option.label}
 				prefixFor={option.value}
 				class="flex-row-reverse items-center justify-end gap-2"

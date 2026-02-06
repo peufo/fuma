@@ -1,18 +1,13 @@
 <script lang="ts">
 	import { Form, InputText } from '$lib/index.js'
 	import InputNumber from '$lib/ui/input/InputNumber.svelte'
-	import { model } from './model.js'
+	import { shapeUser } from './shape.js'
+
+	let { data } = $props()
+	let formData = $derived(data.formDataUser)
 </script>
 
-<Form
-	class="mx-auto max-w-lg"
-	{model}
-	simpleAction
-	bind:data
-	on:success={({ detail }) => {
-		console.log(detail.data)
-	}}
->
+<Form class="mx-auto max-w-lg" shape={shapeUser} bind:data={formData}>
 	<InputText label="name" key="name" />
 
 	<div class="flex flex-col gap-2">
@@ -21,12 +16,12 @@
 			<button
 				type="button"
 				class="btn ml-auto"
-				on:click={() => (data.friends = [...data.friends, { name: '', age: 20 }])}
+				onclick={() => formData.friends.push({ name: 'New friend', age: 20 })}
 			>
-				Ajouter
+				Ajouter un ami
 			</button>
 		</div>
-		{#each data.friends as friend, index}
+		{#each formData.friends as friend, index}
 			<div class="flex gap-2">
 				<InputText label="name" key="friends.{index}.name" bind:value={friend.name} />
 				<InputNumber label="age" key="friends.{index}.age" bind:value={friend.age} />

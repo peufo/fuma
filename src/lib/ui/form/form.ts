@@ -2,12 +2,6 @@ import type { z } from 'zod'
 import debounce from 'debounce'
 import { writable, type Writable } from 'svelte/store'
 import type { FormEventHandler } from 'svelte/elements'
-import { formInputsType, type FormInputsProps, type FormInputsType } from './formInput.js'
-
-
-type PickOne<T> = {
-	[P in keyof T]: Record<P, T[P]> & Partial<Record<Exclude<keyof T, P>, undefined>>
-}[keyof T]
 
 export type Nullable<T> = {
 	[P in keyof T]?: T[P] | null
@@ -19,39 +13,13 @@ export type BoolOrFunction<S extends z.core.$ZodShape> =
 
 type FormDataInput<S extends z.core.$ZodShape> = z.input<z.core.$ZodObject<S>>
 
-export type FormField<S extends z.core.$ZodShape> = {
-	key: string & keyof S
-	/** number col used by field */
-	colSpan?: number
-	/** hide field if true */
-	hide?: BoolOrFunction<S>
-} & PickOne<FormInputsProps>
-
-export function initData<
-	S extends z.core.$ZodShape,
-	Data extends FormDataInput<S> = FormDataInput<S>
->(fields: FormField<S>[][]): Data {
-	// @ts-ignore
-	return fields.flat().reduce((acc, cur) => {
-		const inputType = getFieldType(cur)
-		// @ts-ignore
-		return { ...acc, [cur.key]: cur[inputType]?.value }
-	}, {})
-}
-
-export function getFieldType<S extends z.core.$ZodShape>(field: FormField<S>): FormInputsType {
-	const inputType = formInputsType.find((t) => field[t])
-	if (!inputType) return 'text'
-	return inputType
-}
-
 type HandleInputOptions<S extends z.core.$ZodShape> = {
-	model?: S
+	shape?: S
 	setError: (key: string, value: string) => void
 }
 
 export function useHandleInput<S extends z.core.$ZodShape>({
-	model,
+	shape,
 	setError
 }: HandleInputOptions<S>): {
 	isDirty: Writable<boolean>
@@ -64,16 +32,16 @@ export function useHandleInput<S extends z.core.$ZodShape>({
 		isDirty,
 		handleInput: ({ target }) => {
 			if (!target) return
-			if (!model) return
+			if (!shape) return
 			const { name } = target as HTMLInputElement
 			const value = getTypedValue(target as HTMLInputElement)
 			if (value === undefined) return
 			if (name === undefined) return
-			if (!model[name]) return
+			if (!shape[name]) return
 			isDirty.set(true)
 			// TODO: fix this type error please
 			// @ts-ignore
-			const res = model[name].safeParse(value)
+			const res = shape[name].safeParse(value)
 			if (res.success) {
 				setErrorDebounced.clear()
 				setError(name, '')

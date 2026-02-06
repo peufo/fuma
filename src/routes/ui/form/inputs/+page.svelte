@@ -41,28 +41,28 @@
 
 <InputCombo key="combo" label="Input combo" {options} />
 
-{#snippet slotItem(item: Item)}
+{#snippet snipItem(item: Item)}
 	{item.name}
 {/snippet}
 
 <InputRelation
 	label="Input Relation"
 	search={searchItems}
-	{slotItem}
+	{snipItem}
 	createUrl="/ui/form/inputs?create_item=true"
 	createTitle="Créer un item"
 />
-<InputRelation label="Input Relation" search={searchItems} {slotItem} />
+<InputRelation label="Input Relation" search={searchItems} {snipItem} />
 
 <InputRelations
 	label="Input Relations"
 	search={searchItems}
-	{slotItem}
+	{snipItem}
 	createUrl="/ui/form/inputs?create_item=true"
 	createTitle="Créer un item"
 />
 
-<InputRelations label="Input Relations" search={searchItems} {slotItem} />
+<InputRelations label="Input Relations" search={searchItems} {snipItem} />
 
 <InputTextRich bind:value={inputTextRichValue} label="Input text rich" />
 

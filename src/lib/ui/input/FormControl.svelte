@@ -12,7 +12,6 @@
 	export let hint = ''
 	export let prefix: string | number = ''
 	export let prefixFor: string | number = ''
-	export let enhanceDisabled = false
 	export let labelPosition: LabelPosition = 'top'
 	export let children: Snippet<[{ key: string }]> | undefined = undefined
 

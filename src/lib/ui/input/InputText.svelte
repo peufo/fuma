@@ -34,11 +34,7 @@
 	})
 </script>
 
-<FormControl
-	{...controlProps}
-	bind:error
-	enhanceDisabled={controlProps.enhanceDisabled || bindWithParams}
->
+<FormControl {...controlProps} bind:error>
 	{#snippet children({ key })}
 		<div class={classWrapper}>
 			{@render prepend?.(value)}

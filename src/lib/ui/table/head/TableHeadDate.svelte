@@ -138,20 +138,8 @@
 			<input class="hidden" type="text" name="end" value={range.end?.toJSON()} />
 
 			<div class="m-2 flex gap-2">
-				<InputTime
-					label="A partir de"
-					bind:value={range.start}
-					enhanceDisabled
-					class="grow"
-					on:input={updateUrl}
-				/>
-				<InputTime
-					label="Jusqu'à"
-					bind:value={range.end}
-					enhanceDisabled
-					class="grow"
-					on:input={updateUrl}
-				/>
+				<InputTime label="A partir de" bind:value={range.start} class="grow" on:input={updateUrl} />
+				<InputTime label="Jusqu'à" bind:value={range.end} class="grow" on:input={updateUrl} />
 			</div>
 
 			<div class="m-2 flex flex-row-reverse gap-2">

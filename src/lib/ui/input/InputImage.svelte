@@ -9,14 +9,14 @@
 		title = 'Image',
 		formaction,
 		onSubmit,
-		activator
+		children
 	}: {
 		key?: string
 		aspect?: number
 		title?: string
 		formaction?: string
 		onSubmit?: (value: { crop: CropArea; image: string }) => void
-		activator: Snippet<[{ show: () => void; close: () => void }]>
+		children: Snippet<[{ show: () => void; close: () => void }]>
 	} = $props()
 
 	let dialog = $state<HTMLDialogElement>()
@@ -49,7 +49,7 @@
 	}
 </script>
 
-{@render activator({ show, close })}
+{@render children({ show, close })}
 
 <input
 	class="hidden"

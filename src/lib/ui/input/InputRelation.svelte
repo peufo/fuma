@@ -15,24 +15,24 @@
 	import { FormControl, SelectorList } from '$lib/ui/input/index.js'
 	import type { TippyProps } from '$lib/utils/tippy.js'
 	import RelationAfter from './RelationAfter.svelte'
-	import type { SnippetLike } from '../table/type.js'
+	import type { IconProps } from '@lucide/svelte'
 
 	export let key = Math.random().toString()
 	export let label = ''
 	export let search: (q: string) => Promise<RelationItem[]>
 	export let createUrl = ''
 	export let createTitle = 'Nouveau'
-	export let createIcon: string | undefined = undefined
+	export let CreateIcon: Component<IconProps> | undefined = undefined
 	let item: RelationItem | null = null
 	export { item as value }
 	export let error = ''
 	export let placeholder = ''
 	export let tippyProps: Partial<TippyProps> = {}
-	export let dropdownProps: ComponentProps<DropDown> = {}
+	export let dropdownProps: Omit<ComponentProps<typeof DropDown>, 'children'> = {}
 	export let flatMode = false
 	export let noSlotItemWrapper = false
-	export let slotItem: SnippetLike<[RelationItem]>
-	export let slotSuggestion: SnippetLike<[RelationItem]> = slotItem
+	export let snipItem: Snippet<[RelationItem]>
+	export let snipSuggestion: Snippet<[RelationItem]> = snipItem
 	export let input: HTMLInputAttributes | undefined = undefined
 	export let append: Snippet | undefined = undefined
 	export let disabled = false
@@ -105,7 +105,7 @@
 </script>
 
 <DropDown bind:this={dropdown} {tippyProps} disable={flatMode} {...dropdownProps}>
-	<div class="contents" slot="activator">
+	{#snippet activator()}
 		<FormControl {key} {label} {error} class={klass}>
 			{#snippet children({ key })}
 				<label class="input w-full" class:hidden={item}>
@@ -124,7 +124,7 @@
 						size={8}
 						{...input}
 					/>
-					<RelationAfter {isLoading} {createUrl} {createTitle} {createIcon} />
+					<RelationAfter {isLoading} {createUrl} {createTitle} {CreateIcon} />
 					{#if shortcutKey && !isFocus}
 						<kbd class="kbd kbd-xs text-base-content/50 shrink-0">
 							{shortcutKey}
@@ -135,7 +135,7 @@
 
 				{#if item}
 					{#if noSlotItemWrapper}
-						{@render slotItem(item)}
+						{@render snipItem(item)}
 					{:else}
 						<button
 							type="button"
@@ -143,7 +143,7 @@
 							on:click|stopPropagation={() => clear()}
 							class="input h-auto min-h-10 w-full grow items-start pt-2 pr-2"
 						>
-							{@render slotItem(item)}
+							{@render snipItem(item)}
 						</button>
 					{/if}
 					<input
@@ -154,7 +154,7 @@
 				{/if}
 			{/snippet}
 		</FormControl>
-	</div>
+	{/snippet}
 
 	<SelectorList
 		items={proposedItems}
@@ -162,10 +162,11 @@
 		{isError}
 		{isLoading}
 		bind:focusIndex
-		let:index
 		class="w-full min-w-40 {classList}"
-		on:select={({ detail }) => select(detail)}
+		onSelect={(index) => select(index)}
 	>
-		{@render slotSuggestion(proposedItems[index])}
+		{#snippet children({ index })}
+			{@render snipSuggestion(proposedItems[index])}
+		{/snippet}
 	</SelectorList>
 </DropDown>

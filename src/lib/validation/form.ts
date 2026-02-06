@@ -32,7 +32,9 @@ export function useForm<ReturnData extends Record<string, unknown>>({
 	successReset = true,
 	successMessage = 'Succès'
 }: UseFormOptions<ReturnData> = {}) {
-	const { setError } = formContext.get()
+
+	// TODO: Fix implementation of setError
+	const setError: Record<string, (err: string) => void> = {}
 	let isLoading = $state(false)
 
 	async function resetErrors() {
