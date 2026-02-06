@@ -1,26 +1,37 @@
 <script lang="ts" generics="Item extends {id: string | number}">
-	import { createEventDispatcher } from 'svelte'
 	import { selector } from '$lib/action/selector.js'
+	import type { Snippet } from 'svelte'
 
-	let klass = ''
-	export { klass as class }
-
-	export let items: Item[]
-	export let isError = false
-	export let isLoading = false
-	export let focusIndex = 0
-	export let trigger: HTMLElement | undefined = undefined
-	export let keyDownEvent: KeyboardEvent | undefined = undefined
-	export let keyDownPreventDefault = true
-
-	const dispatch = createEventDispatcher<{ select: number }>()
+	let {
+		items,
+		class: klass = '',
+		isError = false,
+		isLoading = false,
+		focusIndex = 0,
+		trigger,
+		keyDownEvent,
+		keyDownPreventDefault = true,
+		onSelect,
+		children
+	}: {
+		items: Item[]
+		class?: string
+		isError?: boolean
+		isLoading?: boolean
+		focusIndex?: number
+		trigger?: HTMLElement
+		keyDownEvent?: KeyboardEvent
+		keyDownPreventDefault?: boolean
+		onSelect?: (index: number) => void
+		children: Snippet<[{ item: Item; index: number }]>
+	} = $props()
 </script>
 
 <ul
 	use:selector={{
 		trigger,
 		focusIndex,
-		onSelect: (index) => dispatch('select', index),
+		onSelect,
 		onFocus: (index) => (focusIndex = index),
 		keyDownEvent,
 		keyDownPreventDefault
@@ -34,12 +45,12 @@
 			{@const isFocused = focusIndex === index}
 			<li
 				role="menuitem"
-				on:click={() => dispatch('select', index)}
-				on:keydown={() => dispatch('select', index)}
+				onclick={() => onSelect?.(index)}
+				onkeydown={() => onSelect?.(index)}
 				class="hover:bg-base-200 flex cursor-pointer items-center justify-start gap-3 rounded px-3 py-2"
 				class:bg-base-300={isFocused}
 			>
-				<slot {item} {index} />
+				{@render children({ item, index })}
 			</li>
 		{:else}
 			<li class="px-3 py-2 rounded opacity-70">
