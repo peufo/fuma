@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { PersistedState } from 'runed'
 	import { SunIcon, MoonIcon, SunMoonIcon } from '@lucide/svelte'
 	import { type Snippet } from 'svelte'
 	import { MediaQuery } from 'svelte/reactivity'
@@ -16,19 +17,20 @@
 		children?: Snippet<[{ toggleMode: () => void; setMode: (m: ModeUser) => void; mode: Mode }]>
 	} = $props()
 
-	let modeUser = $state<ModeUser>(null)
+	// let modeUser = $state<ModeUser>(null)
+	let modeUser = new PersistedState<ModeUser>('mode-user', null)
 	let modeSystemIsLight = new MediaQuery('prefers-color-scheme: light')
 	let modeSystem = $derived<Mode>(modeSystemIsLight.current ? 'light' : 'dark')
-	let mode = $derived(modeUser || modeSystem)
+	let mode = $derived(modeUser.current || modeSystem)
 
 	function toggleMode() {
-		if (!modeUser) return (modeUser = 'light')
-		if (modeUser === 'light') return (modeUser = 'dark')
-		modeUser = null
+		if (!modeUser.current) return (modeUser.current = 'light')
+		if (modeUser.current === 'light') return (modeUser.current = 'dark')
+		modeUser.current = null
 	}
 
 	function setMode(_mode: ModeUser) {
-		modeUser = _mode
+		modeUser.current = _mode
 	}
 
 	$effect(() => {
@@ -41,9 +43,9 @@
 	{@render children({ toggleMode, setMode, mode })}
 {:else}
 	<button class="btn btn-square btn-sm {klass}" onclick={toggleMode}>
-		{#if modeUser === 'light'}
+		{#if modeUser.current === 'light'}
 			<SunIcon />
-		{:else if modeUser === 'dark'}
+		{:else if modeUser.current === 'dark'}
 			<MoonIcon />
 		{:else}
 			<SunMoonIcon />
