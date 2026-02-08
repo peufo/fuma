@@ -17,7 +17,6 @@
 		children?: Snippet<[{ toggleMode: () => void; setMode: (m: ModeUser) => void; mode: Mode }]>
 	} = $props()
 
-	// let modeUser = $state<ModeUser>(null)
 	let modeUser = new PersistedState<ModeUser>('mode-user', null)
 	let modeSystemIsLight = new MediaQuery('prefers-color-scheme: light')
 	let modeSystem = $derived<Mode>(modeSystemIsLight.current ? 'light' : 'dark')
