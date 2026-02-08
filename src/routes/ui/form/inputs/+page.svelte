@@ -72,12 +72,16 @@
 	<a
 		href={urlParam.with({ outputTextRich: 'html' })}
 		class:underline={urlParam.hasValue('outputTextRich', 'html')}
+		data-sveltekit-noscroll
+		data-sveltekit-replacestate
 	>
 		HTML
 	</a>
 	<a
 		href={urlParam.with({ outputTextRich: 'json' })}
 		class:underline={urlParam.hasValue('outputTextRich', 'json')}
+		data-sveltekit-noscroll
+		data-sveltekit-replacestate
 	>
 		JSON
 	</a>
