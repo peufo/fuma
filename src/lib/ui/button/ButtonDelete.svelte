@@ -1,45 +1,63 @@
 <script lang="ts">
-	let klass = ''
-	export { klass as class }
-	export let formaction: string
-	export let disabled = false
-	export let btn = true
+	import type { HTMLButtonAttributes, MouseEventHandler } from 'svelte/elements'
+	import type { Snippet } from 'svelte'
+
+	let {
+		btn = true,
+		children,
+		formaction = '',
+		onclick: onclickProp,
+		onmouseleave: onmouseleaveProp,
+		...props
+	}: {
+		formaction: string
+		btn?: boolean
+		children?: Snippet<[{ waitConfirmation: boolean }]>
+	} & HTMLButtonAttributes = $props()
 
 	let button: HTMLButtonElement
-	let width = 0
-	let ready = false
+	let waitConfirmation = $state(false)
 	let timeout: NodeJS.Timeout
-	function handleClick(event: MouseEvent) {
-		if (ready) return
-		width = button.offsetWidth
+
+	const onclick: MouseEventHandler<HTMLButtonElement> = (event) => {
+		onclickProp?.(event)
+		if (waitConfirmation) return
 		event.preventDefault()
-		ready = true
-		timeout = setTimeout(() => (ready = false), 2000)
+		button.style.width = `${button.offsetWidth}px`
+		waitConfirmation = true
+		timeout = setTimeout(() => {
+			waitConfirmation = false
+			button.style.width = ''
+		}, 2000)
 	}
 
-	function handleLeave() {
-		ready = false
+	const onmouseleave: MouseEventHandler<HTMLButtonElement> = (event) => {
+		onmouseleaveProp?.(event)
+		waitConfirmation = false
+		button.style.width = ''
 		clearTimeout(timeout)
 	}
 </script>
 
 <button
 	bind:this={button}
-	class={klass}
-	class:btn
-	class:btn-error={btn && ready}
-	class:btn-outline={btn && ready}
-	class:text-error={btn && !ready}
-	class:btn-ghost={btn && !ready}
-	class:btn-disabled={disabled}
-	style:width={ready ? `${width}px` : ''}
-	on:click={handleClick}
-	on:mouseleave={handleLeave}
-	formaction={ready ? formaction : undefined}
+	class={[
+		btn && [
+			'btn',
+			waitConfirmation ? 'btn-error btn-outline' : 'text-error btn-ghost',
+			props.disabled && 'btn-disabled'
+		]
+	]}
+	formaction={waitConfirmation ? formaction : undefined}
+	{onclick}
+	{onmouseleave}
+	{...props}
 >
-	{#if ready}
-		<slot name="ready"><span>T'es sur ?</span></slot>
+	{#if children}
+		{@render children({ waitConfirmation })}
+	{:else if waitConfirmation}
+		<span>T'es sur ?</span>
 	{:else}
-		<slot>Supprimer</slot>
+		<span>Supprimer</span>
 	{/if}
 </button>
