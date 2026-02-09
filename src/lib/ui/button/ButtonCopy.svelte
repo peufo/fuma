@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { tip } from '$lib/action/tip.js'
 	import { CopyIcon, type IconProps } from '@lucide/svelte'
-	import type { Component, Snippet } from 'svelte'
+	import type { Component } from 'svelte'
 	import { toast } from 'svelte-sonner'
 	import type { MouseEventHandler } from 'svelte/elements'
 

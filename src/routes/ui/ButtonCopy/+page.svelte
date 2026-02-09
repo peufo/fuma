@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { getCSV } from '$lib/index.js'
-	import { ButtonCopy, ButtonDelete } from '$lib/ui/button/index.js'
+	import { ButtonCopy } from '$lib/ui/button/index.js'
 
 	async function getValue() {
 		await wait(1500)
@@ -23,5 +23,3 @@
 	<ButtonCopy title="Copy me !" value="Hey 👋" />
 	<ButtonCopy title="Copy async data" value={getValue} />
 </div>
-
-<ButtonDelete formaction="?/delete" />
