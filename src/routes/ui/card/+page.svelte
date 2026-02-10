@@ -1,24 +1,22 @@
 <script lang="ts">
-	import { Card, CardBasic, CardLink, CardFullScreen } from '$lib/ui/card/index.js'
+	import { Card, CardLink, CardFullScreen } from '$lib/ui/card/index.js'
 </script>
 
 <Card class="bg-red-500" bodyClass="bg-green-400">
-	{#snippet top()}
+	{#snippet snipTop()}
 		snippet top
 	{/snippet}
-	{#snippet title()}
+	{#snippet snipTitle()}
 		snippet title
 	{/snippet}
-	{#snippet subtitle()}
+	{#snippet snipSubtitle()}
 		snippet subtitle
 	{/snippet}
-	{#snippet action()}
+	{#snippet snipAction()}
 		snippet action
 	{/snippet}
 	<span>children</span>
 </Card>
-
-<CardBasic title="Title">Default slot</CardBasic>
 
 <CardLink title="Title" href="#">Default slot</CardLink>
 

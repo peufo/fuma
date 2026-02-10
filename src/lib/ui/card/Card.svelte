@@ -1,57 +1,55 @@
 <script lang="ts">
+	import type { HTMLAttributes } from 'svelte/elements'
 	import type { Snippet } from 'svelte'
 	import { ArrowLeftIcon } from '@lucide/svelte'
 	import { contextContainer } from '../context.js'
 
 	let {
-		class: klass = '',
 		bodyClass = '',
 		headerClass = '',
 		returnUrl = '',
-		style = '',
-		title,
-		action,
-		subtitle,
-		top,
-		children
-	}: {
-		class?: string
+		snipTitle,
+		snipAction,
+		snipSubtitle,
+		snipTop,
+		children,
+		...props
+	}: HTMLAttributes<HTMLDivElement> & {
 		bodyClass?: string
 		headerClass?: string
 		returnUrl?: string
-		style?: string
-		title?: Snippet
-		action?: Snippet
-		subtitle?: Snippet
-		top?: Snippet
+		snipTitle?: Snippet
+		snipAction?: Snippet
+		snipSubtitle?: Snippet
+		snipTop?: Snippet
 		children: Snippet
 	} = $props()
 
 	contextContainer.set('card')
 </script>
 
-<div class="card bordered border bg-base-100 shadow-lg {klass}" {style}>
-	{@render top?.()}
+<div class={['card bordered border bg-base-100 shadow-lg', props.class]} {...props}>
+	{@render snipTop?.()}
 
 	<div class="card-body rounded-b-2xl p-2 sm:p-8 {bodyClass}">
-		{#if title || action}
+		{#if snipTitle || snipAction}
 			<div class="flex flex-wrap items-center gap-2 {headerClass}">
 				{#if returnUrl}
 					<a href={returnUrl} class="btn btn-square btn-ghost btn-sm">
 						<ArrowLeftIcon size={20} />
 					</a>
 				{/if}
-				{#if title}
+				{#if snipTitle}
 					<div class="title grow">
-						{@render title()}
+						{@render snipTitle()}
 					</div>
 				{/if}
-				{@render action?.()}
+				{@render snipAction?.()}
 			</div>
 
-			{#if subtitle}
+			{#if snipSubtitle}
 				<div class="my-4 text-sm opacity-80">
-					{@render subtitle()}
+					{@render snipSubtitle()}
 				</div>
 			{/if}
 		{/if}
