@@ -86,10 +86,10 @@
 		"
 		class:border-l={noOverlay}
 		class="{klass} fixed
-      bottom-0 right-0 top-0 z-10 flex
+      		bottom-0 right-0 top-0 z-10 flex
 			w-full flex-col overflow-y-scroll bg-base-100
 			transition-transform
-    "
+    	"
 	>
 		<div
 			class="{classHeader}

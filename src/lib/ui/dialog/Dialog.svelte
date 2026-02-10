@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { onMount, type Snippet } from 'svelte'
 	import { XIcon } from '@lucide/svelte'
+	import { activeElement } from 'runed'
 
 	let {
 		dialog = $bindable(),
@@ -8,6 +9,7 @@
 		class: klass = '',
 		onOpen,
 		onClose,
+		activator,
 		header,
 		footer,
 		children
@@ -17,6 +19,7 @@
 		class?: string
 		onOpen?: () => void
 		onClose?: () => void
+		activator?: Snippet<[{ showModal: () => void }]>
 		header?: Snippet
 		footer?: Snippet
 		children: Snippet
@@ -51,6 +54,8 @@
 		return () => observer.disconnect()
 	})
 </script>
+
+{@render activator?.({ showModal: () => dialog?.showModal() })}
 
 <dialog bind:this={dialog} class="modal" tabindex="-1">
 	<div class="modal-box bordered flex flex-col rounded-lg border p-0">

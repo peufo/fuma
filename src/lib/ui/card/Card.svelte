@@ -1,11 +1,12 @@
 <script lang="ts">
-	import type { HTMLAttributes } from 'svelte/elements'
+	import type { ClassValue, HTMLAttributes } from 'svelte/elements'
 	import type { Snippet } from 'svelte'
 	import { ArrowLeftIcon } from '@lucide/svelte'
 
 	let {
-		bodyClass = '',
-		headerClass = '',
+		class: _class,
+		bodyClass,
+		headerClass,
 		returnUrl = '',
 		snipTitle,
 		snipAction,
@@ -13,24 +14,26 @@
 		snipTop,
 		children,
 		...props
-	}: HTMLAttributes<HTMLDivElement> & {
-		bodyClass?: string
-		headerClass?: string
+	}: {
+		bodyClass?: ClassValue
+		headerClass?: ClassValue
 		returnUrl?: string
 		snipTitle?: Snippet
 		snipAction?: Snippet
 		snipSubtitle?: Snippet
 		snipTop?: Snippet
 		children: Snippet
-	} = $props()
+	} & HTMLAttributes<HTMLDivElement> = $props()
+
+	$inspect(props)
 </script>
 
-<div class={['card bordered border bg-base-100 shadow-lg', props.class]} {...props}>
+<div class={['card bordered border bg-base-100 shadow-lg', _class]} {...props}>
 	{@render snipTop?.()}
 
-	<div class="card-body rounded-b-2xl p-2 sm:p-8 {bodyClass}">
+	<div class={['card-body rounded-b-lg p-2 sm:p-8', bodyClass]}>
 		{#if snipTitle || snipAction}
-			<div class="flex flex-wrap items-center gap-2 {headerClass}">
+			<div class={['flex flex-wrap items-center gap-2', headerClass]}>
 				{#if returnUrl}
 					<a href={returnUrl} class="btn btn-square btn-ghost btn-sm">
 						<ArrowLeftIcon size={20} />

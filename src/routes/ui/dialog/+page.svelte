@@ -1,12 +1,11 @@
 <script lang="ts">
-	import { Dialog, DialogConfirm } from '$lib/ui/dialog/index.js'
-
-	let dialogElement: HTMLDialogElement
+	import { Dialog } from '$lib/ui/dialog/index.js'
 </script>
 
-<button class="btn" onclick={() => dialogElement.showModal()}>Ouvrir dialog</button>
-
-<Dialog bind:dialog={dialogElement}>
+<Dialog>
+	{#snippet activator({ showModal })}
+		<button class="btn" onclick={showModal}>Ouvrir dialog</button>
+	{/snippet}
 	{#snippet header()}
 		<div>snippet="header"</div>
 	{/snippet}
@@ -16,17 +15,4 @@
 	{/snippet}
 </Dialog>
 
-<DialogConfirm>
-	{#snippet activator({ showModal })}
-		<button class="btn btn-ghost" onclick={showModal}>Dangerous action ?</button>
-	{/snippet}
-	{#snippet header()}
-		<div>snippet="header"</div>
-	{/snippet}
-	<span>children</span>
-	{#snippet action()}
-		<div>snippet="action"</div>
-	{/snippet}
-</DialogConfirm>
-
-<div class="my-40 h-350 rounded bg-green-300"></div>
+<div class="my-40 h-350 rounded bg-green-300/30"></div>

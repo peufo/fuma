@@ -4,6 +4,7 @@
 	import { Toaster } from 'svelte-sonner'
 	import Tree from './Tree.svelte'
 	import { ToggleMode } from '$lib/ui/mode/index.js'
+	import { param, urlParam } from '$lib/index.js'
 
 	let tree = Object.keys(import.meta.glob('./**/+page.svelte'))
 		.map((p) => p.replace('./', '').replace(/\/?\+page.svelte/, ''))
@@ -12,6 +13,7 @@
 </script>
 
 <Toaster />
+
 <!-- TODO: find an alternative of drawerTransitionX -->
 <!-- <div class="flex items-start gap-4 p-2" style="padding-right: {$drawerTransitionX + 8}px;"> -->
 <div class="flex items-start gap-4 p-2">
