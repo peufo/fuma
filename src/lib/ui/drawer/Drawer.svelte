@@ -10,7 +10,6 @@
 	import { goto } from '$app/navigation'
 	import { urlParam } from '$lib/state/param.svelte.js'
 	import { subscibeDrawerLayers } from './layers.js'
-	import { contextContainer } from '../context.js'
 	import { drawerFly } from './drawerFly.js'
 	import { writable } from 'svelte/store'
 
@@ -53,7 +52,6 @@
 
 	let { offset, index, destroy, isActive } = $derived(subscibeDrawerLayers(key))
 	onDestroy(() => destroy())
-	contextContainer.set('drawer')
 	let clientWidth = $state(0)
 </script>
 

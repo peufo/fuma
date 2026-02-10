@@ -2,7 +2,6 @@
 	import type { HTMLAttributes } from 'svelte/elements'
 	import type { Snippet } from 'svelte'
 	import { ArrowLeftIcon } from '@lucide/svelte'
-	import { contextContainer } from '../context.js'
 
 	let {
 		bodyClass = '',
@@ -24,8 +23,6 @@
 		snipTop?: Snippet
 		children: Snippet
 	} = $props()
-
-	contextContainer.set('card')
 </script>
 
 <div class={['card bordered border bg-base-100 shadow-lg', props.class]} {...props}>

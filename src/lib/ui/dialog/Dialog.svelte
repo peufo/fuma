@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { onMount, type Snippet } from 'svelte'
 	import { XIcon } from '@lucide/svelte'
-	import { contextContainer } from '../context.js'
 
 	let {
 		dialog = $bindable(),
@@ -22,8 +21,6 @@
 		footer?: Snippet
 		children: Snippet
 	} = $props()
-
-	contextContainer.set('dialog')
 
 	onMount(() => {
 		if (!dialog) return
@@ -78,4 +75,7 @@
 
 		{@render footer?.()}
 	</div>
+	<form method="dialog" class="modal-backdrop">
+		<button>close</button>
+	</form>
 </dialog>
