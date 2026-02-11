@@ -30,6 +30,9 @@ class Param {
 	hasValue(key: string, value: string) {
 		return page.url.searchParams.get(key) === value
 	}
+	keys() {
+		return page.url.searchParams.keys()
+	}
 }
 
 export const param = new Param()

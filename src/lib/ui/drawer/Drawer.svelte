@@ -3,15 +3,15 @@
 </script>
 
 <script lang="ts">
-	import { onDestroy, type Snippet } from 'svelte'
+	import { type Snippet } from 'svelte'
 	import { fade } from 'svelte/transition'
 	import { XIcon } from '@lucide/svelte'
 
 	import { goto } from '$app/navigation'
 	import { urlParam } from '$lib/state/param.svelte.js'
-	import { subscibeDrawerLayers } from './layers.js'
 	import { drawerFly } from './drawerFly.js'
 	import { writable } from 'svelte/store'
+	import { useLayer } from './useLayer.svelte.js'
 
 	let {
 		key,
@@ -49,25 +49,23 @@
 	export function close(options: GotoOptions = {}) {
 		return goto(urlParam.without(key), { ...options, replaceState: true, noScroll: true })
 	}
-
-	let { offset, index, destroy, isActive } = $derived(subscibeDrawerLayers(key))
-	onDestroy(() => destroy())
+	let { offset, index, isActive } = $derived(useLayer(key))
 	let clientWidth = $state(0)
 </script>
 
-{#if !noOverlay && $isActive}
+{#if !noOverlay && isActive}
 	<div
 		role="button"
 		onclick={() => close()}
 		onkeyup={() => close()}
 		tabindex={-1}
 		transition:fade={{ duration }}
-		style="z-index: {zIndex + $index};"
+		style="z-index: {zIndex + index};"
 		class="fixed inset-0 bg-black/15 backdrop-blur-[1.5px] dark:bg-white/15"
 	></div>
 {/if}
 
-{#if $isActive}
+{#if isActive}
 	<aside
 		bind:clientWidth
 		transition:drawerFly|local={{
@@ -79,9 +77,9 @@
 			}
 		}}
 		style="
-			z-index: {zIndex + $index};
+			z-index: {zIndex + index};
 			max-width: min(100%, {maxWidth});
-			transform: translateX({-$offset * 4}rem);
+			transform: translateX({-offset * 4}rem);
 			transition-duration: {duration}ms;
 		"
 		class:border-l={noOverlay}
