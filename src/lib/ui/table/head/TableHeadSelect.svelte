@@ -6,7 +6,7 @@
 	import type { ItemBase, TableField } from '$lib/ui/table/index.js'
 	import { DropDown } from '$lib/ui/menu/index.js'
 	import { type Options, parseOptions } from '$lib/utils/options.js'
-	import { urlParam } from '$lib/state/param.svelte.js'
+	import { param, urlParam } from '$lib/state/param.svelte.js'
 
 	let {
 		field,
@@ -38,7 +38,7 @@
 	let optionsActive = $derived(options.filter((option) => option.isActive))
 
 	const getHref = $derived((value: string) => {
-		const selections = jsonParse<string[]>(urlParam.get(field.key), [])
+		const selections = jsonParse<string[]>(param.get(field.key), [])
 		if (!multiSelect) return urlParam.toggle({ [field.key]: value }, 'skip', 'take')
 		if (selections.includes(value)) {
 			const newSelections = selections.filter((v) => v !== value)

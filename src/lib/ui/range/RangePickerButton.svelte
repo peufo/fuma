@@ -3,7 +3,7 @@
 	import { goto } from '$app/navigation'
 	import { slide } from 'svelte/transition'
 
-	import { urlParam } from '$lib/state/param.svelte.js'
+	import { param, urlParam } from '$lib/state/param.svelte.js'
 	import { formatRangeShort } from '$lib/ui/range/format.js'
 	import { DropDown } from '$lib/ui/menu/index.js'
 	import { InputTime } from '$lib/ui/input/index.js'
@@ -16,7 +16,7 @@
 	let {
 		key = 'range',
 		range = $bindable(
-			jsonParse<RangeAsDate>(urlParam.get(key), {
+			jsonParse<RangeAsDate>(param.get(key), {
 				start: null,
 				end: null
 			})

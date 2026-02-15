@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { parseOptions, type Options } from '$lib/utils/options.js'
-	import { urlParam } from '$lib/state/param.svelte.js'
+	import { param, urlParam } from '$lib/state/param.svelte.js'
 
 	let klass = ''
 	export { klass as class }
@@ -13,7 +13,7 @@
 
 <div class="join {klass}">
 	{#each _options as opt}
-		{@const active = urlParam.hasValue(key, opt.value)}
+		{@const active = param.hasValue(key, opt.value)}
 		<a
 			href={urlParam.toggle({ [key]: opt.value }, ...removeKeys)}
 			class="btn join-item btn-sm"

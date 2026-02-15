@@ -1,5 +1,5 @@
 import debounce from 'debounce'
-import { urlParam } from '$lib/state/param.svelte.js'
+import { param, urlParam } from '$lib/state/param.svelte.js'
 import { goto } from '$app/navigation'
 
 type BindOptions = {
@@ -22,7 +22,7 @@ export function bindValueWithParams(
 	if (!name || !bindEnable) return
 
 	const importValueFromParams = () => {
-		const value = urlParam.get(name)
+		const value = param.get(name)
 		if (value) return initValue(value)
 	}
 
@@ -56,8 +56,8 @@ export function bindCheckedWithParams(
 	if (!name || !bindEnable) return
 
 	const importValueFromParams = () => {
-		if (!urlParam.has(name)) return
-		const paramValue = urlParam.get(name)
+		if (!param.has(name)) return
+		const paramValue = param.get(name)
 		if (paramValue) initValue(paramValue)
 	}
 

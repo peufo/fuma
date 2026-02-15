@@ -4,7 +4,7 @@
 	import { Toaster } from 'svelte-sonner'
 	import Tree from './Tree.svelte'
 	import { ToggleMode } from '$lib/ui/mode/index.js'
-	import { param, urlParam } from '$lib/index.js'
+	import { urlParam } from '$lib/index.js'
 
 	let tree = Object.keys(import.meta.glob('./**/+page.svelte'))
 		.map((p) => p.replace('./', '').replace(/\/?\+page.svelte/, ''))
@@ -22,6 +22,9 @@
 			<div class="flex items-center gap-4">
 				<h2 class="title mr-auto">Fuma</h2>
 				<ToggleMode />
+			</div>
+			<div>
+				{urlParam.with({ prout: 42 })}
 			</div>
 		</header>
 

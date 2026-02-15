@@ -9,7 +9,7 @@
 	} from '@lucide/svelte'
 	import { goto } from '$app/navigation'
 	import { page } from '$app/state'
-	import { urlParam } from '$lib/state/param.svelte.js'
+	import { param, urlParam } from '$lib/state/param.svelte.js'
 	import { listEditable } from '$lib/action/list/index.js'
 	import { jsonParse } from '$lib/utils/jsonParse.js'
 	import { context } from '$lib/ui/table/context.js'
@@ -113,7 +113,7 @@
 						>
 							{#if field.locked}
 								<CheckIcon class="fill-base-content/50" size={21} />
-							{:else if urlParam.has(field.key)}
+							{:else if param.has(field.key)}
 								<CircleCheckIcon class="fill-primary" size={21} />
 							{:else if field._visible}
 								<CheckIcon class="fill-success" size={21} />
