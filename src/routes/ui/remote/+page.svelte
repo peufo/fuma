@@ -1,11 +1,11 @@
 <script lang="ts">
-	import { userSchema } from './db.ts'
-	import { createUser, getUser } from './test.remote.ts'
+	import { userSchema } from './db.ts';
+	import { createUser, getUser } from './test.remote.ts';
 
-	let { data } = $props()
+	let { data } = $props();
 
-	let age = $state(42)
-	const user = $derived(getUser({ age }))
+	let age = $state(42);
+	const user = $derived(getUser({ age }));
 </script>
 
 <h2>REMOTE</h2>
@@ -20,7 +20,7 @@
 		<form {...createUser.preflight(userSchema)} class="flex flex-col gap-3 p-3">
 			<label class="floating-label">
 				<span>Name</span>
-				<input class="input validator" {...createUser.fields.name.as('text')} />
+				<input class="validator input" {...createUser.fields.name.as('text')} />
 				<div class="validator-hint">
 					{#each createUser.fields.name.issues() as issue}
 						{issue.message}<br />
@@ -29,7 +29,7 @@
 			</label>
 			<label class="floating-label">
 				<span>Age</span>
-				<input class="input validator" {...createUser.fields.age.as('number')} />
+				<input class="validator input" {...createUser.fields.age.as('number')} />
 				<div class="validator-hint">
 					{#each createUser.fields.age.issues() as issue}
 						{issue.message}<br />
@@ -38,7 +38,7 @@
 			</label>
 			<div>
 				<label class="label">
-					<input class="toggle validator" {...createUser.fields.isValided.as('checkbox')} />
+					<input class="validator toggle" {...createUser.fields.isValided.as('checkbox')} />
 					<span>Valided ?</span>
 				</label>
 				<div class="validator-hint">
