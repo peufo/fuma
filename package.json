@@ -20,7 +20,8 @@
 		"migrate": "prisma migrate dev",
 		"generate": "prisma generate",
 		"studio": "prisma studio",
-		"seed": "prisma db seed"
+		"seed": "prisma db seed",
+		"biome": "biome"
 	},
 	"svelte": "./dist/index.js",
 	"types": "./dist/index.d.ts",
@@ -68,6 +69,7 @@
 		"zod": "^4.3.6"
 	},
 	"devDependencies": {
+		"@biomejs/biome": "2.4.2",
 		"@sveltejs/adapter-auto": "^7.0.0",
 		"@sveltejs/kit": "^2.50.2",
 		"@sveltejs/package": "^2.5.7",
