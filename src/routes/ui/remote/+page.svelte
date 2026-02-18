@@ -15,11 +15,8 @@
 	<form {...form} class="flex max-w-xs grow flex-col gap-6 rounded-lg border p-3 pt-6">
 		<InputString field={form.fields.name} label="Name" />
 		<InputNumber field={form.fields.age} label="Age" />
-
 		<InputBoolean field={form.fields.isValided} label="Membre validé ?" hint="lorem ipsum" />
-
 		<InputString field={form.fields.subscribeAt} type="date" label="Inscription" />
-
 		<button class="btn">Create</button>
 	</form>
 

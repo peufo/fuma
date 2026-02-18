@@ -21,6 +21,7 @@
 	let input = $state<HTMLInputElement>();
 
 	const toggleValue = async () => {
+		if (input?.disabled) return;
 		field.set(!field.value());
 		await tick();
 		input?.dispatchEvent(new Event('input', { bubbles: true }));
@@ -41,7 +42,12 @@
 				<div class="text-xs opacity-70">{hint}</div>
 			{/if}
 		</div>
-		<input class={[variant, klass]} {...field.as('checkbox')} {...props} bind:this={input} />
+		<input
+			class={[variant, 'toggle', klass]}
+			{...field.as('checkbox')}
+			{...props}
+			bind:this={input}
+		/>
 	</div>
 	<Issues {field} />
 </div>
@@ -57,5 +63,9 @@
 	}
 	div[role='button']:hover {
 		border-color: var(--color-base-content);
+	}
+	div[role='button']:has(input:disabled) {
+		cursor: not-allowed;
+		border-color: var(--input-color);
 	}
 </style>
