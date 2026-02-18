@@ -15,8 +15,8 @@ export function useForm<Input extends RemoteFormInput | undefined, Output>(
 	const validation: Attachment<HTMLFormElement> = (formElement) => {
 		const debouncedValidate = debounce(() => remoteForm.validate(), debounceMs);
 		return on(formElement, 'input', ({ target }) => {
-			if (target && 'ariaInvalid' in target) {
-				target.ariaInvalid === 'true'
+			if (target && 'ariaInvalid' in target && 'type' in target) {
+				target.ariaInvalid === 'true' || target.type === 'checkbox'
 					? remoteForm.validate()
 					: debouncedValidate();
 			}

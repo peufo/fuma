@@ -20,7 +20,7 @@ export const users: User[] = [];
 export const schemaUser = z.object({
 	name: z.string().min(3),
 	age: z.number().min(18).max(120),
-	isValided: z.boolean().catch(false),
+	isValided: z.literal(true, 'Validation requise'),
 	subscribeAt: z.iso.date(),
 	// gender: z.enum(userGenders),
 	// tags: z.array(z.enum(userTags)).default([]),

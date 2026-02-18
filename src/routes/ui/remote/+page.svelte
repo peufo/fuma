@@ -2,7 +2,6 @@
 	import { schemaUser } from './db.ts';
 	import InputBoolean from './InputBoolean.svelte';
 	import InputNumber from './InputNumber.svelte';
-	import InputRange from './InputRange.svelte';
 	import InputString from './InputString.svelte';
 	import { formCreateUser } from './test.remote.ts';
 	import { useForm } from './useForm.ts';

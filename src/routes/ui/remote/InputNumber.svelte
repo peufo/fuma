@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { RemoteFormField } from '@sveltejs/kit';
-	import type { HTMLInputAttributes } from 'svelte/elements';
 	import Issues from './Issues.svelte';
+	import type { InputProps } from './type.ts';
 
 	let {
 		label,
@@ -11,7 +11,7 @@
 	}: {
 		label: string;
 		field: RemoteFormField<number>;
-	} & Omit<HTMLInputAttributes, 'name' | 'value' | 'aria-invalid'> = $props();
+	} & InputProps = $props();
 </script>
 
 <label class="floating-label">
