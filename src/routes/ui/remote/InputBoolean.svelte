@@ -7,12 +7,13 @@
 		field,
 		label,
 		hint,
-		type = 'text',
+		variant = 'toggle',
 		class: klass,
 		...props
 	}: {
 		label: string;
 		hint?: string;
+		variant?: 'checkbox' | 'toggle';
 		field: RemoteFormField<boolean>;
 	} & Omit<HTMLInputAttributes, 'name' | 'value' | 'aria-invalid'> = $props();
 
@@ -21,7 +22,7 @@
 
 <div
 	role="button"
-	class="flex cursor-pointer border p-2 pl-3"
+	class={['flex cursor-pointer border p-2 pl-3', !hint && 'items-center']}
 	tabindex="-1"
 	onclick={() => toggleValue()}
 	onkeydown={(e) => e.key === 'space' && toggleValue()}
@@ -33,7 +34,7 @@
 		{/if}
 		<Issues {field} />
 	</div>
-	<input class={['toggle', klass]} {...field.as('checkbox')} {...props} />
+	<input class={[variant, klass]} {...field.as('checkbox')} {...props} />
 </div>
 
 <style>
