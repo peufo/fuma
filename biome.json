@@ -17,6 +17,14 @@
 			"recommended": true
 		}
 	},
+	"assist": {
+		"enabled": true,
+		"actions": {
+			"source": {
+				"organizeImports": "on"
+			}
+		}
+	},
 	"javascript": {
 		"formatter": {
 			"quoteStyle": "single",
@@ -24,12 +32,9 @@
 			"indentStyle": "tab"
 		}
 	},
-	"assist": {
-		"enabled": true,
-		"actions": {
-			"source": {
-				"organizeImports": "on"
-			}
+	"css": {
+		"parser": {
+			"tailwindDirectives": true
 		}
 	},
 	"overrides": [

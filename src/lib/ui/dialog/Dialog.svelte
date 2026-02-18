@@ -1,7 +1,6 @@
 <script lang="ts">
-	import { onMount, type Snippet } from 'svelte'
-	import { XIcon } from '@lucide/svelte'
-	import { activeElement } from 'runed'
+	import { XIcon } from '@lucide/svelte';
+	import { onMount, type Snippet } from 'svelte';
 
 	let {
 		dialog = $bindable(),
@@ -14,51 +13,53 @@
 		footer,
 		children
 	}: {
-		dialog?: HTMLDialogElement
-		hideCloseButton?: boolean
-		class?: string
-		onOpen?: () => void
-		onClose?: () => void
-		activator?: Snippet<[{ showModal: () => void }]>
-		header?: Snippet
-		footer?: Snippet
-		children: Snippet
-	} = $props()
+		dialog?: HTMLDialogElement;
+		hideCloseButton?: boolean;
+		class?: string;
+		onOpen?: () => void;
+		onClose?: () => void;
+		activator?: Snippet<[{ showModal: () => void }]>;
+		header?: Snippet;
+		footer?: Snippet;
+		children: Snippet;
+	} = $props();
 
 	onMount(() => {
-		if (!dialog) return
-		const inputsSelector = 'input:not([type=hidden], [tabindex="-1"])'
-		const inputs = dialog.querySelectorAll<HTMLInputElement>(inputsSelector)
-		const buttons = dialog.querySelectorAll<HTMLButtonElement>('button')
+		if (!dialog) return;
+		const inputsSelector = 'input:not([type=hidden], [tabindex="-1"])';
+		const inputs = dialog.querySelectorAll<HTMLInputElement>(inputsSelector);
+		const buttons = dialog.querySelectorAll<HTMLButtonElement>('button');
 
-		inputs.forEach((input) => (input.tabIndex = -1))
-		buttons.forEach((button) => (button.tabIndex = -1))
+		inputs.forEach((input) => (input.tabIndex = -1));
+		buttons.forEach((button) => (button.tabIndex = -1));
 
 		function onDialogOpen() {
-			onOpen?.()
-			inputs.forEach((input) => (input.tabIndex = 0))
-			buttons.forEach((button) => (button.tabIndex = 0))
-			if (!inputs[0]) return
-			inputs[0].focus()
-			inputs[0].select()
+			onOpen?.();
+			inputs.forEach((input) => {
+				input.tabIndex = 0;
+			});
+			buttons.forEach((button) => (button.tabIndex = 0));
+			if (!inputs[0]) return;
+			inputs[0].focus();
+			inputs[0].select();
 		}
 
 		function onDialogClose() {
-			onClose?.()
-			inputs.forEach((input) => (input.tabIndex = -1))
-			buttons.forEach((button) => (button.tabIndex = -1))
+			onClose?.();
+			inputs.forEach((input) => (input.tabIndex = -1));
+			buttons.forEach((button) => (button.tabIndex = -1));
 		}
 
-		const observer = new MutationObserver(() => (dialog?.open ? onDialogOpen() : onDialogClose()))
-		observer.observe(dialog, { attributeFilter: ['open'] })
-		return () => observer.disconnect()
-	})
+		const observer = new MutationObserver(() => (dialog?.open ? onDialogOpen() : onDialogClose()));
+		observer.observe(dialog, { attributeFilter: ['open'] });
+		return () => observer.disconnect();
+	});
 </script>
 
 {@render activator?.({ showModal: () => dialog?.showModal() })}
 
 <dialog bind:this={dialog} class="modal" tabindex="-1">
-	<div class="modal-box bordered flex flex-col rounded-lg border p-0">
+	<div class="bordered modal-box flex flex-col rounded-lg border p-0">
 		<div class="relative flex items-center border-b p-4">
 			<div class="grow">
 				{@render header?.()}

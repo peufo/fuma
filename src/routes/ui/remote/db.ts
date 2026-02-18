@@ -17,7 +17,7 @@ export const userTags = ['rider', 'biker', 'skater'] as const;
 
 export const users: User[] = [];
 
-export const userSchema = z.object({
+export const schemaUser = z.object({
 	name: z.string().min(3),
 	age: z.number().min(18).max(120),
 	isValided: z.boolean().catch(false),

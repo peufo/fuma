@@ -1,38 +1,22 @@
 <script lang="ts">
 	import type { RemoteFormField } from '@sveltejs/kit';
 	import type { HTMLInputAttributes } from 'svelte/elements';
-	import { slide } from 'svelte/transition';
 	import Issues from './Issues.svelte';
 
 	let {
 		label,
 		field,
-		type = 'text',
 		class: klass,
 		...props
 	}: {
 		label: string;
-		field: RemoteFormField<string>;
-		type?:
-			| 'text'
-			| 'email'
-			| 'password'
-			| 'url'
-			| 'tel'
-			| 'search'
-			| 'date'
-			| 'datetime-local'
-			| 'time'
-			| 'month'
-			| 'week'
-			| 'color'
-			| 'select';
+		field: RemoteFormField<number>;
 	} & Omit<HTMLInputAttributes, 'name' | 'value' | 'aria-invalid'> = $props();
 </script>
 
 <label class="floating-label">
 	<span>{label}</span>
-	<input placeholder={label} class={['input', klass]} {...field.as(type)} {...props} />
+	<input placeholder={label} class={['input', klass]} {...field.as('number')} {...props} />
 	<Issues {field} />
 </label>
 
