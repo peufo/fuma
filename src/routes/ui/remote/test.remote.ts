@@ -9,7 +9,7 @@ export const getUser = query(z.object({ age: z.number() }), async ({ age }) => {
 	};
 });
 
-export const createUser = form(userSchema, async (data) => {
+export const formCreateUser = form(userSchema, async (data) => {
 	users.push(data);
 	return data;
 });
