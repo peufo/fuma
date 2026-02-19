@@ -36,7 +36,7 @@
 </label>
 
 <style>
-	:global(input[aria-invalid='true']) {
+	input[aria-invalid='true'] {
 		--input-color: var(--color-error);
 	}
 </style>

@@ -27,7 +27,11 @@
 					<option.icon size={18} opacity={0.8} />
 				{/if}
 				<span>{option.label}</span>
-				<input {...field.as('radio', option.value)} class={['radio ml-auto', klass]} {...props} />
+				<input
+					{...field.as('radio', option.value)}
+					class={['radio ml-auto radio-sm', klass]}
+					{...props}
+				/>
 			</label>
 		{/each}
 	</div>

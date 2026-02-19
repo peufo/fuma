@@ -1,10 +1,12 @@
 <script lang="ts">
-	import { schemaUser, userGendersOptions } from './db.ts';
+	import { schemaUser, userGenderOptions } from './db.ts';
 	import InputBoolean from './InputBoolean.svelte';
 	import InputNumber from './InputNumber.svelte';
 	import InputRadio from './InputRadio.svelte';
 	import InputRange from './InputRange.svelte';
+	import InputSelect from './InputSelect.svelte';
 	import InputString from './InputString.svelte';
+	import InputTextarea from './InputTextarea.svelte';
 	import { formCreateUser } from './test.remote.ts';
 	import { useForm } from './useForm.ts';
 
@@ -21,13 +23,13 @@
 		<InputBoolean
 			field={form.fields.isValided}
 			label="Membre validé ?"
-			variant="switch"
 			hint="laskdjalsk djaslkdj aslkdjaslkd jaslkdjaslkd "
 		/>
+		<InputTextarea field={form.fields.cv} label="cv" placeholder="Raconte nous ta vie" />
 
 		<InputString field={form.fields.subscribeAt} type="date" label="Inscription" />
-
-		<InputRadio field={form.fields.gender} label="Genre" options={userGendersOptions} />
+		<InputRadio field={form.fields.gender} label="Genre" options={userGenderOptions} />
+		<InputSelect field={form.fields.gender2} label="Genre2" options={userGenderOptions} />
 
 		<button class="btn">Create</button>
 	</form>
