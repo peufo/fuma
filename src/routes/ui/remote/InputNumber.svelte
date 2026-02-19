@@ -15,7 +15,7 @@
 </script>
 
 <label class="floating-label">
-	<span>{label}</span>
+	<span class="label">{label}</span>
 	<input placeholder={label} class={['input', klass]} {...field.as('number')} {...props} />
 	<Issues {field} />
 </label>

@@ -15,7 +15,10 @@
 </script>
 
 <label>
-	<span class="px-3 text-sm font-light">{label}</span>
+	<div class="flex gap-2 px-3 text-sm">
+		<span class="label">{label}</span>
+		<span class="ml-auto">{field.value()}</span>
+	</div>
 	<input class={['range range-sm', klass]} {...field.as('range')} {...props} />
 	<Issues {field} />
 </label>

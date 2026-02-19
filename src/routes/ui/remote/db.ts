@@ -1,14 +1,16 @@
+import { MarsIcon, VenusAndMarsIcon, VenusIcon } from '@lucide/svelte';
 import z from 'zod';
-import type { ShapeOf } from '$lib/index.ts';
+import type { OptionRecord, ShapeOf } from '$lib/index.ts';
 
 export type UserGender = (typeof userGenders)[number];
 export type UserTag = (typeof userTags)[number];
 export type User = {
 	name: string;
 	age: number;
+	level: number;
 	isValided: boolean;
 	subscribeAt: string;
-	// gender: UserGender;
+	gender: UserGender;
 	// tags: UserTag[];
 };
 
@@ -20,8 +22,15 @@ export const users: User[] = [];
 export const schemaUser = z.object({
 	name: z.string().min(3),
 	age: z.number().min(18).max(120),
+	level: z.number().min(0).max(100),
 	isValided: z.literal(true, 'Validation requise'),
 	subscribeAt: z.iso.date(),
-	// gender: z.enum(userGenders),
+	gender: z.enum(userGenders),
 	// tags: z.array(z.enum(userTags)).default([]),
 } satisfies ShapeOf<User>);
+
+export const userGendersOptions = {
+	male: { label: 'Homme', icon: MarsIcon },
+	female: { label: 'Femme', icon: VenusIcon },
+	other: { label: 'Autre', icon: VenusAndMarsIcon },
+} satisfies OptionRecord<UserGender>;

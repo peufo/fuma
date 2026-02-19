@@ -31,13 +31,13 @@
 <div>
 	<div
 		role="button"
-		class={['flex cursor-pointer border p-2 pl-3', !hint && 'items-center']}
+		class={['flex cursor-pointer rounded-field border p-2 pl-3', !hint && 'items-center']}
 		tabindex="-1"
 		onclick={() => toggleValue()}
 		onkeydown={(e) => e.key === 'space' && toggleValue()}
 	>
 		<div class="grow text-left">
-			<div class="text-sm font-light">{label}</div>
+			<div class="label text-sm">{label}</div>
 			{#if hint}
 				<div class="text-xs opacity-70">{hint}</div>
 			{/if}
@@ -55,7 +55,6 @@
 <style>
 	div[role='button'] {
 		--input-color: color-mix(in oklab, var(--color-base-content) 20%, #0000);
-		border-radius: var(--radius-field);
 		border-color: var(--input-color);
 	}
 	div[role='button']:has(input[aria-invalid='true']) {
