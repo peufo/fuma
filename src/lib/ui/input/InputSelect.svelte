@@ -1,9 +1,9 @@
 <script lang="ts">
-	import { ChevronsUpDownIcon } from '@lucide/svelte'
-	import { DropDown } from '$lib/ui/menu/index.js'
-	import { SelectorList, FormControl, type InputProps } from '$lib/ui/input/index.js'
-	import { type Options, parseOptions } from '$lib/utils/options.js'
-	import type { TippyProps } from '$lib/utils/tippy.js'
+	import { ChevronsUpDownIcon } from '@lucide/svelte';
+	import { FormControl, type InputProps, SelectorList } from '$lib/ui/input/index.js';
+	import { DropDown } from '$lib/ui/menu/index.js';
+	import { type Options, parseOptions } from '$lib/utils/options.js';
+	import type { TippyProps } from '$lib/utils/tippy.js';
 
 	let {
 		value = $bindable(''),
@@ -14,30 +14,30 @@
 		onInput,
 		...props
 	}: Omit<InputProps, 'input' | 'inputElement'> & {
-		options: Options
-		tippyProps?: TippyProps
-		placeholder?: string
-		disabled?: boolean
-		onInput?: (value: string | null) => void
-	} = $props()
+		options: Options;
+		tippyProps?: TippyProps;
+		placeholder?: string;
+		disabled?: boolean;
+		onInput?: (value: string | null) => void;
+	} = $props();
 
-	let options = $derived(parseOptions(optionsProp))
-	let selectedOption = $derived(options.find((opt) => opt.value === value))
+	let options = $derived(parseOptions(optionsProp));
+	let selectedOption = $derived(options.find((opt) => opt.value === value));
 
-	let dropDown = $state<DropDown>()
-	let button = $state<HTMLButtonElement>()
+	let dropDown = $state<DropDown>();
+	let button = $state<HTMLButtonElement>();
 	let focusIndex = $state(
 		(() => {
-			const index = options.findIndex((opt) => opt.value === value)
-			return index === -1 ? 0 : index
+			const index = options.findIndex((opt) => opt.value === value);
+			return index === -1 ? 0 : index;
 		})()
-	)
+	);
 
 	function onSelect(index: number) {
-		focusIndex = index
-		value = options[index].value
-		onInput?.(value)
-		dropDown?.hide()
+		focusIndex = index;
+		value = options[index].value;
+		onInput?.(value);
+		dropDown?.hide();
 	}
 </script>
 
@@ -72,7 +72,7 @@
 	<SelectorList
 		trigger={button}
 		{focusIndex}
-		items={options.map((opt) => ({ id: opt.value, ...opt })).filter((opt) => !opt.disable)}
+		items={options.map((opt) => ({ id: opt.value, ...opt })).filter((opt) => !opt.disabled)}
 		{onSelect}
 		class="w-full"
 	>

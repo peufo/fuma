@@ -1,6 +1,6 @@
 <script lang="ts" generics="Item extends {id: string | number}">
-	import { selector } from '$lib/action/selector.js'
-	import type { Snippet } from 'svelte'
+	import type { Snippet } from 'svelte';
+	import { selector } from '$lib/action/selector.js';
 
 	let {
 		items,
@@ -14,17 +14,17 @@
 		onSelect,
 		children
 	}: {
-		items: Item[]
-		class?: string
-		isError?: boolean
-		isLoading?: boolean
-		focusIndex?: number
-		trigger?: HTMLElement
-		keyDownEvent?: KeyboardEvent
-		keyDownPreventDefault?: boolean
-		onSelect?: (index: number) => void
-		children: Snippet<[{ item: Item; index: number }]>
-	} = $props()
+		items: Item[];
+		class?: string;
+		isError?: boolean;
+		isLoading?: boolean;
+		focusIndex?: number;
+		trigger?: HTMLElement;
+		keyDownEvent?: KeyboardEvent;
+		keyDownPreventDefault?: boolean;
+		onSelect?: (index: number) => void;
+		children: Snippet<[{ item: Item; index: number }]>;
+	} = $props();
 </script>
 
 <ul
@@ -47,7 +47,7 @@
 				role="menuitem"
 				onclick={() => onSelect?.(index)}
 				onkeydown={() => onSelect?.(index)}
-				class="hover:bg-base-200 flex cursor-pointer items-center justify-start gap-3 rounded px-3 py-2"
+				class="flex cursor-pointer items-center justify-start gap-3 rounded px-3 py-2 hover:bg-base-200"
 				class:bg-base-300={isFocused}
 			>
 				{@render children({ item, index })}

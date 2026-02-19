@@ -2,20 +2,17 @@
 	import type { RemoteFormField } from '@sveltejs/kit';
 	import { type Options, parseOptions } from '$lib/utils/index.ts';
 	import Issues from './Issues.svelte';
-	import type { InputProps } from './type.ts';
 
 	let {
 		field,
 		label,
-		options: optionsProp,
-		class: klass,
-		...props
+		options: optionsProp
 	}: {
 		field: RemoteFormField<string>;
 		label: string;
 		hint?: string;
 		options: Options;
-	} & InputProps = $props();
+	} = $props();
 
 	const options = $derived(parseOptions(optionsProp));
 </script>
@@ -24,6 +21,8 @@
 	<span class="label px-3 text-sm">{label}</span>
 	<div class="join join-vertical">
 		{#each options as option}
+			{@const { class: klass, ...props } = option}
+
 			<label class="input join-item flex items-center gap-2 not-disabled:cursor-pointer">
 				{#if option.icon}
 					<option.icon size={18} opacity={0.8} />

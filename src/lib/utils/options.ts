@@ -2,13 +2,13 @@ import type { IconProps } from '@lucide/svelte';
 import type { Component } from 'svelte';
 import z from 'zod';
 import { zodCoerceJsonValue } from '$lib/validation/zod.ts';
+import type { InputProps } from '../../routes/ui/remote/type.ts';
 
 export type Option = {
 	value: string;
 	label: string;
 	icon?: Component<IconProps>;
-	disable?: boolean;
-};
+} & Omit<InputProps, 'id'>;
 export type OptionRecord<Values extends string> = Record<
 	Values,
 	Omit<Option, 'value'>
