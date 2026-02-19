@@ -36,7 +36,14 @@
 			{/if}
 		</div>
 		{#if hint}
-			<div class="-translate-y-2.5 pr-8 text-xs text-wrap opacity-70">{hint}</div>
+			<div
+				class={[
+					'-translate-y-2.5 text-xs text-wrap opacity-70',
+					variant === 'checkbox' ? 'pr-8' : 'pr-10'
+				]}
+			>
+				{hint}
+			</div>
 		{/if}
 	</label>
 	<Issues {field} />
@@ -58,7 +65,7 @@
 {/snippet}
 
 {#snippet variantSwitch()}
-	<div class={['h-5 w-9 rounded-full bg-base-100 p-1 outline-2']}>
+	<div class={['h-5 w-9 rounded-full bg-base-100 p-1 outline-1']}>
 		<div
 			class={[
 				'grid h-3 w-3 place-content-center rounded-full bg-base-100 outline-1',
