@@ -18,7 +18,13 @@
 		<InputString field={form.fields.name} label="Name" />
 		<InputNumber field={form.fields.age} label="Age" />
 		<InputRange field={form.fields.level} label="Niveau" step={5} min={0} max={100} />
-		<InputBoolean field={form.fields.isValided} label="Membre validé ?" hint="lorem ipsum" />
+		<InputBoolean
+			field={form.fields.isValided}
+			label="Membre validé ?"
+			variant="switch"
+			hint="laskdjalsk djaslkdj aslkdjaslkd jaslkdjaslkd "
+		/>
+
 		<InputString field={form.fields.subscribeAt} type="date" label="Inscription" />
 
 		<InputRadio field={form.fields.gender} label="Genre" options={userGendersOptions} />

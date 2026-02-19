@@ -22,8 +22,7 @@
 	<div class="join join-vertical">
 		{#each options as option}
 			{@const { class: klass, ...props } = option}
-
-			<label class="input join-item flex items-center gap-2 not-disabled:cursor-pointer">
+			<label class="input join-item not-disabled:cursor-pointer not-disabled:hover:bg-base-200">
 				{#if option.icon}
 					<option.icon size={18} opacity={0.8} />
 				{/if}

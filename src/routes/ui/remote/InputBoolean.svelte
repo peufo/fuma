@@ -1,6 +1,6 @@
 <script lang="ts">
+	import { CheckIcon } from '@lucide/svelte';
 	import type { RemoteFormField } from '@sveltejs/kit';
-	import { tick } from 'svelte';
 	import Issues from './Issues.svelte';
 	import type { InputProps } from './type.ts';
 
@@ -8,62 +8,64 @@
 		field,
 		label,
 		hint,
-		variant = 'toggle',
+		variant = 'switch',
 		class: klass,
 		...props
 	}: {
 		label: string;
 		hint?: string;
-		variant?: 'checkbox' | 'toggle';
+		variant?: 'checkbox' | 'switch';
 		field: RemoteFormField<boolean>;
 	} & InputProps = $props();
-
-	let input = $state<HTMLInputElement>();
-
-	const toggleValue = async () => {
-		if (input?.disabled) return;
-		field.set(!field.value());
-		await tick();
-		input?.dispatchEvent(new Event('input', { bubbles: true }));
-	};
 </script>
 
 <div>
-	<div
-		role="button"
-		class={['flex cursor-pointer rounded-field border p-2 pl-3', !hint && 'items-center']}
-		tabindex="-1"
-		onclick={() => toggleValue()}
-		onkeydown={(e) => e.key === 'space' && toggleValue()}
+	<label
+		class={[
+			'input block not-disabled:cursor-pointer not-disabled:hover:bg-base-200',
+			'group h-auto min-h-10'
+		]}
 	>
-		<div class="grow text-left">
-			<div class="label text-sm">{label}</div>
-			{#if hint}
-				<div class="text-xs opacity-70">{hint}</div>
+		<div class="flex h-(--size) items-center gap-2">
+			<div class="grow">{label}</div>
+			<input {...field.as('checkbox')} class={['peer w-0']} {...props} />
+			{#if variant === 'checkbox'}
+				{@render checkbox()}
+			{:else}
+				{@render checkbox()}
 			{/if}
 		</div>
-		<input
-			class={[variant, 'toggle', klass]}
-			{...field.as('checkbox')}
-			{...props}
-			bind:this={input}
-		/>
-	</div>
+		{#if hint}
+			<div class="-translate-y-2.5 pr-8 text-xs text-wrap opacity-70">{hint}</div>
+		{/if}
+	</label>
 	<Issues {field} />
 </div>
 
+{#snippet checkbox()}
+	<div class={['mask h-6 w-6 mask-squircle', 'bg-base-content']}>
+		<div class={['mask h-6 w-6 mask-squircle', 'bg-base-100', 'scale-90']}>
+			<div
+				class={[
+					'mask h-6 w-6 mask-squircle',
+					'bg-base-content',
+					'grid place-content-center',
+					'scale-0 transition-all',
+					field.value() && 'scale-75'
+				]}
+				style="transition-timing-function: cubic-bezier(0.275, 0.485, 0.515, 1.450);"
+			>
+				<CheckIcon size={20} class="stroke-base-100" strokeWidth={4} />
+			</div>
+		</div>
+	</div>
+{/snippet}
+
 <style>
-	div[role='button'] {
-		--input-color: color-mix(in oklab, var(--color-base-content) 20%, #0000);
-		border-color: var(--input-color);
-	}
-	div[role='button']:has(input[aria-invalid='true']) {
+	label:has(input[aria-invalid='true']) {
 		--input-color: var(--color-error);
 	}
-	div[role='button']:hover {
-		border-color: var(--color-base-content);
-	}
-	div[role='button']:has(input:disabled) {
+	label:has(input:disabled) {
 		cursor: not-allowed;
 		border-color: var(--input-color);
 	}
