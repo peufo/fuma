@@ -8,7 +8,7 @@
 		field,
 		label,
 		hint,
-		variant = 'switch',
+		variant = 'checkbox',
 		class: klass,
 		...props
 	}: {
@@ -30,9 +30,9 @@
 			<div class="grow">{label}</div>
 			<input {...field.as('checkbox')} class={['peer w-0']} {...props} />
 			{#if variant === 'checkbox'}
-				{@render checkbox()}
+				{@render variantCheckbox()}
 			{:else}
-				{@render checkbox()}
+				{@render variantSwitch()}
 			{/if}
 		</div>
 		{#if hint}
@@ -42,26 +42,46 @@
 	<Issues {field} />
 </div>
 
-{#snippet checkbox()}
-	<div class={['mask h-6 w-6 mask-squircle', 'bg-base-content']}>
-		<div class={['mask h-6 w-6 mask-squircle', 'bg-base-100', 'scale-90']}>
-			<div
-				class={[
-					'mask h-6 w-6 mask-squircle',
-					'bg-base-content',
-					'grid place-content-center',
-					'scale-0 transition-all',
-					field.value() && 'scale-75'
-				]}
-				style="transition-timing-function: cubic-bezier(0.275, 0.485, 0.515, 1.450);"
-			>
-				<CheckIcon size={20} class="stroke-base-100" strokeWidth={4} />
-			</div>
+{#snippet variantCheckbox()}
+	<div class={['squircle h-5 w-5 outline', 'bg-base-100']}>
+		<div
+			class={[
+				'squircle grid h-5 w-5 place-content-center',
+				'bg-base-content',
+				'ease scale-0 opacity-0',
+				field.value() && 'scale-[80%] opacity-100'
+			]}
+		>
+			<CheckIcon size={18} class={['stroke-base-100']} strokeWidth={4} />
+		</div>
+	</div>
+{/snippet}
+
+{#snippet variantSwitch()}
+	<div class={['h-5 w-9 rounded-full bg-base-100 p-1 outline-2']}>
+		<div
+			class={[
+				'grid h-3 w-3 place-content-center rounded-full bg-base-100 outline-1',
+				'ease translate-x-0',
+				field.value() ? 'translate-x-4 bg-base-content' : 'opacity-100'
+			]}
+		>
+			<CheckIcon size={11} class={['stroke-base-100']} strokeWidth={4} />
 		</div>
 	</div>
 {/snippet}
 
 <style>
+	.ease {
+		transition-property: translate background-color opacity;
+		transition-timing-function: cubic-bezier(0.275, 0.485, 0.515, 1.45);
+		transition-duration: 200ms;
+	}
+	.squircle {
+		corner-shape: squircle;
+		border-radius: 100%;
+	}
+
 	label:has(input[aria-invalid='true']) {
 		--input-color: var(--color-error);
 	}
