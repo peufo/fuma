@@ -1,12 +1,12 @@
 <script lang="ts">
+	import InputBoolean from '$lib/next/input/InputBoolean.svelte';
+	import InputNumber from '$lib/next/input/InputNumber.svelte';
+	import InputRadio from '$lib/next/input/InputRadio.svelte';
+	import InputRange from '$lib/next/input/InputRange.svelte';
+	import InputSelect from '$lib/next/input/InputSelect.svelte';
+	import InputString from '$lib/next/input/InputString.svelte';
+	import InputTextarea from '$lib/next/input/InputTextarea.svelte';
 	import { schemaUser, userGenderOptions } from './db.ts';
-	import InputBoolean from './InputBoolean.svelte';
-	import InputNumber from './InputNumber.svelte';
-	import InputRadio from './InputRadio.svelte';
-	import InputRange from './InputRange.svelte';
-	import InputSelect from './InputSelect.svelte';
-	import InputString from './InputString.svelte';
-	import InputTextarea from './InputTextarea.svelte';
 	import { formCreateUser } from './test.remote.ts';
 	import { useForm } from './useForm.ts';
 

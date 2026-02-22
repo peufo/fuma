@@ -6,57 +6,59 @@
 		EllipsisIcon,
 		GripIcon,
 		PlusIcon
-	} from '@lucide/svelte'
-	import { goto } from '$app/navigation'
-	import { page } from '$app/state'
-	import { param, urlParam } from '$lib/state/param.svelte.js'
-	import { listEditable } from '$lib/action/list/index.js'
-	import { jsonParse } from '$lib/utils/jsonParse.js'
-	import { context } from '$lib/ui/table/context.js'
-	import { DropDown } from '$lib/ui/menu/index.js'
-	import type { ItemBase, TableField } from '$lib/ui/table/index.js'
-	import { tip } from '$lib/action/tip.js'
+	} from '@lucide/svelte';
+	import { goto } from '$app/navigation';
+	import { page } from '$app/state';
+	import { listEditable } from '$lib/action/list/index.js';
+	import { tip } from '$lib/action/tip.js';
+	import { param, urlParam } from '$lib/next/state/param.svelte.ts';
+	import { DropDown } from '$lib/ui/menu/index.js';
+	import { context } from '$lib/ui/table/context.js';
+	import type { ItemBase, TableField } from '$lib/ui/table/index.js';
+	import { jsonParse } from '$lib/utils/jsonParse.js';
 
 	let {
 		fields,
 		key,
 		onCreateField
 	}: {
-		fields: TableField<Item>[]
-		key: string
-		onCreateField?: () => void
-	} = $props()
+		fields: TableField<Item>[];
+		key: string;
+		onCreateField?: () => void;
+	} = $props();
 
-	let { KEY_FIELDS_VISIBLE, KEY_FIELDS_HIDDEN, KEY_FIELDS_ORDER } = $derived(context.get(key))
+	let { KEY_FIELDS_VISIBLE, KEY_FIELDS_HIDDEN, KEY_FIELDS_ORDER } = $derived(context.get(key));
 
 	function getFieldHref(field: TableField<Item>) {
-		if (field.locked) return
-		const url = toggleParam(field.visible ? KEY_FIELDS_HIDDEN : KEY_FIELDS_VISIBLE, field.key)
+		if (field.locked) return;
+		const url = toggleParam(field.visible ? KEY_FIELDS_HIDDEN : KEY_FIELDS_VISIBLE, field.key);
 		if (url.searchParams.has(field.key)) {
-			url.searchParams.delete(field.key)
-			url.searchParams.delete('skip')
-			url.searchParams.delete('take')
+			url.searchParams.delete(field.key);
+			url.searchParams.delete('skip');
+			url.searchParams.delete('take');
 		}
-		return url.pathname + url.search
+		return url.pathname + url.search;
 	}
 
 	function toggleParam(paramKey: string, fieldKey: string): URL {
-		const url = new URL(page.url)
-		const fieldsKeys = jsonParse<string[]>(page.url.searchParams.get(paramKey), [])
-		if (!fieldsKeys.includes(fieldKey)) fieldsKeys.push(fieldKey)
-		else fieldsKeys.splice(fieldsKeys.indexOf(fieldKey), 1)
+		const url = new URL(page.url);
+		const fieldsKeys = jsonParse<string[]>(page.url.searchParams.get(paramKey), []);
+		if (!fieldsKeys.includes(fieldKey)) fieldsKeys.push(fieldKey);
+		else fieldsKeys.splice(fieldsKeys.indexOf(fieldKey), 1);
 
-		if (fieldsKeys.length) url.searchParams.set(paramKey, JSON.stringify(fieldsKeys))
-		else url.searchParams.delete(paramKey)
+		if (fieldsKeys.length) url.searchParams.set(paramKey, JSON.stringify(fieldsKeys));
+		else url.searchParams.delete(paramKey);
 
-		return url
+		return url;
 	}
 
 	function handleReorder(newFieldsOrder: TableField<Item>[]) {
-		fields = newFieldsOrder
-		const fieldsOrder = fields.map((f) => f.key)
-		const newUrl = urlParam.with({ [KEY_FIELDS_ORDER]: JSON.stringify(fieldsOrder) })
-		goto(newUrl, { replaceState: true, noScroll: true, keepFocus: true })
+		fields = newFieldsOrder;
+		const fieldsOrder = fields.map((f) => f.key);
+		const newUrl = urlParam.with({
+			[KEY_FIELDS_ORDER]: JSON.stringify(fieldsOrder)
+		});
+		goto(newUrl, { replaceState: true, noScroll: true, keepFocus: true });
 	}
 </script>
 
@@ -69,7 +71,7 @@
 		{#snippet activator()}
 			<button
 				type="button"
-				class="btn btn-square btn-ghost btn-sm backdrop-blur"
+				class="btn btn-square btn-ghost backdrop-blur btn-sm"
 				use:tip={{ content: 'Dénfinir les champs' }}
 			>
 				<EllipsisIcon />
@@ -82,10 +84,10 @@
 					<span class=" font-semibold opacity-70">Champs</span>
 					<button
 						type="button"
-						class="btn btn-square btn-sm ml-auto"
+						class="btn ml-auto btn-square btn-sm"
 						onclick={() => {
-							if (onCreateField) onCreateField()
-							tip?.hide()
+							if (onCreateField) onCreateField();
+							tip?.hide();
 						}}
 					>
 						<PlusIcon title="Ajouter un champ" />
@@ -124,7 +126,7 @@
 							<span>{field.label}</span>
 
 							<span
-								class="drag-button btn btn-square btn-ghost btn-xs ml-auto"
+								class="drag-button btn ml-auto btn-square btn-ghost btn-xs"
 								onclick={(e) => e.preventDefault()}
 								role="none"
 							>

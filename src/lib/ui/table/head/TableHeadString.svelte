@@ -1,14 +1,15 @@
 <script lang="ts" generics="Item extends ItemBase">
-	import { SearchIcon } from '@lucide/svelte'
-	import { page } from '$app/state'
-	import { goto } from '$app/navigation'
-	import { DropDown } from '$lib/ui/menu/index.js'
-	import { InputSearch } from '$lib/ui/input/index.js'
-	import type { ItemBase, TableField } from '$lib/ui/table/index.js'
-	import { urlParam } from '$lib/state/param.svelte.js'
-	let { field }: { field: TableField<Item> } = $props()
+	import { SearchIcon } from '@lucide/svelte';
+	import { goto } from '$app/navigation';
+	import { page } from '$app/state';
+	import { urlParam } from '$lib/next/state/param.svelte.ts';
+	import { InputSearch } from '$lib/ui/input/index.js';
+	import { DropDown } from '$lib/ui/menu/index.js';
+	import type { ItemBase, TableField } from '$lib/ui/table/index.js';
 
-	let searchValue = $derived(page.url.searchParams.get(field.key) || '')
+	let { field }: { field: TableField<Item> } = $props();
+
+	let searchValue = $derived(page.url.searchParams.get(field.key) || '');
 </script>
 
 <th class="p-1">
@@ -23,7 +24,7 @@
 				</div>
 
 				{#if searchValue}
-					<span class="badge badge-primary badge-xs text-[0.7rem] font-normal text-white">
+					<span class="badge badge-xs text-[0.7rem] font-normal text-white badge-primary">
 						<SearchIcon size={10} class="-translate-x-1 fill-white/80" />
 						<span>{searchValue}</span>
 					</span>

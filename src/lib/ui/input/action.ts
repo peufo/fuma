@@ -1,13 +1,13 @@
-import debounce from 'debounce'
-import { param, urlParam } from '$lib/state/param.svelte.js'
-import { goto } from '$app/navigation'
+import debounce from 'debounce';
+import { goto } from '$app/navigation';
+import { param, urlParam } from '$lib/next/state/param.svelte.ts';
 
 type BindOptions = {
-	bindEnable?: boolean
-	listenerType?: 'input' | 'click'
-	debounceTime?: number
-	initValue?: (initalValue: string) => unknown
-}
+	bindEnable?: boolean;
+	listenerType?: 'input' | 'click';
+	debounceTime?: number;
+	initValue?: (initalValue: string) => unknown;
+};
 
 export function bindValueWithParams(
 	node: HTMLInputElement | HTMLButtonElement,
@@ -15,32 +15,32 @@ export function bindValueWithParams(
 		bindEnable = false,
 		debounceTime = 200,
 		initValue = (initalValue: string) => (node.value = initalValue),
-		listenerType = 'input'
+		listenerType = 'input',
 	}: BindOptions
 ) {
-	const { name } = node
-	if (!name || !bindEnable) return
+	const { name } = node;
+	if (!name || !bindEnable) return;
 
 	const importValueFromParams = () => {
-		const value = param.get(name)
-		if (value) return initValue(value)
-	}
+		const value = param.get(name);
+		if (value) return initValue(value);
+	};
 
 	const handleInput = debounce(async () => {
 		const newUrl = node.value
 			? urlParam.with({ [name]: node.value }, 'skip', 'take')
-			: urlParam.without(name, 'skip', 'take')
-		await goto(newUrl, { replaceState: true, keepFocus: true, noScroll: true })
-	}, debounceTime)
+			: urlParam.without(name, 'skip', 'take');
+		await goto(newUrl, { replaceState: true, keepFocus: true, noScroll: true });
+	}, debounceTime);
 
-	importValueFromParams()
-	node.addEventListener(listenerType, handleInput)
+	importValueFromParams();
+	node.addEventListener(listenerType, handleInput);
 
 	return {
 		destroy() {
-			node.removeEventListener(listenerType, handleInput)
-		}
-	}
+			node.removeEventListener(listenerType, handleInput);
+		},
+	};
 }
 
 export function bindCheckedWithParams(
@@ -49,31 +49,32 @@ export function bindCheckedWithParams(
 		bindEnable = false,
 		listenerType = 'input',
 		debounceTime = 0,
-		initValue = (initalValue: string) => (node.checked = node.value === initalValue)
+		initValue = (initalValue: string) =>
+			(node.checked = node.value === initalValue),
 	}: BindOptions
 ) {
-	const { name } = node
-	if (!name || !bindEnable) return
+	const { name } = node;
+	if (!name || !bindEnable) return;
 
 	const importValueFromParams = () => {
-		if (!param.has(name)) return
-		const paramValue = param.get(name)
-		if (paramValue) initValue(paramValue)
-	}
+		if (!param.has(name)) return;
+		const paramValue = param.get(name);
+		if (paramValue) initValue(paramValue);
+	};
 
 	const handleInput = debounce(async () => {
 		const newUrl = node.checked
 			? urlParam.with({ [name]: node.value }, 'skip', 'take')
-			: urlParam.without(name, 'skip', 'take')
-		await goto(newUrl, { replaceState: true, keepFocus: true, noScroll: true })
-	}, debounceTime)
+			: urlParam.without(name, 'skip', 'take');
+		await goto(newUrl, { replaceState: true, keepFocus: true, noScroll: true });
+	}, debounceTime);
 
-	importValueFromParams()
-	node.addEventListener(listenerType, handleInput)
+	importValueFromParams();
+	node.addEventListener(listenerType, handleInput);
 
 	return {
 		destroy: () => {
-			node.removeEventListener(listenerType, handleInput)
-		}
-	}
+			node.removeEventListener(listenerType, handleInput);
+		},
+	};
 }

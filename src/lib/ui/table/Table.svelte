@@ -1,18 +1,18 @@
 <script lang="ts" generics="Item extends ItemBase">
-	import { afterNavigate } from '$app/navigation'
-	import { maxHeightScreen } from '$lib/action/heightScreen.js'
-	import { Placeholder } from '$lib/ui/placeholder/index.js'
+	import { afterNavigate } from '$app/navigation';
+	import { maxHeightScreen } from '$lib/action/heightScreen.js';
+	import { Placeholder } from '$lib/ui/placeholder/index.js';
 
 	import {
-		type TableField,
-		type ItemBase,
-		TableHead,
-		TableBody,
 		context,
 		createKeys,
-		syncFieldsWithParams
-	} from '$lib/ui/table/index.js'
-	import type { SnippetLike } from './type.js'
+		type ItemBase,
+		syncFieldsWithParams,
+		TableBody,
+		type TableField,
+		TableHead
+	} from '$lib/ui/table/index.js';
+	import type { SnippetLike } from './type.js';
 
 	let {
 		key = 'table',
@@ -27,40 +27,39 @@
 		onclick,
 		screenPadding
 	}: {
-		key?: string
-		fields: TableField<Item>[]
-		items: Item[]
-		actions?: SnippetLike<[Item]>
-		placholder?: string
-		class?: string
-		classRow?: string
-		hideBody?: boolean
-		onCreateField?: () => void
-		onclick?: (item?: Item) => void
-		screenPadding?: number
-	} = $props()
+		key?: string;
+		fields: TableField<Item>[];
+		items: Item[];
+		actions?: SnippetLike<[Item]>;
+		placholder?: string;
+		class?: string;
+		classRow?: string;
+		hideBody?: boolean;
+		onCreateField?: () => void;
+		onclick?: (item?: Item) => void;
+		screenPadding?: number;
+	} = $props();
 
 	$effect(() => {
-		const { KEY_FIELDS_VISIBLE, KEY_FIELDS_HIDDEN, KEY_FIELDS_ORDER } = createKeys(key)
+		const { KEY_FIELDS_VISIBLE, KEY_FIELDS_HIDDEN, KEY_FIELDS_ORDER } = createKeys(key);
 		context.set(key, {
 			KEY_FIELDS_VISIBLE,
 			KEY_FIELDS_HIDDEN,
 			KEY_FIELDS_ORDER
-		})
-	})
+		});
+	});
 
-
-	const initFields = () => (fields = syncFieldsWithParams(key, fields))
-	initFields()
-	afterNavigate(initFields)
+	const initFields = () => (fields = syncFieldsWithParams(key, fields));
+	initFields();
+	afterNavigate(initFields);
 </script>
 
 <div
-	class="{klass} bg-base-100 overflow-x-auto rounded-lg border"
+	class="{klass} overflow-x-auto rounded-lg border bg-base-100"
 	class:min-h-[320px]={!hideBody}
 	use:maxHeightScreen={{ padding: screenPadding }}
 >
-	<table class="relative table">
+	<table class="table relative">
 		<TableHead {fields} {key} {onCreateField} />
 		{#if !hideBody && items.length}
 			<TableBody {fields} {items} {actions} {classRow} {onclick} />

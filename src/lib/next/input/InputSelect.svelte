@@ -1,6 +1,7 @@
 <script lang="ts">
+	import { ChevronsUpDownIcon } from '@lucide/svelte';
 	import type { RemoteFormField } from '@sveltejs/kit';
-	import { type Options, parseOptions } from '$lib/index.ts';
+	import { type Option, type Options, parseOptions } from '$lib/index.ts';
 	import Issues from './Issues.svelte';
 	import type { SelectProps } from './type.ts';
 

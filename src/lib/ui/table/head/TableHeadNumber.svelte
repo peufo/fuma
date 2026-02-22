@@ -1,18 +1,17 @@
 <script lang="ts" generics="Item extends ItemBase">
-	import z from 'zod'
-	import debounce from 'debounce'
-	import { goto } from '$app/navigation'
-	import { page } from '$app/state'
-	import { FunnelIcon, ArrowDownWideNarrowIcon, ArrowDownNarrowWideIcon } from '@lucide/svelte'
+	import { ArrowDownNarrowWideIcon, ArrowDownWideNarrowIcon, FunnelIcon } from '@lucide/svelte';
+	import debounce from 'debounce';
+	import z from 'zod';
+	import { goto } from '$app/navigation';
+	import { page } from '$app/state';
+	import { urlParam } from '$lib/next/state/param.svelte.ts';
+	import { InputNumber } from '$lib/ui/input/index.js';
+	import { DropDown } from '$lib/ui/menu/index.js';
+	import { zodCoerceJsonRecord } from '$lib/validation/zod.js';
+	import type { ItemBase, TableField } from '../field.js';
+	import OrderButtons from './OrderButtons.svelte';
 
-	import { DropDown } from '$lib/ui/menu/index.js'
-	import { InputNumber } from '$lib/ui/input/index.js'
-	import { urlParam } from '$lib/state/param.svelte.js'
-	import type { ItemBase, TableField } from '../field.js'
-	import OrderButtons from './OrderButtons.svelte'
-	import { zodCoerceJsonRecord } from '$lib/validation/zod.js'
-
-	let { field }: { field: TableField<Item> } = $props()
+	let { field }: { field: TableField<Item> } = $props();
 
 	const paramModel = zodCoerceJsonRecord
 		.pipe(
@@ -22,29 +21,29 @@
 				order: z.enum(['asc', 'desc']).optional()
 			})
 		)
-		.default({})
+		.default({});
 
-	let { min, max, order } = $derived(paramModel.parse(page.url.searchParams.get(field.key)))
-	let isNegatifRange = $derived(min !== undefined && max !== undefined && max < min)
+	let { min, max, order } = $derived(paramModel.parse(page.url.searchParams.get(field.key)));
+	let isNegatifRange = $derived(min !== undefined && max !== undefined && max < min);
 
 	const updateUrl = debounce(() => {
-		const query: Record<string, string | number> = {}
-		if (order) query.order = order
-		if (min !== undefined) query.min = min
-		if (max !== undefined) query.max = max
-		if (!Object.keys(query).length) return resetFilter()
+		const query: Record<string, string | number> = {};
+		if (order) query.order = order;
+		if (min !== undefined) query.min = min;
+		if (max !== undefined) query.max = max;
+		if (!Object.keys(query).length) return resetFilter();
 		goto(urlParam.with({ [field.key]: JSON.stringify(query) }, 'skip', 'take'), {
 			noScroll: true,
 			keepFocus: true
-		})
-	}, 250)
+		});
+	}, 250);
 
 	function resetFilter() {
 		return goto(urlParam.without(field.key, 'skip', 'take'), {
 			replaceState: true,
 			noScroll: true,
 			keepFocus: true
-		})
+		});
 	}
 </script>
 
@@ -60,7 +59,7 @@
 				</div>
 
 				{#if min !== undefined || max !== undefined}
-					<span class="badge badge-primary badge-xs text-[0.7rem] font-normal text-white">
+					<span class="badge badge-xs text-[0.7rem] font-normal text-white badge-primary">
 						{#if min !== undefined}
 							{min} ≤
 						{/if}
@@ -83,8 +82,8 @@
 				<OrderButtons
 					bind:order
 					onChange={() => {
-						updateUrl()
-						tip?.hide()
+						updateUrl();
+						tip?.hide();
 					}}
 				/>
 				<div class="divider"></div>
@@ -93,8 +92,8 @@
 			<form
 				class="grid grid-cols-2 gap-2 p-1"
 				onsubmit={(e) => {
-					e.preventDefault()
-					tip?.hide()
+					e.preventDefault();
+					tip?.hide();
 				}}
 			>
 				<InputNumber bind:value={min} on:input={updateUrl} input={{ placeholder: 'Min' }} />
@@ -110,10 +109,10 @@
 						class="btn btn-ghost"
 						type="button"
 						onclick={() => {
-							min = undefined
-							max = undefined
-							tip?.hide()
-							resetFilter()
+							min = undefined;
+							max = undefined;
+							tip?.hide();
+							resetFilter();
 						}}
 					>
 						Effacer

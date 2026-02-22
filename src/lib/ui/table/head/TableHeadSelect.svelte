@@ -1,12 +1,11 @@
 <script lang="ts" generics="Item extends ItemBase">
-	import { page } from '$app/state'
-	import { ListFilterIcon } from '@lucide/svelte'
-
-	import { jsonParse } from '$lib/utils/jsonParse.js'
-	import type { ItemBase, TableField } from '$lib/ui/table/index.js'
-	import { DropDown } from '$lib/ui/menu/index.js'
-	import { type Options, parseOptions } from '$lib/utils/options.js'
-	import { param, urlParam } from '$lib/state/param.svelte.js'
+	import { ListFilterIcon } from '@lucide/svelte';
+	import { page } from '$app/state';
+	import { param, urlParam } from '$lib/next/state/param.svelte.ts';
+	import { DropDown } from '$lib/ui/menu/index.js';
+	import type { ItemBase, TableField } from '$lib/ui/table/index.js';
+	import { jsonParse } from '$lib/utils/jsonParse.js';
+	import { type Options, parseOptions } from '$lib/utils/options.js';
 
 	let {
 		field,
@@ -14,39 +13,39 @@
 		multiSelect = false,
 		placeholder = 'No option'
 	}: {
-		field: TableField<Item>
-		options: Options
-		multiSelect?: boolean
-		placeholder?: string
-	} = $props()
+		field: TableField<Item>;
+		options: Options;
+		multiSelect?: boolean;
+		placeholder?: string;
+	} = $props();
 
 	let options = $derived.by(() => {
-		const selection = page.url.searchParams.get(field.key)
-		const selections = jsonParse<string[]>(page.url.searchParams.get(field.key), [])
+		const selection = page.url.searchParams.get(field.key);
+		const selections = jsonParse<string[]>(page.url.searchParams.get(field.key), []);
 
 		function getActive(value: string) {
-			if (!multiSelect) return selection === value
-			return selections.includes(value)
+			if (!multiSelect) return selection === value;
+			return selections.includes(value);
 		}
 
 		return parseOptions(propOptions).map((option) => ({
 			...option,
 			isActive: getActive(option.value)
-		}))
-	})
+		}));
+	});
 
-	let optionsActive = $derived(options.filter((option) => option.isActive))
+	let optionsActive = $derived(options.filter((option) => option.isActive));
 
 	const getHref = $derived((value: string) => {
-		const selections = jsonParse<string[]>(param.get(field.key), [])
-		if (!multiSelect) return urlParam.toggle({ [field.key]: value }, 'skip', 'take')
+		const selections = jsonParse<string[]>(param.get(field.key), []);
+		if (!multiSelect) return urlParam.toggle({ [field.key]: value }, 'skip', 'take');
 		if (selections.includes(value)) {
-			const newSelections = selections.filter((v) => v !== value)
-			if (!newSelections.length) return urlParam.without(field.key)
-			return urlParam.with({ [field.key]: JSON.stringify(newSelections) }, 'skip', 'take')
+			const newSelections = selections.filter((v) => v !== value);
+			if (!newSelections.length) return urlParam.without(field.key);
+			return urlParam.with({ [field.key]: JSON.stringify(newSelections) }, 'skip', 'take');
 		}
-		return urlParam.with({ [field.key]: JSON.stringify([...selections, value]) }, 'skip', 'take')
-	})
+		return urlParam.with({ [field.key]: JSON.stringify([...selections, value]) }, 'skip', 'take');
+	});
 </script>
 
 <th class="p-1">
@@ -63,7 +62,7 @@
 				{#if optionsActive.length}
 					<div class="flex flex-wrap gap-1">
 						{#each optionsActive as option}
-							<span class="badge badge-primary badge-xs text-[0.7rem] font-normal text-white">
+							<span class="badge badge-xs text-[0.7rem] font-normal text-white badge-primary">
 								{#if option.icon}
 									<option.icon size={10} class="-translate-x-1 fill-white/80" />
 								{/if}

@@ -1,12 +1,11 @@
 <script lang="ts">
-	import { goto } from '$app/navigation'
-	import { XIcon } from '@lucide/svelte'
-
-	import { urlParam } from '$lib/state/index.js'
-	import { type Options, parseOptions } from '$lib/utils/index.js'
-	import { DropDown } from '$lib/ui/menu/index.js'
-	import { FormControl, type InputProps } from './index.js'
-	import type { Snippet } from 'svelte'
+	import { XIcon } from '@lucide/svelte';
+	import type { Snippet } from 'svelte';
+	import { goto } from '$app/navigation';
+	import { urlParam } from '$lib/next/state/index.ts';
+	import { DropDown } from '$lib/ui/menu/index.js';
+	import { type Options, parseOptions } from '$lib/utils/index.js';
+	import { FormControl, type InputProps } from './index.js';
 
 	let {
 		key,
@@ -21,22 +20,22 @@
 		activator,
 		...props
 	}: InputProps<string[]> & {
-		key: string
-		options: Options
-		right?: boolean
-		btnClass?: string
-		badgePrimary?: boolean
-		activator?: Snippet<[{ dropwdown: DropDown }]>
-	} = $props()
+		key: string;
+		options: Options;
+		right?: boolean;
+		btnClass?: string;
+		badgePrimary?: boolean;
+		activator?: Snippet<[{ dropwdown: DropDown }]>;
+	} = $props();
 
-	let dropdown = $state<DropDown>()
-	let options = $derived(parseOptions(optionsProp))
+	let dropdown = $state<DropDown>();
+	let options = $derived(parseOptions(optionsProp));
 
 	async function updateUrl() {
 		const url = value?.length
 			? urlParam.with({ [key]: JSON.stringify(value) })
-			: urlParam.without(key)
-		return goto(url, { replaceState: true, noScroll: true })
+			: urlParam.without(key);
+		return goto(url, { replaceState: true, noScroll: true });
 	}
 </script>
 
@@ -55,7 +54,7 @@
 				{#if !!value?.length}
 					<span
 						class="
-						badge indicator-item badge-sm indicator-start
+						indicator-item badge badge-sm indicator-start
 						{badgePrimary ? 'badge-primary' : 'badge-outline bg-base-100'}
 					"
 					>
@@ -65,11 +64,11 @@
 			</button>
 			{#if !!value?.length}
 				<button
-					class="btn btn-square join-item btn-sm"
+					class="btn join-item btn-square btn-sm"
 					onclick={() => {
-						hide()
-						value = []
-						goto(urlParam.without(key), { replaceState: true })
+						hide();
+						value = [];
+						goto(urlParam.without(key), { replaceState: true });
 					}}
 				>
 					<XIcon class="fill-base-content" />

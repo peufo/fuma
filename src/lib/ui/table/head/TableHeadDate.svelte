@@ -1,45 +1,48 @@
 <script lang="ts" generics="Item extends ItemBase">
-	import { goto } from '$app/navigation'
-	import { page } from '$app/state'
-	import { CalendarSearchIcon, CalendarArrowDownIcon, CalendarArrowUpIcon } from '@lucide/svelte'
+	import { CalendarArrowDownIcon, CalendarArrowUpIcon, CalendarSearchIcon } from '@lucide/svelte';
+	import { goto } from '$app/navigation';
+	import { page } from '$app/state';
+	import { urlParam } from '$lib/next/state/param.svelte.ts';
+	import { InputTime } from '$lib/ui/input/index.js';
+	import { DropDown } from '$lib/ui/menu/index.js';
+	import { formatRange } from '$lib/ui/range/format.js';
+	import { type RangeAsDate, RangePicker } from '$lib/ui/range/index.js';
+	import type { ItemBase, TableField } from '$lib/ui/table/index.js';
+	import { jsonParse } from '$lib/utils/jsonParse.js';
+	import OrderButtons from './OrderButtons.svelte';
 
-	import { DropDown } from '$lib/ui/menu/index.js'
-	import { InputTime } from '$lib/ui/input/index.js'
-	import type { ItemBase, TableField } from '$lib/ui/table/index.js'
-	import { formatRange } from '$lib/ui/range/format.js'
-	import { RangePicker, type RangeAsDate } from '$lib/ui/range/index.js'
-	import { urlParam } from '$lib/state/param.svelte.js'
-	import { jsonParse } from '$lib/utils/jsonParse.js'
-	import OrderButtons from './OrderButtons.svelte'
+	let { field }: { field: Omit<TableField<Item>, 'cell'> } = $props();
 
-	let { field }: { field: Omit<TableField<Item>, 'cell'> } = $props()
+	let dropDown: DropDown;
+	let rangePicker: RangePicker;
 
-	let dropDown: DropDown
-	let rangePicker: RangePicker
-
-	let initialValue = jsonParse<{ start?: string; end?: string; order?: 'asc' | 'desc' }>(
+	let initialValue = jsonParse<{
+		start?: string;
+		end?: string;
+		order?: 'asc' | 'desc';
+	}>(
 		// svelte-ignore state_referenced_locally
 		page.url.searchParams.get(field.key),
 		{}
-	)
+	);
 
 	let range: RangeAsDate = $state({
 		start: initialValue.start ? new Date(initialValue.start) : null,
 		end: initialValue.end ? new Date(initialValue.end) : null
-	})
-	let order = $state(initialValue.order)
+	});
+	let order = $state(initialValue.order);
 
-	let isValidPeriod = $derived(!!range.start && !!range.end)
+	let isValidPeriod = $derived(!!range.start && !!range.end);
 
 	function updateUrl() {
-		isValidPeriod = !!range.start && !!range.end
+		isValidPeriod = !!range.start && !!range.end;
 		if (!isValidPeriod && !order) {
 			goto(urlParam.without(field.key, 'skip', 'take'), {
 				replaceState: true,
 				noScroll: true,
 				keepFocus: true
-			})
-			return
+			});
+			return;
 		}
 		goto(
 			urlParam.with(
@@ -58,20 +61,20 @@
 				'take'
 			),
 			{ replaceState: true, noScroll: true, keepFocus: true }
-		)
+		);
 	}
 
 	function handleReset() {
-		isValidPeriod = false
-		range.start = null
-		range = { start: null, end: null }
-		dropDown.hide()
-		rangePicker.clear()
+		isValidPeriod = false;
+		range.start = null;
+		range = { start: null, end: null };
+		dropDown.hide();
+		rangePicker.clear();
 		goto(urlParam.without(field.key, 'skip', 'take'), {
 			replaceState: true,
 			noScroll: true,
 			keepFocus: true
-		})
+		});
 	}
 </script>
 
@@ -92,7 +95,7 @@
 				</div>
 
 				{#if isValidPeriod}
-					<span class="badge badge-primary badge-xs text-[0.7rem] font-normal text-white">
+					<span class="badge badge-xs text-[0.7rem] font-normal text-white badge-primary">
 						{formatRange(range)}
 					</span>
 				{/if}
@@ -108,8 +111,8 @@
 			<OrderButtons
 				bind:order
 				onChange={() => {
-					updateUrl()
-					dropDown.hide()
+					updateUrl();
+					dropDown.hide();
 				}}
 				IconAsc={CalendarArrowDownIcon}
 				IconDesc={CalendarArrowUpIcon}
@@ -118,8 +121,8 @@
 
 		<form
 			onsubmit={(e) => {
-				e.preventDefault()
-				dropDown.hide()
+				e.preventDefault();
+				dropDown.hide();
 			}}
 			data-sveltekit-replacestate
 			class="flex flex-col font-normal"
@@ -129,8 +132,8 @@
 				bind:this={rangePicker}
 				numberOfMonths={1}
 				on:change={({ detail: newRange }) => {
-					range = newRange
-					updateUrl()
+					range = newRange;
+					updateUrl();
 				}}
 			/>
 

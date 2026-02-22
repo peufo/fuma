@@ -1,14 +1,14 @@
 <script lang="ts">
-	import { parseOptions, type Options } from '$lib/utils/options.js'
-	import { param, urlParam } from '$lib/state/param.svelte.js'
+	import { param, urlParam } from '$lib/next/state/param.svelte.ts';
+	import { type Options, parseOptions } from '$lib/utils/options.js';
 
-	let klass = ''
-	export { klass as class }
-	export let key: string
-	export let options: Options
-	export let removeKeys: string[] = []
+	let klass = '';
+	export { klass as class };
+	export let key: string;
+	export let options: Options;
+	export let removeKeys: string[] = [];
 
-	$: _options = parseOptions(options)
+	$: _options = parseOptions(options);
 </script>
 
 <div class="join {klass}">

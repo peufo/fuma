@@ -1,25 +1,25 @@
 <script lang="ts">
-	import { jsonParse } from '$lib/utils/jsonParse.js'
-	import { param, urlParam } from '$lib/state/param.svelte.js'
+	import { param, urlParam } from '$lib/next/state/param.svelte.ts';
 	import {
-		InputText,
 		InputBoolean,
-		InputNumber,
-		InputSelect,
 		InputCombo,
-		InputRelation,
-		InputRelations,
 		InputDate,
 		InputDateTime,
+		InputNumber,
+		InputRelation,
+		InputRelations,
+		InputSelect,
+		InputText,
 		InputTime
-	} from '$lib/ui/input/index.js'
-	import { InputTextRich, tiptapParser } from '$lib/ui/input/textRich/index.js'
-	import { options, searchItems, type Item } from '../example.js'
+	} from '$lib/ui/input/index.js';
+	import { InputTextRich, tiptapParser } from '$lib/ui/input/textRich/index.js';
+	import { jsonParse } from '$lib/utils/jsonParse.js';
+	import { type Item, options, searchItems } from '../example.js';
 
-	let inputTextRichValue = '<h2>Hey 👋</h2>'
-	let number = 42
-	let datetime = new Date()
-	let date: Date | null = null
+	let inputTextRichValue = '<h2>Hey 👋</h2>';
+	let number = 42;
+	let datetime = new Date();
+	let date: Date | null = null;
 </script>
 
 <InputText label="Text input" key="text" />
