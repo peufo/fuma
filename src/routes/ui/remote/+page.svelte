@@ -3,7 +3,7 @@
 	import InputNumber from '$lib/next/input/InputNumber.svelte';
 	import InputRadio from '$lib/next/input/InputRadio.svelte';
 	import InputRange from '$lib/next/input/InputRange.svelte';
-	import InputSelect from '$lib/next/input/InputSelect.svelte';
+	import InputSelectNative from '$lib/next/input/InputSelectNative.svelte';
 	import InputString from '$lib/next/input/InputString.svelte';
 	import InputTextarea from '$lib/next/input/InputTextarea.svelte';
 	import { schemaUser, userGenderOptions } from './db.ts';
@@ -29,7 +29,7 @@
 
 		<InputString field={form.fields.subscribeAt} type="date" label="Inscription" />
 		<InputRadio field={form.fields.gender} label="Genre" options={userGenderOptions} />
-		<InputSelect field={form.fields.gender2} label="Genre2" options={userGenderOptions} />
+		<InputSelectNative field={form.fields.gender2} label="Genre2" options={userGenderOptions} />
 
 		<button class="btn">Create</button>
 	</form>

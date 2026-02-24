@@ -35,12 +35,8 @@ export const schemaUser = z.object({
 	cv: z.string(),
 	isValided: z.literal(true, 'Validation requise'),
 	subscribeAt: z.iso.date(),
-	gender: z
-		.enum(userGenders)
-		.exclude(['other'], "En tant que bon catho, c'est intolérable"),
-	gender2: z
-		.enum(userGenders)
-		.exclude(['other'], "En tant que bon catho, c'est intolérable"),
+	gender: z.enum(userGenders),
+	gender2: z.enum(userGenders),
 	// tags: z.array(z.enum(userTags)).default([]),
 } satisfies ShapeOf<User>);
 

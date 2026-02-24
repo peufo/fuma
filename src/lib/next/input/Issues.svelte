@@ -6,11 +6,11 @@
 		field
 	}: {
 		// biome-ignore lint/suspicious/noExplicitAny: Wathever then value type... we use just field.issues()
-		field: RemoteFormField<any>;
+		field: RemoteFormField<any> | undefined;
 	} = $props();
 </script>
 
-{#if field.issues()?.length}
+{#if field?.issues()?.length}
 	<div class="my-1 flex flex-col text-xs text-error" transition:slide={{ duration: 200 }}>
 		{#each field.issues() as issue}
 			<span>

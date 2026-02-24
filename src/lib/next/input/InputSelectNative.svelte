@@ -1,7 +1,6 @@
 <script lang="ts">
-	import { ChevronsUpDownIcon } from '@lucide/svelte';
 	import type { RemoteFormField } from '@sveltejs/kit';
-	import { type Option, type Options, parseOptions } from '$lib/index.ts';
+	import { type Options, Pagination, parseOptions } from '$lib/index.ts';
 	import Issues from './Issues.svelte';
 	import type { SelectProps } from './type.ts';
 
@@ -10,11 +9,12 @@
 		field,
 		options: optionsProp,
 		class: klass,
+		multiple,
 		...props
 	}: {
 		label: string;
-		field: RemoteFormField<string>;
 		options: Options;
+		field?: RemoteFormField<string | string[]>;
 	} & SelectProps = $props();
 
 	const options = $derived(parseOptions(optionsProp));
@@ -23,13 +23,13 @@
 <div>
 	<label class="floating-label">
 		<span>{label}</span>
-		<select {...field.as('select')} class={['select', klass]} {...props}>
+		<select
+			class={['select', klass]}
+			{...field?.as(multiple !== true ? 'select' : 'select multiple')}
+			{...props}
+		>
 			{#each options as option}
-				<option
-					value={option.value}
-					class={['grow gap-2', option.class]}
-					disabled={option.disabled}
-				>
+				<option value={option.value} class={['', option.class]} disabled={option.disabled}>
 					{#if option.icon}
 						<option.icon size={18} opacity={0.8} />
 					{/if}
@@ -40,6 +40,8 @@
 	</label>
 	<Issues {field} />
 </div>
+
+<pre>{JSON.stringify(field?.value(), null, 2)}</pre>
 
 <style>
 	option::checkmark {
