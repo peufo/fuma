@@ -41,8 +41,6 @@
 	<Issues {field} />
 </div>
 
-<pre>{JSON.stringify(field?.value(), null, 2)}</pre>
-
 <style>
 	option::checkmark {
 		order: 1;
