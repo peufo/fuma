@@ -4,13 +4,12 @@
 </script>
 
 <div class="overflow-scroll">
-	<div class="grid h-[230dvh] grid-cols-3">
+	<div class="grid h-[180dvh] w-[120dvw] grid-cols-3 gap-20">
 		<Popover />
 		<Popover />
 		<Popover />
-		<InputSelectNative label="test" options={['asd', 'adsad', 'asdasd']} />
-		<Popover />
-		<Popover />
+		<Popover placement="top" />
+		<Popover placement="right" />
 		<Popover />
 		<Popover class="mt-auto" />
 		<Popover class="mt-auto" />
