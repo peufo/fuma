@@ -1,106 +1,105 @@
 <script lang="ts" generics="RelationItem extends {id: string | number}">
+	import type { IconProps } from '@lucide/svelte';
+	import debounce from 'debounce';
 	import {
-		createEventDispatcher,
-		tick,
 		type Component,
 		type ComponentProps,
-		type Snippet
-	} from 'svelte'
-	import type { HTMLInputAttributes } from 'svelte/elements'
-	import debounce from 'debounce'
-	import { toast } from 'svelte-sonner'
+		createEventDispatcher,
+		type Snippet,
+		tick
+	} from 'svelte';
+	import type { HTMLInputAttributes } from 'svelte/elements';
+	import { toast } from 'svelte-sonner';
+	import { FormControl, SelectorList } from '$lib/ui/input/index.js';
+	import { DropDown } from '$lib/ui/menu/index.js';
+	import { USE_COERCE_JSON } from '$lib/utils/constant.js';
+	import type { TippyProps } from '$lib/utils/tippy.js';
+	import RelationAfter from './RelationAfter.svelte';
 
-	import { USE_COERCE_JSON } from '$lib/utils/constant.js'
-	import { DropDown } from '$lib/ui/menu/index.js'
-	import { FormControl, SelectorList } from '$lib/ui/input/index.js'
-	import type { TippyProps } from '$lib/utils/tippy.js'
-	import RelationAfter from './RelationAfter.svelte'
-	import type { IconProps } from '@lucide/svelte'
+	export let key = Math.random().toString();
+	export let label = '';
+	export let search: (q: string) => Promise<RelationItem[]>;
+	export let createUrl = '';
+	export let createTitle = 'Nouveau';
+	export let CreateIcon: Component<IconProps> | undefined = undefined;
+	let item: RelationItem | null = null;
+	export { item as value };
+	export let error = '';
+	export let placeholder = '';
+	export let tippyProps: Partial<TippyProps> = {};
+	export let dropdownProps: Omit<ComponentProps<typeof DropDown>, 'children'> = {};
+	export let flatMode = false;
+	export let noSlotItemWrapper = false;
+	export let snipItem: Snippet<[RelationItem]>;
+	export let snipSuggestion: Snippet<[RelationItem]> = snipItem;
+	export let input: HTMLInputAttributes | undefined = undefined;
+	export let append: Snippet | undefined = undefined;
+	export let disabled = false;
+	export let shortcutKey = '';
+	export let Icon: Component<{ class: string }> | undefined = undefined;
+	export let debounceMs = 150;
 
-	export let key = Math.random().toString()
-	export let label = ''
-	export let search: (q: string) => Promise<RelationItem[]>
-	export let createUrl = ''
-	export let createTitle = 'Nouveau'
-	export let CreateIcon: Component<IconProps> | undefined = undefined
-	let item: RelationItem | null = null
-	export { item as value }
-	export let error = ''
-	export let placeholder = ''
-	export let tippyProps: Partial<TippyProps> = {}
-	export let dropdownProps: Omit<ComponentProps<typeof DropDown>, 'children'> = {}
-	export let flatMode = false
-	export let noSlotItemWrapper = false
-	export let snipItem: Snippet<[RelationItem]>
-	export let snipSuggestion: Snippet<[RelationItem]> = snipItem
-	export let input: HTMLInputAttributes | undefined = undefined
-	export let append: Snippet | undefined = undefined
-	export let disabled = false
-	export let shortcutKey = ''
-	export let Icon: Component<{ class: string }> | undefined = undefined
-	export let debounceMs = 150
+	let klass = '';
+	export { klass as class };
+	export let classList = '';
+	export let inputElement: HTMLInputElement | undefined = undefined;
+	export let dropdown: DropDown | undefined = undefined;
 
-	let klass = ''
-	export { klass as class }
-	export let classList = ''
-	export let inputElement: HTMLInputElement | undefined = undefined
-	export let dropdown: DropDown | undefined = undefined
+	let proposedItems: RelationItem[] = [];
 
-	let proposedItems: RelationItem[] = []
-
-	let isLoading = false
-	let isError = false
-	let isFocus = false
-	let focusIndex = 0
-	let searchValue = ''
+	let isLoading = false;
+	let isError = false;
+	let isFocus = false;
+	let focusIndex = 0;
+	let searchValue = '';
 
 	const dispatch = createEventDispatcher<{
-		input: { value: RelationItem | null }
-		blur: void
-	}>()
+		input: { value: RelationItem | null };
+		blur: void;
+	}>();
 
 	export async function clear() {
-		searchValue = ''
-		item = null
-		dispatch('input', { value: item })
-		await tick()
-		inputElement?.focus()
+		searchValue = '';
+		item = null;
+		dispatch('input', { value: item });
+		await tick();
+		inputElement?.focus();
 	}
 
 	export async function select(index = focusIndex) {
-		item = proposedItems[index]
-		dispatch('input', { value: item })
+		item = proposedItems[index];
+		dispatch('input', { value: item });
 	}
 
 	export function focus() {
-		inputElement?.focus()
+		inputElement?.focus();
 	}
 
 	export async function searchItems(searchValue = '') {
 		try {
-			isLoading = true
-			isError = false
-			focusIndex = 0
-			proposedItems = await search(searchValue)
+			isLoading = true;
+			isError = false;
+			focusIndex = 0;
+			proposedItems = await search(searchValue);
 		} catch (error) {
-			toast.error('Erreur')
-			isError = true
-			console.error(error)
+			toast.error('Erreur');
+			isError = true;
+			console.error(error);
 		} finally {
-			isLoading = false
+			isLoading = false;
 		}
 	}
 
-	const searchItemsDebounce = debounce(searchItems, debounceMs)
+	const searchItemsDebounce = debounce(searchItems, debounceMs);
 
 	function handleFocus() {
-		isFocus = true
-		searchItems()
+		isFocus = true;
+		searchItems();
 	}
 	async function handleBlur() {
-		isFocus = false
-		searchValue = ''
-		dispatch('blur')
+		isFocus = false;
+		searchValue = '';
+		dispatch('blur');
 	}
 </script>
 
@@ -126,7 +125,7 @@
 					/>
 					<RelationAfter {isLoading} {createUrl} {createTitle} {CreateIcon} />
 					{#if shortcutKey && !isFocus}
-						<kbd class="kbd kbd-xs text-base-content/50 shrink-0">
+						<kbd class="kbd shrink-0 kbd-xs text-base-content/50">
 							{shortcutKey}
 						</kbd>
 					{/if}
