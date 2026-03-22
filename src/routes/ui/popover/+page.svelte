@@ -1,10 +1,14 @@
 <script lang="ts">
 	import { CarrotIcon } from '@lucide/svelte';
-	import Popover, { type PopoverType } from '$lib/next/popover/Popover.svelte';
+	import { Popover, type PopoverType } from '$lib/next/popover/index.ts';
 </script>
 
+{#snippet activator(popover: PopoverType, label = 'simple')}
+	<button class="btn" {...popover.activator}>{label}</button>
+{/snippet}
+
 {#snippet carrot()}
-	<div class="grid max-w-sm place-content-center">
+	<div class="grid max-w-sm place-content-center p-4">
 		<CarrotIcon size={42} opacity={0.4} />
 		<p>
 			Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ex quo quas tenetur ipsum maxime
@@ -14,22 +18,29 @@
 	</div>
 {/snippet}
 
-{#snippet activator(popover: PopoverType)}
-	<button class="btn" {...popover.activator}>simple</button>
-{/snippet}
-
 <div class="overflow-scroll">
 	<div class="m-40 grid h-[180dvh] w-[120dvw] grid-cols-3 gap-20">
 		<Popover {activator}>
 			{@render carrot()}
 		</Popover>
-		<Popover {activator} listeners={['focus']}>
+		<Popover listeners={['focus']}>
+			{#snippet activator(popover)}
+				<button class="btn" {...popover.activator}>focus</button>
+			{/snippet}
 			{@render carrot()}
 		</Popover>
-		<Popover {activator}>
+		<Popover listeners={['hover']}>
+			{#snippet activator(popover)}
+				<button class="btn" {...popover.activator}>hover</button>
+			{/snippet}
 			{@render carrot()}
 		</Popover>
-		<Popover {activator} placement="top">{@render carrot()}</Popover>
+		<Popover placement="top" listeners={['hover']}>
+			{#snippet activator(popover)}
+				<button class="btn" {...popover.activator}>interest</button>
+			{/snippet}
+			{@render carrot()}
+		</Popover>
 		<Popover {activator} placement="right">{@render carrot()}</Popover>
 		<Popover {activator}>{@render carrot()}</Popover>
 		<Popover {activator} class="mt-auto">{@render carrot()}</Popover>
