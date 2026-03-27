@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { CarrotIcon } from '@lucide/svelte';
+	import type { ClassValue } from 'svelte/elements';
 	import { Popover, type PopoverType } from '$lib/next/popover/index.ts';
 </script>
 
@@ -8,7 +9,7 @@
 {/snippet}
 
 {#snippet carrot()}
-	<div class="grid max-w-sm place-content-center p-4">
+	<div class={['grid max-w-sm place-content-center p-4']}>
 		<CarrotIcon size={42} opacity={0.4} />
 		<p>
 			Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ex quo quas tenetur ipsum maxime
@@ -29,7 +30,7 @@
 			{/snippet}
 			{@render carrot()}
 		</Popover>
-		<Popover listeners={['hover']}>
+		<Popover listeners={['hover']} class="my-10">
 			{#snippet activator(popover)}
 				<button class="btn" {...popover.activator}>hover</button>
 			{/snippet}
