@@ -68,7 +68,7 @@
 		class={['my-2 rounded-box border bg-base-100 shadow-xl']}
 		style="width: anchor-size(width);"
 	>
-		<ul {...command.list} class="menu w-full">
+		<ul class="menu max-h-80 w-full flex-nowrap">
 			{#each items as item, index}
 				{@const isSelected = index === command.selectedIndex}
 				{@const isFocus = index === command.focusIndex}
@@ -92,3 +92,9 @@
 	</div>
 	<Issues {field} />
 </div>
+
+<style>
+	div[popover] {
+		border-color: color-mix(in oklab, var(--color-base-content) 20%, #0000);
+	}
+</style>

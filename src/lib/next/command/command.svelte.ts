@@ -10,7 +10,6 @@ type CommandOptions = {
 export function useCommand({ onSelect, onFocus, isEnable = () => true }: CommandOptions = {}) {
 	let focusIndex = $state(0);
 	let selectedIndex = $state(-1);
-	let list: HTMLElement | undefined;
 	const items: HTMLElement[] = [];
 
 	function onKeydown(event: KeyboardEvent) {
@@ -26,7 +25,7 @@ export function useCommand({ onSelect, onFocus, isEnable = () => true }: Command
 			focusIndex--;
 			if (focusIndex < 0) focusIndex = items.length - 1;
 			onFocus?.(focusIndex);
-			scrollToFocus(items);
+			scrollFocusIntoView();
 			return;
 		}
 		if (event.key === 'ArrowDown') {
@@ -34,30 +33,13 @@ export function useCommand({ onSelect, onFocus, isEnable = () => true }: Command
 			focusIndex++;
 			if (focusIndex > items.length - 1) focusIndex = 0;
 			onFocus?.(focusIndex);
-			scrollToFocus(items);
+			scrollFocusIntoView();
 			return;
 		}
 	}
 
-	function scrollToFocus(items: HTMLElement[]) {
-		if (!(list instanceof HTMLElement)) {
-			const err = 'The list container need to be defined like this: <ul {...command.list}>...</ul>';
-			console.error(err);
-			return;
-		}
-		const item = items.at(focusIndex);
-		if (!item) return;
-		const top = item.offsetTop - 4;
-		if (top < list.scrollTop) {
-			list.scrollTo({ top });
-			return;
-		}
-		const bottom = item.offsetTop + item.offsetHeight;
-		const delta = bottom - (list.scrollTop + list.offsetHeight) + 10;
-		if (delta > 0) {
-			list.scrollTo({ top: list.scrollTop + delta });
-			return;
-		}
+	function scrollFocusIntoView() {
+		items.at(focusIndex)?.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
 	}
 
 	return {
@@ -72,16 +54,9 @@ export function useCommand({ onSelect, onFocus, isEnable = () => true }: Command
 				return on(node, 'keydown', onKeydown);
 			}
 		},
-		list: {
-			[createAttachmentKey()]: (node: HTMLElement) => {
-				list = node;
-				return () => {
-					list = undefined;
-				};
-			}
-		},
 		item: (index: number) => ({
 			[createAttachmentKey()]: (node: HTMLElement) => {
+				node.style.scrollMargin = '8px';
 				if (!items.includes(node)) items.splice(index, 0, node);
 				const cleanup = on(node, 'click', () => {
 					focusIndex = selectedIndex = items.indexOf(node);
