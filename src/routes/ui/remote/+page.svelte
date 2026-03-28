@@ -33,7 +33,6 @@
 
 		<button class="btn">Create</button>
 	</form>
-
 	<div class="flex flex-col gap-2">
 		<h2>Users:</h2>
 

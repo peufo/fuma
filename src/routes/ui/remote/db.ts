@@ -1,13 +1,18 @@
 import {
+	AppleIcon,
+	BananaIcon,
 	BikeIcon,
 	CableCarIcon,
+	CherryIcon,
+	CitrusIcon,
+	GrapeIcon,
 	MarsIcon,
 	MotorbikeIcon,
 	VenusAndMarsIcon,
-	VenusIcon,
+	VenusIcon
 } from '@lucide/svelte';
 import z from 'zod';
-import type { OptionRecord, ShapeOf } from '$lib/index.ts';
+import type { OptionRecord, Options, ShapeOf } from '$lib/index.ts';
 
 export type UserGender = (typeof userGenders)[number];
 export type UserTag = (typeof userTags)[number];
@@ -36,18 +41,26 @@ export const schemaUser = z.object({
 	isValided: z.literal(true, 'Validation requise'),
 	subscribeAt: z.iso.date(),
 	gender: z.enum(userGenders),
-	gender2: z.enum(userGenders),
+	gender2: z.enum(userGenders)
 	// tags: z.array(z.enum(userTags)).default([]),
 } satisfies ShapeOf<User>);
 
 export const userGenderOptions = {
 	male: { label: 'Homme', icon: MarsIcon },
 	female: { label: 'Femme', icon: VenusIcon },
-	other: { label: 'Autre', icon: VenusAndMarsIcon },
+	other: { label: 'Autre', icon: VenusAndMarsIcon }
 } satisfies OptionRecord<UserGender>;
 
 export const userTagOptions = {
 	biker: { label: 'Biker', icon: BikeIcon },
 	rider: { label: 'Rider', icon: MotorbikeIcon },
-	skier: { label: 'Skier', icon: CableCarIcon },
+	skier: { label: 'Skier', icon: CableCarIcon }
 } satisfies OptionRecord<UserTag>;
+
+export const fruitsOptions = {
+	apple: { label: 'Apple', icon: AppleIcon },
+	banana: { label: 'Banana', icon: BananaIcon },
+	cherry: { label: 'Cherry', icon: CherryIcon },
+	citrus: { label: 'Citrus', icon: CitrusIcon },
+	grape: { label: 'Grape', icon: GrapeIcon }
+} satisfies Options;

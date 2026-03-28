@@ -1,51 +1,60 @@
 <script lang="ts">
 	import { CarrotIcon } from '@lucide/svelte';
-	import type { ClassValue } from 'svelte/elements';
 	import { Popover, type PopoverType } from '$lib/next/popover/index.ts';
 </script>
 
-{#snippet activator(popover: PopoverType, label = 'simple')}
-	<button class="btn" {...popover.activator}>{label}</button>
+{#snippet trigger(popover: PopoverType, label = 'simple')}
+	<button class="btn" {...popover.trigger}>{label}</button>
 {/snippet}
 
-{#snippet carrot()}
-	<div class={['grid max-w-sm place-content-center p-4']}>
-		<CarrotIcon size={42} opacity={0.4} />
-		<p>
-			Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ex quo quas tenetur ipsum maxime
-			laborum debitis. Animi repellendus inventore amet incidunt deserunt fugit. Numquam doloribus
-			illum temporibus eum possimus recusandae.
-		</p>
-	</div>
+{#snippet menuCarrot(deep = 0)}
+	<ul class="menu">
+		{#each [1, 2, 3] as item}
+			<Popover listenHover placement="right" class="m-3">
+				{#snippet trigger(popover)}
+					<li>
+						<button class="w-full" {...popover.trigger}>
+							Item {item}
+						</button>
+					</li>
+				{/snippet}
+				{#if deep >= 2}
+					<CarrotIcon size={42} class="p-2" />
+				{:else}
+					{@render menuCarrot(deep + 1)}
+				{/if}
+			</Popover>
+		{/each}
+	</ul>
 {/snippet}
 
 <div class="overflow-scroll">
 	<div class="m-40 grid h-[180dvh] w-[120dvw] grid-cols-3 gap-20">
-		<Popover {activator}>
-			{@render carrot()}
+		<Popover {trigger}>
+			{@render menuCarrot()}
 		</Popover>
-		<Popover listeners={['focus']}>
-			{#snippet activator(popover)}
-				<button class="btn" {...popover.activator}>focus</button>
+		<Popover>
+			{#snippet trigger(popover)}
+				<button class="btn" {...popover.trigger}>focus</button>
 			{/snippet}
-			{@render carrot()}
+			{@render menuCarrot()}
 		</Popover>
-		<Popover listeners={['hover']} class="my-10">
-			{#snippet activator(popover)}
-				<button class="btn" {...popover.activator}>hover</button>
+		<Popover listenHover class="my-2">
+			{#snippet trigger(popover)}
+				<button class="btn" {...popover.trigger}>hover</button>
 			{/snippet}
-			{@render carrot()}
+			{@render menuCarrot()}
 		</Popover>
-		<Popover placement="top" listeners={['hover']}>
-			{#snippet activator(popover)}
-				<button class="btn" {...popover.activator}>interest</button>
+		<Popover placement="top">
+			{#snippet trigger(popover)}
+				<button class="btn" {...popover.trigger}>interest</button>
 			{/snippet}
-			{@render carrot()}
+			{@render menuCarrot()}
 		</Popover>
-		<Popover {activator} placement="right">{@render carrot()}</Popover>
-		<Popover {activator}>{@render carrot()}</Popover>
-		<Popover {activator} class="mt-auto">{@render carrot()}</Popover>
-		<Popover {activator} class="mt-auto">{@render carrot()}</Popover>
-		<Popover {activator} class="mt-auto">{@render carrot()}</Popover>
+		<Popover {trigger} placement="right">{@render menuCarrot()}</Popover>
+		<Popover {trigger}>{@render menuCarrot()}</Popover>
+		<Popover {trigger} class="mt-auto">{@render menuCarrot()}</Popover>
+		<Popover {trigger} class="mt-auto">{@render menuCarrot()}</Popover>
+		<Popover {trigger} class="mt-auto">{@render menuCarrot()}</Popover>
 	</div>
 </div>

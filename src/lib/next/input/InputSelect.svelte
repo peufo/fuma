@@ -1,0 +1,94 @@
+<script lang="ts" generics="Item">
+	import { ChevronsUpDownIcon } from '@lucide/svelte';
+	import type { RemoteFormField } from '@sveltejs/kit';
+	import type { Snippet } from 'svelte';
+	import { useCommand } from '../command/command.svelte.ts';
+	import { usePopover } from '../popover/popover.svelte.ts';
+	import Issues from './Issues.svelte';
+
+	let {
+		label,
+		items,
+		getValue,
+		selected,
+		proposal,
+		field
+	}: {
+		label: string;
+		items: Item[];
+		getValue: (item: Item) => string;
+		selected?: Snippet<[Item]>;
+		proposal?: Snippet<[Item, { isSelected: boolean; isFocus: boolean }]>;
+		field?: RemoteFormField<string>;
+	} = $props();
+
+	let selectedItem = $derived(items.find((item) => getValue(item) === field?.value()));
+
+	const popover = usePopover({ listenFocus: false });
+	const command = useCommand({
+		isEnable: () => popover.isOpen,
+		onSelect: (index) => {
+			popover.hide();
+			if (field) {
+				field.set(getValue(items[index]));
+			} else {
+				selectedItem = items[index];
+			}
+		}
+	});
+</script>
+
+{#if field}
+	<input {...field.as('hidden', field.value())} />
+{/if}
+
+<div>
+	<label class="floating-label">
+		<span>{label}</span>
+		<button
+			class={['input', field?.issues.length && 'input-error']}
+			{...popover.trigger}
+			{...command.trigger}
+		>
+			<div class="grow text-left">
+				{#if !selectedItem}
+					<span class="opacity-60">Select a value</span>
+				{:else if selected}
+					{@render selected(selectedItem)}
+				{:else}
+					{getValue(selectedItem)}
+				{/if}
+			</div>
+			<ChevronsUpDownIcon size={14} />
+		</button>
+	</label>
+
+	<div
+		{...popover.content}
+		class={['my-2 rounded-box border bg-base-100 shadow-xl']}
+		style="width: anchor-size(width);"
+	>
+		<ul {...command.list} class="menu w-full">
+			{#each items as item, index}
+				{@const isSelected = index === command.selectedIndex}
+				{@const isFocus = index === command.focusIndex}
+				<li>
+					<button
+						{...command.item(index)}
+						class={[isFocus && 'menu-focus']}
+						type="button"
+						tabindex="-1"
+						role="menuitem"
+					>
+						{#if proposal}
+							{@render proposal(item, { isSelected, isFocus })}
+						{:else}
+							{getValue(item)}
+						{/if}
+					</button>
+				</li>
+			{/each}
+		</ul>
+	</div>
+	<Issues {field} />
+</div>

@@ -1,6 +1,7 @@
 import debounce from 'debounce';
 import { createAttachmentKey } from 'svelte/attachments';
 import { on } from 'svelte/events';
+import { MediaQuery } from 'svelte/reactivity';
 
 type Alignement = 'start' | 'end';
 type Position = 'left' | 'right' | 'top' | 'bottom';
@@ -24,60 +25,54 @@ export type PopoverType = ReturnType<typeof usePopover>;
 export type PopoverOptions = {
 	mode?: 'auto' | 'hint' | 'manual';
 	placement?: Placement;
-	listeners?: ('hover' | 'focus' | 'click')[];
+	listenClick?: boolean;
+	listenFocus?: boolean;
+	listenHover?: boolean;
+	/** Only when listenHover={true} */
 	hideDelay?: number;
 };
 
 let popoverInstanceCount = 0;
 
 export function usePopover({
-	mode = 'manual',
+	mode = 'auto',
 	placement = 'bottom-start',
-	listeners = ['click'],
+	listenClick = true,
+	listenFocus = true,
+	listenHover = false,
 	hideDelay = 400
 }: PopoverOptions = {}) {
 	const uid = popoverInstanceCount++;
 	const anchorName = `--anchor-${uid}`;
 	let popover = $state<HTMLElement>();
+	let isOpen = $state(!!popover?.matches(':popover-open'));
 
+	const hideDebounced = debounce(hide, hideDelay);
 	function show() {
 		popover?.showPopover();
 	}
-
 	function hide() {
 		popover?.hidePopover();
 	}
-
-	const hideDebounced = debounce(hide, hideDelay);
-
 	function onMouseEnter() {
 		hideDebounced.clear();
 		show();
 	}
-
-	// Don't hide if popover have the focus
-	function hideSoftFocus(event: FocusEvent) {
-		hide();
+	function onToggle(event: ToggleEvent) {
+		isOpen = event.newState === 'open';
 	}
-
-	function toggle() {
-		console.log(popover?.matches(':popover-open'));
-		if (popover?.matches(':popover-open')) popover.hidePopover();
-		else popover?.showPopover();
-	}
-
-	function attachActivatorListeners(activator: HTMLElement): () => void {
+	function attachTriggerListeners(activator: HTMLElement): () => void {
 		const cleanups: (() => void)[] = [];
-		if (listeners.includes('hover')) {
+		if (listenClick) {
+			cleanups.push(on(activator, 'click', show));
+		}
+		if (listenFocus) {
+			cleanups.push(on(activator, 'focusin', show));
+			// TODO: handle focusout ???
+		}
+		if (listenHover) {
 			cleanups.push(on(activator, 'mouseenter', onMouseEnter));
 			cleanups.push(on(activator, 'mouseleave', hideDebounced));
-		}
-		if (listeners.includes('focus')) {
-			cleanups.push(on(activator, 'focusin', show));
-			cleanups.push(on(activator, 'focusout', hideSoftFocus));
-		}
-		if (listeners.includes('click')) {
-			cleanups.push(on(activator, 'click', toggle));
 		}
 		return () => {
 			for (const cleanup of cleanups) cleanup();
@@ -86,7 +81,9 @@ export function usePopover({
 
 	function attachPopoverListeners(node: HTMLElement): () => void {
 		const cleanups: (() => void)[] = [];
-		if (listeners.includes('hover')) {
+		cleanups.push(on(node, 'toggle', onToggle));
+
+		if (listenHover) {
 			cleanups.push(on(node, 'mouseenter', onMouseEnter));
 			cleanups.push(on(node, 'mouseleave', hideDebounced));
 		}
@@ -94,11 +91,12 @@ export function usePopover({
 			for (const cleanup of cleanups) cleanup();
 		};
 	}
-
 	return {
 		show,
 		hide,
-		toggle,
+		get isOpen() {
+			return isOpen;
+		},
 		content: {
 			popover: mode,
 			[createAttachmentKey()]: (node: HTMLElement) => {
@@ -111,10 +109,10 @@ export function usePopover({
 				return attachPopoverListeners(node);
 			}
 		},
-		activator: {
+		trigger: {
 			[createAttachmentKey()]: (node: HTMLElement) => {
 				node.style.anchorName = anchorName;
-				return attachActivatorListeners(node);
+				return attachTriggerListeners(node);
 			}
 		}
 	};

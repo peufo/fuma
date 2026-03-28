@@ -10,26 +10,32 @@
 
 	let {
 		children,
-		activator,
+		trigger,
 		class: klass = '',
+		style = '',
 		...popoverOptions
 	}: {
 		children: Snippet<[PopoverType]>;
-		activator: Snippet<[PopoverType]>;
+		trigger: Snippet<[PopoverType]>;
 		placement?: Placement;
 		class?: ClassValue;
+		style?: string;
 	} & PopoverOptions = $props();
 
 	let popover = usePopover(popoverOptions);
 </script>
 
-{@render activator(popover)}
+{@render trigger(popover)}
 
-<div {...popover.content} class={['shadow-sm" rounded-box border bg-base-100', klass]}>
+<div {...popover.content} {style} class={['rounded-box border bg-base-100 shadow-xl', klass]}>
 	{@render children(popover)}
 </div>
 
 <style>
+	div[popover] {
+		border-color: color-mix(in oklab, var(--color-base-content) 20%, #0000);
+	}
+
 	div[popover]:popover-open {
 		inset: 5px;
 		transition-property: opacity, scale;

@@ -1,16 +1,9 @@
 <script lang="ts" module>
-	import { type Options } from '$lib/utils/options.js'
-	import { InstagramIcon, FacebookIcon, TwitterIcon } from '@lucide/svelte'
-
-	export const menuOptions = {
-		facebook: { label: 'Facebook', icon: FacebookIcon },
-		insta: { label: 'Instagram', icon: InstagramIcon },
-		twitter: { label: 'Twitter', icon: TwitterIcon }
-	} satisfies Options
+	import { fruitsOptions } from '../remote/db.ts';
 </script>
 
 <ul>
-	{#each Object.entries(menuOptions) as [value, option]}
+	{#each Object.entries(fruitsOptions) as [value, option]}
 		<li>
 			<a class="menu-item" href="#{value}">
 				<option.icon />

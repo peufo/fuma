@@ -1,11 +1,10 @@
 <script lang="ts">
-	import type { Editor } from '@tiptap/core'
-	import { PlusIcon, MinusIcon, ImagePlusIcon, YoutubeIcon, AtSignIcon } from '@lucide/svelte'
+	import { AtSignIcon, Clapperboard, ImagePlusIcon, MinusIcon, PlusIcon } from '@lucide/svelte';
+	import type { Editor } from '@tiptap/core';
+	import { suggestionItems } from './suggestion.js';
+	import ToolMenu from './ToolMenu.svelte';
 
-	import ToolMenu from './ToolMenu.svelte'
-	import { suggestionItems } from './suggestion.js'
-
-	let { editor, onInsertMedia }: { editor: Editor; onInsertMedia?: () => void } = $props()
+	let { editor, onInsertMedia }: { editor: Editor; onInsertMedia?: () => void } = $props();
 </script>
 
 <ToolMenu
@@ -25,11 +24,11 @@
 		},
 		{
 			label: 'Vidéo',
-			icon: YoutubeIcon,
+			icon: Clapperboard,
 			action: () => {
-				const src = prompt('Lien youtube')
-				if (!src) return
-				editor.commands.setYoutubeVideo({ src })
+				const src = prompt('Lien youtube');
+				if (!src) return;
+				editor.commands.setYoutubeVideo({ src });
 			}
 		},
 		{
@@ -37,10 +36,10 @@
 			icon: AtSignIcon,
 			disable: !$suggestionItems.length,
 			action: () => {
-				const { from } = editor.state.selection
-				const lastChar = editor.state.doc.textBetween(from - 1, from)
-				const charToAdd = lastChar === '' || lastChar === ' ' ? '@' : ' @'
-				editor.chain().insertContent(charToAdd).focus().run()
+				const { from } = editor.state.selection;
+				const lastChar = editor.state.doc.textBetween(from - 1, from);
+				const charToAdd = lastChar === '' || lastChar === ' ' ? '@' : ' @';
+				editor.chain().insertContent(charToAdd).focus().run();
 			}
 		}
 	]}

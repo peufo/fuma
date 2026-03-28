@@ -1,14 +1,14 @@
 <script lang="ts">
-	import '../app.css'
+	import '../app.css';
 
-	import { Toaster } from 'svelte-sonner'
-	import Tree from './Tree.svelte'
-	import { ToggleMode } from '$lib/ui/mode/index.js'
+	import { Toaster } from 'svelte-sonner';
+	import { ToggleMode } from '$lib/ui/mode/index.js';
+	import Tree from './Tree.svelte';
 
 	let tree = Object.keys(import.meta.glob('./**/+page.svelte'))
 		.map((p) => p.replace('./', '').replace(/\/?\+page.svelte/, ''))
 		.filter(Boolean)
-		.map((link) => link.split('/'))
+		.map((link) => link.split('/'));
 </script>
 
 <Toaster />

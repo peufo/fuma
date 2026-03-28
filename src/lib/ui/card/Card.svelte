@@ -1,7 +1,7 @@
 <script lang="ts">
-	import type { ClassValue, HTMLAttributes } from 'svelte/elements'
-	import type { Snippet } from 'svelte'
-	import { ArrowLeftIcon } from '@lucide/svelte'
+	import { ArrowLeftIcon } from '@lucide/svelte';
+	import type { Snippet } from 'svelte';
+	import type { ClassValue, HTMLAttributes } from 'svelte/elements';
 
 	let {
 		class: _class,
@@ -15,20 +15,18 @@
 		children,
 		...props
 	}: {
-		bodyClass?: ClassValue
-		headerClass?: ClassValue
-		returnUrl?: string
-		snipTitle?: Snippet
-		snipAction?: Snippet
-		snipSubtitle?: Snippet
-		snipTop?: Snippet
-		children: Snippet
-	} & HTMLAttributes<HTMLDivElement> = $props()
-
-	$inspect(props)
+		bodyClass?: ClassValue;
+		headerClass?: ClassValue;
+		returnUrl?: string;
+		snipTitle?: Snippet;
+		snipAction?: Snippet;
+		snipSubtitle?: Snippet;
+		snipTop?: Snippet;
+		children: Snippet;
+	} & HTMLAttributes<HTMLDivElement> = $props();
 </script>
 
-<div class={['card bordered border bg-base-100 shadow-lg', _class]} {...props}>
+<div class={['bordered card border bg-base-100 shadow-lg', _class]} {...props}>
 	{@render snipTop?.()}
 
 	<div class={['card-body rounded-b-lg p-2 sm:p-8', bodyClass]}>
