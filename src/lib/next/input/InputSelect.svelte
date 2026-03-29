@@ -67,6 +67,7 @@
 		{...popover.content}
 		class={['my-2 rounded-box border bg-base-100 shadow-xl']}
 		style="width: anchor-size(width);"
+		tabindex="-1"
 	>
 		<ul class="menu max-h-80 w-full flex-nowrap">
 			{#each items as item, index}
@@ -78,7 +79,7 @@
 						class={[isFocus && 'menu-focus']}
 						type="button"
 						tabindex="-1"
-						role="menuitem"
+						role="option"
 					>
 						{#if proposal}
 							{@render proposal(item, { isSelected, isFocus })}
@@ -96,5 +97,16 @@
 <style>
 	div[popover] {
 		border-color: color-mix(in oklab, var(--color-base-content) 20%, #0000);
+	}
+	div[popover]:popover-open {
+		inset: 5px;
+		transition-property: opacity, scale;
+		transition-duration: 150ms;
+		opacity: 1;
+		scale: 1;
+		@starting-style {
+			opacity: 0;
+			scale: 0.95;
+		}
 	}
 </style>
