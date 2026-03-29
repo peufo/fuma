@@ -36,6 +36,8 @@
 			}
 		}
 	});
+
+	$inspect(selectedItem);
 </script>
 
 {#if field}
@@ -54,7 +56,8 @@
 				{#if !selectedItem}
 					<span class="opacity-60">Select a value</span>
 				{:else if selected}
-					{@render selected(selectedItem)}
+					<!-- item.icon not rerender if not wrapped in #key -->
+					{#key selectedItem}{@render selected(selectedItem)}{/key}
 				{:else}
 					{getValue(selectedItem)}
 				{/if}
@@ -70,7 +73,7 @@
 		tabindex="-1"
 	>
 		<ul class="menu max-h-80 w-full flex-nowrap">
-			{#each items as item, index}
+			{#each items as item, index (item)}
 				{@const isSelected = index === command.selectedIndex}
 				{@const isFocus = index === command.focusIndex}
 				<li>
@@ -97,16 +100,5 @@
 <style>
 	div[popover] {
 		border-color: color-mix(in oklab, var(--color-base-content) 20%, #0000);
-	}
-	div[popover]:popover-open {
-		inset: 5px;
-		transition-property: opacity, scale;
-		transition-duration: 150ms;
-		opacity: 1;
-		scale: 1;
-		@starting-style {
-			opacity: 0;
-			scale: 0.95;
-		}
 	}
 </style>

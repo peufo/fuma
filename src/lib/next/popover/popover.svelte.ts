@@ -1,7 +1,6 @@
 import debounce from 'debounce';
 import { createAttachmentKey } from 'svelte/attachments';
 import { on } from 'svelte/events';
-import { MediaQuery } from 'svelte/reactivity';
 
 type Alignement = 'start' | 'end';
 type Position = 'left' | 'right' | 'top' | 'bottom';
