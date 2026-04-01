@@ -36,8 +36,6 @@
 			}
 		}
 	});
-
-	$inspect(selectedItem);
 </script>
 
 {#if field}
