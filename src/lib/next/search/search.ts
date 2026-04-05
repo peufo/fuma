@@ -33,8 +33,6 @@ export function useSearch<Item extends {}, K extends string>({
 	keys,
 	...fuseOptions
 }: SearchOptions<Item, K>) {
-	let results = $state<SearchQueryResult<Item, K>[]>([]);
-
 	const fuse = new Fuse<Item>(items, {
 		includeMatches: true,
 		keys: Object.entries(keys).map(([name, param]) => ({ name, ...(param || {}) })),
@@ -45,7 +43,6 @@ export function useSearch<Item extends {}, K extends string>({
 		value: string,
 		{ tokensSeparator = ' ', tokensMaxCount = 4 }: SearchQueryOptions = {}
 	): SearchQueryResult<Item, K>[] {
-		console.log('prout');
 		const tokens = value.split(tokensSeparator).slice(0, tokensMaxCount);
 		const fuseResults = multiTokenFuseSearch(fuse, tokens);
 		const queryResults: SearchQueryResult<Item, K>[] = [];
@@ -57,16 +54,12 @@ export function useSearch<Item extends {}, K extends string>({
 			}
 			queryResults.push({ item, score, spans: spans as Record<K, SearchQueryResultSpan[]> });
 		}
-		results = queryResults;
 		return queryResults;
 	}
 
 	return {
 		...fuse,
-		query,
-		get results() {
-			return results;
-		}
+		query
 	};
 }
 

@@ -28,24 +28,18 @@
 		ignoreLocation: true,
 		includeScore: true
 	});
+	let value = $state('');
+	const results = $derived.by(() => search.query(value));
 </script>
 
 <div class="p-4">
 	<label class="floating-label">
 		<span>Search</span>
-		<input
-			type="text"
-			class="input"
-			placeholder="Search"
-			oninput={(event) => {
-				const { value } = event.currentTarget;
-				search.query(value);
-			}}
-		/>
+		<input bind:value type="text" class="input" placeholder="Search" />
 	</label>
 
 	<div class="mt-4 flex flex-col gap-1">
-		{#each search.results as { spans, score }}
+		{#each results as { spans, score }}
 			<div class="rounded border px-4 py-2">
 				<h3 class="text-lg">
 					<Spans spans={spans.name} />

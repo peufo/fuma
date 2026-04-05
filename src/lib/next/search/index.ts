@@ -1,2 +1,2 @@
 export { default as Spans } from './Spans.svelte';
-export * from './search.svelte.ts';
+export * from './search.ts';
