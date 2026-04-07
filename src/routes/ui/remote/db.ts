@@ -17,6 +17,7 @@ import type { OptionRecord, Options, ShapeOf } from '$lib/index.ts';
 export type UserGender = (typeof userGenders)[number];
 export type UserTag = (typeof userTags)[number];
 export type User = {
+	id: string;
 	name: string;
 	age: number;
 	level: number;
@@ -25,13 +26,12 @@ export type User = {
 	subscribeAt: string;
 	gender: UserGender;
 	gender2: UserGender;
+	loveId?: string | null;
 	// tags: UserTag[];
 };
 
 export const userGenders = ['male', 'female', 'other'] as const;
 export const userTags = ['rider', 'biker', 'skier'] as const;
-
-export const users: User[] = [];
 
 export const schemaUser = z.object({
 	name: z.string().min(3),
@@ -41,9 +41,10 @@ export const schemaUser = z.object({
 	isValided: z.literal(true, 'Validation requise'),
 	subscribeAt: z.iso.date(),
 	gender: z.enum(userGenders),
-	gender2: z.enum(userGenders)
+	gender2: z.enum(userGenders),
+	loveId: z.string().optional()
 	// tags: z.array(z.enum(userTags)).default([]),
-} satisfies ShapeOf<User>);
+} satisfies ShapeOf<Omit<User, 'id'>>);
 
 export const userGenderOptions = {
 	male: { label: 'Homme', icon: MarsIcon },

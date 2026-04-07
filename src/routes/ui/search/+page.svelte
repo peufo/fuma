@@ -1,33 +1,19 @@
 <script lang="ts">
-	import { faker } from '@faker-js/faker';
 	import { Spans, useSearch } from '$lib/next/search/index.ts';
 
-	function createRandomUser() {
-		return {
-			userId: faker.string.uuid(),
-			name: faker.person.fullName(),
-			job: faker.person.jobTitle(),
-			email: faker.internet.email(),
-			avatar: faker.image.avatar(),
-			birthdate: faker.date.birthdate(),
-			registeredAt: faker.date.past()
-		};
-	}
-
-	const users = faker.helpers.multiple(createRandomUser, {
-		count: 40
-	});
-
-	const search = useSearch({
-		items: users,
-		keys: {
-			name: {},
-			job: {}
-		},
-		minMatchCharLength: 2,
-		ignoreLocation: true,
-		includeScore: true
-	});
+	let { data } = $props();
+	const search = $derived(
+		useSearch({
+			items: data.users,
+			keys: {
+				name: {},
+				job: {}
+			},
+			minMatchCharLength: 2,
+			ignoreLocation: true,
+			includeScore: true
+		})
+	);
 	let value = $state('');
 	const results = $derived.by(() => search.query(value));
 </script>

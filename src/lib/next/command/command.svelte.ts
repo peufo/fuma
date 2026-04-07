@@ -54,9 +54,9 @@ export function useCommand({ onSelect, onFocus, isEnable = () => true }: Command
 				return on(node, 'keydown', onKeydown);
 			}
 		},
-		item: (index: number) => ({
+		item: (index: number, scrollMargin = '8px') => ({
 			[createAttachmentKey()]: (node: HTMLElement) => {
-				node.style.scrollMargin = '8px';
+				node.style.scrollMargin = scrollMargin;
 				if (!items.includes(node)) items.splice(index, 0, node);
 				const cleanup = on(node, 'click', () => {
 					focusIndex = selectedIndex = items.indexOf(node);

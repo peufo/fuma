@@ -38,14 +38,15 @@
 	});
 </script>
 
-{#if field}
-	<input {...field.as('hidden', field.value())} />
+{#if field?.value() !== undefined}
+	<input {...field.as('hidden', field.value() as string)} />
 {/if}
 
 <div>
 	<label class="floating-label">
 		<span>{label}</span>
 		<button
+			type="button"
 			class={['input', field?.issues.length && 'input-error']}
 			{...popover.trigger}
 			{...command.trigger}

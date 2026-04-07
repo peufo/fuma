@@ -2,6 +2,7 @@ export { default as InputBoolean } from './InputBoolean.svelte';
 export { default as InputNumber } from './InputNumber.svelte';
 export { default as InputRadio } from './InputRadio.svelte';
 export { default as InputRange } from './InputRange.svelte';
+export { default as InputRelation } from './InputRelation.svelte';
 export { default as InputSelect } from './InputSelect.svelte';
 export { default as InputSelectNative } from './InputSelectNative.svelte';
 export { default as InputString } from './InputString.svelte';
