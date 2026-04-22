@@ -1,20 +1,35 @@
 <script lang="ts">
-	import { tip } from '$lib/action/index.ts';
-	import InputTextarea from '$lib/input/InputTextarea.svelte';
-	import { InputBoolean } from '$lib/input/index.ts';
+	import type { PropDef } from '../_doc/index.ts';
+	import { DocExample, DocProps, DocSection } from '../_doc/index.ts';
+	import Usage from './Usage.svelte';
+	import usageCode from './Usage.svelte?raw';
 
-	let content = 'Hello !';
-	let enable = true;
-
-	// TODO: how to use a RemoteFormField without server ?
-	// Create a FormField compatitbiliy ?
+	const props: PropDef[] = [
+		{
+			name: 'content',
+			type: 'string',
+			required: true,
+			description: 'Tooltip content'
+		},
+		{
+			name: 'disable',
+			type: 'boolean',
+			default: 'false',
+			description: 'Disable the tooltip'
+		},
+		{
+			name: '...tippyProps',
+			type: 'Partial<TippyProps>',
+			description: 'Additional Tippy.js options'
+		}
+	];
 </script>
 
-<div class="mx-auto my-10 max-w-xl">
-	<!-- <InputTextarea label="Content" bind:value={content} />
-	<InputBoolean label="Enable" bind:value={enable} /> -->
-
-	<div class="divider"></div>
-
-	<div class="h-12 w-12 bg-yellow-400" use:tip={{ content, disable: !enable }}>hover me</div>
-</div>
+<DocSection title="Tip">
+	<DocExample code={usageCode}>
+		{#snippet preview()}
+			<Usage />
+		{/snippet}
+	</DocExample>
+	<DocProps {props} />
+</DocSection>

@@ -1,25 +1,49 @@
 <script lang="ts">
-	import { getCSV } from '$lib/index.js'
-	import { ButtonCopy } from '$lib/ui/button/index.js'
+	import type { PropDef } from '../_doc/index.ts';
+	import { DocExample, DocProps, DocSection } from '../_doc/index.ts';
+	import Usage from './Usage.svelte';
+	import usageCode from './Usage.svelte?raw';
 
-	async function getValue() {
-		await wait(1500)
-		const users = [
-			{ name: 'Bob', age: 24 },
-			{ name: 'Alice', age: 42 }
-		]
-
-		return getCSV(users, { name: (user) => user.name, age: (user) => user.age })
-	}
-
-	async function wait(ms: number) {
-		return new Promise((resolve) => {
-			setTimeout(resolve, ms)
-		})
-	}
+	const props: PropDef[] = [
+		{
+			name: 'value',
+			type: 'string | (() => Promise<string>)',
+			required: true,
+			description: 'Value to copy or async function returning it'
+		},
+		{ name: 'title', type: 'string', default: "''", description: 'Tooltip text' },
+		{ name: 'label', type: 'string', default: "''", description: 'Button label' },
+		{
+			name: 'Icon',
+			type: 'Component<IconProps>',
+			default: 'CopyIcon',
+			description: 'Icon component'
+		},
+		{
+			name: 'class',
+			type: 'string',
+			default: "''",
+			description: 'Additional CSS classes'
+		},
+		{
+			name: 'successMessage',
+			type: 'string',
+			default: "'Copied'",
+			description: 'Toast message on success'
+		},
+		{
+			name: 'onSuccess',
+			type: '() => void',
+			description: 'Callback after successful copy'
+		}
+	];
 </script>
 
-<div class="mx-auto flex gap-2">
-	<ButtonCopy title="Copy me !" value="Hey 👋" />
-	<ButtonCopy title="Copy async data" value={getValue} />
-</div>
+<DocSection title="ButtonCopy">
+	<DocExample code={usageCode}>
+		{#snippet preview()}
+			<Usage />
+		{/snippet}
+	</DocExample>
+	<DocProps {props} />
+</DocSection>

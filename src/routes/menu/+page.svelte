@@ -1,38 +1,83 @@
 <script lang="ts">
-	import { PrinterCheckIcon } from '@lucide/svelte';
-	import { toast } from 'svelte-sonner';
-	import { fruitsOptions } from '$lib/data.ts';
-	import { ContextMenu, DropDown, DropDownMenu } from '$lib/ui/menu/index.js';
-	import MenuContent from './MenuContent.svelte';
+	import type { PropDef } from '../_doc/index.ts';
+	import { DocExample, DocProps, DocSection } from '../_doc/index.ts';
+	import Usage from './Usage.svelte';
+	import usageCode from './Usage.svelte?raw';
 
-	let contextMenu: ContextMenu;
+	const props: PropDef[] = [
+		{
+			name: 'tippyProps',
+			type: 'Partial<TippyProps>',
+			default: '{}',
+			description: 'Tippy.js options'
+		},
+		{
+			name: 'class',
+			type: 'string',
+			default: "''",
+			description: 'Additional CSS classes'
+		},
+		{
+			name: 'classWrapper',
+			type: 'string',
+			default: "''",
+			description: 'Wrapper CSS classes'
+		},
+		{
+			name: 'classActivator',
+			type: 'string',
+			default: "''",
+			description: 'Activator CSS classes'
+		},
+		{
+			name: 'useSingleton',
+			type: 'boolean',
+			default: 'false',
+			description: 'Use singleton tooltip'
+		},
+		{
+			name: 'autofocus',
+			type: 'boolean',
+			default: 'false',
+			description: 'Autofocus first input on open'
+		},
+		{
+			name: 'hideOnBlur',
+			type: 'boolean',
+			default: 'false',
+			description: 'Hide when last focusable element loses focus'
+		},
+		{
+			name: 'hideOnNav',
+			type: 'boolean',
+			default: 'true',
+			description: 'Hide on navigation'
+		},
+		{
+			name: 'disable',
+			type: 'boolean',
+			default: 'false',
+			description: 'Disable dropdown behavior and render inline'
+		},
+		{
+			name: 'activator',
+			type: 'Snippet<[{ tip, hide, show }]>',
+			description: 'Activator snippet'
+		},
+		{
+			name: 'children',
+			type: 'Snippet<[{ tip, hide, show }]>',
+			required: true,
+			description: 'Dropdown content'
+		}
+	];
 </script>
 
-<DropDown>
-	{#snippet activator()}
-		<button class="btn">snippet="activator"</button>
-	{/snippet}
-	<MenuContent />
-</DropDown>
-
-<button
-	class="bordered grid h-80 place-content-center rounded border bg-base-200"
-	on:click={(event) => contextMenu.show(event)}
->
-	<span>Click on me !</span>
-</button>
-
-<ContextMenu bind:this={contextMenu}>
-	<MenuContent />
-</ContextMenu>
-
-<div class="flex justify-around">
-	<DropDownMenu options={fruitsOptions} onSelect={(value) => toast(value)} />
-	<DropDownMenu options={fruitsOptions} onSelect={(value) => toast(value)}>
-		<button type="button" class="btn btn-square">
-			<PrinterCheckIcon />
-		</button>
-	</DropDownMenu>
-</div>
-
-<div class="h-60"></div>
+<DocSection title="DropDown">
+	<DocExample code={usageCode}>
+		{#snippet preview()}
+			<Usage />
+		{/snippet}
+	</DocExample>
+	<DocProps {props} />
+</DocSection>

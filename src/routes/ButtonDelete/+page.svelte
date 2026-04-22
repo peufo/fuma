@@ -1,5 +1,35 @@
 <script lang="ts">
-	import { ButtonDelete } from '$lib/ui/button/index.js'
+	import type { PropDef } from '../_doc/index.ts';
+	import { DocExample, DocProps, DocSection } from '../_doc/index.ts';
+	import Usage from './Usage.svelte';
+	import usageCode from './Usage.svelte?raw';
+
+	const props: PropDef[] = [
+		{
+			name: 'formaction',
+			type: 'string',
+			required: true,
+			description: 'Form action URL triggered on confirmation'
+		},
+		{
+			name: 'btn',
+			type: 'boolean',
+			default: 'true',
+			description: 'Apply button styles'
+		},
+		{
+			name: 'children',
+			type: 'Snippet<[{ waitConfirmation: boolean }]>',
+			description: 'Custom button content'
+		}
+	];
 </script>
 
-<ButtonDelete formaction="?/delete" />
+<DocSection title="ButtonDelete">
+	<DocExample code={usageCode}>
+		{#snippet preview()}
+			<Usage />
+		{/snippet}
+	</DocExample>
+	<DocProps {props} />
+</DocSection>

@@ -3,22 +3,33 @@ import { MediaQuery } from 'svelte/reactivity';
 
 export type ModeEnum = 'light' | 'dark';
 export type ModeChoice = ModeEnum | null;
-export type Mode = ReturnType<typeof useMode>;
+export type Mode = {
+	readonly current: ModeEnum;
+	choice: ModeChoice;
+	toggle(): void;
+};
+
+let mode: Mode | undefined;
 
 export function useMode(themes: Record<ModeEnum, string> = { light: 'light', dark: 'dark' }) {
+	if (!mode) mode = createMode(themes);
+	return mode;
+}
+
+function createMode(themes: Record<ModeEnum, string> = { light: 'light', dark: 'dark' }) {
 	const choice = new PersistedState<ModeChoice>('mode-choice', null);
 	const modeSystemIsLight = new MediaQuery('prefers-color-scheme: light');
 	const modeSystem = $derived<ModeEnum>(modeSystemIsLight.current ? 'light' : 'dark');
-	const mode = $derived(choice.current || modeSystem);
+	const modeValue = $derived(choice.current || modeSystem);
 
 	$effect(() => {
 		const rootEl = document.documentElement;
-		rootEl.dataset.theme = themes[mode];
+		rootEl.dataset.theme = themes[modeValue];
 	});
 
 	return {
 		get current() {
-			return mode;
+			return modeValue;
 		},
 		get choice() {
 			return choice.current;

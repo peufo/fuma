@@ -1,31 +1,51 @@
 <script lang="ts">
-	import { CheckIcon } from '@lucide/svelte';
-	import { fruitsOptions } from '$lib/data.ts';
-	import { parseOptions } from '$lib/index.ts';
-	import InputSelectNative from '$lib/input/InputSelectNative.svelte';
-	import { InputSelect } from '$lib/input/index.ts';
+	import type { PropDef } from '../_doc/index.ts';
+	import { DocExample, DocProps, DocSection } from '../_doc/index.ts';
+	import Usage from './Usage.svelte';
+	import usageCode from './Usage.svelte?raw';
 
-	const options = parseOptions(fruitsOptions);
+	const props: PropDef[] = [
+		{
+			name: 'label',
+			type: 'string',
+			required: true,
+			description: 'Field label'
+		},
+		{
+			name: 'items',
+			type: 'Item[]',
+			required: true,
+			description: 'Select items'
+		},
+		{
+			name: 'getValue',
+			type: '(item: Item) => string',
+			required: true,
+			description: 'Value extractor function'
+		},
+		{
+			name: 'selected',
+			type: 'Snippet<[Item]>',
+			description: 'Selected item render snippet'
+		},
+		{
+			name: 'proposal',
+			type: 'Snippet<[Item, { isSelected: boolean; isFocus: boolean }]>',
+			description: 'Dropdown item render snippet'
+		},
+		{
+			name: 'field',
+			type: 'RemoteFormField<string>',
+			description: 'Form field binding'
+		}
+	];
 </script>
 
-<div class="p-4">
-	<InputSelectNative label="Fruits" {options} />
-
-	<div class="divider h-12"></div>
-
-	<InputSelect label="Fruits" items={parseOptions(options)} getValue={(item) => item.value}>
-		{#snippet selected(item)}
-			<div class="flex gap-2">
-				<item.icon size={18} opacity={0.8} />
-				<span>{item.label}</span>
-			</div>
+<DocSection title="InputSelect">
+	<DocExample code={usageCode}>
+		{#snippet preview()}
+			<Usage />
 		{/snippet}
-		{#snippet proposal(item, { isSelected })}
-			<item.icon size={18} opacity={0.8} />
-			<span>{item.label}</span>
-			{#if isSelected}
-				<CheckIcon size={18} />
-			{/if}
-		{/snippet}
-	</InputSelect>
-</div>
+	</DocExample>
+	<DocProps {props} />
+</DocSection>

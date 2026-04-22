@@ -1,29 +1,77 @@
 <script lang="ts">
-	import { urlParam } from '$lib/state/param.svelte.ts';
-	import { Drawer } from '$lib/ui/drawer/index.js';
+	import type { PropDef } from '../_doc/index.ts';
+	import { DocExample, DocProps, DocSection } from '../_doc/index.ts';
+	import Usage from './Usage.svelte';
+	import usageCode from './Usage.svelte?raw';
+
+	const props: PropDef[] = [
+		{
+			name: 'key',
+			type: 'string',
+			required: true,
+			description: 'URL param key for drawer state'
+		},
+		{
+			name: 'title',
+			type: 'string',
+			description: 'Drawer title'
+		},
+		{
+			name: 'class',
+			type: 'string',
+			default: "''",
+			description: 'Additional CSS classes'
+		},
+		{
+			name: 'maxWidth',
+			type: 'string',
+			default: "'32rem'",
+			description: 'Maximum drawer width'
+		},
+		{
+			name: 'classHeader',
+			type: 'string',
+			default: "''",
+			description: 'Header CSS classes'
+		},
+		{
+			name: 'classBody',
+			type: 'string',
+			default: "''",
+			description: 'Body CSS classes'
+		},
+		{
+			name: 'duration',
+			type: 'number',
+			default: '180',
+			description: 'Transition duration in ms'
+		},
+		{
+			name: 'noOverlay',
+			type: 'boolean',
+			default: 'false',
+			description: 'Disable overlay backdrop'
+		},
+		{
+			name: 'zIndex',
+			type: 'number',
+			default: '50',
+			description: 'Z-index stack level'
+		},
+		{
+			name: 'children',
+			type: 'Snippet<[{ open, close }]>',
+			required: true,
+			description: 'Drawer content'
+		}
+	];
 </script>
 
-<a class="btn" href={urlParam.with({ 'drawer-1': 1 })} data-sveltekit-noscroll> Open drawer 1</a>
-
-<Drawer title="Drawer 1" key="drawer-1">
-	<h2 class="title">Hey 1</h2>
-	<a class="btn" href={urlParam.with({ 'drawer-2': 1 })} data-sveltekit-noscroll> Open drawer 2 </a>
-</Drawer>
-<Drawer title="Drawer 3" key="drawer-3">
-	<h2 class="title">Hey 3</h2>
-</Drawer>
-<Drawer title="Drawer 2" key="drawer-2">
-	<h2 class="title">Hey 2</h2>
-	<a class="btn" href={urlParam.with({ 'drawer-3': 1 })} data-sveltekit-noscroll> Open drawer 3 </a>
-</Drawer>
-
-<a class="btn" href={urlParam.with({ drawer_no_overlay: 1 })} data-sveltekit-noscroll>
-	Open no overlay drawer
-</a>
-
-<Drawer title="No overlay brpo" key="drawer_no_overlay" noOverlay maxWidth="200px">
-	<h2 class="title">Hey</h2>
-	<p>Open drawer not overlay</p>
-</Drawer>
-
-<div class="my-40 h-350 rounded bg-green-300"></div>
+<DocSection title="Drawer">
+	<DocExample code={usageCode}>
+		{#snippet preview()}
+			<Usage />
+		{/snippet}
+	</DocExample>
+	<DocProps {props} />
+</DocSection>

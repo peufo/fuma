@@ -1,20 +1,23 @@
 <script lang="ts">
-	import Foo from './Foo.svelte'
+	import type { PropDef } from '../_doc/index.ts';
+	import { DocExample, DocProps, DocSection } from '../_doc/index.ts';
+	import Usage from './Usage.svelte';
+	import usageCode from './Usage.svelte?raw';
 
-	let hide = true
+	const props: PropDef[] = [
+		{
+			name: 'new_item',
+			type: 'Item',
+			description: 'Event payload emitted and listened to across components'
+		}
+	];
 </script>
 
-<div class="flex items-center gap-4 py-4">
-	<h2 class="title">This data transit with eventEmitter</h2>
-	<button class="btn btn-ghost" on:click={() => (hide = !hide)}>
-		{hide ? 'show' : 'hide'} last components
-	</button>
-</div>
-
-<div class="flex gap-4">
-	<Foo />
-	<Foo />
-	{#if !hide}
-		<Foo />
-	{/if}
-</div>
+<DocSection title="EventEmitter">
+	<DocExample code={usageCode}>
+		{#snippet preview()}
+			<Usage />
+		{/snippet}
+	</DocExample>
+	<DocProps {props} />
+</DocSection>
