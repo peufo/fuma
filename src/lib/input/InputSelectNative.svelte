@@ -7,6 +7,7 @@
 	let {
 		label,
 		field,
+		value = $bindable(),
 		options: optionsProp,
 		class: klass,
 		multiple,
@@ -15,6 +16,7 @@
 		label: string;
 		options: Options;
 		field?: RemoteFormField<string | string[]>;
+		value?: string | string[];
 	} & SelectProps = $props();
 
 	const options = $derived(parseOptions(optionsProp));
@@ -26,6 +28,7 @@
 		<select
 			class={['select', klass]}
 			{...field?.as(multiple !== true ? 'select' : 'select multiple')}
+			bind:value
 			{...props}
 		>
 			{#each options as option}

@@ -7,16 +7,20 @@
 	let {
 		field,
 		label,
+		checked = $bindable(),
 		hint,
 		variant = 'checkbox',
 		class: klass,
 		...props
 	}: {
 		label: string;
+		field?: RemoteFormField<boolean>;
+		checked?: boolean;
 		hint?: string;
 		variant?: 'checkbox' | 'switch';
-		field: RemoteFormField<boolean>;
 	} & InputProps = $props();
+
+	let isChecked = $derived(field?.value() ?? checked);
 </script>
 
 <div>
@@ -28,7 +32,11 @@
 	>
 		<div class="flex h-(--size) items-center gap-2">
 			<div class="grow">{label}</div>
-			<input {...field.as('checkbox')} class={['peer w-0']} {...props} />
+			{#if field}
+				<input {...field.as('checkbox')} class={['peer w-0']} {...props} />
+			{:else}
+				<input type="checkbox" class={['peer w-0']} bind:checked {...props} />
+			{/if}
 			{#if variant === 'checkbox'}
 				{@render variantCheckbox()}
 			{:else}
@@ -56,7 +64,7 @@
 				'squircle grid h-5 w-5 place-content-center',
 				'bg-base-content',
 				'ease scale-0 opacity-0',
-				field.value() && 'scale-[80%] opacity-100'
+				isChecked && 'scale-[80%] opacity-100'
 			]}
 		>
 			<CheckIcon size={18} class={['stroke-base-100']} strokeWidth={4} />
@@ -70,7 +78,7 @@
 			class={[
 				'grid h-3 w-3 place-content-center rounded-full bg-base-100 outline-1',
 				'ease translate-x-0',
-				field.value() ? 'translate-x-4 bg-base-content' : 'opacity-100'
+				isChecked ? 'translate-x-4 bg-base-content' : 'opacity-100'
 			]}
 		>
 			<CheckIcon size={11} class={['stroke-base-100']} strokeWidth={4} />

@@ -6,11 +6,12 @@
 	let {
 		field,
 		label,
+		value = $bindable(),
 		options: optionsProp
 	}: {
-		field: RemoteFormField<string>;
+		field?: RemoteFormField<string>;
 		label: string;
-		hint?: string;
+		value?: string;
 		options: Options;
 	} = $props();
 
@@ -27,11 +28,21 @@
 					<option.icon size={18} opacity={0.8} />
 				{/if}
 				<span>{option.label}</span>
-				<input
-					{...field.as('radio', option.value)}
-					class={['radio ml-auto radio-sm', klass]}
-					{...props}
-				/>
+				{#if field}
+					<input
+						{...field.as('radio', option.value)}
+						class={['radio ml-auto radio-sm', klass]}
+						{...props}
+					/>
+				{:else}
+					<input
+						type="radio"
+						checked={value === option.value}
+						onchange={() => (value = option.value)}
+						class={['radio ml-auto radio-sm', klass]}
+						{...props}
+					/>
+				{/if}
 			</label>
 		{/each}
 	</div>

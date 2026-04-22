@@ -12,7 +12,8 @@
 		getValue,
 		selected,
 		proposal,
-		field
+		field,
+		value = $bindable()
 	}: {
 		label: string;
 		searchItems: RemoteQueryFunction<{ search: string }, Item[]>;
@@ -20,12 +21,18 @@
 		selected?: Snippet<[Item]>;
 		proposal?: Snippet<[Item, { isSelected: boolean; isFocus: boolean }]>;
 		field?: RemoteFormField<string>;
+		value?: string;
 	} = $props();
 
 	let search = $state('');
 	const items = $derived.by(() => searchItems({ search }));
 
-	let selectedItem = $derived(items.current?.find((item) => getValue(item) === field?.value()));
+	let selectedItem = $state<Item | undefined>(undefined);
+
+	$effect(() => {
+		const targetValue = field?.value() ?? value;
+		selectedItem = items.current?.find((item) => getValue(item) === targetValue);
+	});
 
 	const popover = usePopover({ listenFocus: false });
 	const command = useCommand({
@@ -34,10 +41,11 @@
 			popover.hide();
 			const item = items.current?.[index];
 			if (!item) return;
+			selectedItem = item;
 			if (field) {
 				field.set(getValue(item));
 			} else {
-				selectedItem = item;
+				value = getValue(item);
 			}
 		}
 	});

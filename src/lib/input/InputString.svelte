@@ -6,12 +6,14 @@
 	let {
 		label,
 		field,
+		value = $bindable(),
 		type = 'text',
 		class: klass,
 		...props
 	}: {
 		label: string;
-		field: RemoteFormField<string>;
+		field?: RemoteFormField<string>;
+		value?: string;
 		type?:
 			| 'text'
 			| 'email'
@@ -31,7 +33,11 @@
 
 <label class="floating-label">
 	<span>{label}</span>
-	<input placeholder={label} class={['input', klass]} {...field.as(type)} {...props} />
+	{#if field}
+		<input placeholder={label} class={['input', klass]} {...field.as(type)} {...props} />
+	{:else}
+		<input placeholder={label} class={['input', klass]} {type} bind:value {...props} />
+	{/if}
 	<Issues {field} />
 </label>
 

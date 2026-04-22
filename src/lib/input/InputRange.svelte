@@ -6,19 +6,25 @@
 	let {
 		label,
 		field,
+		value = $bindable(),
 		class: klass,
 		...props
 	}: {
 		label: string;
-		field: RemoteFormField<number>;
+		field?: RemoteFormField<number>;
+		value?: number;
 	} & InputProps = $props();
 </script>
 
 <label>
 	<div class="flex gap-2 px-3 text-sm">
 		<span class="label">{label}</span>
-		<span class="ml-auto">{field.value()}</span>
+		<span class="ml-auto">{field?.value() ?? value}</span>
 	</div>
-	<input class={['range range-sm', klass]} {...field.as('range')} {...props} />
+	{#if field}
+		<input class={['range range-sm', klass]} {...field.as('range')} {...props} />
+	{:else}
+		<input class={['range range-sm', klass]} type="range" bind:value {...props} />
+	{/if}
 	<Issues {field} />
 </label>

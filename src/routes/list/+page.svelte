@@ -1,117 +1,68 @@
 <script lang="ts">
-	import { GripIcon } from '@lucide/svelte';
-	import { listEditable } from '$lib/index.js';
+	import type { PropDef } from '../_doc/index.ts';
+	import { DocExample, DocProps, DocSection } from '../_doc/index.ts';
+	import Usage from './Usage.svelte';
+	import usageCode from './Usage.svelte?raw';
 
-	let items = Array(16)
-		.fill(0)
-		.map((_v, i) => ({
-			label: `Item ${i}`,
-			color: `rgb(${255 - i * 2}, ${255 - i * 5}, ${255 - i * 10})`,
-			key: i
-		}));
-
-	let isDragged = false;
+	const props: PropDef[] = [
+		{
+			name: 'items',
+			type: 'Type[]',
+			description: 'Items to reorder. Required for onChange to return the updated list.'
+		},
+		{
+			name: 'onChange',
+			type: '(newOrder: Type[]) => void',
+			description: 'Called when the order changes, returning the reordered items.'
+		},
+		{
+			name: 'onReindex',
+			type: '(newOrder: number[]) => void',
+			description: 'Called when the order changes, returning the new index order.'
+		},
+		{
+			name: 'onMove',
+			type: '(indexFrom: number, indexTo: number) => void',
+			description: 'Called when an item is moved from one index to another.'
+		},
+		{
+			name: 'onHover',
+			type: '(newOrder: number[]) => void',
+			description: 'Called while hovering during a drag operation.'
+		},
+		{
+			name: 'onDragStart',
+			type: '() => void',
+			description: 'Called when dragging starts.'
+		},
+		{
+			name: 'onDragMove',
+			type: '() => void',
+			description: 'Called while dragging.'
+		},
+		{
+			name: 'onDragEnd',
+			type: '() => void',
+			description: 'Called when dragging ends.'
+		},
+		{
+			name: 'onDelete',
+			type: '(index: number, items?: Type[]) => void',
+			description: 'Called when an item is deleted.'
+		},
+		{
+			name: 'dragElementsSelector',
+			type: 'string',
+			description: 'CSS selector for elements that trigger drag. Defaults to the item itself.'
+		}
+	];
 </script>
 
-<div class="mt-10 flex items-start justify-evenly gap-4">
-	<div>
-		<span>isDragged: {isDragged}</span>
-	</div>
-
-	<ul
-		class="min-w-40 overflow-scroll rounded border p-1"
-		use:listEditable={{
-			items,
-			onChange(newOrder) {
-				items = newOrder;
-			},
-			onDragStart() {
-				console.log('START');
-				isDragged = true;
-			},
-			onDragMove() {
-				console.log('MOVE');
-			},
-			onDragEnd() {
-				console.log('END');
-				isDragged = false;
-			}
-		}}
-	>
-		{#each items as item (item.key)}
-			<li class="menu-item" style="background: {item.color};">
-				{item.label}
-			</li>
-		{/each}
-	</ul>
-
-	<ul
-		class="flex h-80 min-w-40 flex-col gap-1 overflow-auto rounded-2xl border p-1"
-		use:listEditable={{
-			items,
-			onChange(newOrder) {
-				items = newOrder;
-			},
-			dragElementsSelector: '.drag-button'
-		}}
-	>
-		{#each items as item (item.key)}
-			<li class="menu-item" style="background: {item.color};">
-				<span>{item.label}</span>
-				<GripIcon class="drag-button btn ml-auto btn-square btn-ghost btn-sm" />
-			</li>
-		{/each}
-	</ul>
-
-	<div class="h-80 overflow-auto">
-		<div
-			class="flex min-w-40 flex-col gap-1 rounded-2xl border p-1"
-			use:listEditable={{
-				items,
-				onChange(newOrder) {
-					items = newOrder;
-				},
-				dragElementsSelector: '.drag-button'
-			}}
-		>
-			{#each items as item (item.key)}
-				<li class="menu-item" style="background: {item.color};">
-					<span>{item.label}</span>
-					<GripIcon class="drag-button btn ml-auto btn-square btn-ghost btn-sm" />
-				</li>
-			{/each}
-		</div>
-	</div>
-</div>
-
-<div class="divider"></div>
-
-<table class="table border">
-	<thead>
-		<tr>
-			<th>Label</th>
-			<th>Color</th>
-			<th>Action</th>
-		</tr>
-	</thead>
-
-	<tbody
-		use:listEditable={{
-			items,
-			onChange(newOrder) {
-				items = newOrder;
-			},
-			dragElementsSelector: '.drag-button'
-		}}
-	>
-		{#each items as item (item.key)}
-			<tr style="background: {item.color};">
-				<td>{item.label}</td>
-				<td>{item.color}</td>
-				<td>
-					<GripIcon class="drag-button btn ml-auto btn-square btn-ghost btn-sm" />
-				</td>
-			</tr>
-		{/each}
-	</tbody>
-</table>
+<DocSection title="listEditable">
+	<DocExample code={usageCode}>
+		{#snippet preview()}
+			<Usage />
+		{/snippet}
+	</DocExample>
+	<DocProps {props} />
+</DocSection>

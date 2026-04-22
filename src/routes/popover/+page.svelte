@@ -1,60 +1,78 @@
 <script lang="ts">
-	import { CarrotIcon } from '@lucide/svelte';
-	import { Popover, type PopoverType } from '$lib/popover/index.ts';
+	import type { PropDef } from '../_doc/index.ts';
+	import { DocExample, DocProps, DocSection } from '../_doc/index.ts';
+	import Usage from './Usage.svelte';
+	import usageCode from './Usage.svelte?raw';
+
+	const props: PropDef[] = [
+		{
+			name: 'trigger',
+			type: 'Snippet<[PopoverType]>',
+			required: true,
+			description: 'Trigger snippet that receives the popover API.'
+		},
+		{
+			name: 'children',
+			type: 'Snippet<[PopoverType]>',
+			required: true,
+			description: 'Popover content snippet that receives the popover API.'
+		},
+		{
+			name: 'class',
+			type: 'ClassValue',
+			default: "''",
+			description: 'Additional CSS classes for the popover container.'
+		},
+		{
+			name: 'style',
+			type: 'string',
+			default: "''",
+			description: 'Inline styles for the popover container.'
+		},
+		{
+			name: 'placement',
+			type: 'Placement',
+			default: "'bottom-start'",
+			description: 'Popover placement relative to the trigger.'
+		},
+		{
+			name: 'mode',
+			type: "'auto' | 'hint' | 'manual'",
+			default: "'auto'",
+			description: 'Popover mode attribute.'
+		},
+		{
+			name: 'listenClick',
+			type: 'boolean',
+			default: 'true',
+			description: 'Listen to click events on the trigger.'
+		},
+		{
+			name: 'listenFocus',
+			type: 'boolean',
+			default: 'true',
+			description: 'Listen to focus events on the trigger.'
+		},
+		{
+			name: 'listenHover',
+			type: 'boolean',
+			default: 'false',
+			description: 'Listen to hover events on the trigger.'
+		},
+		{
+			name: 'hideDelay',
+			type: 'number',
+			default: '400',
+			description: 'Delay in ms before hiding when listenHover is true.'
+		}
+	];
 </script>
 
-{#snippet trigger(popover: PopoverType, label = 'simple')}
-	<button class="btn" {...popover.trigger}>{label}</button>
-{/snippet}
-
-{#snippet menuCarrot(deep = 0)}
-	<ul class="menu">
-		{#each [1, 2, 3] as item}
-			<Popover listenHover placement="right" class="m-3">
-				{#snippet trigger(popover)}
-					<li>
-						<button class="w-full" {...popover.trigger}>
-							Item {item}
-						</button>
-					</li>
-				{/snippet}
-				{#if deep >= 2}
-					<CarrotIcon size={42} class="p-2" />
-				{:else}
-					{@render menuCarrot(deep + 1)}
-				{/if}
-			</Popover>
-		{/each}
-	</ul>
-{/snippet}
-
-<div class="overflow-scroll">
-	<div class="m-40 grid h-[180dvh] w-[120dvw] grid-cols-3 gap-20">
-		<Popover {trigger}>
-			{@render menuCarrot()}
-		</Popover>
-		<Popover>
-			{#snippet trigger(popover)}
-				<button class="btn" {...popover.trigger}>focus</button>
-			{/snippet}
-			{@render menuCarrot()}
-		</Popover>
-		<Popover listenHover class="my-2">
-			{#snippet trigger(popover)}
-				<button class="btn" {...popover.trigger}>hover</button>
-			{/snippet}
-			{@render menuCarrot()}
-		</Popover>
-		<Popover placement="top">
-			{#snippet trigger(popover)}
-				<button class="btn" {...popover.trigger}>interest</button>
-			{/snippet}
-			{@render menuCarrot()}
-		</Popover>
-		<Popover {trigger} placement="right">{@render menuCarrot()}</Popover>
-		<Popover {trigger}>{@render menuCarrot()}</Popover>
-		<Popover {trigger} class="mt-auto">{@render menuCarrot()}</Popover>
-		<Popover {trigger} class="mt-auto">{@render menuCarrot()}</Popover>
-		<Popover {trigger} class="mt-auto">{@render menuCarrot()}</Popover>
-	</div>
-</div>
+<DocSection title="Popover">
+	<DocExample code={usageCode}>
+		{#snippet preview()}
+			<Usage />
+		{/snippet}
+	</DocExample>
+	<DocProps {props} />
+</DocSection>

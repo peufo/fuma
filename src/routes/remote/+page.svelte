@@ -1,54 +1,80 @@
 <script lang="ts">
-	import { schemaUser, userGenderOptions } from '$lib/data.ts';
-	import InputBoolean from '$lib/input/InputBoolean.svelte';
-	import InputNumber from '$lib/input/InputNumber.svelte';
-	import InputRadio from '$lib/input/InputRadio.svelte';
-	import InputRange from '$lib/input/InputRange.svelte';
-	import InputRelation from '$lib/input/InputRelation.svelte';
-	import InputSelectNative from '$lib/input/InputSelectNative.svelte';
-	import InputString from '$lib/input/InputString.svelte';
-	import InputTextarea from '$lib/input/InputTextarea.svelte';
-	import { formCreateUser, searchUsers } from './test.remote.ts';
-	import { useForm } from './useForm.ts';
+	import type { PropDef } from '../_doc/index.ts';
+	import { DocExample, DocProps, DocSection } from '../_doc/index.ts';
+	import Usage from './Usage.svelte';
+	import usageCode from './Usage.svelte?raw';
 
-	let { data } = $props();
-
-	const form = useForm(formCreateUser, schemaUser);
+	const props: PropDef[] = [
+		{
+			name: 'label',
+			type: 'string',
+			required: true,
+			description: 'Field label displayed above the input.'
+		},
+		{
+			name: 'field',
+			type: 'RemoteFormField<T>',
+			required: true,
+			description: 'Form field binding from a remote form.'
+		},
+		{
+			name: 'placeholder',
+			type: 'string',
+			description: 'Placeholder text for the input.'
+		},
+		{
+			name: 'class',
+			type: 'string',
+			description: 'Additional CSS classes for the input element.'
+		},
+		{
+			name: 'hint',
+			type: 'string',
+			description: 'Hint text displayed below the field (InputBoolean).'
+		},
+		{
+			name: 'options',
+			type: 'Options',
+			required: true,
+			description: 'Options for select and radio inputs.'
+		},
+		{
+			name: 'type',
+			type: 'string',
+			default: "'text'",
+			description: 'Input type for InputString (text, email, date, etc.).'
+		},
+		{
+			name: 'variant',
+			type: "'checkbox' | 'switch'",
+			default: "'checkbox'",
+			description: 'Visual variant for InputBoolean.'
+		},
+		{
+			name: 'step / min / max',
+			type: 'number',
+			description: 'Range constraints for InputNumber and InputRange.'
+		},
+		{
+			name: 'searchItems',
+			type: 'RemoteQueryFunction',
+			required: true,
+			description: 'Search function for InputRelation.'
+		},
+		{
+			name: 'getValue',
+			type: '(item: Item) => string',
+			required: true,
+			description: 'Value extractor for InputRelation items.'
+		}
+	];
 </script>
 
-<div class="flex gap-2">
-	<form {...form} class="flex max-w-xs grow flex-col gap-6 rounded-lg border p-3 pt-6">
-		<InputString field={form.fields.name} label="Name" />
-		<InputNumber field={form.fields.age} label="Age" />
-		<InputRange field={form.fields.level} label="Niveau" step={5} min={0} max={100} />
-		<InputBoolean
-			field={form.fields.isValided}
-			label="Membre validé ?"
-			hint="laskdjalsk djaslkdj aslkdjaslkd jaslkdjaslkd "
-		/>
-		<InputTextarea field={form.fields.cv} label="cv" placeholder="Raconte nous ta vie" />
-
-		<InputString field={form.fields.subscribeAt} type="date" label="Inscription" />
-		<InputRadio field={form.fields.gender} label="Genre" options={userGenderOptions} />
-		<InputSelectNative field={form.fields.gender2} label="Genre2" options={userGenderOptions} />
-
-		<InputRelation
-			label="Love"
-			searchItems={searchUsers}
-			getValue={(user) => user.id.slice(0, 8)}
-		/>
-
-		<button class="btn">Create</button>
-	</form>
-	<div class="flex flex-col gap-2">
-		<h2>Users:</h2>
-
-		{#each data.users as user}
-			<div class="flex flex-col gap-1 border px-2 py-1">
-				<span>{user.name} - {user.age}</span>
-				<span>Valided: {user.isValided}</span>
-				<span>Subscribe: {user.subscribeAt}</span>
-			</div>
-		{/each}
-	</div>
-</div>
+<DocSection title="Form Inputs">
+	<DocExample code={usageCode}>
+		{#snippet preview()}
+			<Usage />
+		{/snippet}
+	</DocExample>
+	<DocProps {props} />
+</DocSection>

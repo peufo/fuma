@@ -3,6 +3,8 @@
 	import { DocExample, DocProps, DocSection } from '../_doc/index.ts';
 	import Usage from './Usage.svelte';
 	import usageCode from './Usage.svelte?raw';
+	import UsageController from './UsageController.svelte';
+	import usageControllerCode from './UsageController.svelte?raw';
 
 	const props: PropDef[] = [
 		{
@@ -37,15 +39,27 @@
 			name: 'field',
 			type: 'RemoteFormField<string>',
 			description: 'Form field binding'
+		},
+		{
+			name: 'value',
+			type: 'string',
+			description: 'Controller mode value binding'
 		}
 	];
 </script>
 
 <DocSection title="InputSelect">
-	<DocExample code={usageCode}>
+	<DocExample title="Form mode" code={usageCode}>
 		{#snippet preview()}
 			<Usage />
 		{/snippet}
 	</DocExample>
+
+	<DocExample title="Controller mode" code={usageControllerCode}>
+		{#snippet preview()}
+			<UsageController />
+		{/snippet}
+	</DocExample>
+
 	<DocProps {props} />
 </DocSection>

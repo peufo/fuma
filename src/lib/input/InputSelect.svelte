@@ -12,7 +12,8 @@
 		getValue,
 		selected,
 		proposal,
-		field
+		field,
+		value = $bindable()
 	}: {
 		label: string;
 		items: Item[];
@@ -20,19 +21,28 @@
 		selected?: Snippet<[Item]>;
 		proposal?: Snippet<[Item, { isSelected: boolean; isFocus: boolean }]>;
 		field?: RemoteFormField<string>;
+		value?: string;
 	} = $props();
 
-	let selectedItem = $derived(items.find((item) => getValue(item) === field?.value()));
+	let selectedItem = $state<Item | undefined>(undefined);
+
+	$effect(() => {
+		const targetValue = field?.value() ?? value;
+		selectedItem = items.find((item) => getValue(item) === targetValue);
+	});
 
 	const popover = usePopover({ listenFocus: false });
 	const command = useCommand({
 		isEnable: () => popover.isOpen,
 		onSelect: (index) => {
 			popover.hide();
+			const item = items[index];
+			if (!item) return;
+			selectedItem = item;
 			if (field) {
-				field.set(getValue(items[index]));
+				field.set(getValue(item));
 			} else {
-				selectedItem = items[index];
+				value = getValue(item);
 			}
 		}
 	});
