@@ -1,7 +1,7 @@
 <script lang="ts">
-	import type { SearchQueryResultSpan } from './search.ts';
+import type { SearchQueryResultSpan } from './search.ts';
 
-	let { spans }: { spans: SearchQueryResultSpan[] } = $props();
+let { spans }: { spans: SearchQueryResultSpan[] } = $props();
 </script>
 
 {#each spans as { value, isMatch }}

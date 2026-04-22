@@ -1,9 +1,9 @@
 <script lang="ts" context="module">
-	import { onMount } from 'svelte';
-	import { createEventEmitter } from '$lib/utils/eventEmitter.js';
+import { onMount } from 'svelte';
+import { createEventEmitter } from '$lib/utils/eventEmitter.js';
 
-	type Item = { name: string };
-	const eventEmitter = createEventEmitter<{ new_item: Item }>();
+type Item = { name: string };
+const eventEmitter = createEventEmitter<{ new_item: Item }>();
 </script>
 
 <script lang="ts">

@@ -17,7 +17,7 @@ const placements: Record<Placement, string> = {
 	'left-start': 'left span-bottom',
 	right: 'right',
 	'right-end': 'right span-top',
-	'right-start': 'right span-bottom'
+	'right-start': 'right span-bottom',
 };
 
 export type PopoverType = ReturnType<typeof usePopover>;
@@ -39,7 +39,7 @@ export function usePopover({
 	listenClick = true,
 	listenFocus = true,
 	listenHover = false,
-	hideDelay = 400
+	hideDelay = 400,
 }: PopoverOptions = {}) {
 	const uid = popoverInstanceCount++;
 	const anchorName = `--anchor-${uid}`;
@@ -112,7 +112,7 @@ export function usePopover({
 				popover.style.positionTry = 'flip-x, flip-y';
 				popover.style.position = 'relative';
 				return attachPopoverListeners(node);
-			}
+			},
 		},
 		trigger: {
 			[createAttachmentKey()]: (node: HTMLElement) => {
@@ -120,7 +120,7 @@ export function usePopover({
 				// @ts-ignore
 				node.style.anchorName = anchorName;
 				return attachTriggerListeners(node);
-			}
-		}
+			},
+		},
 	};
 }

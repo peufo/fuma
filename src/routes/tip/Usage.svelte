@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { tip } from '$lib/action/index.ts';
+import { tip } from '$lib/action/index.ts';
 </script>
 
 <div class="mx-auto my-10 max-w-xl">

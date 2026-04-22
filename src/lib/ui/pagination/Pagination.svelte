@@ -1,14 +1,14 @@
 <script lang="ts">
-	import { ChevronLeftIcon, ChevronRightIcon } from '@lucide/svelte';
-	import { tip } from '$lib/action/tip.js';
-	import { param, urlParam } from '$lib/state/index.ts';
+import { ChevronLeftIcon, ChevronRightIcon } from '@lucide/svelte';
+import { tip } from '$lib/action/tip.js';
+import { param, urlParam } from '$lib/state/index.ts';
 
-	let { take = 20 }: { take?: number } = $props();
+let { take = 20 }: { take?: number } = $props();
 
-	let skip = $derived(+(param.get('skip') || 0));
-	$effect(() => {
-		take = +(param.get('take') || take);
-	});
+let skip = $derived(+(param.get('skip') || 0));
+$effect(() => {
+	take = +(param.get('take') || take);
+});
 </script>
 
 <div class="join">

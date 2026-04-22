@@ -2,7 +2,10 @@ import { page } from '$app/state';
 
 export const param = {
 	get with() {
-		return (params: Record<string, string | number>, ...keysToRemove: string[]) => {
+		return (
+			params: Record<string, string | number>,
+			...keysToRemove: string[]
+		) => {
 			const url = new URL(page.url);
 			Object.entries(params).forEach(([key, value]) => {
 				url.searchParams.set(key, String(value));
@@ -42,11 +45,12 @@ export const param = {
 		return (key: string) => page.url.searchParams.get(key);
 	},
 	get hasValue() {
-		return (key: string, value: string) => page.url.searchParams.get(key) === value;
+		return (key: string, value: string) =>
+			page.url.searchParams.get(key) === value;
 	},
 	get keys() {
 		return () => page.url.searchParams.keys();
-	}
+	},
 };
 
 function addPathname<Args extends unknown[]>(
@@ -65,5 +69,5 @@ export const urlParam = {
 	},
 	get toggle() {
 		return addPathname(param.toggle);
-	}
+	},
 };

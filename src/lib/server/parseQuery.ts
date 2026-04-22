@@ -1,7 +1,10 @@
 import { error } from '@sveltejs/kit';
 import z from 'zod';
 
-export function parseQuery<Shape extends z.core.$ZodShape>(url: URL, shape: Shape) {
+export function parseQuery<Shape extends z.core.$ZodShape>(
+	url: URL,
+	shape: Shape
+) {
 	const queryRaw: Record<string, unknown> = {};
 	Object.keys(shape).forEach((name) => {
 		const param = url.searchParams.get(name);

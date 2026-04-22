@@ -1,23 +1,23 @@
 <script lang="ts">
-	import { type Snippet } from 'svelte';
-	import { useMode } from '$lib/ui/mode/useMode.svelte.js';
-	import { highlight } from './highlight.ts';
+import { type Snippet } from 'svelte';
+import { useMode } from '$lib/ui/mode/useMode.svelte.js';
+import { highlight } from './highlight.ts';
 
-	let {
-		code,
-		title,
-		lang = 'svelte',
-		preview
-	}: {
-		code: string;
-		title?: string;
-		lang?: string;
-		preview: Snippet;
-	} = $props();
+let {
+	code,
+	title,
+	lang = 'svelte',
+	preview,
+}: {
+	code: string;
+	title?: string;
+	lang?: string;
+	preview: Snippet;
+} = $props();
 
-	let mode = $derived(useMode());
-	let highlighted = $derived(highlight(code.trim(), lang, mode.current));
-	let tab = $state<'preview' | 'code'>('preview');
+let mode = $derived(useMode());
+let highlighted = $derived(highlight(code.trim(), lang, mode.current));
+let tab = $state<'preview' | 'code'>('preview');
 </script>
 
 <div class="not-prose my-6 overflow-hidden">

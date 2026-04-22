@@ -1,22 +1,26 @@
 <script lang="ts" generics="Item extends ItemBase">
-	import { TableCell, type ItemBase, type TableField } from '$lib/ui/table/index.js'
-	import type { Snippet } from 'svelte'
+import type { Snippet } from 'svelte';
+import {
+	type ItemBase,
+	TableCell,
+	type TableField,
+} from '$lib/ui/table/index.js';
 
-	let {
-		items,
-		fields,
-		actions,
-		classRow,
-		onclick
-	}: {
-		items: Item[]
-		fields: TableField<Item>[]
-		actions?: Snippet<[item: Item]>
-		classRow?: string
-		onclick?: (item?: Item) => void
-	} = $props()
+let {
+	items,
+	fields,
+	actions,
+	classRow,
+	onclick,
+}: {
+	items: Item[];
+	fields: TableField<Item>[];
+	actions?: Snippet<[item: Item]>;
+	classRow?: string;
+	onclick?: (item?: Item) => void;
+} = $props();
 
-	let fieldsVisible = $derived(fields.filter((f) => f._visible))
+let fieldsVisible = $derived(fields.filter((f) => f._visible));
 </script>
 
 <tbody>

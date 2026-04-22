@@ -9,7 +9,10 @@ export type Option = {
 	label: string;
 	icon?: Component<IconProps>;
 } & Omit<InputProps, 'id'>; // TODO: accept OptionProps (HTMLOptionAttributes)
-export type OptionRecord<Values extends string> = Record<Values, Omit<Option, 'value'>>;
+export type OptionRecord<Values extends string> = Record<
+	Values,
+	Omit<Option, 'value'>
+>;
 export type Options =
 	| string
 	| readonly string[]
@@ -19,7 +22,10 @@ export type Options =
 
 export function parseOptions(options: Options): Option[] {
 	if (typeof options === 'string') {
-		options = zodCoerceJsonValue.pipe(z.array(z.string())).default([]).parse(options);
+		options = zodCoerceJsonValue
+			.pipe(z.array(z.string()))
+			.default([])
+			.parse(options);
 	}
 	if (Array.isArray(options)) {
 		return options.filter(Boolean).map((opt) => {

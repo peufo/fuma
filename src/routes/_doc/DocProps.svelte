@@ -1,11 +1,11 @@
 <script lang="ts" module>
-	export type PropDef = {
-		name: string;
-		type: string;
-		default?: string;
-		required?: boolean;
-		description?: string;
-	};
+export type PropDef = {
+	name: string;
+	type: string;
+	default?: string;
+	required?: boolean;
+	description?: string;
+};
 </script>
 
 <script lang="ts">

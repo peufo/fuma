@@ -1,16 +1,16 @@
 <script lang="ts">
-	import { GripIcon } from '@lucide/svelte';
-	import { listEditable } from '$lib/index.js';
+import { GripIcon } from '@lucide/svelte';
+import { listEditable } from '$lib/index.js';
 
-	let items = Array(16)
-		.fill(0)
-		.map((_v, i) => ({
-			label: `Item ${i}`,
-			color: `rgb(${255 - i * 2}, ${255 - i * 5}, ${255 - i * 10})`,
-			key: i
-		}));
+let items = Array(16)
+	.fill(0)
+	.map((_v, i) => ({
+		label: `Item ${i}`,
+		color: `rgb(${255 - i * 2}, ${255 - i * 5}, ${255 - i * 10})`,
+		key: i,
+	}));
 
-	let isDragged = false;
+let isDragged = false;
 </script>
 
 <div class="mt-10 flex items-start justify-evenly gap-4">

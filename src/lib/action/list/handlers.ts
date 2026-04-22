@@ -8,7 +8,7 @@ import {
 	createPlaceholder,
 	getListItemIndex,
 	getNewOrderIndex,
-	type Limits
+	type Limits,
 } from './utils.js';
 
 export type Position = {
@@ -67,7 +67,9 @@ export function createDragHandler<Type = unknown>(
 			if (deltaMouseY > limits.bottom) deltaMouseY = limits.bottom;
 
 			itemElement.style.transform = `translateY(${deltaMouseY}px)`;
-			const newIndex = limits.items.findIndex((center) => deltaMouseY <= center);
+			const newIndex = limits.items.findIndex(
+				(center) => deltaMouseY <= center
+			);
 
 			if (newIndex !== indexTo) {
 				indexTo = newIndex;
@@ -95,6 +97,6 @@ export function createDragHandler<Type = unknown>(
 				options.onChange(newOrderItems);
 				options.items = newOrderItems;
 			}
-		}
+		},
 	};
 }

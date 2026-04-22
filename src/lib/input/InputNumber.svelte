@@ -1,19 +1,19 @@
 <script lang="ts">
-	import type { RemoteFormField } from '@sveltejs/kit';
-	import Issues from './Issues.svelte';
-	import type { InputProps } from './type.ts';
+import type { RemoteFormField } from '@sveltejs/kit';
+import Issues from './Issues.svelte';
+import type { InputProps } from './type.ts';
 
-	let {
-		label,
-		field,
-		value = $bindable(),
-		class: klass,
-		...props
-	}: {
-		label: string;
-		field?: RemoteFormField<number>;
-		value?: number;
-	} & InputProps = $props();
+let {
+	label,
+	field,
+	value = $bindable(),
+	class: klass,
+	...props
+}: {
+	label: string;
+	field?: RemoteFormField<number>;
+	value?: number;
+} & InputProps = $props();
 </script>
 
 <label class="floating-label">

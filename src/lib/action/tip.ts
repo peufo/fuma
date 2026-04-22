@@ -1,8 +1,15 @@
-import { type TippyInstance, type TippyProps, tippy } from '$lib/utils/tippy.js';
+import {
+	type TippyInstance,
+	type TippyProps,
+	tippy,
+} from '$lib/utils/tippy.js';
 
 type TipOptions = Partial<TippyProps> & { disable?: boolean };
 
-export function tip(node: HTMLElement, options: TipOptions = { disable: false }) {
+export function tip(
+	node: HTMLElement,
+	options: TipOptions = { disable: false }
+) {
 	let _tip: TippyInstance | null = null;
 	init(options);
 	function init({ disable, content, ...tippyProps }: TipOptions) {
@@ -16,6 +23,6 @@ export function tip(node: HTMLElement, options: TipOptions = { disable: false })
 		update(newOptions: TipOptions) {
 			_tip?.destroy();
 			init(newOptions);
-		}
+		},
 	};
 }

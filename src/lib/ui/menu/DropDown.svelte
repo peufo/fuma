@@ -1,9 +1,9 @@
 <script lang="ts" module>
-	import type { CreateSingletonInstance } from 'tippy.js';
-	import { createSingleton, type TippyInstance } from '$lib/utils/tippy.js';
+import type { CreateSingletonInstance } from 'tippy.js';
+import { createSingleton, type TippyInstance } from '$lib/utils/tippy.js';
 
-	let sigleton: CreateSingletonInstance | null = null;
-	const tips: TippyInstance[] = [];
+let sigleton: CreateSingletonInstance | null = null;
+const tips: TippyInstance[] = [];
 </script>
 
 <script lang="ts">

@@ -10,7 +10,7 @@ import {
 	MarsIcon,
 	MotorbikeIcon,
 	VenusAndMarsIcon,
-	VenusIcon
+	VenusIcon,
 } from '@lucide/svelte';
 import z from 'zod';
 import type { OptionRecord, Options, ShapeOf } from '$lib/index.ts';
@@ -27,12 +27,12 @@ function createRandomUser(): User {
 		isValided: Math.random() < 0.5,
 		subscribeAt: faker.date.past().toISOString(),
 		gender: faker.person.sexType() as User['gender'],
-		gender2: faker.person.sexType() as User['gender']
+		gender2: faker.person.sexType() as User['gender'],
 	};
 }
 
 export const users = faker.helpers.multiple(createRandomUser, {
-	count: 40
+	count: 40,
 });
 
 export type UserGender = (typeof userGenders)[number];
@@ -63,20 +63,20 @@ export const schemaUser = z.object({
 	subscribeAt: z.iso.date(),
 	gender: z.enum(userGenders),
 	gender2: z.enum(userGenders),
-	loveId: z.string().optional()
+	loveId: z.string().optional(),
 	// tags: z.array(z.enum(userTags)).default([]),
 } satisfies ShapeOf<Omit<User, 'id'>>);
 
 export const userGenderOptions = {
 	male: { label: 'Homme', icon: MarsIcon },
 	female: { label: 'Femme', icon: VenusIcon },
-	other: { label: 'Autre', icon: VenusAndMarsIcon }
+	other: { label: 'Autre', icon: VenusAndMarsIcon },
 } satisfies OptionRecord<UserGender>;
 
 export const userTagOptions = {
 	biker: { label: 'Biker', icon: BikeIcon },
 	rider: { label: 'Rider', icon: MotorbikeIcon },
-	skier: { label: 'Skier', icon: CableCarIcon }
+	skier: { label: 'Skier', icon: CableCarIcon },
 } satisfies OptionRecord<UserTag>;
 
 export const fruitsOptions = {
@@ -84,5 +84,5 @@ export const fruitsOptions = {
 	banana: { label: 'Banana', icon: BananaIcon },
 	cherry: { label: 'Cherry', icon: CherryIcon },
 	citrus: { label: 'Citrus', icon: CitrusIcon },
-	grape: { label: 'Grape', icon: GrapeIcon }
+	grape: { label: 'Grape', icon: GrapeIcon },
 } satisfies Options;

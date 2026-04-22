@@ -1,5 +1,5 @@
 <script lang="ts" module>
-	export const transitionX = writable(0);
+export const transitionX = writable(0);
 </script>
 
 <script lang="ts">

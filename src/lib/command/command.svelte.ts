@@ -7,7 +7,11 @@ type CommandOptions = {
 	onFocus?: (index: number) => unknown;
 };
 
-export function useCommand({ onSelect, onFocus, isEnable = () => true }: CommandOptions = {}) {
+export function useCommand({
+	onSelect,
+	onFocus,
+	isEnable = () => true,
+}: CommandOptions = {}) {
 	let focusIndex = $state(0);
 	let selectedIndex = $state(-1);
 	const items: HTMLElement[] = [];
@@ -39,7 +43,9 @@ export function useCommand({ onSelect, onFocus, isEnable = () => true }: Command
 	}
 
 	function scrollFocusIntoView() {
-		items.at(focusIndex)?.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+		items
+			.at(focusIndex)
+			?.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
 	}
 
 	return {
@@ -52,7 +58,7 @@ export function useCommand({ onSelect, onFocus, isEnable = () => true }: Command
 		trigger: {
 			[createAttachmentKey()]: (node: HTMLElement) => {
 				return on(node, 'keydown', onKeydown);
-			}
+			},
 		},
 		item: (index: number, scrollMargin = '8px') => ({
 			[createAttachmentKey()]: (node: HTMLElement) => {
@@ -67,7 +73,7 @@ export function useCommand({ onSelect, onFocus, isEnable = () => true }: Command
 					const i = items.indexOf(node);
 					if (i !== -1) items.splice(i, 1);
 				};
-			}
-		})
+			},
+		}),
 	};
 }

@@ -18,7 +18,7 @@ export function createSSE(last_id = 0, retry = 0) {
 				msg += `data: ${JSON.stringify(data)}\n`;
 			}
 			controller.enqueue(`${msg}\n`);
-		}
+		},
 	});
 
 	const writer = writable.getWriter();
@@ -26,13 +26,13 @@ export function createSSE(last_id = 0, retry = 0) {
 	return {
 		readable,
 		async subscribe(eventEmitter: EventEmitter, event: string) {
-			function listener(data: any) {
+			function listener(data: unknown) {
 				writer.write({ event, data });
 			}
 
 			eventEmitter.on(event, listener);
 			await writer.closed.catch(() => {});
 			eventEmitter.off(event, listener);
-		}
+		},
 	};
 }

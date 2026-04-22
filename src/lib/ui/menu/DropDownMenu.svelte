@@ -1,24 +1,24 @@
 <script lang="ts">
-	import { ChevronsUpDownIcon } from '@lucide/svelte';
-	import type { Snippet } from 'svelte';
-	import { DropDown } from '$lib/ui/menu/index.js';
-	import { type Options, parseOptions } from '$lib/utils/options.js';
-	import type { TippyProps } from '$lib/utils/tippy.js';
+import { ChevronsUpDownIcon } from '@lucide/svelte';
+import type { Snippet } from 'svelte';
+import { DropDown } from '$lib/ui/menu/index.js';
+import { type Options, parseOptions } from '$lib/utils/options.js';
+import type { TippyProps } from '$lib/utils/tippy.js';
 
-	let {
-		options: optionsProp,
-		tippyProps = {},
-		onSelect,
-		children: childrenProp
-	}: {
-		options: Options;
-		tippyProps?: Partial<TippyProps>;
-		onSelect?: (value: string) => void;
-		children?: Snippet;
-	} = $props();
+let {
+	options: optionsProp,
+	tippyProps = {},
+	onSelect,
+	children: childrenProp,
+}: {
+	options: Options;
+	tippyProps?: Partial<TippyProps>;
+	onSelect?: (value: string) => void;
+	children?: Snippet;
+} = $props();
 
-	let options = $derived(parseOptions(optionsProp));
-	let trigger = $state<HTMLElement>();
+let options = $derived(parseOptions(optionsProp));
+let trigger = $state<HTMLElement>();
 </script>
 
 <DropDown {tippyProps}>

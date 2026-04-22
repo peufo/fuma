@@ -3,10 +3,10 @@ export function jsonParse<Type>(
 	defaultValue: Type
 ): Type {
 	try {
-		if (!content) return defaultValue
-		if (typeof content !== 'string') return content
-		return JSON.parse(content)
+		if (!content) return defaultValue;
+		if (typeof content !== 'string') return content;
+		return JSON.parse(content);
 	} catch {
-		return defaultValue
+		return defaultValue;
 	}
 }

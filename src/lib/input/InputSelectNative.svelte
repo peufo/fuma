@@ -1,25 +1,25 @@
 <script lang="ts">
-	import type { RemoteFormField } from '@sveltejs/kit';
-	import { type Options, parseOptions } from '$lib/index.ts';
-	import Issues from './Issues.svelte';
-	import type { SelectProps } from './type.ts';
+import type { RemoteFormField } from '@sveltejs/kit';
+import { type Options, parseOptions } from '$lib/index.ts';
+import Issues from './Issues.svelte';
+import type { SelectProps } from './type.ts';
 
-	let {
-		label,
-		field,
-		value = $bindable(),
-		options: optionsProp,
-		class: klass,
-		multiple,
-		...props
-	}: {
-		label: string;
-		options: Options;
-		field?: RemoteFormField<string | string[]>;
-		value?: string | string[];
-	} & SelectProps = $props();
+let {
+	label,
+	field,
+	value = $bindable(),
+	options: optionsProp,
+	class: klass,
+	multiple,
+	...props
+}: {
+	label: string;
+	options: Options;
+	field?: RemoteFormField<string | string[]>;
+	value?: string | string[];
+} & SelectProps = $props();
 
-	const options = $derived(parseOptions(optionsProp));
+const options = $derived(parseOptions(optionsProp));
 </script>
 
 <div>

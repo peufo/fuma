@@ -1,12 +1,12 @@
 <script lang="ts" generics="Item extends ItemBase">
-	import { SearchIcon } from '@lucide/svelte';
-	import { page } from '$app/state';
-	import { DropDown } from '$lib/ui/menu/index.js';
-	import type { ItemBase, TableField } from '$lib/ui/table/index.js';
+import { SearchIcon } from '@lucide/svelte';
+import { page } from '$app/state';
+import { DropDown } from '$lib/ui/menu/index.js';
+import type { ItemBase, TableField } from '$lib/ui/table/index.js';
 
-	let { field }: { field: TableField<Item> } = $props();
+let { field }: { field: TableField<Item> } = $props();
 
-	let searchValue = $derived(page.url.searchParams.get(field.key) || '');
+let searchValue = $derived(page.url.searchParams.get(field.key) || '');
 </script>
 
 <th class="p-1">

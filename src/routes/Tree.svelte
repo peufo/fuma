@@ -1,12 +1,12 @@
 <script lang="ts">
-	import { page } from '$app/state'
-	export let tree: string[][]
-	export let level = 0
+import { page } from '$app/state';
+export let tree: string[][];
+export let level = 0;
 
-	function capitalise(text: string): string {
-		if (!text) return ''
-		return text[0].toUpperCase() + text.slice(1)
-	}
+function capitalise(text: string): string {
+	if (!text) return '';
+	return text[0].toUpperCase() + text.slice(1);
+}
 </script>
 
 <ul class="flex flex-col gap-1">

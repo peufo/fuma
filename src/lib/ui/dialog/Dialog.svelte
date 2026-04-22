@@ -1,69 +1,71 @@
 <script lang="ts">
-	import { XIcon } from '@lucide/svelte';
-	import { onMount, type Snippet } from 'svelte';
+import { XIcon } from '@lucide/svelte';
+import { onMount, type Snippet } from 'svelte';
 
-	let {
-		dialog = $bindable(),
-		hideCloseButton = false,
-		class: klass = '',
-		onOpen,
-		onClose,
-		activator,
-		header,
-		footer,
-		children
-	}: {
-		dialog?: HTMLDialogElement;
-		hideCloseButton?: boolean;
-		class?: string;
-		onOpen?: () => void;
-		onClose?: () => void;
-		activator?: Snippet<[{ showModal: () => void }]>;
-		header?: Snippet;
-		footer?: Snippet;
-		children: Snippet;
-	} = $props();
+let {
+	dialog = $bindable(),
+	hideCloseButton = false,
+	class: klass = '',
+	onOpen,
+	onClose,
+	activator,
+	header,
+	footer,
+	children,
+}: {
+	dialog?: HTMLDialogElement;
+	hideCloseButton?: boolean;
+	class?: string;
+	onOpen?: () => void;
+	onClose?: () => void;
+	activator?: Snippet<[{ showModal: () => void }]>;
+	header?: Snippet;
+	footer?: Snippet;
+	children: Snippet;
+} = $props();
 
-	onMount(() => {
-		if (!dialog) return;
-		const inputsSelector = 'input:not([type=hidden], [tabindex="-1"])';
-		const inputs = dialog.querySelectorAll<HTMLInputElement>(inputsSelector);
-		const buttons = dialog.querySelectorAll<HTMLButtonElement>('button');
+onMount(() => {
+	if (!dialog) return;
+	const inputsSelector = 'input:not([type=hidden], [tabindex="-1"])';
+	const inputs = dialog.querySelectorAll<HTMLInputElement>(inputsSelector);
+	const buttons = dialog.querySelectorAll<HTMLButtonElement>('button');
 
+	inputs.forEach((input) => {
+		input.tabIndex = -1;
+	});
+	buttons.forEach((button) => {
+		button.tabIndex = -1;
+	});
+
+	function onDialogOpen() {
+		onOpen?.();
+		inputs.forEach((input) => {
+			input.tabIndex = 0;
+		});
+		buttons.forEach((button) => {
+			button.tabIndex = 0;
+		});
+		if (!inputs[0]) return;
+		inputs[0].focus();
+		inputs[0].select();
+	}
+
+	function onDialogClose() {
+		onClose?.();
 		inputs.forEach((input) => {
 			input.tabIndex = -1;
 		});
 		buttons.forEach((button) => {
 			button.tabIndex = -1;
 		});
+	}
 
-		function onDialogOpen() {
-			onOpen?.();
-			inputs.forEach((input) => {
-				input.tabIndex = 0;
-			});
-			buttons.forEach((button) => {
-				button.tabIndex = 0;
-			});
-			if (!inputs[0]) return;
-			inputs[0].focus();
-			inputs[0].select();
-		}
-
-		function onDialogClose() {
-			onClose?.();
-			inputs.forEach((input) => {
-				input.tabIndex = -1;
-			});
-			buttons.forEach((button) => {
-				button.tabIndex = -1;
-			});
-		}
-
-		const observer = new MutationObserver(() => (dialog?.open ? onDialogOpen() : onDialogClose()));
-		observer.observe(dialog, { attributeFilter: ['open'] });
-		return () => observer.disconnect();
-	});
+	const observer = new MutationObserver(() =>
+		dialog?.open ? onDialogOpen() : onDialogClose()
+	);
+	observer.observe(dialog, { attributeFilter: ['open'] });
+	return () => observer.disconnect();
+});
 </script>
 
 {@render activator?.({ showModal: () => dialog?.showModal() })}

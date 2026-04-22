@@ -1,51 +1,63 @@
 <script lang="ts" generics="Item extends ItemBase">
-	import { ListFilterIcon } from '@lucide/svelte';
-	import { page } from '$app/state';
-	import { param, urlParam } from '$lib/state/param.svelte.ts';
-	import { DropDown } from '$lib/ui/menu/index.js';
-	import type { ItemBase, TableField } from '$lib/ui/table/index.js';
-	import { jsonParse } from '$lib/utils/jsonParse.js';
-	import { type Options, parseOptions } from '$lib/utils/options.js';
+import { ListFilterIcon } from '@lucide/svelte';
+import { page } from '$app/state';
+import { param, urlParam } from '$lib/state/param.svelte.ts';
+import { DropDown } from '$lib/ui/menu/index.js';
+import type { ItemBase, TableField } from '$lib/ui/table/index.js';
+import { jsonParse } from '$lib/utils/jsonParse.js';
+import { type Options, parseOptions } from '$lib/utils/options.js';
 
-	let {
-		field,
-		options: propOptions,
-		multiSelect = false,
-		placeholder = 'No option'
-	}: {
-		field: TableField<Item>;
-		options: Options;
-		multiSelect?: boolean;
-		placeholder?: string;
-	} = $props();
+let {
+	field,
+	options: propOptions,
+	multiSelect = false,
+	placeholder = 'No option',
+}: {
+	field: TableField<Item>;
+	options: Options;
+	multiSelect?: boolean;
+	placeholder?: string;
+} = $props();
 
-	let options = $derived.by(() => {
-		const selection = page.url.searchParams.get(field.key);
-		const selections = jsonParse<string[]>(page.url.searchParams.get(field.key), []);
+let options = $derived.by(() => {
+	const selection = page.url.searchParams.get(field.key);
+	const selections = jsonParse<string[]>(
+		page.url.searchParams.get(field.key),
+		[]
+	);
 
-		function getActive(value: string) {
-			if (!multiSelect) return selection === value;
-			return selections.includes(value);
-		}
+	function getActive(value: string) {
+		if (!multiSelect) return selection === value;
+		return selections.includes(value);
+	}
 
-		return parseOptions(propOptions).map((option) => ({
-			...option,
-			isActive: getActive(option.value)
-		}));
-	});
+	return parseOptions(propOptions).map((option) => ({
+		...option,
+		isActive: getActive(option.value),
+	}));
+});
 
-	let optionsActive = $derived(options.filter((option) => option.isActive));
+let optionsActive = $derived(options.filter((option) => option.isActive));
 
-	const getHref = $derived((value: string) => {
-		const selections = jsonParse<string[]>(param.get(field.key), []);
-		if (!multiSelect) return urlParam.toggle({ [field.key]: value }, 'skip', 'take');
-		if (selections.includes(value)) {
-			const newSelections = selections.filter((v) => v !== value);
-			if (!newSelections.length) return urlParam.without(field.key);
-			return urlParam.with({ [field.key]: JSON.stringify(newSelections) }, 'skip', 'take');
-		}
-		return urlParam.with({ [field.key]: JSON.stringify([...selections, value]) }, 'skip', 'take');
-	});
+const getHref = $derived((value: string) => {
+	const selections = jsonParse<string[]>(param.get(field.key), []);
+	if (!multiSelect)
+		return urlParam.toggle({ [field.key]: value }, 'skip', 'take');
+	if (selections.includes(value)) {
+		const newSelections = selections.filter((v) => v !== value);
+		if (!newSelections.length) return urlParam.without(field.key);
+		return urlParam.with(
+			{ [field.key]: JSON.stringify(newSelections) },
+			'skip',
+			'take'
+		);
+	}
+	return urlParam.with(
+		{ [field.key]: JSON.stringify([...selections, value]) },
+		'skip',
+		'take'
+	);
+});
 </script>
 
 <th class="p-1">

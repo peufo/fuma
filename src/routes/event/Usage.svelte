@@ -1,7 +1,7 @@
 <script lang="ts">
-	import Foo from './Foo.svelte'
+import Foo from './Foo.svelte';
 
-	let hide = true
+let hide = true;
 </script>
 
 <div class="flex items-center gap-4 py-4">

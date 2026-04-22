@@ -1,6 +1,9 @@
 import { CLASSNAME_PLACEHOLDER } from './index.js';
 
-export function getListItemIndex(listElement: HTMLElement, itemEl: HTMLElement) {
+export function getListItemIndex(
+	listElement: HTMLElement,
+	itemEl: HTMLElement
+) {
 	return [...listElement.children].indexOf(itemEl);
 }
 
@@ -9,7 +12,11 @@ export interface CreatePlaceholderArgs {
 	itemElement: HTMLElement;
 	indexFrom: number;
 }
-export function createPlaceholder({ listElement, itemElement, indexFrom }: CreatePlaceholderArgs) {
+export function createPlaceholder({
+	listElement,
+	itemElement,
+	indexFrom,
+}: CreatePlaceholderArgs) {
 	const itemsEl = [...listElement.children];
 	const placeholderEl = document.createElement('div');
 
@@ -29,7 +36,7 @@ export function createPlaceholder({ listElement, itemElement, indexFrom }: Creat
 			const parent = placeholderEl.parentNode;
 			parent?.removeChild(placeholderEl);
 			placeholderEl.remove();
-		}
+		},
 	};
 }
 
@@ -39,7 +46,10 @@ export interface Limits {
 	items: number[];
 }
 /** Calcule les limites de déplacement supérieur, inférieur et les frontières entre deux items */
-export function computeLimits(listElement: HTMLElement, listItemEl: HTMLElement): Limits | null {
+export function computeLimits(
+	listElement: HTMLElement,
+	listItemEl: HTMLElement
+): Limits | null {
 	const rect = listItemEl.getBoundingClientRect();
 	const itemsRect = [...listElement.children]
 		.filter((el) => !el.classList.contains(CLASSNAME_PLACEHOLDER))
@@ -58,11 +68,15 @@ export function computeLimits(listElement: HTMLElement, listItemEl: HTMLElement)
 	return {
 		top: tops[0],
 		bottom: bottoms[bottoms.length - 1],
-		items
+		items,
 	};
 }
 
-export function getNewOrderIndex(len: number, indexFrom: number, indexTo: number): number[] {
+export function getNewOrderIndex(
+	len: number,
+	indexFrom: number,
+	indexTo: number
+): number[] {
 	const [start, end] = [indexFrom, indexTo].sort((a, b) => a - b);
 	const arr = Array(len)
 		.fill(null)

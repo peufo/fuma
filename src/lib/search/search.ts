@@ -35,8 +35,11 @@ export function useSearch<Item extends {}, K extends string>({
 }: SearchOptions<Item, K>) {
 	const fuse = new Fuse<Item>(items, {
 		includeMatches: true,
-		keys: Object.entries(keys).map(([name, param]) => ({ name, ...(param || {}) })),
-		...fuseOptions
+		keys: Object.entries(keys).map(([name, param]) => ({
+			name,
+			...(param || {}),
+		})),
+		...fuseOptions,
 	});
 
 	function query(
@@ -52,18 +55,25 @@ export function useSearch<Item extends {}, K extends string>({
 				if (typeof value !== 'string') throw new Error('Value is not a string');
 				spans[key as K] = getSpans(key, matches);
 			}
-			queryResults.push({ item, score, spans: spans as Record<K, SearchQueryResultSpan[]> });
+			queryResults.push({
+				item,
+				score,
+				spans: spans as Record<K, SearchQueryResultSpan[]>,
+			});
 		}
 		return queryResults;
 	}
 
 	return {
 		...fuse,
-		query
+		query,
 	};
 }
 
-function getSpans(key: string, matches: readonly FuseResultMatch[]): SearchQueryResultSpan[] {
+function getSpans(
+	key: string,
+	matches: readonly FuseResultMatch[]
+): SearchQueryResultSpan[] {
 	const { indices, value = '' } = matches?.find((m) => m.key === key) || {};
 	if (!indices?.length) {
 		return [{ value, isMatch: false }];
@@ -108,7 +118,10 @@ function multiTokenFuseSearch<Item>(
 	return [...resultsMap.values()].sort((a, b) => a.score - b.score);
 }
 
-function mergeMatches(a: FuseResultMatch[], b?: readonly FuseResultMatch[]): FuseResultMatch[] {
+function mergeMatches(
+	a: FuseResultMatch[],
+	b?: readonly FuseResultMatch[]
+): FuseResultMatch[] {
 	if (!b || b.length === 0) return a;
 	const merged = [...a];
 	for (const match of b) {
@@ -118,7 +131,7 @@ function mergeMatches(a: FuseResultMatch[], b?: readonly FuseResultMatch[]): Fus
 			existing.indices = mergeRanges(
 				[...existing.indices, ...match.indices].map(([start, end]) => ({
 					start,
-					end
+					end,
 				}))
 			).map(({ start, end }) => [start, end]);
 		} else {

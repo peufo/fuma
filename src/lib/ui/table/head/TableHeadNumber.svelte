@@ -1,49 +1,57 @@
 <script lang="ts" generics="Item extends ItemBase">
-	import { ArrowDownNarrowWideIcon, ArrowDownWideNarrowIcon, FunnelIcon } from '@lucide/svelte';
-	import debounce from 'debounce';
-	import z from 'zod';
-	import { goto } from '$app/navigation';
-	import { page } from '$app/state';
-	import { urlParam } from '$lib/state/param.svelte.ts';
-	import { DropDown } from '$lib/ui/menu/index.js';
-	import { zodCoerceJsonRecord } from '$lib/validation/zod.js';
-	import type { ItemBase, TableField } from '../field.js';
-	import OrderButtons from './OrderButtons.svelte';
+import {
+	ArrowDownNarrowWideIcon,
+	ArrowDownWideNarrowIcon,
+	FunnelIcon,
+} from '@lucide/svelte';
+import debounce from 'debounce';
+import z from 'zod';
+import { goto } from '$app/navigation';
+import { page } from '$app/state';
+import { urlParam } from '$lib/state/param.svelte.ts';
+import { DropDown } from '$lib/ui/menu/index.js';
+import { zodCoerceJsonRecord } from '$lib/validation/zod.js';
+import type { ItemBase, TableField } from '../field.js';
+import OrderButtons from './OrderButtons.svelte';
 
-	let { field }: { field: TableField<Item> } = $props();
+let { field }: { field: TableField<Item> } = $props();
 
-	const paramModel = zodCoerceJsonRecord
-		.pipe(
-			z.object({
-				min: z.number().optional(),
-				max: z.number().optional(),
-				order: z.enum(['asc', 'desc']).optional()
-			})
-		)
-		.default({});
+const paramModel = zodCoerceJsonRecord
+	.pipe(
+		z.object({
+			min: z.number().optional(),
+			max: z.number().optional(),
+			order: z.enum(['asc', 'desc']).optional(),
+		})
+	)
+	.default({});
 
-	let { min, max, order } = $derived(paramModel.parse(page.url.searchParams.get(field.key)));
-	let isNegatifRange = $derived(min !== undefined && max !== undefined && max < min);
+let { min, max, order } = $derived(
+	paramModel.parse(page.url.searchParams.get(field.key))
+);
+let isNegatifRange = $derived(
+	min !== undefined && max !== undefined && max < min
+);
 
-	const updateUrl = debounce(() => {
-		const query: Record<string, string | number> = {};
-		if (order) query.order = order;
-		if (min !== undefined) query.min = min;
-		if (max !== undefined) query.max = max;
-		if (!Object.keys(query).length) return resetFilter();
-		goto(urlParam.with({ [field.key]: JSON.stringify(query) }, 'skip', 'take'), {
-			noScroll: true,
-			keepFocus: true
-		});
-	}, 250);
+const updateUrl = debounce(() => {
+	const query: Record<string, string | number> = {};
+	if (order) query.order = order;
+	if (min !== undefined) query.min = min;
+	if (max !== undefined) query.max = max;
+	if (!Object.keys(query).length) return resetFilter();
+	goto(urlParam.with({ [field.key]: JSON.stringify(query) }, 'skip', 'take'), {
+		noScroll: true,
+		keepFocus: true,
+	});
+}, 250);
 
-	function resetFilter() {
-		return goto(urlParam.without(field.key, 'skip', 'take'), {
-			replaceState: true,
-			noScroll: true,
-			keepFocus: true
-		});
-	}
+function resetFilter() {
+	return goto(urlParam.without(field.key, 'skip', 'take'), {
+		replaceState: true,
+		noScroll: true,
+		keepFocus: true,
+	});
+}
 </script>
 
 <th class="p-1">

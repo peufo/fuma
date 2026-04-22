@@ -1,26 +1,26 @@
 <script lang="ts">
-	import { CheckIcon } from '@lucide/svelte';
-	import type { RemoteFormField } from '@sveltejs/kit';
-	import Issues from './Issues.svelte';
-	import type { InputProps } from './type.ts';
+import { CheckIcon } from '@lucide/svelte';
+import type { RemoteFormField } from '@sveltejs/kit';
+import Issues from './Issues.svelte';
+import type { InputProps } from './type.ts';
 
-	let {
-		field,
-		label,
-		checked = $bindable(),
-		hint,
-		variant = 'checkbox',
-		class: klass,
-		...props
-	}: {
-		label: string;
-		field?: RemoteFormField<boolean>;
-		checked?: boolean;
-		hint?: string;
-		variant?: 'checkbox' | 'switch';
-	} & InputProps = $props();
+let {
+	field,
+	label,
+	checked = $bindable(),
+	hint,
+	variant = 'checkbox',
+	class: klass,
+	...props
+}: {
+	label: string;
+	field?: RemoteFormField<boolean>;
+	checked?: boolean;
+	hint?: string;
+	variant?: 'checkbox' | 'switch';
+} & InputProps = $props();
 
-	let isChecked = $derived(field?.value() ?? checked);
+let isChecked = $derived(field?.value() ?? checked);
 </script>
 
 <div>

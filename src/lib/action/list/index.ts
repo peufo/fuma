@@ -1,5 +1,9 @@
 import { createDragHandler } from './handlers.js';
-import { mouseDragTrigger, scrollTrigger, touchDragTrigger } from './trigger.js';
+import {
+	mouseDragTrigger,
+	scrollTrigger,
+	touchDragTrigger,
+} from './trigger.js';
 
 export const CLASSNAME_LIST = 'editable-list';
 export const CLASSNAME_DRAG_ACTIVE = 'drag-active';
@@ -38,7 +42,9 @@ export function listEditable<Type = unknown>(
 	function createListeners() {
 		const itemElements = [...node.children] as HTMLElement[];
 		const dragElements = [
-			...(dragElementsSelector ? node.querySelectorAll(dragElementsSelector) : itemElements)
+			...(dragElementsSelector
+				? node.querySelectorAll(dragElementsSelector)
+				: itemElements),
 		] as HTMLElement[];
 
 		const dragHandlers = dragElements.map((_element, index) =>
@@ -54,7 +60,9 @@ export function listEditable<Type = unknown>(
 
 		const scrollContainer = node.parentElement;
 		if (scrollContainer) {
-			scrollListeners = dragHandlers.map((handler) => scrollTrigger(handler, scrollContainer));
+			scrollListeners = dragHandlers.map((handler) =>
+				scrollTrigger(handler, scrollContainer)
+			);
 		}
 	}
 
@@ -81,6 +89,6 @@ export function listEditable<Type = unknown>(
 				createListeners();
 			}
 			options.items = items;
-		}
+		},
 	};
 }

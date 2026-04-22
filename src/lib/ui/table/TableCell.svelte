@@ -1,16 +1,16 @@
 <script lang="ts" generics="Item extends ItemBase">
-	import {
-		TableCellArray,
-		TableCellBoolean,
-		TableCellNumber,
-		TableCellString
-	} from '$lib/ui/table/cell/index.js'
-	import type { ItemBase, TableField } from '$lib/ui/table/index.js'
-	import TableCellDate from './cell/TableCellDate.svelte'
+import {
+	TableCellArray,
+	TableCellBoolean,
+	TableCellNumber,
+	TableCellString,
+} from '$lib/ui/table/cell/index.js';
+import type { ItemBase, TableField } from '$lib/ui/table/index.js';
+import TableCellDate from './cell/TableCellDate.svelte';
 
-	let { item, field }: { item: Item; field: TableField<Item> } = $props()
+let { item, field }: { item: Item; field: TableField<Item> } = $props();
 
-	let cell = $derived(field.cell(item))
+let cell = $derived(field.cell(item));
 </script>
 
 {#if Array.isArray(cell)}

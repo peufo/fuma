@@ -1,20 +1,20 @@
-import 'tippy.js/dist/tippy.css'
+import 'tippy.js/dist/tippy.css';
 import tippyBadTyped, {
-	type Tippy,
-	type Props as TippyProps,
-	type Instance as TippyInstance,
-	hideAll,
-	delegate,
-	createSingleton,
 	animateFill,
+	createSingleton,
+	delegate,
 	followCursor,
+	hideAll,
 	inlinePositioning,
+	roundArrow,
 	sticky,
-	roundArrow
-} from 'tippy.js'
+	type Tippy,
+	type Instance as TippyInstance,
+	type Props as TippyProps,
+} from 'tippy.js';
 
-export const tippy = tippyBadTyped as unknown as Tippy
-export type { TippyProps, TippyInstance }
+export const tippy = tippyBadTyped as unknown as Tippy;
+export type { TippyProps, TippyInstance };
 export {
 	hideAll,
 	delegate,
@@ -23,5 +23,5 @@ export {
 	followCursor,
 	inlinePositioning,
 	sticky,
-	roundArrow
-}
+	roundArrow,
+};

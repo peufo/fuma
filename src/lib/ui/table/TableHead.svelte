@@ -1,23 +1,27 @@
 <script lang="ts" generics="Item extends ItemBase">
-	import { type ItemBase, type TableField, TableFieldsEdition } from '$lib/ui/table/index.js'
-	import {
-		TableHeadBoolean,
-		TableHeadDate,
-		TableHeadDefault,
-		TableHeadNumber,
-		TableHeadSelect,
-		TableHeadString
-	} from './head/index.js'
+import {
+	type ItemBase,
+	type TableField,
+	TableFieldsEdition,
+} from '$lib/ui/table/index.js';
+import {
+	TableHeadBoolean,
+	TableHeadDate,
+	TableHeadDefault,
+	TableHeadNumber,
+	TableHeadSelect,
+	TableHeadString,
+} from './head/index.js';
 
-	let {
-		fields,
-		key,
-		onCreateField
-	}: {
-		fields: TableField<Item>[]
-		key: string
-		onCreateField?: () => void
-	} = $props()
+let {
+	fields,
+	key,
+	onCreateField,
+}: {
+	fields: TableField<Item>[];
+	key: string;
+	onCreateField?: () => void;
+} = $props();
 </script>
 
 <thead class="bg-base-100 sticky top-0 z-10">

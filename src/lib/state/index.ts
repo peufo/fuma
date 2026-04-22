@@ -1,1 +1,1 @@
-export * from './param.svelte.js'
+export * from './param.svelte.js';

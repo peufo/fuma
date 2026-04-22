@@ -33,7 +33,7 @@ export function mouseDragTrigger(element: HTMLElement, handler: Handler) {
 			element?.removeEventListener('click', stopPropagation);
 			document.removeEventListener('mousemove', handler.move);
 			document.removeEventListener('mouseup', endHandler);
-		}
+		},
 	};
 }
 
@@ -73,7 +73,7 @@ export function touchDragTrigger(element: HTMLElement, handler: DragHandler) {
 			element.removeEventListener('touchmove', moveHandler);
 			element.removeEventListener('touchend', endHandler);
 			element.removeEventListener('click', stopPropagation);
-		}
+		},
 	};
 }
 
@@ -93,7 +93,7 @@ export function scrollTrigger(handler: DragHandler, scrollContainer: Element) {
 		return {
 			destroy() {
 				scrollContainer.removeEventListener('scroll', scrollHandler);
-			}
+			},
 		};
 	}
 
@@ -106,7 +106,7 @@ export function scrollTrigger(handler: DragHandler, scrollContainer: Element) {
 		return {
 			destroy() {
 				document.removeEventListener('mousemove', mouseMoveHandler);
-			}
+			},
 		};
 	}
 
@@ -150,6 +150,6 @@ export function scrollTrigger(handler: DragHandler, scrollContainer: Element) {
 			listeners.forEach(({ destroy }) => {
 				destroy();
 			});
-		}
+		},
 	};
 }

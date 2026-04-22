@@ -11,15 +11,21 @@ export type Mode = {
 
 let mode: Mode | undefined;
 
-export function useMode(themes: Record<ModeEnum, string> = { light: 'light', dark: 'dark' }) {
+export function useMode(
+	themes: Record<ModeEnum, string> = { light: 'light', dark: 'dark' }
+) {
 	if (!mode) mode = createMode(themes);
 	return mode;
 }
 
-function createMode(themes: Record<ModeEnum, string> = { light: 'light', dark: 'dark' }) {
+function createMode(
+	themes: Record<ModeEnum, string> = { light: 'light', dark: 'dark' }
+) {
 	const choice = new PersistedState<ModeChoice>('mode-choice', null);
 	const modeSystemIsLight = new MediaQuery('prefers-color-scheme: light');
-	const modeSystem = $derived<ModeEnum>(modeSystemIsLight.current ? 'light' : 'dark');
+	const modeSystem = $derived<ModeEnum>(
+		modeSystemIsLight.current ? 'light' : 'dark'
+	);
 	const modeValue = $derived(choice.current || modeSystem);
 
 	$effect(() => {
@@ -47,6 +53,6 @@ function createMode(themes: Record<ModeEnum, string> = { light: 'light', dark: '
 				return;
 			}
 			choice.current = null;
-		}
+		},
 	};
 }
