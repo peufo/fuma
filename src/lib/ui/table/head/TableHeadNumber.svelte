@@ -4,8 +4,7 @@
 	import z from 'zod';
 	import { goto } from '$app/navigation';
 	import { page } from '$app/state';
-	import { urlParam } from '$lib/next/state/param.svelte.ts';
-	import { InputNumber } from '$lib/ui/input/index.js';
+	import { urlParam } from '$lib/state/param.svelte.ts';
 	import { DropDown } from '$lib/ui/menu/index.js';
 	import { zodCoerceJsonRecord } from '$lib/validation/zod.js';
 	import type { ItemBase, TableField } from '../field.js';
@@ -96,13 +95,8 @@
 					tip?.hide();
 				}}
 			>
-				<InputNumber bind:value={min} on:input={updateUrl} input={{ placeholder: 'Min' }} />
-				<InputNumber
-					bind:value={max}
-					on:input={updateUrl}
-					hint={isNegatifRange ? 'Doit être plus grand' : ''}
-					input={{ placeholder: 'Max' }}
-				/>
+				<input bind:value={min} oninput={updateUrl} placeholder="Min" />
+				<input bind:value={max} oninput={updateUrl} placeholder="Max" />
 
 				<div class="col-span-full flex justify-end gap-2">
 					<button

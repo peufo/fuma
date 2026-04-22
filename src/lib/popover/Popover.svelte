@@ -22,7 +22,7 @@
 		style?: string;
 	} & PopoverOptions = $props();
 
-	let popover = usePopover(popoverOptions);
+	let popover = usePopover((() => popoverOptions)());
 </script>
 
 {@render trigger(popover)}

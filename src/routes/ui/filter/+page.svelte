@@ -1,9 +1,12 @@
 <script lang="ts">
-	import { jsonParse, RangePickerButton, param, type RangeAsDate } from '$lib/index.js'
-	import PeriodPicker from '$lib/ui/range/RangePicker.svelte'
-	import TableHeadDate from '$lib/ui/table/head/TableHeadDate.svelte'
+	import { jsonParse, param, type RangeAsDate, RangePickerButton } from '$lib/index.js';
+	import PeriodPicker from '$lib/ui/range/RangePicker.svelte';
+	import TableHeadDate from '$lib/ui/table/head/TableHeadDate.svelte';
 
-	let range = jsonParse<RangeAsDate>(param.get('range'), { start: null, end: null })
+	let range = jsonParse<RangeAsDate>(param.get('range'), {
+		start: null,
+		end: null
+	});
 </script>
 
 <PeriodPicker bind:range />

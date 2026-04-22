@@ -4,7 +4,7 @@
 
 	let items = Array(16)
 		.fill(0)
-		.map((v, i) => ({
+		.map((_v, i) => ({
 			label: `Item ${i}`,
 			color: `rgb(${255 - i * 2}, ${255 - i * 5}, ${255 - i * 10})`,
 			key: i

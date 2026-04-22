@@ -1,5 +1,5 @@
 <script lang="ts" module>
-	import { fruitsOptions } from '../remote/db.ts';
+	import { fruitsOptions } from '$lib/data.ts';
 </script>
 
 <ul>

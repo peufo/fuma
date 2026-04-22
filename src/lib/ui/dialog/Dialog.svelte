@@ -30,15 +30,21 @@
 		const inputs = dialog.querySelectorAll<HTMLInputElement>(inputsSelector);
 		const buttons = dialog.querySelectorAll<HTMLButtonElement>('button');
 
-		inputs.forEach((input) => (input.tabIndex = -1));
-		buttons.forEach((button) => (button.tabIndex = -1));
+		inputs.forEach((input) => {
+			input.tabIndex = -1;
+		});
+		buttons.forEach((button) => {
+			button.tabIndex = -1;
+		});
 
 		function onDialogOpen() {
 			onOpen?.();
 			inputs.forEach((input) => {
 				input.tabIndex = 0;
 			});
-			buttons.forEach((button) => (button.tabIndex = 0));
+			buttons.forEach((button) => {
+				button.tabIndex = 0;
+			});
 			if (!inputs[0]) return;
 			inputs[0].focus();
 			inputs[0].select();
@@ -46,8 +52,12 @@
 
 		function onDialogClose() {
 			onClose?.();
-			inputs.forEach((input) => (input.tabIndex = -1));
-			buttons.forEach((button) => (button.tabIndex = -1));
+			inputs.forEach((input) => {
+				input.tabIndex = -1;
+			});
+			buttons.forEach((button) => {
+				button.tabIndex = -1;
+			});
 		}
 
 		const observer = new MutationObserver(() => (dialog?.open ? onDialogOpen() : onDialogClose()));

@@ -1,4 +1,4 @@
-import { users } from '$lib/server/db.ts';
+import { users } from '$lib/data.ts';
 
 export const load = () => {
 	return {

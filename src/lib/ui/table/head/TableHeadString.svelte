@@ -1,9 +1,6 @@
 <script lang="ts" generics="Item extends ItemBase">
 	import { SearchIcon } from '@lucide/svelte';
-	import { goto } from '$app/navigation';
 	import { page } from '$app/state';
-	import { urlParam } from '$lib/next/state/param.svelte.ts';
-	import { InputSearch } from '$lib/ui/input/index.js';
 	import { DropDown } from '$lib/ui/menu/index.js';
 	import type { ItemBase, TableField } from '$lib/ui/table/index.js';
 
@@ -33,12 +30,12 @@
 		{/snippet}
 
 		{#snippet children({ tip })}
-			<InputSearch
+			<input
+				name={field.key}
+				type="search"
 				class="m-1"
-				key={field.key}
 				value={searchValue}
 				onkeydown={(e) => e.key === 'Enter' && tip?.hide()}
-				onclear={() => goto(urlParam.without(field.key))}
 			/>
 		{/snippet}
 	</DropDown>

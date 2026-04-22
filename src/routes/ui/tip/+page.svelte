@@ -1,14 +1,18 @@
 <script lang="ts">
-	import { InputBoolean, tip } from '$lib/index.js'
-	import InputTextarea from '$lib/ui/input/InputTextarea.svelte'
+	import { tip } from '$lib/action/index.ts';
+	import InputTextarea from '$lib/input/InputTextarea.svelte';
+	import { InputBoolean } from '$lib/input/index.ts';
 
-	let content = 'Hello !'
-	let enable = true
+	let content = 'Hello !';
+	let enable = true;
+
+	// TODO: how to use a RemoteFormField without server ?
+	// Create a FormField compatitbiliy ?
 </script>
 
 <div class="mx-auto my-10 max-w-xl">
-	<InputTextarea label="Content" bind:value={content} />
-	<InputBoolean label="Enable" bind:value={enable} />
+	<!-- <InputTextarea label="Content" bind:value={content} />
+	<InputBoolean label="Enable" bind:value={enable} /> -->
 
 	<div class="divider"></div>
 

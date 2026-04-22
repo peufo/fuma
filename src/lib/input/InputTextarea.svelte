@@ -19,7 +19,7 @@
 	let textarea = $state<HTMLTextAreaElement>();
 	new TextareaAutosize({
 		element: () => textarea,
-		input: () => field.value(),
+		input: () => field.value() || '',
 		// svelte-ignore state_referenced_locally
 		maxHeight
 	});

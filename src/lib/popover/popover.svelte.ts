@@ -100,9 +100,15 @@ export function usePopover({
 			popover: mode,
 			[createAttachmentKey()]: (node: HTMLElement) => {
 				popover = node;
+				// biome-ignore lint/suspicious/noTsIgnore: await for a svelte-check update
+				// @ts-ignore
 				popover.style.positionAnchor = anchorName;
+				// biome-ignore lint/suspicious/noTsIgnore: await for a svelte-check update
+				// @ts-ignore
 				popover.style.positionArea = placements[placement];
 				popover.style.inset = 'auto';
+				// biome-ignore lint/suspicious/noTsIgnore: await for a svelte-check update
+				// @ts-ignore
 				popover.style.positionTry = 'flip-x, flip-y';
 				popover.style.position = 'relative';
 				return attachPopoverListeners(node);
@@ -110,6 +116,8 @@ export function usePopover({
 		},
 		trigger: {
 			[createAttachmentKey()]: (node: HTMLElement) => {
+				// biome-ignore lint/suspicious/noTsIgnore: await for a svelte-check update
+				// @ts-ignore
 				node.style.anchorName = anchorName;
 				return attachTriggerListeners(node);
 			}

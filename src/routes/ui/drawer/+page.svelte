@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { urlParam } from '$lib/next/state/param.svelte.ts';
+	import { urlParam } from '$lib/state/param.svelte.ts';
 	import { Drawer } from '$lib/ui/drawer/index.js';
 </script>
 

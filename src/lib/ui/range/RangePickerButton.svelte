@@ -2,9 +2,7 @@
 	import { CalendarRangeIcon } from '@lucide/svelte';
 	import { slide } from 'svelte/transition';
 	import { goto } from '$app/navigation';
-
-	import { param, urlParam } from '$lib/next/state/param.svelte.ts';
-	import { InputTime } from '$lib/ui/input/index.js';
+	import { param, urlParam } from '$lib/state/param.svelte.ts';
 	import { DropDown } from '$lib/ui/menu/index.js';
 	import { formatRangeShort } from '$lib/ui/range/format.js';
 	import { type RangeAsDate, RangePicker } from '$lib/ui/range/index.js';
@@ -73,8 +71,11 @@
 	<RangePicker bind:this={rangePicker} numberOfMonths={1} bind:range {minDate} {maxDate} />
 
 	<div class="flex gap-2 p-2">
-		<InputTime label="A partir de" bind:value={range.start} class="grow" />
-		<InputTime label="Jusqu'à" bind:value={range.end} class="grow" />
+		<!--
+		<InputString label="A partir de" bind:value={range.start} class="grow" />
+		<InputString label="Jusqu'à" bind:value={range.end} class="grow" />
+		-->
+		<span>TODO: same problème with input...</span>
 	</div>
 
 	<div class="m-2 flex justify-end gap-2">

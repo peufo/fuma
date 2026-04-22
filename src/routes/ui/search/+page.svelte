@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Spans, useSearch } from '$lib/next/search/index.ts';
+	import { Spans, useSearch } from '$lib/search/index.ts';
 
 	let { data } = $props();
 	const search = $derived(

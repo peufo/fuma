@@ -1,37 +1,37 @@
 <script lang="ts">
-	import { onMount, onDestroy, createEventDispatcher } from 'svelte'
-	import type { Litepicker } from 'litepicker'
-	import type { RangeAsDate, RangeDate } from './types.js'
-	import dayjs from 'dayjs'
+	import dayjs from 'dayjs';
+	import type { Litepicker } from 'litepicker';
+	import { createEventDispatcher, onDestroy, onMount } from 'svelte';
+	import type { RangeAsDate, RangeDate } from './types.js';
 
-	export let numberOfMonths = 3
-	export let numberOfColumns = numberOfMonths
-	export let showWeekNumbers = true
-	export let range: RangeAsDate | undefined = undefined
-	export let minDate: Date | number | string | undefined = undefined
-	export let maxDate: Date | number | string | undefined = undefined
+	export let numberOfMonths = 3;
+	export let numberOfColumns = numberOfMonths;
+	export let showWeekNumbers = true;
+	export let range: RangeAsDate | undefined = undefined;
+	export let minDate: Date | number | string | undefined = undefined;
+	export let maxDate: Date | number | string | undefined = undefined;
 
-	let startElement: HTMLInputElement
-	let endElement: HTMLInputElement
-	let picker: Litepicker
-	let parentEl: HTMLDivElement
-	const dispatch = createEventDispatcher<{ change: RangeAsDate }>()
+	let startElement: HTMLInputElement;
+	let endElement: HTMLInputElement;
+	let picker: Litepicker;
+	let parentEl: HTMLDivElement;
+	const dispatch = createEventDispatcher<{ change: RangeAsDate }>();
 
 	onMount(() => {
-		initTimePicker()
-	})
+		initTimePicker();
+	});
 
 	onDestroy(() => {
-		picker?.destroy()
-	})
+		picker?.destroy();
+	});
 
 	export function clear() {
-		picker?.clearSelection()
+		picker?.clearSelection();
 	}
 
 	async function initTimePicker() {
-		const _Litepicker = (await import('litepicker')).Litepicker
-		picker?.destroy()
+		const _Litepicker = (await import('litepicker')).Litepicker;
+		picker?.destroy();
 		picker = new _Litepicker({
 			element: startElement,
 			elementEnd: endElement,
@@ -57,22 +57,22 @@
 						end: new Date(
 							`${getAbsoluteDate(date2.dateInstance)}T${getAbsoluteTime(range?.end, '23:59:00')}`
 						)
-					}
-					dispatch('change', range)
-				})
+					};
+					dispatch('change', range);
+				});
 			}
-		})
+		});
 	}
 
 	const getAbsoluteDate = (date: Date) =>
 		[date.getFullYear(), date.getMonth() + 1, date.getDate()]
 			.map((n) => n.toString().padStart(2, '0'))
-			.join('-')
+			.join('-');
 
 	const getAbsoluteTime = (date?: RangeDate, defaultTime = '00:00:00') => {
-		if (!date) return defaultTime
-		return dayjs(date).format('HH:mm:ss')
-	}
+		if (!date) return defaultTime;
+		return dayjs(date).format('HH:mm:ss');
+	};
 </script>
 
 <input type="hidden" bind:this={startElement} />

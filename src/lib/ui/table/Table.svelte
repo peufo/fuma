@@ -1,7 +1,5 @@
 <script lang="ts" generics="Item extends ItemBase">
 	import { afterNavigate } from '$app/navigation';
-	import { maxHeightScreen } from '$lib/action/heightScreen.js';
-	import { Placeholder } from '$lib/ui/placeholder/index.js';
 
 	import {
 		context,
@@ -54,11 +52,7 @@
 	afterNavigate(initFields);
 </script>
 
-<div
-	class="{klass} overflow-x-auto rounded-lg border bg-base-100"
-	class:min-h-[320px]={!hideBody}
-	use:maxHeightScreen={{ padding: screenPadding }}
->
+<div class="{klass} overflow-x-auto rounded-lg border bg-base-100" class:min-h-[320px]={!hideBody}>
 	<table class="table relative">
 		<TableHead {fields} {key} {onCreateField} />
 		{#if !hideBody && items.length}
@@ -67,8 +61,6 @@
 	</table>
 
 	{#if hideBody && !items.length}
-		<Placeholder class="rounded-t-none">
-			{placholder}
-		</Placeholder>
+		{placholder}
 	{/if}
 </div>

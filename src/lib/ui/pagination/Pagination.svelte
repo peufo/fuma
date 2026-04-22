@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { ChevronLeftIcon, ChevronRightIcon } from '@lucide/svelte';
 	import { tip } from '$lib/action/tip.js';
-	import { param, urlParam } from '$lib/next/state/index.ts';
+	import { param, urlParam } from '$lib/state/index.ts';
 
 	let { take = 20 }: { take?: number } = $props();
 

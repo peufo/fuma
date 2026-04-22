@@ -1,27 +1,28 @@
 <script lang="ts" context="module">
-	import { createEventEmitter } from '$lib/utils/eventEmitter.js'
-	import { onMount } from 'svelte'
-	type Item = { name: string }
-	const eventEmitter = createEventEmitter<{ new_item: Item }>()
+	import { onMount } from 'svelte';
+	import { createEventEmitter } from '$lib/utils/eventEmitter.js';
+
+	type Item = { name: string };
+	const eventEmitter = createEventEmitter<{ new_item: Item }>();
 </script>
 
 <script lang="ts">
-	let items: Item[] = []
-	let value = ''
+	let items: Item[] = [];
+	let value = '';
 
 	onMount(() =>
 		eventEmitter.on('new_item', (item) => {
-			items = [...items, item]
+			items = [...items, item];
 		})
-	)
+	);
 </script>
 
 <div class="flex flex-col gap-2">
 	<form
 		class="flex gap-2 rounded-lg border"
 		on:submit={() => {
-			eventEmitter.emit('new_item', { name: value })
-			value = ''
+			eventEmitter.emit('new_item', { name: value });
+			value = '';
 		}}
 	>
 		<input type="text" bind:value class="rounded-lg" />

@@ -1,25 +1,25 @@
 <script lang="ts">
-	import { ArrowDownNarrowWideIcon, ArrowDownWideNarrowIcon, type IconProps } from '@lucide/svelte'
-	import type { Component } from 'svelte'
+	import { ArrowDownNarrowWideIcon, ArrowDownWideNarrowIcon, type IconProps } from '@lucide/svelte';
+	import type { Component } from 'svelte';
 
-	type Order = 'asc' | 'desc' | undefined
+	type Order = 'asc' | 'desc' | undefined;
 	let {
 		order = $bindable(),
 		IconAsc = ArrowDownNarrowWideIcon,
 		IconDesc = ArrowDownWideNarrowIcon,
 		onChange
 	}: {
-		order: Order
-		IconAsc?: Component<IconProps>
-		IconDesc?: Component<IconProps>
-		onChange?: (order: Order) => void
-	} = $props()
+		order: Order;
+		IconAsc?: Component<IconProps>;
+		IconDesc?: Component<IconProps>;
+		onChange?: (order: Order) => void;
+	} = $props();
 
 	const handleOrderClick = (orderBy: 'asc' | 'desc') => () => {
-		if (order === orderBy) order = undefined
-		else order = orderBy
-		onChange?.(order)
-	}
+		if (order === orderBy) order = undefined;
+		else order = orderBy;
+		onChange?.(order);
+	};
 </script>
 
 <div class="p-1 pt-2">

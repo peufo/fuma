@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { PrinterCheckIcon } from '@lucide/svelte';
 	import { toast } from 'svelte-sonner';
+	import { fruitsOptions } from '$lib/data.ts';
 	import { ContextMenu, DropDown, DropDownMenu } from '$lib/ui/menu/index.js';
-	import { fruitsOptions } from '../remote/db.ts';
 	import MenuContent from './MenuContent.svelte';
 
 	let contextMenu: ContextMenu;

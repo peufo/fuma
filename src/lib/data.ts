@@ -1,3 +1,4 @@
+import { faker } from '@faker-js/faker/locale/fr_CH';
 import {
 	AppleIcon,
 	BananaIcon,
@@ -13,6 +14,26 @@ import {
 } from '@lucide/svelte';
 import z from 'zod';
 import type { OptionRecord, Options, ShapeOf } from '$lib/index.ts';
+
+// NOT A PART OF PACKAGE
+
+function createRandomUser(): User {
+	return {
+		id: Math.random().toString().slice(-16),
+		name: faker.person.fullName(),
+		age: Math.round(Math.random() * 100),
+		level: Math.round(Math.random() * 100),
+		cv: faker.person.bio(),
+		isValided: Math.random() < 0.5,
+		subscribeAt: faker.date.past().toISOString(),
+		gender: faker.person.sexType() as User['gender'],
+		gender2: faker.person.sexType() as User['gender']
+	};
+}
+
+export const users = faker.helpers.multiple(createRandomUser, {
+	count: 40
+});
 
 export type UserGender = (typeof userGenders)[number];
 export type UserTag = (typeof userTags)[number];

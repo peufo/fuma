@@ -2,8 +2,7 @@
 	import { CalendarArrowDownIcon, CalendarArrowUpIcon, CalendarSearchIcon } from '@lucide/svelte';
 	import { goto } from '$app/navigation';
 	import { page } from '$app/state';
-	import { urlParam } from '$lib/next/state/param.svelte.ts';
-	import { InputTime } from '$lib/ui/input/index.js';
+	import { urlParam } from '$lib/state/param.svelte.ts';
 	import { DropDown } from '$lib/ui/menu/index.js';
 	import { formatRange } from '$lib/ui/range/format.js';
 	import { type RangeAsDate, RangePicker } from '$lib/ui/range/index.js';
@@ -141,8 +140,9 @@
 			<input class="hidden" type="text" name="end" value={range.end?.toJSON()} />
 
 			<div class="m-2 flex gap-2">
-				<InputTime label="A partir de" bind:value={range.start} class="grow" on:input={updateUrl} />
-				<InputTime label="Jusqu'à" bind:value={range.end} class="grow" on:input={updateUrl} />
+				<!-- <InputTime label="A partir de" bind:value={range.start} class="grow" on:input={updateUrl} />
+				<InputTime label="Jusqu'à" bind:value={range.end} class="grow" on:input={updateUrl} /> -->
+				<span>TODO: same problème with input...</span>
 			</div>
 
 			<div class="m-2 flex flex-row-reverse gap-2">

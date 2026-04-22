@@ -1,4 +1,4 @@
-import { users } from './db.ts';
+import { users } from '$lib/data.ts';
 
 export const load = async () => {
 	return {

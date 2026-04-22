@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { CarrotIcon } from '@lucide/svelte';
-	import { Popover, type PopoverType } from '$lib/next/popover/index.ts';
+	import { Popover, type PopoverType } from '$lib/popover/index.ts';
 </script>
 
 {#snippet trigger(popover: PopoverType, label = 'simple')}
