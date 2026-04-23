@@ -1,17 +1,17 @@
 <script lang="ts">
-import { schemaUser, userGenderOptions, users } from '$lib/data.ts';
-import InputBoolean from '$lib/input/InputBoolean.svelte';
-import InputNumber from '$lib/input/InputNumber.svelte';
-import InputRadio from '$lib/input/InputRadio.svelte';
-import InputRange from '$lib/input/InputRange.svelte';
-import InputRelation from '$lib/input/InputRelation.svelte';
-import InputSelectNative from '$lib/input/InputSelectNative.svelte';
-import InputString from '$lib/input/InputString.svelte';
-import InputTextarea from '$lib/input/InputTextarea.svelte';
-import { useForm } from '$lib/remote/useForm.ts';
-import { formCreateUser, searchUsers } from './test.remote.ts';
+	import { schemaUser, userGenderOptions, users } from '$lib/data.ts'
+	import InputBoolean from '$lib/input/InputBoolean.svelte'
+	import InputNumber from '$lib/input/InputNumber.svelte'
+	import InputRadio from '$lib/input/InputRadio.svelte'
+	import InputRange from '$lib/input/InputRange.svelte'
+	import InputRelation from '$lib/input/InputRelation.svelte'
+	import InputSelectNative from '$lib/input/InputSelectNative.svelte'
+	import InputString from '$lib/input/InputString.svelte'
+	import InputTextarea from '$lib/input/InputTextarea.svelte'
+	import { useForm } from '$lib/remote/useForm.ts'
+	import { formCreateUser, searchUsers } from './test.remote.ts'
 
-const form = useForm(formCreateUser, schemaUser);
+	const form = useForm(formCreateUser, schemaUser)
 </script>
 
 <div class="flex gap-2">

@@ -1,11 +1,11 @@
 <script lang="ts">
-import { PrinterCheckIcon } from '@lucide/svelte';
-import { toast } from 'svelte-sonner';
-import { fruitsOptions } from '$lib/data.ts';
-import { ContextMenu, DropDown, DropDownMenu } from '$lib/ui/menu/index.js';
-import MenuContent from './MenuContent.svelte';
+	import { PrinterCheckIcon } from '@lucide/svelte'
+	import { toast } from 'svelte-sonner'
+	import { fruitsOptions } from '$lib/data.ts'
+	import { ContextMenu, DropDown, DropDownMenu } from '$lib/ui/menu/index.js'
+	import MenuContent from './MenuContent.svelte'
 
-let contextMenu: ContextMenu;
+	let contextMenu: ContextMenu
 </script>
 
 <DropDown>

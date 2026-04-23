@@ -1,33 +1,29 @@
 <script lang="ts">
-import { type Snippet } from 'svelte';
-import { ButtonCopy } from '$lib/ui/button/index.js';
-import { useMode } from '$lib/ui/mode/useMode.svelte.js';
-import { highlight } from './highlight.ts';
+	import { type Snippet } from 'svelte'
+	import { ButtonCopy } from '$lib/ui/button/index.js'
+	import { useMode } from '$lib/ui/mode/useMode.svelte.js'
+	import { highlight } from './highlight.ts'
 
-let {
-	code,
-	title,
-	lang = 'svelte',
-	preview,
-}: {
-	code: string;
-	title?: string;
-	lang?: string;
-	preview: Snippet;
-} = $props();
+	let {
+		code,
+		title,
+		lang = 'svelte',
+		preview
+	}: {
+		code: string
+		title?: string
+		lang?: string
+		preview: Snippet
+	} = $props()
 
-let mode = $derived(useMode());
-let highlighted = $derived(highlight(code.trim(), lang, mode.current));
-let tab = $state<'preview' | 'code'>('code');
+	let mode = $derived(useMode())
+	let highlighted = $derived(highlight(code.trim(), lang, mode.current))
+	let tab = $state<'preview' | 'code'>('code')
 </script>
 
 <div class="not-prose my-6 overflow-hidden rounded-lg border">
 	<div class="flex items-center gap-2 border-b bg-base-200/50 px-4 py-2">
-		{#if title}
-			<span class="title-sm mr-auto">{title}</span>
-		{:else}
-			<span class="mr-auto"></span>
-		{/if}
+		<span class="title mr-auto">{title}</span>
 
 		<div class="tabs-boxed tabs tabs-sm md:hidden">
 			<button class="tab" class:tab-active={tab === 'code'} onclick={() => (tab = 'code')}>

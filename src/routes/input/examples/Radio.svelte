@@ -1,8 +1,8 @@
 <script lang="ts">
-import { fruitsOptions } from '$lib/data.ts';
-import { InputRadio } from '$lib/input/index.ts';
+	import { fruitsOptions } from '$lib/data.ts'
+	import { InputRadio } from '$lib/input/index.ts'
 
-let value = $state('apple');
+	let value = $state('apple')
 </script>
 
 <div class="p-4">

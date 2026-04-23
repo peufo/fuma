@@ -1,51 +1,51 @@
 <script lang="ts">
-import { CopyIcon, type IconProps } from '@lucide/svelte';
-import type { Component } from 'svelte';
-import type { MouseEventHandler } from 'svelte/elements';
-import { toast } from 'svelte-sonner';
-import { tip } from '$lib/action/tip.js';
+	import { CopyIcon, type IconProps } from '@lucide/svelte'
+	import type { Component } from 'svelte'
+	import type { MouseEventHandler } from 'svelte/elements'
+	import { toast } from 'svelte-sonner'
+	import { tip } from '$lib/action/tip.js'
 
-let {
-	value,
-	title = '',
-	label = '',
-	Icon = CopyIcon,
-	class: klass = '',
-	successMessage = 'Copied',
-	onSuccess,
-}: {
-	value: string | (() => Promise<string>);
-	title?: string;
-	label?: string;
-	Icon?: Component<IconProps>;
-	class?: string;
-	successMessage?: string;
-	onSuccess?: () => void;
-} = $props();
+	let {
+		value,
+		title = '',
+		label = '',
+		Icon = CopyIcon,
+		class: klass = '',
+		successMessage = 'Copied',
+		onSuccess
+	}: {
+		value: string | (() => Promise<string>)
+		title?: string
+		label?: string
+		Icon?: Component<IconProps>
+		class?: string
+		successMessage?: string
+		onSuccess?: () => void
+	} = $props()
 
-let isLoading = $state(false);
+	let isLoading = $state(false)
 
-async function loadValue(): Promise<string> {
-	if (typeof value === 'string') return value;
-	return value();
-}
+	async function loadValue(): Promise<string> {
+		if (typeof value === 'string') return value
+		return value()
+	}
 
-const onclick: MouseEventHandler<HTMLButtonElement> = async (event) => {
-	event.preventDefault();
-	if (isLoading) return;
-	isLoading = true;
-	const value = await loadValue().finally(() => (isLoading = false));
+	const onclick: MouseEventHandler<HTMLButtonElement> = async (event) => {
+		event.preventDefault()
+		if (isLoading) return
+		isLoading = true
+		const value = await loadValue().finally(() => (isLoading = false))
 
-	navigator.clipboard
-		.writeText(value)
-		.then(() => {
-			toast.success(successMessage);
-			onSuccess?.();
-		})
-		.catch((error) => {
-			toast.error(error);
-		});
-};
+		navigator.clipboard
+			.writeText(value)
+			.then(() => {
+				toast.success(successMessage)
+				onSuccess?.()
+			})
+			.catch((error) => {
+				toast.error(error)
+			})
+	}
 </script>
 
 <div class="relative">

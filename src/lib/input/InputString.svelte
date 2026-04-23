@@ -1,34 +1,34 @@
 <script lang="ts">
-import type { RemoteFormField } from '@sveltejs/kit';
-import Issues from './Issues.svelte';
-import type { InputProps } from './type.ts';
+	import type { RemoteFormField } from '@sveltejs/kit'
+	import Issues from './Issues.svelte'
+	import type { InputProps } from './type.ts'
 
-let {
-	label,
-	field,
-	value = $bindable(),
-	type = 'text',
-	class: klass,
-	...props
-}: {
-	label: string;
-	field?: RemoteFormField<string>;
-	value?: string;
-	type?:
-		| 'text'
-		| 'email'
-		| 'password'
-		| 'url'
-		| 'tel'
-		| 'search'
-		| 'date'
-		| 'datetime-local'
-		| 'time'
-		| 'month'
-		| 'week'
-		| 'color'
-		| 'select';
-} & InputProps = $props();
+	let {
+		label,
+		field,
+		value = $bindable(),
+		type = 'text',
+		class: klass,
+		...props
+	}: {
+		label: string
+		field?: RemoteFormField<string>
+		value?: string
+		type?:
+			| 'text'
+			| 'email'
+			| 'password'
+			| 'url'
+			| 'tel'
+			| 'search'
+			| 'date'
+			| 'datetime-local'
+			| 'time'
+			| 'month'
+			| 'week'
+			| 'color'
+			| 'select'
+	} & InputProps = $props()
 </script>
 
 <label class="floating-label">

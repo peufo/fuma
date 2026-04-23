@@ -1,54 +1,54 @@
 <script lang="ts" generics="Item">
-import { ChevronsUpDownIcon } from '@lucide/svelte';
-import type { RemoteFormField, RemoteQueryFunction } from '@sveltejs/kit';
-import type { Snippet } from 'svelte';
-import { useCommand } from '../command/command.svelte.ts';
-import { usePopover } from '../popover/popover.svelte.ts';
-import Issues from './Issues.svelte';
+	import { ChevronsUpDownIcon } from '@lucide/svelte'
+	import type { RemoteFormField, RemoteQueryFunction } from '@sveltejs/kit'
+	import type { Snippet } from 'svelte'
+	import { useCommand } from '../command/command.svelte.ts'
+	import { usePopover } from '../popover/popover.svelte.ts'
+	import Issues from './Issues.svelte'
 
-let {
-	label,
-	searchItems,
-	getValue,
-	selected,
-	proposal,
-	field,
-	value = $bindable(),
-}: {
-	label: string;
-	searchItems: RemoteQueryFunction<{ search: string }, Item[]>;
-	getValue: (item: Item) => string;
-	selected?: Snippet<[Item]>;
-	proposal?: Snippet<[Item, { isSelected: boolean; isFocus: boolean }]>;
-	field?: RemoteFormField<string>;
-	value?: string;
-} = $props();
+	let {
+		label,
+		searchItems,
+		getValue,
+		selected,
+		proposal,
+		field,
+		value = $bindable()
+	}: {
+		label: string
+		searchItems: RemoteQueryFunction<{ search: string }, Item[]>
+		getValue: (item: Item) => string
+		selected?: Snippet<[Item]>
+		proposal?: Snippet<[Item, { isSelected: boolean; isFocus: boolean }]>
+		field?: RemoteFormField<string>
+		value?: string
+	} = $props()
 
-let search = $state('');
-const items = $derived.by(() => searchItems({ search }));
+	let search = $state('')
+	const items = $derived.by(() => searchItems({ search }))
 
-let selectedItem = $state<Item | undefined>(undefined);
+	let selectedItem = $state<Item | undefined>(undefined)
 
-$effect(() => {
-	const targetValue = field?.value() ?? value;
-	selectedItem = items.current?.find((item) => getValue(item) === targetValue);
-});
+	$effect(() => {
+		const targetValue = field?.value() ?? value
+		selectedItem = items.current?.find((item) => getValue(item) === targetValue)
+	})
 
-const popover = usePopover({ listenFocus: false });
-const command = useCommand({
-	isEnable: () => popover.isOpen,
-	onSelect: (index) => {
-		popover.hide();
-		const item = items.current?.[index];
-		if (!item) return;
-		selectedItem = item;
-		if (field) {
-			field.set(getValue(item));
-		} else {
-			value = getValue(item);
+	const popover = usePopover({ listenFocus: false })
+	const command = useCommand({
+		isEnable: () => popover.isOpen,
+		onSelect: (index) => {
+			popover.hide()
+			const item = items.current?.[index]
+			if (!item) return
+			selectedItem = item
+			if (field) {
+				field.set(getValue(item))
+			} else {
+				value = getValue(item)
+			}
 		}
-	},
-});
+	})
 </script>
 
 {#if field?.value() !== undefined}

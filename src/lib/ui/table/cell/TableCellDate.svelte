@@ -1,5 +1,5 @@
 <script lang="ts">
-let { cell }: { cell: Date } = $props();
+	let { cell }: { cell: Date } = $props()
 </script>
 
 <td>

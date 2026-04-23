@@ -1,11 +1,11 @@
 <script lang="ts">
-import { CheckIcon } from '@lucide/svelte';
-import { fruitsOptions } from '$lib/data.ts';
-import { parseOptions } from '$lib/index.ts';
-import { InputSelect } from '$lib/input/index.ts';
+	import { CheckIcon } from '@lucide/svelte'
+	import { fruitsOptions } from '$lib/data.ts'
+	import { parseOptions } from '$lib/index.ts'
+	import { InputSelect } from '$lib/input/index.ts'
 
-const options = parseOptions(fruitsOptions);
-let value = $state('cherry');
+	const options = parseOptions(fruitsOptions)
+	let value = $state('cherry')
 </script>
 
 <div class="p-4">

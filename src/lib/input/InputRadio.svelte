@@ -1,21 +1,21 @@
 <script lang="ts">
-import type { RemoteFormField } from '@sveltejs/kit';
-import { type Options, parseOptions } from '$lib/utils/index.ts';
-import Issues from './Issues.svelte';
+	import type { RemoteFormField } from '@sveltejs/kit'
+	import { type Options, parseOptions } from '$lib/utils/index.ts'
+	import Issues from './Issues.svelte'
 
-let {
-	field,
-	label,
-	value = $bindable(),
-	options: optionsProp,
-}: {
-	field?: RemoteFormField<string>;
-	label: string;
-	value?: string;
-	options: Options;
-} = $props();
+	let {
+		field,
+		label,
+		value = $bindable(),
+		options: optionsProp
+	}: {
+		field?: RemoteFormField<string>
+		label: string
+		value?: string
+		options: Options
+	} = $props()
 
-const options = $derived(parseOptions(optionsProp));
+	const options = $derived(parseOptions(optionsProp))
 </script>
 
 <div class="flex flex-col gap-1">

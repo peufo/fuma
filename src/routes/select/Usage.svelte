@@ -1,11 +1,11 @@
 <script lang="ts">
-import { CheckIcon } from '@lucide/svelte';
-import { fruitsOptions } from '$lib/data.ts';
-import { parseOptions } from '$lib/index.ts';
-import InputSelectNative from '$lib/input/InputSelectNative.svelte';
-import { InputSelect } from '$lib/input/index.ts';
+	import { CheckIcon } from '@lucide/svelte'
+	import { fruitsOptions } from '$lib/data.ts'
+	import { parseOptions } from '$lib/index.ts'
+	import InputSelectNative from '$lib/input/InputSelectNative.svelte'
+	import { InputSelect } from '$lib/input/index.ts'
 
-const options = parseOptions(fruitsOptions);
+	const options = parseOptions(fruitsOptions)
 </script>
 
 <div class="p-4">

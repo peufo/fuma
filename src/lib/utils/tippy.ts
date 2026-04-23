@@ -1,4 +1,4 @@
-import 'tippy.js/dist/tippy.css';
+import 'tippy.js/dist/tippy.css'
 import tippyBadTyped, {
 	animateFill,
 	createSingleton,
@@ -10,11 +10,11 @@ import tippyBadTyped, {
 	sticky,
 	type Tippy,
 	type Instance as TippyInstance,
-	type Props as TippyProps,
-} from 'tippy.js';
+	type Props as TippyProps
+} from 'tippy.js'
 
-export const tippy = tippyBadTyped as unknown as Tippy;
-export type { TippyProps, TippyInstance };
+export const tippy = tippyBadTyped as unknown as Tippy
+export type { TippyProps, TippyInstance }
 export {
 	hideAll,
 	delegate,
@@ -23,5 +23,5 @@ export {
 	followCursor,
 	inlinePositioning,
 	sticky,
-	roundArrow,
-};
+	roundArrow
+}

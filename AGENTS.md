@@ -11,18 +11,18 @@
 
 ## Technology Stack
 
-| Layer | Technology | Version |
-|-------|-----------|---------|
-| Framework | SvelteKit | ^2.57.1 |
-| UI Framework | Svelte | ^5.55.4 (runes mode) |
-| Styling | Tailwind CSS | ^4.2.4 |
-| CSS Components | DaisyUI | ^5.5.19 |
-| Validation | Zod | ^4.3.6 |
-| Build Tool | Vite | ^7.3.2 |
-| Package Tool | `@sveltejs/package` + `publint` | — |
-| Testing | Vitest | ^4.1.5 |
-| Formatting | Prettier + `prettier-plugin-svelte` + `prettier-plugin-tailwindcss` | ^3.8.3 |
-| Linting | Biome | 2.4.2 |
+| Layer          | Technology                                                          | Version              |
+| -------------- | ------------------------------------------------------------------- | -------------------- |
+| Framework      | SvelteKit                                                           | ^2.57.1              |
+| UI Framework   | Svelte                                                              | ^5.55.4 (runes mode) |
+| Styling        | Tailwind CSS                                                        | ^4.2.4               |
+| CSS Components | DaisyUI                                                             | ^5.5.19              |
+| Validation     | Zod                                                                 | ^4.3.6               |
+| Build Tool     | Vite                                                                | ^7.3.2               |
+| Package Tool   | `@sveltejs/package` + `publint`                                     | —                    |
+| Testing        | Vitest                                                              | ^4.1.5               |
+| Formatting     | Prettier + `prettier-plugin-svelte` + `prettier-plugin-tailwindcss` | ^3.8.3               |
+| Linting        | Biome                                                               | 2.4.2                |
 
 ---
 
@@ -113,6 +113,7 @@ The library is published from `dist/` with the following submodules:
 - `fuma/server` — server-side utilities
 
 Peer dependencies (must be provided by the consuming app):
+
 - `daisyui` ^5.5.17
 - `tailwindcss` ^4.1.18
 - `zod` ^4.3.6
@@ -122,6 +123,7 @@ Peer dependencies (must be provided by the consuming app):
 ## Code Style Guidelines
 
 ### Prettier (formatting)
+
 - **Indent**: Tabs
 - **Quotes**: Single
 - **Trailing commas**: None
@@ -130,6 +132,7 @@ Peer dependencies (must be provided by the consuming app):
 - **Tailwind stylesheet**: `./src/app.css`
 
 ### Biome (linting + import organization)
+
 - Single quotes, tabs, ES5 trailing commas
 - Import organization enabled (`organizeImports: "on"`)
 - Uses `.gitignore` for file exclusion
@@ -137,6 +140,7 @@ Peer dependencies (must be provided by the consuming app):
 - **Svelte/astro/vue override**: `useConst`, `useImportType`, `noUnusedVariables`, `noUnusedImports` are turned off for `.svelte` files
 
 ### Import Conventions
+
 - Imports from `$lib/` use `.ts` extensions (e.g., `$lib/validation/zod.ts`).
 - Imports from sibling files within `src/lib/` often use `.js` extensions (e.g., `./button/index.js`).
 - This is a project convention — follow the style of the surrounding file.
@@ -154,22 +158,22 @@ Peer dependencies (must be provided by the consuming app):
 
 ## Key Dependencies and Their Uses
 
-| Dependency | Purpose |
-|------------|---------|
-| `@lucide/svelte` | Icon components |
-| `@faker-js/faker` | Demo data generation (dev only) |
-| `dayjs` | Date manipulation |
-| `debounce` | Debouncing (used in popover hover) |
-| `devalue` | Serialization |
-| `dotenv` | Environment variables |
-| `fuse.js` | Fuzzy search implementation |
-| `litepicker` | Date picker |
-| `perod` | Range merging (used in search highlight spans) |
-| `runed` | Svelte 5 runes utilities |
-| `svelte-easy-crop` | Image cropping |
-| `svelte-sonner` | Toast notifications |
-| `tippy.js` | Tooltip library |
-| `zod` | Schema validation (v4) |
+| Dependency         | Purpose                                        |
+| ------------------ | ---------------------------------------------- |
+| `@lucide/svelte`   | Icon components                                |
+| `@faker-js/faker`  | Demo data generation (dev only)                |
+| `dayjs`            | Date manipulation                              |
+| `debounce`         | Debouncing (used in popover hover)             |
+| `devalue`          | Serialization                                  |
+| `dotenv`           | Environment variables                          |
+| `fuse.js`          | Fuzzy search implementation                    |
+| `litepicker`       | Date picker                                    |
+| `perod`            | Range merging (used in search highlight spans) |
+| `runed`            | Svelte 5 runes utilities                       |
+| `svelte-easy-crop` | Image cropping                                 |
+| `svelte-sonner`    | Toast notifications                            |
+| `tippy.js`         | Tooltip library                                |
+| `zod`              | Schema validation (v4)                         |
 
 ---
 

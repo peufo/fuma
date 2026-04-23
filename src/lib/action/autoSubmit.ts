@@ -1,24 +1,24 @@
-import debounce from 'debounce';
+import debounce from 'debounce'
 
 type AutoSubmitOption = {
-	debounceMs?: number;
-};
+	debounceMs?: number
+}
 
 export function autoSubmit(form: HTMLFormElement, options?: AutoSubmitOption) {
-	const { debounceMs = 0 } = options || {};
+	const { debounceMs = 0 } = options || {}
 
-	const btn = document.createElement('button');
-	btn.type = 'submit';
-	btn.style.display = 'none';
-	const onChange = debounce(() => btn.click(), debounceMs);
-	form.appendChild(btn);
-	form.addEventListener('change', onChange);
+	const btn = document.createElement('button')
+	btn.type = 'submit'
+	btn.style.display = 'none'
+	const onChange = debounce(() => btn.click(), debounceMs)
+	form.appendChild(btn)
+	form.addEventListener('change', onChange)
 
 	function destroy() {
-		btn.remove();
-		onChange.flush();
-		form.removeEventListener('change', onChange);
+		btn.remove()
+		onChange.flush()
+		form.removeEventListener('change', onChange)
 	}
 
-	return { destroy };
+	return { destroy }
 }

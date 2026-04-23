@@ -1,5 +1,5 @@
-export { default as ContextMenu } from './ContextMenu.svelte';
-export { default as DropDown } from './DropDown.svelte';
-export { default as DropDownMenu } from './DropDownMenu.svelte';
+export { default as ContextMenu } from './ContextMenu.svelte'
+export { default as DropDown } from './DropDown.svelte'
+export { default as DropDownMenu } from './DropDownMenu.svelte'
 
 // TODO: probably replaced by Popover

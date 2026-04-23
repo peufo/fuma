@@ -1,19 +1,19 @@
 <script lang="ts" module>
-export type PropDef = {
-	name: string;
-	type: string;
-	default?: string;
-	required?: boolean;
-	description?: string;
-};
+	export type PropDef = {
+		name: string
+		type: string
+		default?: string
+		required?: boolean
+		description?: string
+	}
 </script>
 
 <script lang="ts">
 	let {
 		props
 	}: {
-		props: PropDef[];
-	} = $props();
+		props: PropDef[]
+	} = $props()
 </script>
 
 <div class="not-prose overflow-x-auto rounded-lg border">
@@ -32,7 +32,7 @@ export type PropDef = {
 					<td class="whitespace-nowrap">
 						<code class="font-mono text-sm">{prop.name}</code>
 						{#if prop.required}
-							<span class="badge badge-error badge-xs ml-1">required</span>
+							<span class="ml-1 badge badge-xs badge-error">required</span>
 						{/if}
 					</td>
 					<td>

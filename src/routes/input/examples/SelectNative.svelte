@@ -1,8 +1,8 @@
 <script lang="ts">
-import { fruitsOptions } from '$lib/data.ts';
-import { InputSelectNative } from '$lib/input/index.ts';
+	import { fruitsOptions } from '$lib/data.ts'
+	import { InputSelectNative } from '$lib/input/index.ts'
 
-let value = $state('banana');
+	let value = $state('banana')
 </script>
 
 <div class="p-4">

@@ -1,21 +1,21 @@
 <script lang="ts">
-import { users } from '$lib/data.ts';
-import { Spans, useSearch } from '$lib/search/index.ts';
+	import { users } from '$lib/data.ts'
+	import { Spans, useSearch } from '$lib/search/index.ts'
 
-const search = $derived(
-	useSearch({
-		items: users,
-		keys: {
-			name: {},
-			job: {},
-		},
-		minMatchCharLength: 2,
-		ignoreLocation: true,
-		includeScore: true,
-	})
-);
-let value = $state('');
-const results = $derived.by(() => search.query(value));
+	const search = $derived(
+		useSearch({
+			items: users,
+			keys: {
+				name: {},
+				job: {}
+			},
+			minMatchCharLength: 2,
+			ignoreLocation: true,
+			includeScore: true
+		})
+	)
+	let value = $state('')
+	const results = $derived.by(() => search.query(value))
 </script>
 
 <div class="p-4">

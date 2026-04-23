@@ -1,13 +1,13 @@
 <script lang="ts">
-import type { RemoteFormField } from '@sveltejs/kit';
-import { slide } from 'svelte/transition';
+	import type { RemoteFormField } from '@sveltejs/kit'
+	import { slide } from 'svelte/transition'
 
-let {
-	field,
-}: {
-	// biome-ignore lint/suspicious/noExplicitAny: Wathever then value type... we use just field.issues()
-	field: RemoteFormField<any> | undefined;
-} = $props();
+	let {
+		field
+	}: {
+		// biome-ignore lint/suspicious/noExplicitAny: Wathever then value type... we use just field.issues()
+		field: RemoteFormField<any> | undefined
+	} = $props()
 </script>
 
 {#if field?.issues()?.length}

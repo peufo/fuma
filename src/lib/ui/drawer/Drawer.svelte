@@ -1,17 +1,17 @@
 <script lang="ts" module>
-export const transitionX = writable(0);
+	export const transitionX = writable(0)
 </script>
 
 <script lang="ts">
-	import { type Snippet } from 'svelte';
-	import { fade } from 'svelte/transition';
-	import { XIcon } from '@lucide/svelte';
+	import { type Snippet } from 'svelte'
+	import { fade } from 'svelte/transition'
+	import { XIcon } from '@lucide/svelte'
 
-	import { goto } from '$app/navigation';
-	import { urlParam } from '$lib/state/param.svelte.ts';
-	import { drawerFly } from './drawerFly.js';
-	import { writable } from 'svelte/store';
-	import { useLayer } from './useLayer.svelte.js';
+	import { goto } from '$app/navigation'
+	import { urlParam } from '$lib/state/param.svelte.ts'
+	import { drawerFly } from './drawerFly.js'
+	import { writable } from 'svelte/store'
+	import { useLayer } from './useLayer.svelte.js'
 
 	let {
 		key,
@@ -25,32 +25,32 @@ export const transitionX = writable(0);
 		zIndex = 50,
 		children
 	}: {
-		key: string;
-		title?: string;
-		class?: string;
-		maxWidth?: string;
-		classHeader?: string;
-		classBody?: string;
-		duration?: number;
-		noOverlay?: boolean;
-		zIndex?: number;
-		children: Snippet<[{ open: typeof open; close: typeof close }]>;
-	} = $props();
+		key: string
+		title?: string
+		class?: string
+		maxWidth?: string
+		classHeader?: string
+		classBody?: string
+		duration?: number
+		noOverlay?: boolean
+		zIndex?: number
+		children: Snippet<[{ open: typeof open; close: typeof close }]>
+	} = $props()
 
-	type GotoOptions = Parameters<typeof goto>[1];
+	type GotoOptions = Parameters<typeof goto>[1]
 	export function open(value = 1, options: GotoOptions = {}) {
 		return goto(urlParam.with({ [key]: value }), {
 			...options,
 			replaceState: true,
 			noScroll: true
-		});
+		})
 	}
 
 	export function close(options: GotoOptions = {}) {
-		return goto(urlParam.without(key), { ...options, replaceState: true, noScroll: true });
+		return goto(urlParam.without(key), { ...options, replaceState: true, noScroll: true })
 	}
-	let { offset, index, isActive } = $derived(useLayer(key));
-	let clientWidth = $state(0);
+	let { offset, index, isActive } = $derived(useLayer(key))
+	let clientWidth = $state(0)
 </script>
 
 {#if !noOverlay && isActive}
@@ -73,7 +73,7 @@ export const transitionX = writable(0);
 			duration,
 			opacity: 1,
 			onTransition(pos) {
-				$transitionX = pos.x;
+				$transitionX = pos.x
 			}
 		}}
 		style="

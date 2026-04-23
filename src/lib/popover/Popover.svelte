@@ -1,28 +1,28 @@
 <script lang="ts">
-import type { Snippet } from 'svelte';
-import type { ClassValue } from 'svelte/elements';
-import {
-	type Placement,
-	type PopoverOptions,
-	type PopoverType,
-	usePopover,
-} from './popover.svelte.ts';
+	import type { Snippet } from 'svelte'
+	import type { ClassValue } from 'svelte/elements'
+	import {
+		type Placement,
+		type PopoverOptions,
+		type PopoverType,
+		usePopover
+	} from './popover.svelte.ts'
 
-let {
-	children,
-	trigger,
-	class: klass = '',
-	style = '',
-	...popoverOptions
-}: {
-	children: Snippet<[PopoverType]>;
-	trigger: Snippet<[PopoverType]>;
-	placement?: Placement;
-	class?: ClassValue;
-	style?: string;
-} & PopoverOptions = $props();
+	let {
+		children,
+		trigger,
+		class: klass = '',
+		style = '',
+		...popoverOptions
+	}: {
+		children: Snippet<[PopoverType]>
+		trigger: Snippet<[PopoverType]>
+		placement?: Placement
+		class?: ClassValue
+		style?: string
+	} & PopoverOptions = $props()
 
-let popover = usePopover((() => popoverOptions)());
+	let popover = usePopover((() => popoverOptions)())
 </script>
 
 {@render trigger(popover)}

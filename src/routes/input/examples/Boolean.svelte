@@ -1,7 +1,7 @@
 <script lang="ts">
-import { InputBoolean } from '$lib/input/index.ts';
+	import { InputBoolean } from '$lib/input/index.ts'
 
-let checked = $state(true);
+	let checked = $state(true)
 </script>
 
 <div class="flex flex-col gap-4 p-4">

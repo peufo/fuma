@@ -1,7 +1,7 @@
 <script lang="ts">
-import { InputNumber } from '$lib/input/index.ts';
+	import { InputNumber } from '$lib/input/index.ts'
 
-let value = $state(42);
+	let value = $state(42)
 </script>
 
 <div class="p-4">

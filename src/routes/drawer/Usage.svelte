@@ -1,6 +1,6 @@
 <script lang="ts">
-import { urlParam } from '$lib/state/param.svelte.ts';
-import { Drawer } from '$lib/ui/drawer/index.js';
+	import { urlParam } from '$lib/state/param.svelte.ts'
+	import { Drawer } from '$lib/ui/drawer/index.js'
 </script>
 
 <a class="btn" href={urlParam.with({ 'drawer-1': 1 })} data-sveltekit-noscroll> Open drawer 1</a>

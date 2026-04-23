@@ -1,23 +1,13 @@
-import z from 'zod';
+import z from 'zod'
 
 export type ShapeOf<T extends Record<string, unknown>> = Readonly<
 	Readonly<{
-		[K in keyof T]: z.core.$ZodType<
-			T[K],
-			unknown,
-			z.core.$ZodTypeInternals<T[K], unknown>
-		>;
+		[K in keyof T]: z.core.$ZodType<T[K], unknown, z.core.$ZodTypeInternals<T[K], unknown>>
 	}>
->;
+>
 
-export type JsonValue =
-	| string
-	| number
-	| boolean
-	| null
-	| JsonValue[]
-	| JsonRecord;
-export type JsonRecord = { [key: string]: JsonValue };
+export type JsonValue = string | number | boolean | null | JsonValue[] | JsonRecord
+export type JsonRecord = { [key: string]: JsonValue }
 
 export const zodJsonValue: z.core.$ZodType<JsonValue> = z.lazy(() =>
 	z.union([
@@ -29,21 +19,18 @@ export const zodJsonValue: z.core.$ZodType<JsonValue> = z.lazy(() =>
 		z.array(z.string()),
 		z.array(z.number()),
 		z.array(z.boolean()),
-		z.array(zodJsonRecord),
+		z.array(zodJsonRecord)
 	])
-);
-export const zodJsonRecord: z.core.$ZodType<JsonRecord> = z.record(
-	z.string(),
-	zodJsonValue
-);
+)
+export const zodJsonRecord: z.core.$ZodType<JsonRecord> = z.record(z.string(), zodJsonValue)
 export const zodCoerceJson = z.string().transform((str, ctx) => {
 	try {
-		return JSON.parse(str);
+		return JSON.parse(str)
 	} catch (_err) {
-		ctx.addIssue({ code: 'custom', message: 'Invalid JSON' });
-		return z.NEVER;
+		ctx.addIssue({ code: 'custom', message: 'Invalid JSON' })
+		return z.NEVER
 	}
-});
+})
 
-export const zodCoerceJsonValue = zodCoerceJson.pipe(zodJsonValue);
-export const zodCoerceJsonRecord = zodCoerceJson.pipe(zodJsonRecord);
+export const zodCoerceJsonValue = zodCoerceJson.pipe(zodJsonValue)
+export const zodCoerceJsonRecord = zodCoerceJson.pipe(zodJsonRecord)

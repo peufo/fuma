@@ -1,84 +1,80 @@
 <script lang="ts" generics="Item extends ItemBase">
-import {
-	CalendarArrowDownIcon,
-	CalendarArrowUpIcon,
-	CalendarSearchIcon,
-} from '@lucide/svelte';
-import { goto } from '$app/navigation';
-import { page } from '$app/state';
-import { urlParam } from '$lib/state/param.svelte.ts';
-import { DropDown } from '$lib/ui/menu/index.js';
-import { formatRange } from '$lib/ui/range/format.js';
-import { type RangeAsDate, RangePicker } from '$lib/ui/range/index.js';
-import type { ItemBase, TableField } from '$lib/ui/table/index.js';
-import { jsonParse } from '$lib/utils/jsonParse.js';
-import OrderButtons from './OrderButtons.svelte';
+	import { CalendarArrowDownIcon, CalendarArrowUpIcon, CalendarSearchIcon } from '@lucide/svelte'
+	import { goto } from '$app/navigation'
+	import { page } from '$app/state'
+	import { urlParam } from '$lib/state/param.svelte.ts'
+	import { DropDown } from '$lib/ui/menu/index.js'
+	import { formatRange } from '$lib/ui/range/format.js'
+	import { type RangeAsDate, RangePicker } from '$lib/ui/range/index.js'
+	import type { ItemBase, TableField } from '$lib/ui/table/index.js'
+	import { jsonParse } from '$lib/utils/jsonParse.js'
+	import OrderButtons from './OrderButtons.svelte'
 
-let { field }: { field: Omit<TableField<Item>, 'cell'> } = $props();
+	let { field }: { field: Omit<TableField<Item>, 'cell'> } = $props()
 
-let dropDown: DropDown;
-let rangePicker: RangePicker;
+	let dropDown: DropDown
+	let rangePicker: RangePicker
 
-let initialValue = jsonParse<{
-	start?: string;
-	end?: string;
-	order?: 'asc' | 'desc';
-}>(
-	// svelte-ignore state_referenced_locally
-	page.url.searchParams.get(field.key),
-	{}
-);
+	let initialValue = jsonParse<{
+		start?: string
+		end?: string
+		order?: 'asc' | 'desc'
+	}>(
+		// svelte-ignore state_referenced_locally
+		page.url.searchParams.get(field.key),
+		{}
+	)
 
-let range: RangeAsDate = $state({
-	start: initialValue.start ? new Date(initialValue.start) : null,
-	end: initialValue.end ? new Date(initialValue.end) : null,
-});
-let order = $state(initialValue.order);
+	let range: RangeAsDate = $state({
+		start: initialValue.start ? new Date(initialValue.start) : null,
+		end: initialValue.end ? new Date(initialValue.end) : null
+	})
+	let order = $state(initialValue.order)
 
-let isValidPeriod = $derived(!!range.start && !!range.end);
+	let isValidPeriod = $derived(!!range.start && !!range.end)
 
-function updateUrl() {
-	isValidPeriod = !!range.start && !!range.end;
-	if (!isValidPeriod && !order) {
+	function updateUrl() {
+		isValidPeriod = !!range.start && !!range.end
+		if (!isValidPeriod && !order) {
+			goto(urlParam.without(field.key, 'skip', 'take'), {
+				replaceState: true,
+				noScroll: true,
+				keepFocus: true
+			})
+			return
+		}
+		goto(
+			urlParam.with(
+				{
+					[field.key]: JSON.stringify({
+						...(isValidPeriod
+							? {
+									start: range.start?.toJSON(),
+									end: range.end?.toJSON()
+								}
+							: {}),
+						...(order ? { order } : {})
+					})
+				},
+				'skip',
+				'take'
+			),
+			{ replaceState: true, noScroll: true, keepFocus: true }
+		)
+	}
+
+	function handleReset() {
+		isValidPeriod = false
+		range.start = null
+		range = { start: null, end: null }
+		dropDown.hide()
+		rangePicker.clear()
 		goto(urlParam.without(field.key, 'skip', 'take'), {
 			replaceState: true,
 			noScroll: true,
-			keepFocus: true,
-		});
-		return;
+			keepFocus: true
+		})
 	}
-	goto(
-		urlParam.with(
-			{
-				[field.key]: JSON.stringify({
-					...(isValidPeriod
-						? {
-								start: range.start?.toJSON(),
-								end: range.end?.toJSON(),
-							}
-						: {}),
-					...(order ? { order } : {}),
-				}),
-			},
-			'skip',
-			'take'
-		),
-		{ replaceState: true, noScroll: true, keepFocus: true }
-	);
-}
-
-function handleReset() {
-	isValidPeriod = false;
-	range.start = null;
-	range = { start: null, end: null };
-	dropDown.hide();
-	rangePicker.clear();
-	goto(urlParam.without(field.key, 'skip', 'take'), {
-		replaceState: true,
-		noScroll: true,
-		keepFocus: true,
-	});
-}
 </script>
 
 <th class="p-1">
@@ -114,8 +110,8 @@ function handleReset() {
 			<OrderButtons
 				bind:order
 				onChange={() => {
-					updateUrl();
-					dropDown.hide();
+					updateUrl()
+					dropDown.hide()
 				}}
 				IconAsc={CalendarArrowDownIcon}
 				IconDesc={CalendarArrowUpIcon}
@@ -124,8 +120,8 @@ function handleReset() {
 
 		<form
 			onsubmit={(e) => {
-				e.preventDefault();
-				dropDown.hide();
+				e.preventDefault()
+				dropDown.hide()
 			}}
 			data-sveltekit-replacestate
 			class="flex flex-col font-normal"
@@ -135,8 +131,8 @@ function handleReset() {
 				bind:this={rangePicker}
 				numberOfMonths={1}
 				on:change={({ detail: newRange }) => {
-					range = newRange;
-					updateUrl();
+					range = newRange
+					updateUrl()
 				}}
 			/>
 

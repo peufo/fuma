@@ -1,56 +1,56 @@
 <script lang="ts">
-import { CalendarRangeIcon } from '@lucide/svelte';
-import { slide } from 'svelte/transition';
-import { goto } from '$app/navigation';
-import { param, urlParam } from '$lib/state/param.svelte.ts';
-import { DropDown } from '$lib/ui/menu/index.js';
-import { formatRangeShort } from '$lib/ui/range/format.js';
-import { type RangeAsDate, RangePicker } from '$lib/ui/range/index.js';
-import { jsonParse } from '$lib/utils/jsonParse.js';
+	import { CalendarRangeIcon } from '@lucide/svelte'
+	import { slide } from 'svelte/transition'
+	import { goto } from '$app/navigation'
+	import { param, urlParam } from '$lib/state/param.svelte.ts'
+	import { DropDown } from '$lib/ui/menu/index.js'
+	import { formatRangeShort } from '$lib/ui/range/format.js'
+	import { type RangeAsDate, RangePicker } from '$lib/ui/range/index.js'
+	import { jsonParse } from '$lib/utils/jsonParse.js'
 
-let dropDown: DropDown;
-let rangePicker: RangePicker;
+	let dropDown: DropDown
+	let rangePicker: RangePicker
 
-let {
-	key = 'range',
-	range = $bindable(
-		jsonParse<RangeAsDate>(param.get(key), {
-			start: null,
-			end: null,
-		})
-	),
-	minDate,
-	maxDate,
-	class: klass = '',
-	classLabel = '',
-}: {
-	key?: string;
-	range: RangeAsDate;
-	minDate?: Date | number | string;
-	maxDate?: Date | number | string;
-	class?: string;
-	classLabel?: string;
-} = $props();
+	let {
+		key = 'range',
+		range = $bindable(
+			jsonParse<RangeAsDate>(param.get(key), {
+				start: null,
+				end: null
+			})
+		),
+		minDate,
+		maxDate,
+		class: klass = '',
+		classLabel = ''
+	}: {
+		key?: string
+		range: RangeAsDate
+		minDate?: Date | number | string
+		maxDate?: Date | number | string
+		class?: string
+		classLabel?: string
+	} = $props()
 
-let isValidPeriod = $derived(!!range.start && !!range.end);
+	let isValidPeriod = $derived(!!range.start && !!range.end)
 
-function getLabel(_range?: Partial<RangeAsDate>) {
-	if (!_range || !_range.start || !_range.end) return '';
-	return formatRangeShort(_range as RangeAsDate);
-}
+	function getLabel(_range?: Partial<RangeAsDate>) {
+		if (!_range || !_range.start || !_range.end) return ''
+		return formatRangeShort(_range as RangeAsDate)
+	}
 
-async function updateURL() {
-	const url =
-		!range.start && !range.end
-			? urlParam.without(key)
-			: urlParam.with({
-					[key]: JSON.stringify({
-						start: range.start?.toJSON(),
-						end: range.end?.toJSON(),
-					}),
-				});
-	return goto(url, { replaceState: true, noScroll: true });
-}
+	async function updateURL() {
+		const url =
+			!range.start && !range.end
+				? urlParam.without(key)
+				: urlParam.with({
+						[key]: JSON.stringify({
+							start: range.start?.toJSON(),
+							end: range.end?.toJSON()
+						})
+					})
+		return goto(url, { replaceState: true, noScroll: true })
+	}
 </script>
 
 <DropDown bind:this={dropDown} tippyProps={{ onHidden: updateURL }} class="max-h-full">
@@ -84,9 +84,9 @@ async function updateURL() {
 				transition:slide
 				class="btn btn-ghost"
 				onclick={() => {
-					range = { start: null, end: null };
-					rangePicker.clear();
-					dropDown.hide();
+					range = { start: null, end: null }
+					rangePicker.clear()
+					dropDown.hide()
 				}}
 			>
 				Effacer

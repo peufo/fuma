@@ -1,16 +1,16 @@
 <script lang="ts">
-import type { PropDef } from '../_doc/index.ts';
-import { DocExample, DocProps, DocSection } from '../_doc/index.ts';
-import Usage from './Usage.svelte';
-import usageCode from './Usage.svelte?raw';
+	import type { PropDef } from '../_doc/index.ts'
+	import { DocExample, DocProps, DocSection } from '../_doc/index.ts'
+	import Usage from './Usage.svelte'
+	import usageCode from './Usage.svelte?raw'
 
-const props: PropDef[] = [
-	{
-		name: 'new_item',
-		type: 'Item',
-		description: 'Event payload emitted and listened to across components',
-	},
-];
+	const props: PropDef[] = [
+		{
+			name: 'new_item',
+			type: 'Item',
+			description: 'Event payload emitted and listened to across components'
+		}
+	]
 </script>
 
 <DocSection title="EventEmitter">
