@@ -2,7 +2,7 @@
 	import { type Snippet } from 'svelte'
 	import { ButtonCopy } from '$lib/ui/button/index.js'
 	import { useMode } from '$lib/ui/mode/useMode.svelte.js'
-	import { highlight } from './highlight.ts'
+	import { highlight, transformPackageImports } from './highlight.ts'
 
 	let {
 		code,
@@ -17,7 +17,8 @@
 	} = $props()
 
 	let mode = $derived(useMode())
-	let highlighted = $derived(highlight(code.trim(), lang, mode.current))
+	let displayCode = $derived(transformPackageImports(code.trim()))
+	let highlighted = $derived(highlight(displayCode, lang, mode.current))
 	let tab = $state<'preview' | 'code'>('code')
 </script>
 
