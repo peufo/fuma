@@ -16,7 +16,7 @@
 		preview: Snippet
 	} = $props()
 
-	let mode = $derived(useMode())
+	let mode = $derived(useMode({ light: 'fuma', dark: 'fuma-dark' }))
 	let displayCode = $derived(transformPackageImports(code.trim()))
 	let highlighted = $derived(highlight(displayCode, lang, mode.current))
 	let tab = $state<'preview' | 'code'>('code')
