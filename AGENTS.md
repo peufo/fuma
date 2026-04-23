@@ -43,21 +43,21 @@ pnpm package             # svelte-kit sync && svelte-package && publint
 # Preview the built app
 pnpm preview             # vite preview --host
 
-# Type checking
-pnpm check               # svelte-kit sync && svelte-check --tsconfig ./tsconfig.json
-pnpm check:watch         # same with --watch
+# Type checking + lint + format
+pnpm check               # run-p sync svelte-check lint format
+pnpm check:watch         # svelte-check --tsconfig ./tsconfig.json --watch
 
 # Testing
 pnpm test                # vitest
 
-# Formatting
-pnpm format              # prettier --write .
+# Formatting (also run by `pnpm check`)
+pnpm format              # prettier . --write
 
-# Linting
-pnpm biome               # biome CLI access
+# Linting (also run by `pnpm check`)
+pnpm lint                # biome lint --write
 ```
 
-> **Note**: The `lint` script in `package.json` references `eslint`, but ESLint is **not** installed. Use `pnpm biome` (or `pnpm biome check .`) for linting and import organization instead.
+> **Note**: `pnpm check` is sufficient — it runs sync, type-check, lint and format in parallel.
 
 ---
 
