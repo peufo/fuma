@@ -14,5 +14,3 @@
 		<div>snippet="footer"</div>
 	{/snippet}
 </Dialog>
-
-<div class="my-40 h-350 rounded bg-green-300/30"></div>

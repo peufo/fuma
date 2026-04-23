@@ -24,7 +24,7 @@
 
 <div class="not-prose my-6 overflow-hidden rounded-lg border">
 	<div class="flex items-center gap-2 border-b bg-base-200/50 px-4 py-2">
-		<span class="title mr-auto">{title}</span>
+		<span class="mr-auto text-sm font-semibold text-base-content/70">{title}</span>
 
 		<div class="tabs-boxed tabs tabs-sm md:hidden">
 			<button class="tab" class:tab-active={tab === 'code'} onclick={() => (tab = 'code')}>
@@ -43,7 +43,7 @@
 		{#if tab === 'code'}
 			<div class="overflow-hidden">
 				{#await highlighted then html}
-					<div class="max-h-96 overflow-auto text-sm">
+					<div class="overflow-auto text-sm">
 						{@html html}
 					</div>
 				{/await}
@@ -59,7 +59,7 @@
 	<div class="hidden md:grid md:grid-cols-3">
 		<div class="col-span-2 overflow-hidden border-r">
 			{#await highlighted then html}
-				<div class="h-full max-h-96 overflow-auto text-sm">
+				<div class="overflow-auto text-sm">
 					{@html html}
 				</div>
 			{/await}

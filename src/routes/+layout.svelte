@@ -19,7 +19,7 @@
 	<div class="sticky top-2 min-w-48 rounded-lg border">
 		<header class=" flex flex-col gap-2 rounded-md bg-base-200/50 p-2 pl-4">
 			<div class="flex items-center gap-4">
-				<h2 class="title mr-auto">Fuma</h2>
+				<h2 class="mr-auto text-xl font-semibold text-base-content/70">Fuma</h2>
 				<ToggleMode />
 			</div>
 		</header>

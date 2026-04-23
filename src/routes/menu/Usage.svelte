@@ -16,7 +16,7 @@
 </DropDown>
 
 <button
-	class="bordered grid h-80 place-content-center rounded border bg-base-200"
+	class="grid h-80 place-content-center rounded border bg-base-200"
 	on:click={(event) => contextMenu.show(event)}
 >
 	<span>Click on me !</span>

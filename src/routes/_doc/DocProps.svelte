@@ -18,7 +18,7 @@
 
 <div class="not-prose overflow-x-auto rounded-lg border">
 	<table class="table table-zebra table-sm">
-		<thead>
+		<thead class="bg-base-200/80 text-sm">
 			<tr>
 				<th>Prop</th>
 				<th>Type</th>
