@@ -43,7 +43,7 @@
 		{#if tab === 'code'}
 			<div class="overflow-hidden">
 				{#await highlighted then html}
-					<div class="max-h-96 overflow-auto">
+					<div class="max-h-96 overflow-auto text-sm">
 						{@html html}
 					</div>
 				{/await}
@@ -59,7 +59,7 @@
 	<div class="hidden md:grid md:grid-cols-3">
 		<div class="col-span-2 overflow-hidden border-r">
 			{#await highlighted then html}
-				<div class="h-full max-h-96 overflow-auto">
+				<div class="h-full max-h-96 overflow-auto text-sm">
 					{@html html}
 				</div>
 			{/await}
