@@ -1,20 +1,48 @@
 <script lang="ts">
-	import Foo from './Foo.svelte'
+	import { createEventEmitter } from '$lib/utils/eventEmitter.js'
 
-	let hide = true
+	type Item = { name: string }
+	class Foo {
+		static eventEmitter = createEventEmitter<{ new_item: Item }>()
+		items = $state<Item[]>([])
+		value = $state('')
+		constructor() {
+			Foo.eventEmitter.on('new_item', (item) => {
+				this.items = [...this.items, item]
+			})
+		}
+	}
+
+	const foos = $state([new Foo(), new Foo()])
 </script>
 
-<div class="flex items-center gap-4 py-4">
-	<h2 class="title">This data transit with eventEmitter</h2>
-	<button class="btn btn-ghost" on:click={() => (hide = !hide)}>
-		{hide ? 'show' : 'hide'} last components
-	</button>
-</div>
+{#snippet foo(state: Foo)}
+	<div class="flex flex-col gap-2">
+		<form
+			class="flex gap-2 rounded-lg border"
+			onsubmit={() => {
+				Foo.eventEmitter.emit('new_item', { name: state.value })
+				state.value = ''
+			}}
+		>
+			<input type="text" bind:value={state.value} class="w-full rounded-lg px-2" />
+			<button class="btn m-1 btn-sm">Emit</button>
+		</form>
 
-<div class="flex gap-4">
-	<Foo />
-	<Foo />
-	{#if !hide}
-		<Foo />
-	{/if}
+		<ul class="flex flex-wrap gap-1">
+			{#each state.items as item}
+				<li class="badge badge-soft">{item.name}</li>
+			{/each}
+		</ul>
+	</div>
+{/snippet}
+
+<div class="flex flex-wrap gap-4">
+	{#each foos as state}
+		{@render foo(state)}
+	{/each}
+	<div class="flex gap-1">
+		<button class="btn" onclick={() => foos.pop()}>Remove</button>
+		<button class="btn" onclick={() => foos.push(new Foo())}>Add</button>
+	</div>
 </div>
