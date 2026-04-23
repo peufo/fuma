@@ -11,24 +11,33 @@ export function createEventEmitter<EventMap extends Record<string, unknown>>() {
 			return function unsubscribe() {
 				if (!events[eventKey]) events[eventKey] = [];
 				const index = events[eventKey]?.indexOf(callback);
-				if (index !== undefined && index > -1) events[eventKey]?.splice(index, 1);
+				if (index !== undefined && index > -1)
+					events[eventKey]?.splice(index, 1);
 			};
 		},
-		once<K extends keyof EventMap>(eventKey: K, callback: Callback<EventMap[K]>) {
+		once<K extends keyof EventMap>(
+			eventKey: K,
+			callback: Callback<EventMap[K]>
+		) {
 			if (!events[eventKey]) events[eventKey] = [];
 			const _callback = (arg: EventMap[K]) => {
 				callback(arg);
 				const index = events[eventKey]?.indexOf(callback);
-				if (index !== undefined && index > -1) events[eventKey]?.splice(index, 1);
+				if (index !== undefined && index > -1)
+					events[eventKey]?.splice(index, 1);
 			};
 			events[eventKey]?.push(_callback);
 			return function unsubscribe() {
 				if (!events[eventKey]) events[eventKey] = [];
 				const index = events[eventKey]?.indexOf(callback);
-				if (index !== undefined && index > -1) events[eventKey]?.splice(index, 1);
+				if (index !== undefined && index > -1)
+					events[eventKey]?.splice(index, 1);
 			};
 		},
-		off<K extends keyof EventMap>(eventKey: K, callback: Callback<EventMap[K]>) {
+		off<K extends keyof EventMap>(
+			eventKey: K,
+			callback: Callback<EventMap[K]>
+		) {
 			if (!events[eventKey]) events[eventKey] = [];
 			const index = events[eventKey]?.indexOf(callback);
 			if (index !== undefined && index > -1) events[eventKey]?.splice(index, 1);
@@ -42,7 +51,7 @@ export function createEventEmitter<EventMap extends Record<string, unknown>>() {
 			events[args[0]]?.forEach((callback) => {
 				callback(param as EventMap[K]);
 			});
-		}
+		},
 	};
 }
 
@@ -50,7 +59,7 @@ type Callback<Arg> = (arg: Arg) => unknown;
 
 type EventEmitterArgs<
 	EventMap extends Record<string, unknown>,
-	K extends keyof EventMap
+	K extends keyof EventMap,
 > = undefined extends EventMap[K]
 	? [type: K, parameter?: EventMap[K]]
 	: [type: K, parameter: EventMap[K]];
