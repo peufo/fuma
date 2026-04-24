@@ -70,7 +70,7 @@
 			</button>
 		</div>
 
-		<ButtonCopy value={code} title="Copy code" class="btn btn-square btn-xs" />
+		<ButtonCopy value={displayCode} title="Copy code" class="btn btn-square btn-xs" />
 	</div>
 
 	<!-- Mobile: tabs -->

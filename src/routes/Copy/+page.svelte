@@ -7,8 +7,10 @@
 	import usageLabelCode from './UsageLabel.svelte?raw'
 	import UsageSimple from './UsageSimple.svelte'
 	import usageSimpleCode from './UsageSimple.svelte?raw'
+	import UsageUseCopy from './UsageUseCopy.svelte'
+	import usageUseCopyCode from './UsageUseCopy.svelte?raw'
 
-	const props: PropDef[] = [
+	const buttonCopyProps: PropDef[] = [
 		{
 			name: 'value',
 			type: 'string | (() => Promise<string>)',
@@ -41,7 +43,40 @@
 			description: 'Callback after successful copy'
 		}
 	]
+
+	const useCopyProps: PropDef[] = [
+		{
+			name: 'value',
+			type: 'string | (() => Promise<string>)',
+			required: true,
+			description: 'Value to copy or async function returning it'
+		},
+		{
+			name: 'successMessage',
+			type: 'string',
+			default: "'Copied'",
+			description: 'Toast message on success'
+		},
+		{
+			name: 'onSuccess',
+			type: '() => void',
+			description: 'Callback after successful copy'
+		}
+	]
 </script>
+
+<DocSection
+	title="useCopy"
+	description="A Svelte 5 runes store that handles clipboard copy logic. Returns reactive state and an attachment for binding to any element."
+>
+	<DocExample title="Direct usage" code={usageUseCopyCode}>
+		{#snippet preview()}
+			<UsageUseCopy />
+		{/snippet}
+	</DocExample>
+
+	<DocProps props={useCopyProps} />
+</DocSection>
 
 <DocSection
 	title="ButtonCopy"
@@ -65,5 +100,5 @@
 		{/snippet}
 	</DocExample>
 
-	<DocProps {props} />
+	<DocProps props={buttonCopyProps} />
 </DocSection>
