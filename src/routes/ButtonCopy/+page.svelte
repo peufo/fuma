@@ -1,8 +1,12 @@
 <script lang="ts">
 	import type { PropDef } from '../_doc/index.ts'
 	import { DocExample, DocProps, DocSection } from '../_doc/index.ts'
-	import Usage from './Usage.svelte'
-	import usageCode from './Usage.svelte?raw'
+	import UsageAsync from './UsageAsync.svelte'
+	import usageAsyncCode from './UsageAsync.svelte?raw'
+	import UsageLabel from './UsageLabel.svelte'
+	import usageLabelCode from './UsageLabel.svelte?raw'
+	import UsageSimple from './UsageSimple.svelte'
+	import usageSimpleCode from './UsageSimple.svelte?raw'
 
 	const props: PropDef[] = [
 		{
@@ -39,11 +43,27 @@
 	]
 </script>
 
-<DocSection title="ButtonCopy">
-	<DocExample code={usageCode}>
+<DocSection
+	title="ButtonCopy"
+	description="A button that copies a value to the clipboard with visual feedback via tooltip and toast notification."
+>
+	<DocExample title="Simple copy" code={usageSimpleCode}>
 		{#snippet preview()}
-			<Usage />
+			<UsageSimple />
 		{/snippet}
 	</DocExample>
+
+	<DocExample title="Async copy" code={usageAsyncCode}>
+		{#snippet preview()}
+			<UsageAsync />
+		{/snippet}
+	</DocExample>
+
+	<DocExample title="With label and custom icon" code={usageLabelCode}>
+		{#snippet preview()}
+			<UsageLabel />
+		{/snippet}
+	</DocExample>
+
 	<DocProps {props} />
 </DocSection>
