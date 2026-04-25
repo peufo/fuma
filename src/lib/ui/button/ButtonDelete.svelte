@@ -10,8 +10,11 @@
 		onmouseleave: onmouseleaveProp,
 		...props
 	}: {
+		/** Form action URL triggered on confirmation */
 		formaction: string
+		/** Apply button styles */
 		btn?: boolean
+		/** Custom button content */
 		children?: Snippet<[{ waitConfirmation: boolean }]>
 	} & HTMLButtonAttributes = $props()
 

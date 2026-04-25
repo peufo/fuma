@@ -3,7 +3,7 @@
 	import type { Component } from 'svelte'
 	import type { ClassValue } from 'svelte/elements'
 	import { tip } from '$lib/action/tip.js'
-	import { type UseCopyOptions, useCopy } from './copy.svelte.ts'
+	import { type UseCopyOptions, useCopy } from './useCopy.svelte.ts'
 
 	let {
 		title = '',
@@ -12,9 +12,13 @@
 		class: klass = '',
 		...copyOptions
 	}: {
+		/** Tooltip text */
 		title?: string
+		/** Button label */
 		label?: string
+		/** Icon component */
 		Icon?: Component<IconProps>
+		/** Additional CSS classes */
 		class?: ClassValue
 	} & UseCopyOptions = $props()
 

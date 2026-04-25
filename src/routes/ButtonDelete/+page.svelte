@@ -1,35 +1,17 @@
 <script lang="ts">
-	import type { PropDef } from '../_doc/index.ts'
-	import { DocExample, DocProps, DocSection } from '../_doc/index.ts'
+	import ButtonDeleteCode from '$lib/ui/button/ButtonDelete.svelte?raw'
+	import DocExample from '../_doc/DocExample.svelte'
+	import { DocProps, DocSection } from '../_doc/index.ts'
+	import { parseProps } from '../_doc/parse-props.ts'
 	import Usage from './Usage.svelte'
-	import usageCode from './Usage.svelte?raw'
-
-	const props: PropDef[] = [
-		{
-			name: 'formaction',
-			type: 'string',
-			required: true,
-			description: 'Form action URL triggered on confirmation'
-		},
-		{
-			name: 'btn',
-			type: 'boolean',
-			default: 'true',
-			description: 'Apply button styles'
-		},
-		{
-			name: 'children',
-			type: 'Snippet<[{ waitConfirmation: boolean }]>',
-			description: 'Custom button content'
-		}
-	]
+	import UsageCode from './Usage.svelte?raw'
 </script>
 
-<DocSection title="ButtonDelete">
-	<DocExample code={usageCode}>
+<DocSection title="ButtonDelete" description="TODO: write a small description">
+	<DocProps props={parseProps(ButtonDeleteCode)} />
+	<DocExample code={UsageCode} title="Basic">
 		{#snippet preview()}
 			<Usage />
 		{/snippet}
 	</DocExample>
-	<DocProps {props} />
 </DocSection>

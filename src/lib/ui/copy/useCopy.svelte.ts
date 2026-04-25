@@ -3,7 +3,7 @@ import { on } from 'svelte/events'
 import { toast } from 'svelte-sonner'
 
 export type UseCopyOptions = {
-	value: string | (() => Promise<string>)
+	value: string | (() => string) | (() => Promise<string>)
 	successMessage?: string
 	onSuccess?: () => void
 }
