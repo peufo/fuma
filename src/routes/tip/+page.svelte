@@ -25,11 +25,9 @@
 	]
 </script>
 
-<DocSection>
-	<DocExample title="Tip" code={usageCode}>
-		{#snippet preview()}
-			<Usage />
-		{/snippet}
-	</DocExample>
+<DocSection title="Tip" description="TODO: write a small description">
 	<DocProps {props} />
+	<DocExample title="Tip" code={usageCode}>
+		{#snippet preview()}<Usage />{/snippet}
+	</DocExample>
 </DocSection>

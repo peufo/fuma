@@ -1,24 +1,15 @@
 <script lang="ts">
-	import type { PropDef } from '../_doc/index.ts'
-	import { DocExample, DocProps, DocSection } from '../_doc/index.ts'
+	import PaginationCode from '$lib/ui/pagination/Pagination.svelte?raw'
+	import DocExample from '../_doc/DocExample.svelte'
+	import { DocProps, DocSection } from '../_doc/index.ts'
+	import { parseProps } from '../_doc/parse-props.ts'
 	import Usage from './Usage.svelte'
 	import usageCode from './Usage.svelte?raw'
-
-	const props: PropDef[] = [
-		{
-			name: 'take',
-			type: 'number',
-			default: '20',
-			description: 'Number of items per page'
-		}
-	]
 </script>
 
-<DocSection title="Pagination">
+<DocSection title="Pagination" description="TODO: write a small description">
+	<DocProps props={parseProps(PaginationCode)} />
 	<DocExample code={usageCode}>
-		{#snippet preview()}
-			<Usage />
-		{/snippet}
+		{#snippet preview()}<Usage />{/snippet}
 	</DocExample>
-	<DocProps {props} />
 </DocSection>

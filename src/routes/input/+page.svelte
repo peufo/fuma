@@ -1,6 +1,15 @@
 <script lang="ts">
-	import type { PropDef } from '../_doc/index.ts'
-	import { DocExample, DocProps, DocSection } from '../_doc/index.ts'
+	import InputBooleanCode from '$lib/input/InputBoolean.svelte?raw'
+	import InputNumberCode from '$lib/input/InputNumber.svelte?raw'
+	import InputRadioCode from '$lib/input/InputRadio.svelte?raw'
+	import InputRangeCode from '$lib/input/InputRange.svelte?raw'
+	import InputSelectCode from '$lib/input/InputSelect.svelte?raw'
+	import InputSelectNativeCode from '$lib/input/InputSelectNative.svelte?raw'
+	import InputStringCode from '$lib/input/InputString.svelte?raw'
+	import InputTextareaCode from '$lib/input/InputTextarea.svelte?raw'
+	import DocExample from '../_doc/DocExample.svelte'
+	import { DocProps, DocSection } from '../_doc/index.ts'
+	import { parseProps } from '../_doc/parse-props.ts'
 	import BooleanExample from './examples/Boolean.svelte'
 	import booleanCode from './examples/Boolean.svelte?raw'
 	import NumberExample from './examples/Number.svelte'
@@ -17,213 +26,60 @@
 	import stringCode from './examples/String.svelte?raw'
 	import Textarea from './examples/Textarea.svelte'
 	import textareaCode from './examples/Textarea.svelte?raw'
-
-	const stringProps: PropDef[] = [
-		{ name: 'label', type: 'string', required: true, description: 'Field label' },
-		{
-			name: 'field',
-			type: 'RemoteFormField<string>',
-			description: 'Form field binding'
-		},
-		{ name: 'value', type: 'string', description: 'Controller mode binding' },
-		{
-			name: 'type',
-			type: 'string',
-			default: "'text'",
-			description: 'HTML input type'
-		},
-		{ name: 'class', type: 'string', description: 'Additional CSS classes' }
-	]
-
-	const numberProps: PropDef[] = [
-		{ name: 'label', type: 'string', required: true, description: 'Field label' },
-		{
-			name: 'field',
-			type: 'RemoteFormField<number>',
-			description: 'Form field binding'
-		},
-		{ name: 'value', type: 'number', description: 'Controller mode binding' },
-		{ name: 'class', type: 'string', description: 'Additional CSS classes' }
-	]
-
-	const booleanProps: PropDef[] = [
-		{ name: 'label', type: 'string', required: true, description: 'Field label' },
-		{
-			name: 'field',
-			type: 'RemoteFormField<boolean>',
-			description: 'Form field binding'
-		},
-		{ name: 'checked', type: 'boolean', description: 'Controller mode binding' },
-		{ name: 'hint', type: 'string', description: 'Hint text displayed below' },
-		{
-			name: 'variant',
-			type: "'checkbox' | 'switch'",
-			default: "'checkbox'",
-			description: 'Visual variant'
-		},
-		{ name: 'class', type: 'string', description: 'Additional CSS classes' }
-	]
-
-	const textareaProps: PropDef[] = [
-		{ name: 'label', type: 'string', required: true, description: 'Field label' },
-		{
-			name: 'field',
-			type: 'RemoteFormField<string>',
-			description: 'Form field binding'
-		},
-		{ name: 'value', type: 'string', description: 'Controller mode binding' },
-		{
-			name: 'maxHeight',
-			type: 'number',
-			default: '200',
-			description: 'Max height in pixels'
-		},
-		{ name: 'class', type: 'string', description: 'Additional CSS classes' }
-	]
-
-	const rangeProps: PropDef[] = [
-		{ name: 'label', type: 'string', required: true, description: 'Field label' },
-		{
-			name: 'field',
-			type: 'RemoteFormField<number>',
-			description: 'Form field binding'
-		},
-		{ name: 'value', type: 'number', description: 'Controller mode binding' },
-		{ name: 'min', type: 'number', description: 'Minimum value' },
-		{ name: 'max', type: 'number', description: 'Maximum value' },
-		{ name: 'step', type: 'number', description: 'Step increment' },
-		{ name: 'class', type: 'string', description: 'Additional CSS classes' }
-	]
-
-	const radioProps: PropDef[] = [
-		{ name: 'label', type: 'string', required: true, description: 'Field label' },
-		{
-			name: 'field',
-			type: 'RemoteFormField<string>',
-			description: 'Form field binding'
-		},
-		{ name: 'value', type: 'string', description: 'Controller mode binding' },
-		{
-			name: 'options',
-			type: 'Options',
-			required: true,
-			description: 'Radio options'
-		},
-		{ name: 'class', type: 'string', description: 'Additional CSS classes' }
-	]
-
-	const selectNativeProps: PropDef[] = [
-		{ name: 'label', type: 'string', required: true, description: 'Field label' },
-		{
-			name: 'field',
-			type: 'RemoteFormField<string | string[]>',
-			description: 'Form field binding'
-		},
-		{
-			name: 'value',
-			type: 'string | string[]',
-			description: 'Controller mode binding'
-		},
-		{
-			name: 'options',
-			type: 'Options',
-			required: true,
-			description: 'Select options'
-		},
-		{
-			name: 'multiple',
-			type: 'boolean',
-			description: 'Allow multiple selection'
-		},
-		{ name: 'class', type: 'string', description: 'Additional CSS classes' }
-	]
-
-	const selectProps: PropDef[] = [
-		{ name: 'label', type: 'string', required: true, description: 'Field label' },
-		{
-			name: 'field',
-			type: 'RemoteFormField<string>',
-			description: 'Form field binding'
-		},
-		{ name: 'value', type: 'string', description: 'Controller mode binding' },
-		{
-			name: 'items',
-			type: 'Item[]',
-			required: true,
-			description: 'Select items'
-		},
-		{
-			name: 'getValue',
-			type: '(item: Item) => string',
-			required: true,
-			description: 'Value extractor'
-		},
-		{
-			name: 'selected',
-			type: 'Snippet<[Item]>',
-			description: 'Selected item render snippet'
-		},
-		{
-			name: 'proposal',
-			type: 'Snippet<[Item, { isSelected; isFocus }]>',
-			description: 'Dropdown item render snippet'
-		},
-		{ name: 'class', type: 'string', description: 'Additional CSS classes' }
-	]
 </script>
 
-<DocSection title="InputString">
+<DocSection title="InputString" description="TODO: write a small description">
+	<DocProps props={parseProps(InputStringCode)} />
 	<DocExample code={stringCode}>
 		{#snippet preview()}<StringExample />{/snippet}
 	</DocExample>
-	<DocProps props={stringProps} />
 </DocSection>
 
-<DocSection title="InputNumber">
+<DocSection title="InputNumber" description="TODO: write a small description">
+	<DocProps props={parseProps(InputNumberCode)} />
 	<DocExample code={numberCode}>
 		{#snippet preview()}<NumberExample />{/snippet}
 	</DocExample>
-	<DocProps props={numberProps} />
 </DocSection>
 
-<DocSection title="InputBoolean">
+<DocSection title="InputBoolean" description="TODO: write a small description">
+	<DocProps props={parseProps(InputBooleanCode)} />
 	<DocExample code={booleanCode}>
 		{#snippet preview()}<BooleanExample />{/snippet}
 	</DocExample>
-	<DocProps props={booleanProps} />
 </DocSection>
 
-<DocSection title="InputTextarea">
+<DocSection title="InputTextarea" description="TODO: write a small description">
+	<DocProps props={parseProps(InputTextareaCode)} />
 	<DocExample code={textareaCode}>
 		{#snippet preview()}<Textarea />{/snippet}
 	</DocExample>
-	<DocProps props={textareaProps} />
 </DocSection>
 
-<DocSection title="InputRange">
+<DocSection title="InputRange" description="TODO: write a small description">
+	<DocProps props={parseProps(InputRangeCode)} />
 	<DocExample code={rangeCode}>
 		{#snippet preview()}<Range />{/snippet}
 	</DocExample>
-	<DocProps props={rangeProps} />
 </DocSection>
 
-<DocSection title="InputRadio">
+<DocSection title="InputRadio" description="TODO: write a small description">
+	<DocProps props={parseProps(InputRadioCode)} />
 	<DocExample code={radioCode}>
 		{#snippet preview()}<Radio />{/snippet}
 	</DocExample>
-	<DocProps props={radioProps} />
 </DocSection>
 
-<DocSection title="InputSelectNative">
+<DocSection title="InputSelectNative" description="TODO: write a small description">
+	<DocProps props={parseProps(InputSelectNativeCode)} />
 	<DocExample code={selectNativeCode}>
 		{#snippet preview()}<SelectNative />{/snippet}
 	</DocExample>
-	<DocProps props={selectNativeProps} />
 </DocSection>
 
-<DocSection title="InputSelect">
+<DocSection title="InputSelect" description="TODO: write a small description">
+	<DocProps props={parseProps(InputSelectCode)} />
 	<DocExample code={selectCode}>
 		{#snippet preview()}<Select />{/snippet}
 	</DocExample>
-	<DocProps props={selectProps} />
 </DocSection>

@@ -70,11 +70,9 @@
 	]
 </script>
 
-<DocSection title="Form Inputs">
-	<DocExample code={usageCode}>
-		{#snippet preview()}
-			<Usage />
-		{/snippet}
-	</DocExample>
+<DocSection title="Form Inputs" description="TODO: write a small description">
 	<DocProps {props} />
+	<DocExample code={usageCode}>
+		{#snippet preview()}<Usage />{/snippet}
+	</DocExample>
 </DocSection>

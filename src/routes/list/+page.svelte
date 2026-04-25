@@ -58,11 +58,9 @@
 	]
 </script>
 
-<DocSection title="listEditable">
-	<DocExample code={usageCode}>
-		{#snippet preview()}
-			<Usage />
-		{/snippet}
-	</DocExample>
+<DocSection title="listEditable" description="TODO: write a small description">
 	<DocProps {props} />
+	<DocExample code={usageCode}>
+		{#snippet preview()}<Usage />{/snippet}
+	</DocExample>
 </DocSection>

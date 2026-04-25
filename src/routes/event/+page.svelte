@@ -13,11 +13,9 @@
 	]
 </script>
 
-<DocSection title="EventEmitter">
-	<DocExample code={usageCode}>
-		{#snippet preview()}
-			<Usage />
-		{/snippet}
-	</DocExample>
+<DocSection title="EventEmitter" description="TODO: write a small description">
 	<DocProps {props} />
+	<DocExample code={usageCode}>
+		{#snippet preview()}<Usage />{/snippet}
+	</DocExample>
 </DocSection>

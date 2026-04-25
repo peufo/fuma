@@ -4,13 +4,16 @@ export function parseProps(source: string): PropDef[] {
 	const script = extractScript(source)
 	if (!script) return []
 
+	// Try Svelte 5 $props() first
 	const declaration = findPropsDeclaration(script)
-	if (!declaration) return []
+	if (declaration) {
+		const destructured = parseDestructuring(declaration.destructuring)
+		const typed = parseType(declaration.type)
+		return mergeToPropDefs(destructured, typed)
+	}
 
-	const destructured = parseDestructuring(declaration.destructuring)
-	const typed = parseType(declaration.type)
-
-	return mergeToPropDefs(destructured, typed)
+	// Fallback to Svelte 3/4 export let syntax
+	return parseExportLetProps(script)
 }
 
 function extractScript(source: string): string | null {
@@ -24,7 +27,12 @@ function extractScript(source: string): string | null {
 	const scriptMatch = cleaned.match(
 		/<script\s+lang="ts"\s*(?:generics="[^"]*")?\s*>([\s\S]*?)<\/script>/
 	)
-	return scriptMatch?.[1] ?? null
+	if (scriptMatch) return scriptMatch[1]
+
+	// Fallback for plain .ts files (no <script> tag)
+	if (!cleaned.includes('<script')) return cleaned
+
+	return null
 }
 
 function findPropsDeclaration(
@@ -191,6 +199,25 @@ function parseTypeObject(content: string): Map<string, TypedProp> {
 	}
 
 	return props
+}
+
+function parseExportLetProps(script: string): PropDef[] {
+	const defs: PropDef[] = []
+	const regex =
+		/export\s+let\s+([a-zA-Z_$][a-zA-Z0-9_$]*)\s*(?::\s*([^=\n]+))?\s*(?:=\s*([^\n]+))?/g
+	let match: RegExpExecArray | null = null
+	while (true) {
+		match = regex.exec(script)
+		if (match === null) break
+		const [, name, typeStr, defaultValue] = match
+		defs.push({
+			name,
+			type: typeStr ? typeStr.trim() : 'unknown',
+			default: defaultValue ? defaultValue.trim() : undefined,
+			required: !defaultValue
+		})
+	}
+	return defs
 }
 
 function mergeToPropDefs(
