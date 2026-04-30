@@ -3,8 +3,8 @@
 	import { Popover, type PopoverType } from '$lib/popover/index.ts'
 </script>
 
-{#snippet trigger(popover: PopoverType, label = 'simple')}
-	<button class="btn" {...popover.trigger}>{label}</button>
+{#snippet trigger(popover: PopoverType)}
+	<button class="btn" {...popover.trigger}>Simple trigger</button>
 {/snippet}
 
 {#snippet menuCarrot(deep = 0)}

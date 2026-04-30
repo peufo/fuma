@@ -1,6 +1,6 @@
 <script lang="ts" generics="Item extends ItemBase">
+	import type { Snippet } from 'svelte'
 	import { afterNavigate } from '$app/navigation'
-
 	import {
 		context,
 		createKeys,
@@ -10,7 +10,6 @@
 		type TableField,
 		TableHead
 	} from '$lib/ui/table/index.js'
-	import type { SnippetLike } from './type.js'
 
 	let {
 		key = 'table',
@@ -28,7 +27,7 @@
 		key?: string
 		fields: TableField<Item>[]
 		items: Item[]
-		actions?: SnippetLike<[Item]>
+		actions?: Snippet<[Item]>
 		placholder?: string
 		class?: string
 		classRow?: string

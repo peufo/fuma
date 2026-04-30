@@ -1,8 +1,8 @@
+import type { Snippet } from 'svelte'
 import { page } from '$app/state'
 import { jsonParse } from '$lib/utils/jsonParse.js'
 import type { Options } from '$lib/utils/options.js'
 import { createKeys } from './context.js'
-import type { SnippetLike } from './type.js'
 
 export type Primitive = string | number | boolean | Date
 
@@ -23,9 +23,9 @@ type TableFieldCommon<Item extends ItemBase> = {
 	/** Internal usage */
 	_visible?: boolean
 	cell:
-		| ((item: Item) => SnippetLike<[Item]>)
+		| ((item: Item) => Snippet<[Item]>)
 		| ((item: Item) => null | undefined | Primitive | Primitive[])
-	head?: SnippetLike<[Item]>
+	head?: Snippet<[Item]>
 }
 
 type TableFieldPrimitve = {
