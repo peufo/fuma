@@ -32,7 +32,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						{#each props as prop}
+						{#each props as prop (prop.name)}
 							<tr>
 								<td class="whitespace-nowrap">
 									<code class="font-mono text-sm">{prop.name}</code>

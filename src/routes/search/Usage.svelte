@@ -14,6 +14,7 @@
 			includeScore: true
 		})
 	)
+
 	let value = $state('')
 	const results = $derived.by(() => search.query(value))
 </script>
@@ -25,7 +26,7 @@
 	</label>
 
 	<div class="mt-4 flex flex-col gap-1">
-		{#each results as { spans, score }}
+		{#each results as { spans, score } (spans)}
 			<div class="rounded border px-4 py-2">
 				<h3 class="text-lg">
 					<Spans spans={spans.name} />

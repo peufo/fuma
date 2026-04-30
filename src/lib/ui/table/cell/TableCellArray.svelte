@@ -3,7 +3,7 @@
 </script>
 
 <td>
-	{#each cell as content}
+	{#each cell as content, index (index)}
 		<span class="mr-1 badge whitespace-nowrap">
 			{content}
 		</span>

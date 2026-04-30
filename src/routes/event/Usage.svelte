@@ -30,7 +30,7 @@
 		</form>
 
 		<ul class="flex flex-wrap gap-1">
-			{#each state.items as item}
+			{#each state.items as item (item.name)}
 				<li class="badge badge-soft">{item.name}</li>
 			{/each}
 		</ul>
@@ -38,7 +38,7 @@
 {/snippet}
 
 <div class="flex flex-wrap gap-4">
-	{#each foos as state}
+	{#each foos as state (state)}
 		{@render foo(state)}
 	{/each}
 	<div class="flex gap-1">

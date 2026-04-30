@@ -10,7 +10,7 @@
 </script>
 
 <ul class="flex flex-col gap-1">
-	{#each tree.filter((p) => p.length === level + 1) as path, index}
+	{#each tree.filter((p) => p.length === level + 1) as path, index (path)}
 		{@const pathname = path.join('/')}
 		{@const children = tree.filter((p, i) => i !== index && p.join('/').startsWith(pathname))}
 		{@const isActive = page.url.pathname.endsWith(pathname)}

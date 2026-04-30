@@ -9,7 +9,7 @@
 
 {#snippet menuCarrot(deep = 0)}
 	<ul class="menu">
-		{#each [1, 2, 3] as item}
+		{#each [1, 2, 3] as item (item)}
 			<Popover listenHover placement="right" class="m-3">
 				{#snippet trigger(popover)}
 					<li>

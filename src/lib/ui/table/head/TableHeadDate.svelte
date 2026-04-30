@@ -19,11 +19,7 @@
 		start?: string
 		end?: string
 		order?: 'asc' | 'desc'
-	}>(
-		// svelte-ignore state_referenced_locally
-		page.url.searchParams.get(field.key),
-		{}
-	)
+	}>(page.url.searchParams.get(field.key), {})
 
 	let range: RangeAsDate = $state({
 		start: initialValue.start ? new Date(initialValue.start) : null,

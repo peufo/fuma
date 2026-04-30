@@ -41,7 +41,7 @@
 	<div class="flex flex-col gap-2">
 		<h2>Users:</h2>
 
-		{#each users as user}
+		{#each users as user (user.id)}
 			<div class="flex flex-col gap-1 border px-2 py-1">
 				<span>{user.name} - {user.age}</span>
 				<span>Valided: {user.isValided}</span>

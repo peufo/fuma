@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { ChevronDownIcon, PlusIcon, SaveIcon } from '@lucide/svelte'
-	import { enhance } from '$app/forms'
 	import { page } from '$app/state'
 
 	import { Dialog } from '$lib/ui/dialog/index.js'
@@ -49,6 +48,8 @@
 	let isNewView = $derived(!!query && !selectedView)
 </script>
 
+/* eslint-disable @typescript-eslint/no-unused-vars */ /* eslint-disable
+@typescript-eslint/no-unused-vars */
 <DropDown>
 	{#snippet activator()}
 		<button

@@ -23,7 +23,6 @@
 		.default({})
 
 	let { min, max, order } = $derived(paramModel.parse(page.url.searchParams.get(field.key)))
-	let isNegatifRange = $derived(min !== undefined && max !== undefined && max < min)
 
 	const updateUrl = debounce(() => {
 		const query: Record<string, string | number> = {}
