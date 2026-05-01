@@ -1,7 +1,7 @@
 import { randomBytes } from 'node:crypto'
 import z from 'zod'
 import { form, query } from '$app/server'
-import { schemaUser, users } from '$lib/data.ts'
+import { schemaUser, users } from '$lib/_doc/data.ts'
 
 export const getUser = query(z.object({ age: z.number() }), async ({ age }) => {
 	return {

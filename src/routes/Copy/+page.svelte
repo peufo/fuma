@@ -1,9 +1,9 @@
 <script lang="ts">
-	import type { PropDef } from '../_doc/index.ts'
+	import type { PropDef } from '$lib/_doc/index.ts'
 	import ButtonCopyCode from '$lib/ui/copy/ButtonCopy.svelte?raw'
-	import DocExample from '../_doc/DocExample.svelte'
-	import { DocProps, DocSection } from '../_doc/index.ts'
-	import { parseProps } from '../_doc/parse-props.ts'
+	import DocExample from '$lib/_doc/DocExample.svelte'
+	import { DocProps, DocSection } from '$lib/_doc/index.ts'
+	import { parseProps } from '$lib/_doc/parse-props.ts'
 	import UsageAsync from './UsageAsync.svelte'
 	import usageAsyncCode from './UsageAsync.svelte?raw'
 	import UsageLabel from './UsageLabel.svelte'

@@ -1,5 +1,5 @@
 <script lang="ts" module>
-	import { fruitsOptions } from '$lib/data.ts'
+	import { fruitsOptions } from '$lib/_doc/data.ts'
 </script>
 
 <ul>

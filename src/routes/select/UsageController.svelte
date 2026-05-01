@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { CheckIcon } from '@lucide/svelte'
-	import { fruitsOptions } from '$lib/data.ts'
+	import { fruitsOptions } from '$lib/_doc/data.ts'
 	import { parseOptions } from '$lib/index.ts'
 	import InputSelectNative from '$lib/input/InputSelectNative.svelte'
 	import { InputSelect } from '$lib/input/index.ts'

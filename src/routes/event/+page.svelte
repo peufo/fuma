@@ -1,6 +1,6 @@
 <script lang="ts">
-	import type { PropDef } from '../_doc/index.ts'
-	import { DocExample, DocProps, DocSection } from '../_doc/index.ts'
+	import type { PropDef } from '$lib/_doc/index.ts'
+	import { DocExample, DocProps, DocSection } from '$lib/_doc/index.ts'
 	import Usage from './Usage.svelte'
 	import usageCode from './Usage.svelte?raw'
 

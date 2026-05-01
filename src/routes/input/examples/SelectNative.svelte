@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { fruitsOptions } from '$lib/data.ts'
+	import { fruitsOptions } from '$lib/_doc/data.ts'
 	import { InputSelectNative } from '$lib/input/index.ts'
 
 	let value = $state('banana')

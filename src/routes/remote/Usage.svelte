@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { schemaUser, userGenderOptions, users } from '$lib/data.ts'
+	import { schemaUser, userGenderOptions, users } from '$lib/_doc/data.ts'
 	import InputBoolean from '$lib/input/InputBoolean.svelte'
 	import InputNumber from '$lib/input/InputNumber.svelte'
 	import InputRadio from '$lib/input/InputRadio.svelte'

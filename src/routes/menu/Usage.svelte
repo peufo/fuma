@@ -1,7 +1,5 @@
 <script lang="ts">
 	import { PrinterCheckIcon } from '@lucide/svelte'
-	import { toast } from 'svelte-sonner'
-	import { fruitsOptions } from '$lib/data.ts'
 	import { ContextMenu, DropDown, DropDownMenu } from '$lib/ui/menu/index.js'
 	import MenuContent from './MenuContent.svelte'
 
@@ -27,8 +25,8 @@
 </ContextMenu>
 
 <div class="flex justify-around">
-	<DropDownMenu options={fruitsOptions} onSelect={(value) => toast(value)} />
-	<DropDownMenu options={fruitsOptions} onSelect={(value) => toast(value)}>
+	<DropDownMenu />
+	<DropDownMenu>
 		<button type="button" class="btn btn-square">
 			<PrinterCheckIcon />
 		</button>

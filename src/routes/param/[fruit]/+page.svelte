@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/state'
-	import { fruitsOptions } from '$lib/data.ts'
+	import { fruitsOptions } from '$lib/_doc/data.ts'
 
 	let fruit = $derived(
 		page.params.fruit && new Map(Object.entries(fruitsOptions)).get(page.params.fruit)

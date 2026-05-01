@@ -1,8 +1,8 @@
 <script lang="ts">
 	import PopoverCode from '$lib/popover/Popover.svelte?raw'
-	import DocExample from '../_doc/DocExample.svelte'
-	import { DocProps, DocSection } from '../_doc/index.ts'
-	import { parseProps } from '../_doc/parse-props.ts'
+	import DocExample from '$lib/_doc/DocExample.svelte'
+	import { DocProps, DocSection } from '$lib/_doc/index.ts'
+	import { parseProps } from '$lib/_doc/parse-props.ts'
 	import Usage from './Usage.svelte'
 	import usageCode from './Usage.svelte?raw'
 </script>

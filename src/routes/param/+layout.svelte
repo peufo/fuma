@@ -1,7 +1,7 @@
 <script lang="ts">
-	import DocExample from '../_doc/DocExample.svelte'
-	import { DocSection } from '../_doc/index.ts'
-	import { fruitsOptions } from '$lib/data.ts'
+	import DocExample from '$lib/_doc/DocExample.svelte'
+	import { DocSection } from '$lib/_doc/index.ts'
+	import { fruitsOptions } from '$lib/_doc/data.ts'
 	import Usage from './Usage.svelte'
 	import usageCode from './Usage.svelte?raw'
 	import { resolve } from '$app/paths'

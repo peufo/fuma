@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { users } from '$lib/data.ts'
+	import { users } from '$lib/_doc/data.ts'
 	import { Spans, useSearch } from '$lib/search/index.ts'
 
 	const search = $derived(
