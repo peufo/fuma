@@ -57,7 +57,8 @@
 </div>
 
 {#snippet variantCheckbox()}
-	<div class={['squircle h-5 w-5 outline', 'bg-base-100']}>
+	<!-- https://developer.mozilla.org/en-US/docs/Web/CSS/corner-shape  -->
+	<div class={['h-5 w-5 rounded-full outline', 'bg-base-100']} style="corner-shape: squircle;">
 		<div
 			class={[
 				'squircle grid h-5 w-5 place-content-center',
@@ -65,6 +66,7 @@
 				'ease scale-0 opacity-0',
 				isChecked && 'scale-[80%] opacity-100'
 			]}
+			style="corner-shape: squircle"
 		>
 			<CheckIcon size={18} class={['stroke-base-100']} strokeWidth={4} />
 		</div>
@@ -90,10 +92,6 @@
 		transition-property: translate background-color opacity;
 		transition-timing-function: cubic-bezier(0.275, 0.485, 0.515, 1.45);
 		transition-duration: 200ms;
-	}
-	.squircle {
-		corner-shape: squircle;
-		border-radius: 100%;
 	}
 
 	label:has(input[aria-invalid='true']) {
