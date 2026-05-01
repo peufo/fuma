@@ -3,7 +3,7 @@
 </script>
 
 <ul>
-	{#each Object.entries(fruitsOptions) as [value, option]}
+	{#each Object.entries(fruitsOptions) as [value, option] (value)}
 		<li>
 			<a class="menu-item" href="#{value}">
 				<option.icon />

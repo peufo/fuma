@@ -49,8 +49,7 @@
 			startDate: range?.start ? dayjs(range.start).toDate() : undefined,
 			endDate: range?.end ? dayjs(range.end).toDate() : undefined,
 			setup: (picker: Litepicker) => {
-				// biome-ignore lint/suspicious/noExplicitAny: Litepicker external type
-				picker.on('selected', (date1: any, date2: any) => {
+				picker.on('selected', (date1: { dateInstance: Date }, date2: { dateInstance: Date }) => {
 					range = {
 						start: new Date(
 							`${getAbsoluteDate(date1.dateInstance)}T${getAbsoluteTime(range?.start)}`

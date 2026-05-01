@@ -10,7 +10,6 @@
 		checked = $bindable(),
 		hint,
 		variant = 'checkbox',
-		class: klass,
 		...props
 	}: {
 		label: string

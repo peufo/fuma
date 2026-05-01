@@ -28,7 +28,7 @@ export type SearchQueryResult<Item, K extends string> = {
 }
 export type SearchQueryResultSpan = { value: string; isMatch: boolean }
 
-export function useSearch<Item extends {}, K extends string>({
+export function useSearch<Item extends object, K extends string>({
 	items = [],
 	keys,
 	...fuseOptions

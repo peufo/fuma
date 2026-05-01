@@ -21,8 +21,7 @@
 		classRow,
 		hideBody = false,
 		onCreateField,
-		onclick,
-		screenPadding
+		onclick
 	}: {
 		key?: string
 		fields: TableField<Item>[]
@@ -34,7 +33,6 @@
 		hideBody?: boolean
 		onCreateField?: () => void
 		onclick?: (item?: Item) => void
-		screenPadding?: number
 	} = $props()
 
 	$effect(() => {

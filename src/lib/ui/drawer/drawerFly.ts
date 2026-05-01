@@ -30,7 +30,7 @@ export function drawerFly(
 		css: (t, u) => `
 			transform: ${transform} translate(${(1 - t) * xValue}${xUnit}, ${(1 - t) * yValue}${yUnit});
 			opacity: ${target_opacity - od * u}`,
-		tick: (t, _u) => {
+		tick: (t) => {
 			onTransition({ x: t * xValue, y: t * yValue })
 		}
 	}

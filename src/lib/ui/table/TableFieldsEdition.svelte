@@ -16,6 +16,7 @@
 	import { context } from '$lib/ui/table/context.js'
 	import type { ItemBase, TableField } from '$lib/ui/table/index.js'
 	import { jsonParse } from '$lib/utils/jsonParse.js'
+	import type { ResolvedPathname } from '$app/types'
 
 	let {
 		fields,
@@ -30,14 +31,14 @@
 	let { KEY_FIELDS_VISIBLE, KEY_FIELDS_HIDDEN, KEY_FIELDS_ORDER } = $derived(context.get(key))
 
 	function getFieldHref(field: TableField<Item>) {
-		if (field.locked) return
+		if (field.locked) return '' as ResolvedPathname
 		const url = toggleParam(field.visible ? KEY_FIELDS_HIDDEN : KEY_FIELDS_VISIBLE, field.key)
 		if (url.searchParams.has(field.key)) {
 			url.searchParams.delete(field.key)
 			url.searchParams.delete('skip')
 			url.searchParams.delete('take')
 		}
-		return url.pathname + url.search
+		return (url.pathname + url.search) as ResolvedPathname
 	}
 
 	function toggleParam(paramKey: string, fieldKey: string): URL {

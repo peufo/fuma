@@ -61,7 +61,7 @@
 
 				{#if optionsActive.length}
 					<div class="flex flex-wrap gap-1">
-						{#each optionsActive as option}
+						{#each optionsActive as option (option.value)}
 							<span class="badge badge-xs text-[0.7rem] font-normal text-white badge-primary">
 								{#if option.icon}
 									<option.icon size={10} class="-translate-x-1 fill-white/80" />
@@ -75,7 +75,7 @@
 		{/snippet}
 
 		<div class="flex flex-col gap-1">
-			{#each options as { isActive, icon: Icon, label, value }}
+			{#each options as { isActive, icon: Icon, label, value } (value)}
 				<a
 					href={getHref(value)}
 					class="menu-item px-3 py-2"

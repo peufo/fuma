@@ -4,7 +4,8 @@
 	let { spans }: { spans: SearchQueryResultSpan[] } = $props()
 </script>
 
-{#each spans as { value, isMatch }}
+{#each spans as span (span)}
+	{@const { isMatch, value } = span}
 	<span
 		class={isMatch ? 'rounded-xs text-secondary' : ''}
 		class:ml-px={value.startsWith(' ')}

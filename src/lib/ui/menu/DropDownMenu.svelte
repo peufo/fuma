@@ -2,32 +2,20 @@
 	import { ChevronsUpDownIcon } from '@lucide/svelte'
 	import type { Snippet } from 'svelte'
 	import { DropDown } from '$lib/ui/menu/index.js'
-	import { type Options, parseOptions } from '$lib/utils/options.js'
 	import type { TippyProps } from '$lib/utils/tippy.js'
 
 	let {
-		options: optionsProp,
 		tippyProps = {},
-		onSelect,
 		children: childrenProp
 	}: {
-		options: Options
 		tippyProps?: Partial<TippyProps>
-		onSelect?: (value: string) => void
 		children?: Snippet
 	} = $props()
-
-	let options = $derived(parseOptions(optionsProp))
-	let trigger = $state<HTMLElement>()
 </script>
 
 <DropDown {tippyProps}>
 	{#snippet activator()}
-		<button
-			bind:this={trigger}
-			type="button"
-			class="flex h-12 items-center gap-2 rounded-lg border pr-2 pl-4"
-		>
+		<button type="button" class="flex h-12 items-center gap-2 rounded-lg border pr-2 pl-4">
 			{#if childrenProp}
 				{@render childrenProp()}
 			{:else}
@@ -37,10 +25,9 @@
 		</button>
 	{/snippet}
 
-	{#snippet children({ hide })}
-		<span>TODO: use Command or REMOVE THIS COMPONENT</span>
+	<span>TODO: use Command or REMOVE THIS COMPONENT</span>
 
-		<!-- <SelectorList
+	<!-- <SelectorList
 			{trigger}
 			items={options.map((opt) => ({ id: opt.value, ...opt }))}
 			onSelect={(index) => {
@@ -56,5 +43,4 @@
 				<span class="pr-4 whitespace-nowrap">{item.label}</span>
 			{/snippet}
 		</SelectorList> -->
-	{/snippet}
 </DropDown>

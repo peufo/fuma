@@ -21,7 +21,7 @@
 <div class="flex flex-col gap-1">
 	<span class="label px-3 text-sm">{label}</span>
 	<div class="join join-vertical">
-		{#each options as option}
+		{#each options as option (option.value)}
 			{@const { class: klass, ...props } = option}
 			<label class="input join-item not-disabled:cursor-pointer not-disabled:hover:bg-base-200">
 				{#if option.icon}

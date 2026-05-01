@@ -16,6 +16,7 @@
 		{@const isActive = page.url.pathname.endsWith(pathname)}
 
 		<li>
+			<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
 			<a href="/{pathname}" class:bg-primary={isActive} class:text-white={isActive}>
 				{capitalise(path.at(-1) || '')}
 			</a>

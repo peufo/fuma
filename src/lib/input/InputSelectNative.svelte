@@ -31,7 +31,7 @@
 			bind:value
 			{...props}
 		>
-			{#each options as option}
+			{#each options as option (option.value)}
 				<option value={option.value} class={['', option.class]} disabled={option.disabled}>
 					{#if option.icon}
 						<option.icon size={18} opacity={0.8} />

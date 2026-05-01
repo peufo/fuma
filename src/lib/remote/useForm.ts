@@ -21,7 +21,8 @@ export function useForm<Input extends RemoteFormInput | undefined, Output>(
 					target.type === 'checkbox' ||
 					target.type === 'radio' ||
 					target.tagName === 'SELECT'
-				instantValidation ? remoteForm.validate() : debouncedValidate()
+				if (instantValidation) remoteForm.validate()
+				else debouncedValidate()
 			}
 		})
 	}

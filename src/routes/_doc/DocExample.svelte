@@ -79,6 +79,7 @@
 			<div class="overflow-hidden">
 				{#await highlighted then html}
 					<div class="overflow-auto text-sm">
+						<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 						{@html html}
 					</div>
 				{/await}
@@ -98,6 +99,7 @@
 		>
 			{#await highlighted then html}
 				<div class="overflow-auto text-sm">
+					<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 					{@html html}
 				</div>
 			{/await}

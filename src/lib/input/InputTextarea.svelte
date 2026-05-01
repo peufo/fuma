@@ -22,8 +22,7 @@
 	new TextareaAutosize({
 		element: () => textarea,
 		input: () => field?.value() || value || '',
-		// svelte-ignore state_referenced_locally
-		maxHeight
+		maxHeight: (() => maxHeight)()
 	})
 </script>
 
