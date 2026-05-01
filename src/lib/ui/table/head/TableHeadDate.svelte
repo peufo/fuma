@@ -19,7 +19,7 @@
 		start?: string
 		end?: string
 		order?: 'asc' | 'desc'
-	}>(page.url.searchParams.get(field.key), {})
+	}>(page.url.searchParams.get((() => field.key)()), {})
 
 	let range: RangeAsDate = $state({
 		start: initialValue.start ? new Date(initialValue.start) : null,
