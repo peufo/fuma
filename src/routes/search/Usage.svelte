@@ -7,7 +7,7 @@
 			items: users,
 			keys: {
 				name: {},
-				job: {}
+				cv: {}
 			},
 			minMatchCharLength: 2,
 			ignoreLocation: true,
@@ -31,7 +31,7 @@
 				<h3 class="text-lg">
 					<Spans spans={spans.name} />
 				</h3>
-				<p><Spans spans={spans.job} /></p>
+				<p><Spans spans={spans.cv} /></p>
 				<p>score: {score}</p>
 			</div>
 		{/each}

@@ -8,10 +8,10 @@
 	},
 	"scripts": {
 		"dev": "vite dev --host",
-		"build": "vite build && npm run package",
+		"build": "vite build && bun run package",
 		"preview": "vite preview --host",
 		"package": "svelte-kit sync && svelte-package && publint",
-		"prepublishOnly": "npm run package",
+		"prepublishOnly": "bun run package",
 		"sync": "svelte-kit sync",
 		"svelte-check": "svelte-check --tsconfig ./tsconfig.json",
 		"check": "run-p sync svelte-check lint",

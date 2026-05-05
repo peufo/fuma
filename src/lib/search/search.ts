@@ -8,33 +8,34 @@ export type CombinedFuseResult<T> = {
 	matches: FuseResultMatch[]
 }
 
-type Keys<Item, K extends string> = Record<
-	K,
-	Partial<{ weight?: number; getFn: (item: Item) => string }>
+type Keys<Item> = Partial<
+	Record<keyof Item, Partial<{ weight: number; getFn: (item: Item) => string }>>
 >
 
-export type SearchOptions<Item, K extends string> = {
+export type SearchOptions<Item, K extends Keys<Item>> = {
 	items?: Item[]
-	keys: Keys<Item, K>
+	keys: K
 } & Omit<IFuseOptions<Item>, 'includeMatches' | 'keys'>
 export type SearchQueryOptions = {
 	tokensSeparator?: string
 	tokensMaxCount?: number
 }
-export type SearchQueryResult<Item, K extends string> = {
+export type SearchQueryResult<Item, K extends Keys<Item>> = {
 	item: Item
-	spans: Record<K, SearchQueryResultSpan[]>
+	spans: Record<keyof K, SearchQueryResultSpan[]>
 	score: number
 }
 export type SearchQueryResultSpan = { value: string; isMatch: boolean }
 
-export function useSearch<Item extends object, K extends string>({
+export function useSearch<Item extends object, K extends Keys<Item> = Keys<Item>>({
 	items = [],
 	keys,
 	...fuseOptions
 }: SearchOptions<Item, K>) {
 	const fuse = new Fuse<Item>(items, {
 		includeMatches: true,
+		ignoreLocation: true,
+		ignoreDiacritics: true,
 		keys: Object.entries(keys).map(([name, param]) => ({
 			name,
 			...(param || {})
@@ -50,22 +51,22 @@ export function useSearch<Item extends object, K extends string>({
 		const fuseResults = multiTokenFuseSearch(fuse, tokens)
 		const queryResults: SearchQueryResult<Item, K>[] = []
 		for (const { item, matches, score } of fuseResults) {
-			const spans: Partial<Record<K, SearchQueryResultSpan[]>> = {}
+			const spans: Partial<Record<keyof K, SearchQueryResultSpan[]>> = {}
 			for (const key of Object.keys(keys)) {
 				if (typeof value !== 'string') throw new Error('Value is not a string')
-				spans[key as K] = getSpans(key, matches)
+				spans[key as keyof K] = getSpans(key, matches)
 			}
 			queryResults.push({
 				item,
 				score,
-				spans: spans as Record<K, SearchQueryResultSpan[]>
+				spans: spans as Record<keyof K, SearchQueryResultSpan[]>
 			})
 		}
 		return queryResults
 	}
 
 	return {
-		...fuse,
+		fuse,
 		query
 	}
 }
