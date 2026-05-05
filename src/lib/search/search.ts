@@ -12,7 +12,7 @@ type Keys<Item> = Partial<
 	Record<keyof Item, Partial<{ weight: number; getFn: (item: Item) => string }>>
 >
 
-export type SearchOptions<Item, K extends Keys<Item>> = {
+export type SearchOptions<Item, K extends Keys<Item> = Keys<Item>> = {
 	items?: Item[]
 	keys: K
 } & Omit<IFuseOptions<Item>, 'includeMatches' | 'keys'>
@@ -20,14 +20,14 @@ export type SearchQueryOptions = {
 	tokensSeparator?: string
 	tokensMaxCount?: number
 }
-export type SearchQueryResult<Item, K extends Keys<Item>> = {
+export type SearchQueryResult<Item, K extends Keys<Item> = Keys<Item>> = {
 	item: Item
 	spans: Record<keyof K, SearchQueryResultSpan[]>
 	score: number
 }
 export type SearchQueryResultSpan = { value: string; isMatch: boolean }
 
-export function useSearch<Item extends object, K extends Keys<Item> = Keys<Item>>({
+export function useSearch<Item extends object, K extends Keys<Item>>({
 	items = [],
 	keys,
 	...fuseOptions
@@ -65,9 +65,28 @@ export function useSearch<Item extends object, K extends Keys<Item> = Keys<Item>
 		return queryResults
 	}
 
+	type PrismaWhereToken = { [P in keyof K]?: { contains: string } }
+	type PrismaWhereTokens = { OR: PrismaWhereToken[] }[]
+
+	function prismaWhereTokens(
+		value: string,
+		{ tokensSeparator = ' ', tokensMaxCount = 4 }: SearchQueryOptions = {}
+	): PrismaWhereTokens {
+		const tokens = value.split(tokensSeparator).slice(0, tokensMaxCount)
+		const whereTokens: PrismaWhereTokens = []
+
+		for (const token of tokens) {
+			whereTokens.push({
+				OR: Object.keys(keys).map((k) => ({ [k]: { contains: token } }) as PrismaWhereToken)
+			})
+		}
+		return whereTokens
+	}
+
 	return {
 		fuse,
-		query
+		query,
+		prismaWhereTokens
 	}
 }
 
