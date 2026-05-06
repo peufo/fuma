@@ -29,6 +29,9 @@ export type PopoverOptions = {
 	listenHover?: boolean
 	/** Only when listenHover={true} */
 	hideDelay?: number
+	onShow?: () => void
+	onHide?: () => void
+	hotKey?: string
 }
 
 let popoverInstanceCount = 0
@@ -39,7 +42,10 @@ export function usePopover({
 	listenClick = true,
 	listenFocus = true,
 	listenHover = false,
-	hideDelay = 400
+	hideDelay = 400,
+	onShow,
+	onHide,
+	hotKey
 }: PopoverOptions = {}) {
 	const uid = popoverInstanceCount++
 	const anchorName = `--anchor-${uid}`
@@ -49,9 +55,11 @@ export function usePopover({
 	const hideDebounced = debounce(hide, hideDelay)
 	function show() {
 		popover?.showPopover()
+		onShow?.()
 	}
 	function hide() {
 		popover?.hidePopover()
+		onHide?.()
 	}
 	function onMouseEnter() {
 		hideDebounced.clear()
@@ -73,6 +81,10 @@ export function usePopover({
 			cleanups.push(on(activator, 'mouseenter', onMouseEnter))
 			cleanups.push(on(activator, 'mouseleave', hideDebounced))
 		}
+		if (hotKey) {
+			cleanups.push(on(window, 'keydown', handleHotKey))
+		}
+
 		return () => {
 			for (const cleanup of cleanups) cleanup()
 		}
@@ -90,6 +102,16 @@ export function usePopover({
 			for (const cleanup of cleanups) cleanup()
 		}
 	}
+
+	async function handleHotKey(event: KeyboardEvent) {
+		const { metaKey, ctrlKey, key } = event
+		if ((metaKey || ctrlKey) && key === hotKey) {
+			event.preventDefault()
+			show()
+			return
+		}
+	}
+
 	return {
 		show,
 		hide,

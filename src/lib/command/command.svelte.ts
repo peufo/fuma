@@ -5,11 +5,18 @@ type CommandOptions = {
 	isEnable?: () => boolean
 	onSelect?: (index: number) => unknown
 	onFocus?: (index: number) => unknown
+	hotKey?: string
 }
 
-export function useCommand({ onSelect, onFocus, isEnable = () => true }: CommandOptions = {}) {
+export function useCommand({
+	onSelect,
+	onFocus,
+	isEnable = () => true,
+	hotKey
+}: CommandOptions = {}) {
 	let focusIndex = $state(0)
 	let selectedIndex = $state(-1)
+	let triggerElement = $state<HTMLElement>()
 	const items: HTMLElement[] = []
 
 	function onKeydown(event: KeyboardEvent) {
@@ -42,6 +49,24 @@ export function useCommand({ onSelect, onFocus, isEnable = () => true }: Command
 		items.at(focusIndex)?.scrollIntoView({ block: 'nearest', behavior: 'smooth' })
 	}
 
+	async function handleHotKey(event: KeyboardEvent) {
+		const { metaKey, ctrlKey, key } = event
+		if ((metaKey || ctrlKey) && key === hotKey) {
+			event.preventDefault()
+			focusTrigger()
+			return
+		}
+	}
+
+	function focusTrigger() {
+		if (
+			triggerElement instanceof HTMLInputElement ||
+			triggerElement instanceof HTMLTextAreaElement
+		) {
+			triggerElement.select()
+		}
+	}
+
 	return {
 		get focusIndex() {
 			return focusIndex
@@ -51,9 +76,16 @@ export function useCommand({ onSelect, onFocus, isEnable = () => true }: Command
 		},
 		trigger: {
 			[createAttachmentKey()]: (node: HTMLElement) => {
-				return on(node, 'keydown', onKeydown)
+				triggerElement = node
+				const cleanups: (() => void)[] = []
+				cleanups.push(on(node, 'keydown', onKeydown))
+				if (hotKey) cleanups.push(on(window, 'keydown', handleHotKey))
+				return () => {
+					for (const cleanup of cleanups) cleanup()
+				}
 			}
 		},
+		focusTrigger,
 		item: (index: number, scrollMargin = '8px') => ({
 			[createAttachmentKey()]: (node: HTMLElement) => {
 				node.style.scrollMargin = scrollMargin

@@ -1,10 +1,11 @@
 <script lang="ts" generics="Item">
-	import { ChevronsUpDownIcon } from '@lucide/svelte'
+	import { ChevronsUpDownIcon, GhostIcon, SearchIcon, LoaderCircleIcon } from '@lucide/svelte'
 	import type { RemoteFormField, RemoteQueryFunction } from '@sveltejs/kit'
 	import type { Snippet } from 'svelte'
 	import { useCommand } from '../command/command.svelte.ts'
-	import { usePopover } from '../popover/popover.svelte.ts'
+	import { usePopover, type PopoverType } from '../popover/popover.svelte.ts'
 	import Issues from './Issues.svelte'
+	import { fade } from 'svelte/transition'
 
 	let {
 		label,
@@ -14,7 +15,8 @@
 		proposal,
 		field,
 		value = $bindable(),
-		onSelect
+		onSelect,
+		hotKey
 	}: {
 		label: string
 		searchItems: RemoteQueryFunction<{ search: string }, Item[]>
@@ -23,7 +25,8 @@
 		proposal?: Snippet<[Item, { isSelected: boolean; isFocus: boolean }]>
 		field?: RemoteFormField<string>
 		value?: string
-		onSelect?: (item: NoInfer<Item>) => void
+		onSelect?: (item: NoInfer<Item> | undefined, popover: PopoverType) => void
+		hotKey?: string
 	} = $props()
 
 	let search = $state('')
@@ -31,17 +34,17 @@
 
 	let selectedItem = $state<Item | undefined>(undefined)
 
-	$effect(() => {
-		const targetValue = field?.value() ?? value
-		selectedItem = items.current?.find((item) => getValue(item) === targetValue)
+	export const popover = usePopover({
+		listenFocus: false,
+		onShow: () => command.focusTrigger(),
+		hotKey: (() => hotKey)()
 	})
-
-	const popover = usePopover({ listenFocus: false })
-	const command = useCommand({
+	export const command = useCommand({
 		isEnable: () => popover.isOpen,
 		onSelect: (index) => {
 			popover.hide()
 			const item = items.current?.[index]
+			onSelect?.(item, popover)
 			if (!item) return
 			selectedItem = item
 			if (field) {
@@ -49,7 +52,6 @@
 			} else {
 				value = getValue(item)
 			}
-			onSelect?.(selectedItem)
 		}
 	})
 </script>
@@ -86,8 +88,11 @@
 		style="min-width: anchor-size(width);"
 		tabindex="-1"
 	>
-		<div class="sticky top-0 z-10 bg-base-100 p-2">
-			<input type="search" {...command.trigger} class="input input-sm" bind:value={search} />
+		<div class="sticky top-0 z-10 input-sm bg-base-100 p-2">
+			<label class="input input-sm input-ghost">
+				<SearchIcon size={16} opacity={0.7} />
+				<input type="search" {...command.trigger} class="focus:ring-0" bind:value={search} />
+			</label>
 		</div>
 
 		<ul class="menu max-h-80 w-full flex-nowrap pt-0">
@@ -111,6 +116,23 @@
 				</li>
 			{/each}
 		</ul>
+
+		{#if items.loading}
+			<div class="grid h-12 place-content-center" in:fade={{ duration: 200 }}>
+				<LoaderCircleIcon class="animate-spin" opacity={0.7} />
+			</div>
+		{:else if !items.current?.length}
+			<div
+				class={[
+					'm-2 mt-0 flex flex-col items-center gap-1 rounded p-2',
+					'border border-dashed border-base-content/50 opacity-70'
+				]}
+				in:fade={{ duration: 200 }}
+			>
+				<GhostIcon size={18} />
+				<span class="text-sm">No results</span>
+			</div>
+		{/if}
 	</div>
 	<Issues {field} />
 </div>
