@@ -13,15 +13,17 @@
 		selected,
 		proposal,
 		field,
-		value = $bindable()
+		value = $bindable(),
+		onSelect
 	}: {
 		label: string
 		searchItems: RemoteQueryFunction<{ search: string }, Item[]>
-		getValue: (item: Item) => string
+		getValue: (item: NoInfer<Item>) => string
 		selected?: Snippet<[Item]>
 		proposal?: Snippet<[Item, { isSelected: boolean; isFocus: boolean }]>
 		field?: RemoteFormField<string>
 		value?: string
+		onSelect?: (item: NoInfer<Item>) => void
 	} = $props()
 
 	let search = $state('')
@@ -47,6 +49,7 @@
 			} else {
 				value = getValue(item)
 			}
+			onSelect?.(selectedItem)
 		}
 	})
 </script>
