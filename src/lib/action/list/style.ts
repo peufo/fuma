@@ -1,15 +1,35 @@
-export function initDragStyle(listItemEl: HTMLElement) {
-	listItemEl.style.zIndex = `${+listItemEl.style.zIndex + 1}`
-	listItemEl.style.top = `${listItemEl.offsetTop}px`
-	listItemEl.style.width = `${listItemEl.offsetWidth}px`
-	listItemEl.style.height = `${listItemEl.offsetHeight}px`
-	listItemEl.style.position = 'absolute'
+export function useDragStyle(itemElement: HTMLElement) {
+	const { zIndex, top, width, height, position, marginTop, translate } =
+		getComputedStyle(itemElement)
+
+	return {
+		init() {
+			itemElement.style.zIndex = `${safeParseInt(zIndex) + 1}`
+			itemElement.style.top = `${itemElement.offsetTop - safeParseFloat(marginTop)}px`
+			itemElement.style.width = `${itemElement.offsetWidth}px`
+			itemElement.style.height = `${itemElement.offsetHeight}px`
+			itemElement.style.position = 'absolute'
+		},
+		move(deltaY: number) {
+			itemElement.style.translate = `0px ${deltaY}px`
+		},
+		reset() {
+			itemElement.style.position = position
+			itemElement.style.zIndex = zIndex
+			itemElement.style.translate = translate
+			itemElement.style.top = top
+			itemElement.style.width = width
+			itemElement.style.height = height
+		}
+	}
 }
 
-export function resetDragStyle(listItemEl: HTMLElement) {
-	listItemEl.style.position = 'initial'
-	listItemEl.style.zIndex = `${+listItemEl.style.zIndex - 1}`
-	listItemEl.style.transform = ''
-	listItemEl.style.width = `auto`
-	listItemEl.style.height = `auto`
+function safeParseInt(value: string): number {
+	const parsedValue = parseInt(value)
+	return isNaN(parsedValue) ? 0 : parsedValue
+}
+
+function safeParseFloat(value: string): number {
+	const parsedValue = parseFloat(value)
+	return isNaN(parsedValue) ? 0 : parsedValue
 }

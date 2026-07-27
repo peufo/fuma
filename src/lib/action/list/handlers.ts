@@ -1,15 +1,9 @@
-import './index.css'
 import { createEventEmitter } from '$lib/utils/eventEmitter.js'
-import { CLASSNAME_DRAG_ACTIVE, type ListEditableOptions } from './index.js'
+import { type ListEditableOptions } from './index.js'
+import { createPlaceholder } from './placeholder.ts'
 import { scroll } from './store.js'
-import { initDragStyle, resetDragStyle } from './style.js'
-import {
-	computeLimits,
-	createPlaceholder,
-	getListItemIndex,
-	getNewOrderIndex,
-	type Limits
-} from './utils.js'
+import { useDragStyle } from './style.js'
+import { computeLimits, getListItemIndex, getNewOrderIndex, type Limits } from './utils.js'
 
 export type Position = {
 	clientX: number
@@ -40,6 +34,8 @@ export function createDragHandler<Type = unknown>(
 	if (options.onDragMove) events.on('dragMove', options.onDragMove)
 	if (options.onDragEnd) events.on('dragEnd', options.onDragEnd)
 
+	const dragStyle = useDragStyle(itemElement)
+
 	return {
 		on: events.on,
 		off: events.off,
@@ -51,9 +47,7 @@ export function createDragHandler<Type = unknown>(
 
 			originMouseY = position.clientY + scroll.top
 
-			listElement.classList.add(CLASSNAME_DRAG_ACTIVE)
-			itemElement.classList.add(CLASSNAME_DRAG_ACTIVE)
-			initDragStyle(itemElement)
+			dragStyle.init()
 			indexFrom = getListItemIndex(listElement, itemElement)
 			indexTo = indexFrom
 			placeholder = createPlaceholder({ listElement, itemElement, indexFrom })
@@ -66,7 +60,7 @@ export function createDragHandler<Type = unknown>(
 			if (deltaMouseY < limits.top) deltaMouseY = limits.top
 			if (deltaMouseY > limits.bottom) deltaMouseY = limits.bottom
 
-			itemElement.style.transform = `translateY(${deltaMouseY}px)`
+			dragStyle.move(deltaMouseY)
 			const newIndex = limits.items.findIndex((center) => deltaMouseY <= center)
 
 			if (newIndex !== indexTo) {
@@ -76,10 +70,9 @@ export function createDragHandler<Type = unknown>(
 		},
 		end() {
 			events.emit('dragEnd')
-			resetDragStyle(itemElement)
+			dragStyle.reset()
 			placeholder?.remove()
-			listElement.classList.remove(CLASSNAME_DRAG_ACTIVE)
-			itemElement.classList.remove(CLASSNAME_DRAG_ACTIVE)
+
 			if (indexFrom === indexTo) return
 			if (!limits?.items) return
 			const len = limits.items.length

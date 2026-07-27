@@ -1,9 +1,6 @@
 import { createDragHandler } from './handlers.js'
 import { mouseDragTrigger, scrollTrigger, touchDragTrigger } from './trigger.js'
 
-export const CLASSNAME_LIST = 'editable-list'
-export const CLASSNAME_DRAG_ACTIVE = 'drag-active'
-export const CLASSNAME_PLACEHOLDER = 'item-placeholder'
 export { mouseDragTrigger, touchDragTrigger, scrollTrigger }
 
 export interface ListEditableOptions<Type = unknown> {
@@ -28,7 +25,8 @@ export function listEditable<Type = unknown>(
 	options: ListEditableOptions<Type> = {}
 ) {
 	const { dragElementsSelector } = options
-	node.classList.add(CLASSNAME_LIST)
+
+	node.style.position = 'relative'
 
 	let mouseListeners: { destroy: () => void }[] = []
 	let touchListeners: { destroy: () => void }[] = []
@@ -72,7 +70,6 @@ export function listEditable<Type = unknown>(
 
 	return {
 		destroy() {
-			node?.classList.remove(CLASSNAME_LIST)
 			removeListeners()
 		},
 		update({ items }: ListEditableOptions<Type>) {

@@ -1,36 +1,7 @@
-import { CLASSNAME_PLACEHOLDER } from './index.js'
+import { CLASSNAME_PLACEHOLDER } from './placeholder.ts'
 
 export function getListItemIndex(listElement: HTMLElement, itemEl: HTMLElement) {
 	return [...listElement.children].indexOf(itemEl)
-}
-
-export interface CreatePlaceholderArgs {
-	listElement: HTMLElement
-	itemElement: HTMLElement
-	indexFrom: number
-}
-export function createPlaceholder({ listElement, itemElement, indexFrom }: CreatePlaceholderArgs) {
-	const itemsEl = [...listElement.children]
-	const placeholderEl = document.createElement('div')
-
-	placeholderEl.classList.add(CLASSNAME_PLACEHOLDER)
-	placeholderEl.style.height = itemElement.style.height
-	placeholderEl.style.width = itemElement.style.width
-	listElement.insertBefore(placeholderEl, itemElement)
-
-	const moveTo = (index: number) => {
-		const selectorIndex = index < indexFrom ? index : index + 1
-		const itemEl = itemsEl[selectorIndex]
-		listElement.insertBefore(placeholderEl, itemEl)
-	}
-	return {
-		moveTo,
-		remove() {
-			const parent = placeholderEl.parentNode
-			parent?.removeChild(placeholderEl)
-			placeholderEl.remove()
-		}
-	}
 }
 
 export interface Limits {

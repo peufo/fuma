@@ -1,6 +1,6 @@
 <script lang="ts">
+	import { listEditable } from '$lib/index.ts'
 	import { GripIcon } from '@lucide/svelte'
-	import { listEditable } from '$lib/index.js'
 
 	let items = Array(16)
 		.fill(0)
@@ -19,7 +19,7 @@
 	</div>
 
 	<ul
-		class="min-w-40 overflow-scroll rounded border p-1"
+		class="min-w-40 space-y-2 overflow-scroll rounded border p-1"
 		use:listEditable={{
 			items,
 			onChange(newOrder) {
