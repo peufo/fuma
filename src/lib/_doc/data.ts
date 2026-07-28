@@ -13,7 +13,7 @@ import {
 	VenusIcon
 } from '@lucide/svelte'
 import z from 'zod'
-import type { OptionRecord, Options, ShapeOf } from '$lib/index.ts'
+import type { OptionRecord, Options, ShapeOf } from '$lib/index.js'
 
 // NOT A PART OF PACKAGE
 

@@ -2,7 +2,7 @@
 	import { CheckIcon } from '@lucide/svelte'
 	import type { RemoteFormField } from '@sveltejs/kit'
 	import Issues from './Issues.svelte'
-	import type { InputProps } from './type.ts'
+	import type { InputProps } from './type.js'
 
 	let {
 		field,

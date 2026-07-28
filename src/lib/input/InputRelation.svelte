@@ -3,10 +3,10 @@
 	import type { RemoteFormField, RemoteQueryFunction } from '@sveltejs/kit'
 	import type { Snippet } from 'svelte'
 	import type { ClassValue } from 'svelte/elements'
-	import { tip } from '../action/tip.ts'
-	import { useCommand } from '../command/command.svelte.ts'
+	import { tip } from '../action/tip.js'
+	import { useCommand } from '../command/command.svelte.js'
 	import Loading from '../loading/Loading.svelte'
-	import { type PopoverType, usePopover } from '../popover/popover.svelte.ts'
+	import { type PopoverType, usePopover } from '../popover/popover.svelte.js'
 	import Issues from './Issues.svelte'
 
 	let {

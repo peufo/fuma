@@ -1,8 +1,8 @@
 import type { IconProps } from '@lucide/svelte'
 import type { Component } from 'svelte'
 import z from 'zod'
-import { zodCoerceJsonValue } from '$lib/validation/zod.ts'
-import type { InputProps } from '../input/type.ts'
+import { zodCoerceJsonValue } from '$lib/validation/zod.js'
+import type { InputProps } from '../input/type.js'
 
 export type Option = {
 	value: string

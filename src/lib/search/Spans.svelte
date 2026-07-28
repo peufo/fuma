@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { SearchQueryResultSpan } from './search.ts'
+	import type { SearchQueryResultSpan } from './search.js'
 
 	let { spans }: { spans: SearchQueryResultSpan[] } = $props()
 </script>

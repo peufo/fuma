@@ -2,7 +2,7 @@
 	import { CalendarArrowDownIcon, CalendarArrowUpIcon, CalendarSearchIcon } from '@lucide/svelte'
 	import { goto } from '$app/navigation'
 	import { page } from '$app/state'
-	import { urlParam } from '$lib/state/param.svelte.ts'
+	import { urlParam } from '$lib/state/param.svelte.js'
 	import { DropDown } from '$lib/ui/menu/index.js'
 	import { formatRange } from '$lib/ui/range/format.js'
 	import { type RangeAsDate, RangePicker } from '$lib/ui/range/index.js'

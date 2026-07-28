@@ -2,7 +2,7 @@
 	import { type Snippet } from 'svelte'
 	import { ButtonCopy } from '$lib/ui/copy/index.js'
 	import { useMode } from '$lib/ui/mode/useMode.svelte.js'
-	import { highlight, transformPackageImports } from './highlight.ts'
+	import { highlight, transformPackageImports } from './highlight.js'
 
 	let {
 		code,

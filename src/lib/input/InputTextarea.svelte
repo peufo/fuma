@@ -2,7 +2,7 @@
 	import type { RemoteFormField } from '@sveltejs/kit'
 	import { TextareaAutosize } from 'runed'
 	import Issues from './Issues.svelte'
-	import type { TextareaProps } from './type.ts'
+	import type { TextareaProps } from './type.js'
 
 	let {
 		label,
