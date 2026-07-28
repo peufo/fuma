@@ -74,6 +74,9 @@ export function useCommand({
 		get selectedIndex() {
 			return selectedIndex
 		},
+		set selectedIndex(index: number) {
+			selectedIndex = index
+		},
 		trigger: {
 			[createAttachmentKey()]: (node: HTMLElement) => {
 				triggerElement = node
