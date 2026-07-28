@@ -1,6 +1,7 @@
 export * from './action/index.ts'
 export * from './command/index.ts'
 export * from './input/index.ts'
+export * from './loading/index.ts'
 export * from './popover/index.ts'
 export * from './remote/index.ts'
 export * from './search/index.ts'

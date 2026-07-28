@@ -64,8 +64,7 @@
 		{
 			name: 'getValue',
 			type: '(item: Item) => string',
-			required: true,
-			description: 'Value extractor for InputRelation items.'
+			description: 'Value extractor for InputRelation items. Falls back to item.value / item.rowid.'
 		}
 	]
 </script>
