@@ -10,12 +10,14 @@
 		value = $bindable(),
 		class: klass,
 		maxHeight = 200,
+		variant = 'floating',
 		...props
 	}: {
 		label: string
 		field?: RemoteFormField<string>
 		value?: string
 		maxHeight?: number
+		variant?: 'floating' | 'block'
 	} & TextareaProps = $props()
 
 	let textarea = $state<HTMLTextAreaElement>()
@@ -24,20 +26,35 @@
 		input: () => field?.value() || value || '',
 		maxHeight: (() => maxHeight)()
 	})
+
+	const inputId = $props.id()
 </script>
 
-<label class="floating-label">
-	<span>{label}</span>
+{#snippet snippetInput()}
 	<textarea
-		placeholder={label}
+		id={inputId}
+		placeholder={variant === 'floating' ? label : ''}
 		class={['textarea', klass]}
 		bind:this={textarea}
 		{...field?.as('text')}
 		bind:value
 		{...props}
 	></textarea>
-	<Issues {field} />
-</label>
+{/snippet}
+
+{#if variant === 'floating'}
+	<label class="floating-label">
+		<span>{label}</span>
+		{@render snippetInput()}
+		<Issues {field} />
+	</label>
+{:else}
+	<fieldset class="fieldset">
+		<label class="label" for={inputId}>{label}</label>
+		{@render snippetInput()}
+		<Issues {field} />
+	</fieldset>
+{/if}
 
 <style>
 	textarea[aria-invalid='true'] {
