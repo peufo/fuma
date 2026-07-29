@@ -50,16 +50,17 @@ export function usePopover({
 }: PopoverOptions = {}) {
 	const uid = popoverInstanceCount++
 	const anchorName = `--anchor-${uid}`
-	let popover = $state<HTMLElement>()
-	let isOpen = $state(!!popover?.matches(':popover-open'))
+	let content = $state<HTMLElement>()
+	let activator = $state<HTMLElement>()
+	let isOpen = $state(!!content?.matches(':popover-open'))
 
 	const hideDebounced = debounce(hide, hideDelay)
 	function show() {
-		popover?.showPopover()
+		content?.showPopover()
 		onShow?.()
 	}
 	function hide() {
-		popover?.hidePopover()
+		content?.hidePopover()
 		onHide?.()
 	}
 	function onMouseEnter() {
@@ -71,21 +72,21 @@ export function usePopover({
 	}
 	function onFocusOut({ relatedTarget }: FocusEvent | MouseEvent) {
 		if (!(relatedTarget instanceof Node)) return hide()
-		if (!popover?.contains(relatedTarget)) return hide()
+		if (!content?.contains(relatedTarget) && relatedTarget !== activator) return hide()
 	}
 
-	function attachTriggerListeners(activator: HTMLElement): () => void {
+	function attachTriggerListeners(node: HTMLElement): () => void {
 		const cleanups: (() => void)[] = []
 		if (listenClick) {
-			cleanups.push(on(activator, 'click', show))
+			cleanups.push(on(node, 'click', show))
 		}
 		if (listenFocus) {
-			cleanups.push(on(activator, 'focusin', show))
-			cleanups.push(on(activator, 'focusout', onFocusOut))
+			cleanups.push(on(node, 'focusin', show))
+			cleanups.push(on(node, 'focusout', onFocusOut))
 		}
 		if (listenHover) {
-			cleanups.push(on(activator, 'mouseenter', onMouseEnter))
-			cleanups.push(on(activator, 'mouseleave', hideDebounced))
+			cleanups.push(on(node, 'mouseenter', onMouseEnter))
+			cleanups.push(on(node, 'mouseleave', hideDebounced))
 		}
 		if (hotKey) {
 			cleanups.push(on(window, 'keydown', handleHotKey))
@@ -103,8 +104,7 @@ export function usePopover({
 			cleanups.push(on(node, 'mouseleave', hideDebounced))
 		}
 		if (listenFocus) {
-			const lastFocusable = getLastFocusable(node)
-			if (lastFocusable) cleanups.push(on(lastFocusable, 'focusout', hide))
+			cleanups.push(on(node, 'focusout', onFocusOut))
 		}
 		return () => {
 			for (const cleanup of cleanups) cleanup()
@@ -127,7 +127,7 @@ export function usePopover({
 		content: {
 			popover: mode,
 			[createAttachmentKey()]: (node: HTMLElement) => {
-				untrack(() => (popover = node))
+				untrack(() => (content = node))
 				node.style.positionAnchor = anchorName
 				node.style.positionArea = placements[placement]
 				node.style.inset = 'auto'
@@ -135,24 +135,21 @@ export function usePopover({
 				node.style.position = 'relative'
 				const cleanup = attachPopoverListeners(node)
 				return () => {
-					untrack(() => (popover = undefined))
-					console.log('cleanup')
+					untrack(() => (content = undefined))
 					cleanup()
 				}
 			}
 		},
 		trigger: {
 			[createAttachmentKey()]: (node: HTMLElement) => {
+				untrack(() => (activator = node))
 				node.style.anchorName = anchorName
-				return attachTriggerListeners(node)
+				const cleanup = attachTriggerListeners(node)
+				return () => {
+					untrack(() => (activator = undefined))
+					cleanup()
+				}
 			}
 		}
 	}
-}
-
-function getLastFocusable(node: HTMLElement): HTMLElement | undefined {
-	const selector =
-		'a[href], button:not([disabled]), input:not([disabled]), textarea:not([disabled]), select:not([disabled]), details, [tabindex]:not([tabindex="-1"])'
-	const focusables = Array.from(node.querySelectorAll<HTMLElement>(selector))
-	return focusables.at(-1)
 }
