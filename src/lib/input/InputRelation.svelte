@@ -4,9 +4,9 @@
 	import type { Snippet } from 'svelte'
 	import type { ClassValue } from 'svelte/elements'
 	import { tip } from '../action/tip.js'
-	import { useCommand } from '../command/command.svelte.js'
+	import { useCommand } from '../command/useCommand.svelte.js'
 	import Loading from '../loading/Loading.svelte'
-	import { type PopoverType, usePopover } from '../popover/popover.svelte.js'
+	import { type PopoverType, usePopover } from '../popover/usePopover.svelte.js'
 	import Issues from './Issues.svelte'
 
 	let {

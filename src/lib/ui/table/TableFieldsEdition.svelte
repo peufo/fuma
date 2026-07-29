@@ -11,7 +11,7 @@
 	import { page } from '$app/state'
 	import { listEditable } from '$lib/action/list/index.js'
 	import { tip } from '$lib/action/tip.js'
-	import { param, urlParam } from '$lib/state/param.svelte.js'
+	import { param, urlParam } from '$lib/state/param.js'
 	import { DropDown } from '$lib/ui/menu/index.js'
 	import { context } from '$lib/ui/table/context.js'
 	import type { ItemBase, TableField } from '$lib/ui/table/index.js'

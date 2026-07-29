@@ -1,7 +1,7 @@
 <script lang="ts" generics="Item extends ItemBase">
 	import { ListFilterIcon } from '@lucide/svelte'
 	import { page } from '$app/state'
-	import { param, urlParam } from '$lib/state/param.svelte.js'
+	import { param, urlParam } from '$lib/state/param.js'
 	import { DropDown } from '$lib/ui/menu/index.js'
 	import type { ItemBase, TableField } from '$lib/ui/table/index.js'
 	import { jsonParse } from '$lib/utils/jsonParse.js'

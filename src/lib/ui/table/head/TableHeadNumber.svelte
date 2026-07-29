@@ -4,7 +4,7 @@
 	import z from 'zod'
 	import { goto } from '$app/navigation'
 	import { page } from '$app/state'
-	import { urlParam } from '$lib/state/param.svelte.js'
+	import { urlParam } from '$lib/state/param.js'
 	import { DropDown } from '$lib/ui/menu/index.js'
 	import { zodCoerceJsonRecord } from '$lib/validation/zod.js'
 	import type { ItemBase, TableField } from '../field.js'

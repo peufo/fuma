@@ -2,8 +2,8 @@
 	import { ChevronsUpDownIcon } from '@lucide/svelte'
 	import type { RemoteFormField } from '@sveltejs/kit'
 	import type { Snippet } from 'svelte'
-	import { useCommand } from '../command/command.svelte.js'
-	import { usePopover } from '../popover/popover.svelte.js'
+	import { useCommand } from '../command/useCommand.svelte.js'
+	import { usePopover } from '../popover/usePopover.svelte.js'
 	import Issues from './Issues.svelte'
 
 	let {

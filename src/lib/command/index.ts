@@ -1,1 +1,1 @@
-export * from './command.svelte.js'
+export * from './useCommand.svelte.js'

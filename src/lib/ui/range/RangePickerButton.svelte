@@ -2,7 +2,7 @@
 	import { CalendarRangeIcon } from '@lucide/svelte'
 	import { slide } from 'svelte/transition'
 	import { goto } from '$app/navigation'
-	import { param, urlParam } from '$lib/state/param.svelte.js'
+	import { param, urlParam } from '$lib/state/param.js'
 	import { DropDown } from '$lib/ui/menu/index.js'
 	import { formatRangeShort } from '$lib/ui/range/format.js'
 	import { type RangeAsDate, RangePicker } from '$lib/ui/range/index.js'

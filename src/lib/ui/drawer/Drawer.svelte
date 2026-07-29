@@ -8,7 +8,7 @@
 	import { XIcon } from '@lucide/svelte'
 
 	import { goto } from '$app/navigation'
-	import { urlParam } from '$lib/state/param.svelte.js'
+	import { urlParam } from '$lib/state/param.js'
 	import { drawerFly } from './drawerFly.js'
 	import { writable } from 'svelte/store'
 	import { useLayer } from './useLayer.svelte.js'

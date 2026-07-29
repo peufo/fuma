@@ -1,4 +1,5 @@
 import debounce from 'debounce'
+import { untrack } from 'svelte'
 import { createAttachmentKey } from 'svelte/attachments'
 import { on } from 'svelte/events'
 
@@ -75,7 +76,7 @@ export function usePopover({
 		}
 		if (listenFocus) {
 			cleanups.push(on(activator, 'focusin', show))
-			// TODO: handle focusout ???
+			cleanups.push(on(activator, 'focusout', hideDebounced))
 		}
 		if (listenHover) {
 			cleanups.push(on(activator, 'mouseenter', onMouseEnter))
@@ -89,20 +90,21 @@ export function usePopover({
 			for (const cleanup of cleanups) cleanup()
 		}
 	}
-
 	function attachPopoverListeners(node: HTMLElement): () => void {
 		const cleanups: (() => void)[] = []
 		cleanups.push(on(node, 'toggle', onToggle))
-
 		if (listenHover) {
 			cleanups.push(on(node, 'mouseenter', onMouseEnter))
 			cleanups.push(on(node, 'mouseleave', hideDebounced))
+		}
+		if (listenFocus) {
+			const lastFocusable = getLastFocusable(node)
+			if (lastFocusable) cleanups.push(on(lastFocusable, 'focusout', hide))
 		}
 		return () => {
 			for (const cleanup of cleanups) cleanup()
 		}
 	}
-
 	async function handleHotKey(event: KeyboardEvent) {
 		const { metaKey, ctrlKey, key } = event
 		if ((metaKey || ctrlKey) && key === hotKey) {
@@ -111,7 +113,6 @@ export function usePopover({
 			return
 		}
 	}
-
 	return {
 		show,
 		hide,
@@ -121,13 +122,18 @@ export function usePopover({
 		content: {
 			popover: mode,
 			[createAttachmentKey()]: (node: HTMLElement) => {
-				popover = node
-				popover.style.positionAnchor = anchorName
-				popover.style.positionArea = placements[placement]
-				popover.style.inset = 'auto'
-				popover.style.positionTry = 'flip-x, flip-y'
-				popover.style.position = 'relative'
-				return attachPopoverListeners(node)
+				untrack(() => (popover = node))
+				node.style.positionAnchor = anchorName
+				node.style.positionArea = placements[placement]
+				node.style.inset = 'auto'
+				node.style.positionTry = 'flip-x, flip-y'
+				node.style.position = 'relative'
+				const cleanup = attachPopoverListeners(node)
+				return () => {
+					untrack(() => (popover = undefined))
+					console.log('cleanup')
+					cleanup()
+				}
 			}
 		},
 		trigger: {
@@ -137,4 +143,11 @@ export function usePopover({
 			}
 		}
 	}
+}
+
+function getLastFocusable(node: HTMLElement): HTMLElement | undefined {
+	const selector =
+		'a[href], button:not([disabled]), input:not([disabled]), textarea:not([disabled]), select:not([disabled]), details, [tabindex]:not([tabindex="-1"])'
+	const focusables = Array.from(node.querySelectorAll<HTMLElement>(selector))
+	return focusables.at(-1)
 }

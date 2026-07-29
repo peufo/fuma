@@ -6,7 +6,7 @@
 		type PopoverOptions,
 		type PopoverType,
 		usePopover
-	} from './popover.svelte.js'
+	} from './usePopover.svelte.js'
 
 	let {
 		children,
