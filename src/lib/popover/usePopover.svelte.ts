@@ -69,6 +69,11 @@ export function usePopover({
 	function onToggle(event: ToggleEvent) {
 		isOpen = event.newState === 'open'
 	}
+	function onFocusOut({ relatedTarget }: FocusEvent | MouseEvent) {
+		if (!(relatedTarget instanceof Node)) return hide()
+		if (!popover?.contains(relatedTarget)) return hide()
+	}
+
 	function attachTriggerListeners(activator: HTMLElement): () => void {
 		const cleanups: (() => void)[] = []
 		if (listenClick) {
@@ -76,7 +81,7 @@ export function usePopover({
 		}
 		if (listenFocus) {
 			cleanups.push(on(activator, 'focusin', show))
-			cleanups.push(on(activator, 'focusout', hideDebounced))
+			cleanups.push(on(activator, 'focusout', onFocusOut))
 		}
 		if (listenHover) {
 			cleanups.push(on(activator, 'mouseenter', onMouseEnter))
