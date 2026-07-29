@@ -1,2 +1,2 @@
-export { default as Drawer } from './Drawer.svelte'
+export { default as Drawer, transitionX } from './Drawer.svelte'
 export * from './drawerFly.js'
