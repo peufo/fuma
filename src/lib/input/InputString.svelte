@@ -9,11 +9,13 @@
 		value = $bindable(),
 		type = 'text',
 		class: klass,
+		variant = 'floating',
 		...props
 	}: {
 		label: string
 		field?: RemoteFormField<string>
 		value?: string
+		variant?: 'floating' | 'block'
 		type?:
 			| 'text'
 			| 'email'
@@ -29,17 +31,37 @@
 			| 'color'
 			| 'select'
 	} & InputProps = $props()
+
+	const inputId = $props.id()
+	const inputProps = $derived({
+		id: inputId,
+		class: ['input', klass],
+		placeholder: variant === 'floating' ? label : '',
+		...props
+	})
 </script>
 
-<label class="floating-label">
-	<span>{label}</span>
+{#snippet snippetInput()}
 	{#if field}
-		<input placeholder={label} class={['input', klass]} {...field.as(type)} {...props} />
+		<input {...inputProps} {...field.as(type)} />
 	{:else}
-		<input placeholder={label} class={['input', klass]} {type} bind:value {...props} />
+		<input {...inputProps} {type} bind:value />
 	{/if}
-	<Issues {field} />
-</label>
+{/snippet}
+
+{#if variant === 'floating'}
+	<label class="floating-label">
+		<span>{label}</span>
+		{@render snippetInput()}
+		<Issues {field} />
+	</label>
+{:else}
+	<fieldset class="fieldset">
+		<label class="label" for={inputId}>{label}</label>
+		{@render snippetInput()}
+		<Issues {field} />
+	</fieldset>
+{/if}
 
 <style>
 	input[aria-invalid='true'] {

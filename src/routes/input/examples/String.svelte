@@ -4,7 +4,8 @@
 	let value = $state('Hello')
 </script>
 
-<div class="p-4">
+<div class="space-y-4 p-4">
 	<InputString label="String" bind:value />
+	<InputString label="String" bind:value variant="block" />
 	<p class="mt-2 text-sm opacity-60">Value: {value}</p>
 </div>
