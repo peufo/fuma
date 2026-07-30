@@ -7,14 +7,16 @@
 		label,
 		field,
 		value = $bindable(),
+		defaultValue,
 		type = 'text',
 		class: klass,
-		variant = 'floating',
+		variant = 'block',
 		...props
 	}: {
 		label: string
 		field?: RemoteFormField<string>
 		value?: string
+		defaultValue?: string
 		variant?: 'floating' | 'block'
 		type?:
 			| 'text'
@@ -35,7 +37,7 @@
 	const inputId = $props.id()
 	const inputProps = $derived({
 		id: inputId,
-		class: ['input', klass],
+		class: 'input w-full',
 		placeholder: variant === 'floating' ? label : '',
 		...props
 	})
@@ -43,20 +45,24 @@
 
 {#snippet snippetInput()}
 	{#if field}
-		<input {...inputProps} {...field.as(type)} />
+		{#if defaultValue === undefined}
+			<input {...inputProps} {...field.as(type)} />
+		{:else}
+			<input {...inputProps} {...field.as(type, defaultValue)} />
+		{/if}
 	{:else}
 		<input {...inputProps} {type} bind:value />
 	{/if}
 {/snippet}
 
 {#if variant === 'floating'}
-	<label class="floating-label">
+	<label class={['floating-label', klass]}>
 		<span>{label}</span>
 		{@render snippetInput()}
 		<Issues {field} />
 	</label>
 {:else}
-	<fieldset class="fieldset">
+	<fieldset class={['fieldset', klass]}>
 		<label class="label" for={inputId}>{label}</label>
 		{@render snippetInput()}
 		<Issues {field} />

@@ -13,7 +13,8 @@
 		selected,
 		proposal,
 		field,
-		value = $bindable()
+		value = $bindable(),
+		variant = 'block'
 	}: {
 		label: string
 		items: Item[]
@@ -22,7 +23,10 @@
 		proposal?: Snippet<[Item, { isSelected: boolean; isFocus: boolean }]>
 		field?: RemoteFormField<string>
 		value?: string
+		variant?: 'floating' | 'block'
 	} = $props()
+
+	const inputId = $props.id()
 
 	let selectedItem = $state<Item | undefined>(undefined)
 
@@ -52,28 +56,40 @@
 	<input {...field.as('hidden', field.value() as string)} />
 {/if}
 
+{#snippet triggerButton()}
+	<button
+		id={inputId}
+		type="button"
+		class={['input w-full', field?.issues()?.length && 'input-error']}
+		{...popover.trigger}
+		{...command.trigger}
+	>
+		<div class="grow text-left">
+			{#if !selectedItem}
+				<span class="opacity-60">Select a value</span>
+			{:else if selected}
+				<!-- item.icon not rerender if not wrapped in #key -->
+				{#key selectedItem}{@render selected(selectedItem)}{/key}
+			{:else}
+				{getValue(selectedItem)}
+			{/if}
+		</div>
+		<ChevronsUpDownIcon size={14} />
+	</button>
+{/snippet}
+
 <div>
-	<label class="floating-label">
-		<span>{label}</span>
-		<button
-			type="button"
-			class={['input', field?.issues.length && 'input-error']}
-			{...popover.trigger}
-			{...command.trigger}
-		>
-			<div class="grow text-left">
-				{#if !selectedItem}
-					<span class="opacity-60">Select a value</span>
-				{:else if selected}
-					<!-- item.icon not rerender if not wrapped in #key -->
-					{#key selectedItem}{@render selected(selectedItem)}{/key}
-				{:else}
-					{getValue(selectedItem)}
-				{/if}
-			</div>
-			<ChevronsUpDownIcon size={14} />
-		</button>
-	</label>
+	{#if variant === 'floating'}
+		<label class="floating-label">
+			<span>{label}</span>
+			{@render triggerButton()}
+		</label>
+	{:else}
+		<fieldset class="fieldset">
+			<label class="label" for={inputId}>{label}</label>
+			{@render triggerButton()}
+		</fieldset>
+	{/if}
 
 	<div
 		{...popover.content}

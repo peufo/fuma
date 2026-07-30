@@ -8,14 +8,16 @@
 		label,
 		field,
 		value = $bindable(),
+		defaultValue,
 		class: klass,
 		maxHeight = 200,
-		variant = 'floating',
+		variant = 'block',
 		...props
 	}: {
 		label: string
 		field?: RemoteFormField<string>
 		value?: string
+		defaultValue?: string
 		maxHeight?: number
 		variant?: 'floating' | 'block'
 	} & TextareaProps = $props()
@@ -34,22 +36,22 @@
 	<textarea
 		id={inputId}
 		placeholder={variant === 'floating' ? label : ''}
-		class={['textarea', klass]}
+		class="textarea w-full"
 		bind:this={textarea}
-		{...field?.as('text')}
+		{...defaultValue === undefined ? field?.as('text') : field?.as('text', defaultValue)}
 		bind:value
 		{...props}
 	></textarea>
 {/snippet}
 
 {#if variant === 'floating'}
-	<label class="floating-label">
+	<label class={['floating-label', klass]}>
 		<span>{label}</span>
 		{@render snippetInput()}
 		<Issues {field} />
 	</label>
 {:else}
-	<fieldset class="fieldset">
+	<fieldset class={['fieldset', klass]}>
 		<label class="label" for={inputId}>{label}</label>
 		{@render snippetInput()}
 		<Issues {field} />

@@ -5,7 +5,8 @@
 	let value = $state('banana')
 </script>
 
-<div class="p-4">
+<div class="space-y-4 p-4">
 	<InputSelectNative label="Native select" options={fruitsOptions} bind:value />
+	<InputSelectNative label="Native select" options={fruitsOptions} bind:value variant="floating" />
 	<p class="mt-2 text-sm opacity-60">Value: {value}</p>
 </div>

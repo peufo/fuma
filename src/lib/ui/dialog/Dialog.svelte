@@ -91,7 +91,7 @@
 
 		{@render footer?.()}
 	</div>
-	<form method="dialog" class="modal-backdrop">
-		<button>close</button>
-	</form>
+	<div class="modal-backdrop">
+		<button type="button" onclick={() => dialog?.close()}>close</button>
+	</div>
 </dialog>

@@ -22,7 +22,7 @@
 		hideOnBlur = false,
 		hideOnNav = true,
 		disable = false,
-		tip,
+		tip = $bindable(),
 		content,
 		activator,
 		children

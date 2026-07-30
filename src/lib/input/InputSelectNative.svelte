@@ -11,38 +11,52 @@
 		options: optionsProp,
 		class: klass,
 		multiple,
+		variant = 'block',
 		...props
 	}: {
 		label: string
 		options: Options
 		field?: RemoteFormField<string | string[]>
 		value?: string | string[]
+		variant?: 'floating' | 'block'
 	} & SelectProps = $props()
 
 	const options = $derived(parseOptions(optionsProp))
+	const inputId = $props.id()
 </script>
 
-<div>
-	<label class="floating-label">
+{#snippet snippetSelect()}
+	<select
+		id={inputId}
+		class="select w-full"
+		{...field?.as(multiple !== true ? 'select' : 'select multiple')}
+		bind:value
+		{...props}
+	>
+		{#each options as option (option.value)}
+			<option value={option.value} class={['', option.class]} disabled={option.disabled}>
+				{#if option.icon}
+					<option.icon size={18} opacity={0.8} />
+				{/if}
+				<span class="grow">{option.label}</span>
+			</option>
+		{/each}
+	</select>
+{/snippet}
+
+{#if variant === 'floating'}
+	<label class={['floating-label', klass]}>
 		<span>{label}</span>
-		<select
-			class={['select', klass]}
-			{...field?.as(multiple !== true ? 'select' : 'select multiple')}
-			bind:value
-			{...props}
-		>
-			{#each options as option (option.value)}
-				<option value={option.value} class={['', option.class]} disabled={option.disabled}>
-					{#if option.icon}
-						<option.icon size={18} opacity={0.8} />
-					{/if}
-					<span class="grow">{option.label}</span>
-				</option>
-			{/each}
-		</select>
+		{@render snippetSelect()}
+		<Issues {field} />
 	</label>
-	<Issues {field} />
-</div>
+{:else}
+	<fieldset class={['fieldset', klass]}>
+		<label class="label" for={inputId}>{label}</label>
+		{@render snippetSelect()}
+		<Issues {field} />
+	</fieldset>
+{/if}
 
 <style>
 	option::checkmark {

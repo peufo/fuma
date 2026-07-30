@@ -7,24 +7,52 @@
 		label,
 		field,
 		value = $bindable(),
+		defaultValue,
 		class: klass,
+		variant = 'block',
 		...props
 	}: {
 		label: string
 		field?: RemoteFormField<number>
 		value?: number
+		defaultValue?: number
+		variant?: 'floating' | 'block'
 	} & InputProps = $props()
+
+	const inputId = $props.id()
+	const inputProps = $derived({
+		id: inputId,
+		class: 'input w-full',
+		placeholder: variant === 'floating' ? label : '',
+		...props
+	})
 </script>
 
-<label class="floating-label">
-	<span class="label">{label}</span>
+{#snippet snippetInput()}
 	{#if field}
-		<input placeholder={label} class={['input', klass]} {...field.as('number')} {...props} />
+		{#if defaultValue === undefined}
+			<input {...inputProps} {...field.as('number')} />
+		{:else}
+			<input {...inputProps} {...field.as('number', defaultValue)} />
+		{/if}
 	{:else}
-		<input placeholder={label} class={['input', klass]} type="number" bind:value {...props} />
+		<input {...inputProps} type="number" bind:value />
 	{/if}
-	<Issues {field} />
-</label>
+{/snippet}
+
+{#if variant === 'floating'}
+	<label class={['floating-label', klass]}>
+		<span>{label}</span>
+		{@render snippetInput()}
+		<Issues {field} />
+	</label>
+{:else}
+	<fieldset class={['fieldset', klass]}>
+		<label class="label" for={inputId}>{label}</label>
+		{@render snippetInput()}
+		<Issues {field} />
+	</fieldset>
+{/if}
 
 <style>
 	input[aria-invalid='true'] {

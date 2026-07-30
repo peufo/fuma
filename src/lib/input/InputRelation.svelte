@@ -22,7 +22,8 @@
 		nullable,
 		hint,
 		onSelect,
-		hotKey
+		hotKey,
+		variant = 'block'
 	}: {
 		searchItems: RemoteQueryFunction<{ search: string }, Item[]>
 		label?: string
@@ -37,7 +38,10 @@
 		hint?: Snippet<[Item | undefined]>
 		onSelect?: (item: NoInfer<Item> | undefined, popover: PopoverType) => void
 		hotKey?: string
+		variant?: 'floating' | 'block'
 	} = $props()
+
+	const inputId = $props.id()
 
 	let search = $state('')
 	const query = $derived.by(() => searchItems({ search }))
@@ -105,8 +109,9 @@
 
 {#snippet triggerButton()}
 	<button
+		id={inputId}
 		type="button"
-		class={['input', field?.issues.length && 'input-error', klass]}
+		class={['input', field?.issues()?.length && 'input-error', klass]}
 		{...popover.trigger}
 	>
 		<div class="grow text-left">
@@ -126,13 +131,18 @@
 {/if}
 
 <div>
-	{#if label}
+	{#if !label}
+		{@render triggerButton()}
+	{:else if variant === 'floating'}
 		<label class="floating-label">
 			<span>{label}</span>
 			{@render triggerButton()}
 		</label>
 	{:else}
-		{@render triggerButton()}
+		<fieldset class="fieldset">
+			<label class="label" for={inputId}>{label}</label>
+			{@render triggerButton()}
+		</fieldset>
 	{/if}
 
 	<div
@@ -142,7 +152,7 @@
 		tabindex="-1"
 	>
 		<div class="sticky top-0 z-10 flex gap-2 bg-base-100/10 p-2 backdrop-blur-md">
-			<label class="input input-sm grow input-ghost">
+			<label class="input grow input-ghost input-sm">
 				<SearchIcon opacity={0.6} size={20} />
 				<input
 					type="search"
