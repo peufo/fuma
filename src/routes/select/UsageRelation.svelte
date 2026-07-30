@@ -1,9 +1,10 @@
 <script lang="ts">
 	import { CheckIcon } from '@lucide/svelte'
+	import type { User } from '$lib/_doc/data.ts'
 	import InputRelation from '$lib/input/InputRelation.svelte'
 	import { searchUsers } from './select.remote.ts'
 
-	let userId = $state('')
+	let user = $state<User>()
 </script>
 
 <div class="flex flex-col gap-4 p-4">
@@ -12,7 +13,7 @@
 		placeholder="Selectionner un utilisateur"
 		searchItems={searchUsers}
 		getValue={(user) => user.id}
-		bind:value={userId}
+		bind:value={user}
 		hotKey="k"
 		nullable
 	>
@@ -31,5 +32,5 @@
 		{/snippet}
 	</InputRelation>
 
-	<p>Selected: {userId || '-'}</p>
+	<p>Selected: {user?.name || '-'}</p>
 </div>

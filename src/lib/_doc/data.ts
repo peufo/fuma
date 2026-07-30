@@ -27,7 +27,8 @@ function createRandomUser(): User {
 		isValided: Math.random() < 0.5,
 		subscribeAt: faker.date.past().toISOString(),
 		gender: faker.person.sexType() as User['gender'],
-		gender2: faker.person.sexType() as User['gender']
+		gender2: faker.person.sexType() as User['gender'],
+		friendIds: []
 	}
 }
 
@@ -47,6 +48,7 @@ export type User = {
 	subscribeAt: string
 	gender: UserGender
 	gender2: UserGender
+	friendIds: string[]
 	loveId?: string | null
 	// tags: UserTag[];
 }
@@ -63,6 +65,7 @@ export const schemaUser = z.object({
 	subscribeAt: z.iso.date(),
 	gender: z.enum(userGenders),
 	gender2: z.enum(userGenders),
+	friendIds: z.array(z.string()),
 	loveId: z.string().optional()
 	// tags: z.array(z.enum(userTags)).default([]),
 } satisfies ShapeOf<Omit<User, 'id'>>)

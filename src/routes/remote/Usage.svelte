@@ -5,6 +5,7 @@
 	import InputRadio from '$lib/input/InputRadio.svelte'
 	import InputRange from '$lib/input/InputRange.svelte'
 	import InputRelation from '$lib/input/InputRelation.svelte'
+	import InputRelations from '$lib/input/InputRelations.svelte'
 	import InputSelectNative from '$lib/input/InputSelectNative.svelte'
 	import InputString from '$lib/input/InputString.svelte'
 	import InputTextarea from '$lib/input/InputTextarea.svelte'
@@ -31,10 +32,25 @@
 		<InputSelectNative field={form.fields.gender2} label="Genre2" options={userGenderOptions} />
 
 		<InputRelation
+			field={form.fields.loveId}
 			label="Love"
 			searchItems={searchUsers}
-			getValue={(user) => user.id.slice(0, 8)}
-		/>
+			getValue={(user) => user.id}
+		>
+			{#snippet selected(user)}<span>{user.name}</span>{/snippet}
+			{#snippet proposal(user)}<span class="grow">{user.name}</span>{/snippet}
+		</InputRelation>
+
+		<InputRelations
+			field={form.fields.friendIds}
+			value={users.slice(0, 2)}
+			label="Amis"
+			searchItems={searchUsers}
+			getValue={(user) => user.id}
+		>
+			{#snippet selected(user)}<span>{user.name}</span>{/snippet}
+			{#snippet proposal(user)}<span class="grow">{user.name}</span>{/snippet}
+		</InputRelations>
 
 		<button class="btn">Create</button>
 	</form>
@@ -46,6 +62,7 @@
 				<span>{user.name} - {user.age}</span>
 				<span>Valided: {user.isValided}</span>
 				<span>Subscribe: {user.subscribeAt}</span>
+				<span>Amis: {user.friendIds.length}</span>
 			</div>
 		{/each}
 	</div>

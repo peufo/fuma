@@ -31,7 +31,12 @@
 		selected?: Snippet<[Item]>
 		proposal?: Snippet<[Item, { isSelected: boolean; isFocus: boolean }]>
 		field?: RemoteFormField<string>
-		value?: string
+		/**
+		 * L'item sélectionné — et non la valeur soumise, qui s'en dérive par `getValue`.
+		 * Sert donc aussi de sélection initiale: la recherche ne retourne pas forcément
+		 * l'item au premier rendu, son libellé s'affiche quand même.
+		 */
+		value?: NoInfer<Item>
 		placeholder?: string
 		class?: ClassValue
 		nullable?: boolean
@@ -47,17 +52,10 @@
 	const query = $derived.by(() => searchItems({ search }))
 	const items = $derived(query.current || [])
 
-	let selectedItem = $state<Item | undefined>(undefined)
-	$effect(() => {
-		const targetValue = (field?.value() ?? value)?.toString()
-		if (!targetValue) {
-			selectedItem = undefined
-			command.selectedIndex = -1
-			return
-		}
-		// TODO: Quelle est la meilleur facon de récupérer l'item initial ?
-		command.selectedIndex = items.findIndex((item) => getValue(item) === targetValue)
-	})
+	// `value` porte l'item et non sa valeur soumise: celle-ci s'en dérive par `getValue`,
+	// alors que l'inverse demanderait une requête. C'est aussi ce qui rend l'état initial
+	// gratuit — pas de `defaultValue` à réconcilier avec la valeur du champ.
+	const submittedValue = $derived(value ? getValue(value) : undefined)
 
 	export const popover = usePopover({
 		listenFocus: false,
@@ -71,24 +69,20 @@
 			const item = items[index]
 			onSelect?.(item, popover)
 			if (!item) return
-			selectedItem = item
 			setValue(item)
 		}
 	})
 
 	function setValue(item: Item | undefined) {
-		const newValue = item && getValue(item)
-		if (field) {
-			field.set(newValue)
-		} else {
-			value = newValue
-		}
+		value = item
+		// L'input caché suffit à soumettre; `set` garde la validation du formulaire à jour.
+		field?.set(item && getValue(item))
 	}
 
 	function defaultGetValue(item: Item): string {
 		if (item && typeof item === 'object') {
+			if ('id' in item && typeof item.id === 'string') return item.id
 			if ('value' in item && typeof item.value === 'string') return item.value
-			if ('rowid' in item && typeof item.rowid === 'string') return item.rowid
 		}
 		return JSON.stringify(item)
 	}
@@ -100,7 +94,7 @@
 		return getValue(item)
 	}
 
-	const isButtonSetNullVisible = $derived(nullable && (field?.value() || value))
+	const isButtonSetNullVisible = $derived(nullable && value)
 </script>
 
 {#snippet defaultSnippet(item: Item)}
@@ -115,19 +109,21 @@
 		{...popover.trigger}
 	>
 		<div class="grow text-left">
-			{#if !selectedItem}
+			{#if !value}
 				<span class="opacity-60">{placeholder}</span>
 			{:else}
 				<!-- item.icon not rerender if not wrapped in #key -->
-				{#key selectedItem}{@render selected(selectedItem)}{/key}
+				{#key value}{@render selected(value)}{/key}
 			{/if}
 		</div>
 		<ChevronsUpDownIcon size={14} opacity={0.7} />
 	</button>
 {/snippet}
 
-{#if field}
-	<input {...field.as('hidden', field.value() || '')} />
+<!-- Rien à soumettre tant qu'aucune valeur n'est choisie: `as('hidden')` refuse une
+     valeur vide. -->
+{#if field && submittedValue}
+	<input {...field.as('hidden', submittedValue)} />
 {/if}
 
 <div>
@@ -167,7 +163,6 @@
 					class="btn btn-square btn-soft btn-sm"
 					type="button"
 					onclick={() => {
-						selectedItem = undefined
 						setValue(undefined)
 						onSelect?.(undefined, popover)
 						popover.hide()
@@ -181,7 +176,7 @@
 
 		<ul class="menu max-h-80 w-full flex-nowrap pt-0">
 			{#each items as item, index (item)}
-				{@const isSelected = index === command.selectedIndex}
+				{@const isSelected = submittedValue === getValue(item)}
 				{@const isFocus = index === command.focusIndex}
 				<li>
 					<button
@@ -200,7 +195,7 @@
 		<Loading {query} />
 	</div>
 	<Issues {field} />
-	{@render hint?.(selectedItem)}
+	{@render hint?.(value)}
 </div>
 
 <style>
