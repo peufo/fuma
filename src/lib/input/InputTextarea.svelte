@@ -8,7 +8,6 @@
 		label,
 		field,
 		value = $bindable(),
-		defaultValue,
 		class: klass,
 		maxHeight = 200,
 		variant = 'block',
@@ -16,8 +15,11 @@
 	}: {
 		label: string
 		field?: RemoteFormField<string>
+		/**
+		 * Sans `field`, la valeur liée. Avec, la valeur initiale du champ — celui-ci prend
+		 * ensuite le relais et devient la source de vérité.
+		 */
 		value?: string
-		defaultValue?: string
 		maxHeight?: number
 		variant?: 'floating' | 'block'
 	} & TextareaProps = $props()
@@ -30,18 +32,26 @@
 	})
 
 	const inputId = $props.id()
+	const textareaProps = $derived({
+		id: inputId,
+		class: 'textarea w-full',
+		placeholder: variant === 'floating' ? label : '',
+		...props
+	})
 </script>
 
 {#snippet snippetInput()}
-	<textarea
-		id={inputId}
-		placeholder={variant === 'floating' ? label : ''}
-		class="textarea w-full"
-		bind:this={textarea}
-		{...defaultValue === undefined ? field?.as('text') : field?.as('text', defaultValue)}
-		bind:value
-		{...props}
-	></textarea>
+	{#if field}
+		<!-- Pas de `bind:value` ici: avec un `field`, `value` n'est que la valeur initiale,
+		     comme dans InputString et InputNumber. -->
+		<textarea
+			bind:this={textarea}
+			{...textareaProps}
+			{...value === undefined ? field.as('text') : field.as('text', value)}
+		></textarea>
+	{:else}
+		<textarea bind:this={textarea} {...textareaProps} bind:value></textarea>
+	{/if}
 {/snippet}
 
 {#if variant === 'floating'}

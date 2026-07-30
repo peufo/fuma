@@ -37,7 +37,7 @@
 
 <DocSection
 	title="InputRelations"
-	description="Same as InputRelation, but selects several items. `defaultValue` takes the items themselves, so their label shows up without an extra query"
+	description="Same as InputRelation, but selects several items. `value` holds the items themselves, so the initial selection shows its label without an extra query"
 >
 	<DocProps props={parseProps(InputRelationsCode)} />
 	<DocExample title="Query mode" code={usageRelationsCode}>

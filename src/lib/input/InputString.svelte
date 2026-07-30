@@ -7,7 +7,6 @@
 		label,
 		field,
 		value = $bindable(),
-		defaultValue,
 		type = 'text',
 		class: klass,
 		variant = 'block',
@@ -15,8 +14,11 @@
 	}: {
 		label: string
 		field?: RemoteFormField<string>
+		/**
+		 * Sans `field`, la valeur liée. Avec, la valeur initiale du champ — celui-ci prend
+		 * ensuite le relais et devient la source de vérité.
+		 */
 		value?: string
-		defaultValue?: string
 		variant?: 'floating' | 'block'
 		type?:
 			| 'text'
@@ -45,10 +47,10 @@
 
 {#snippet snippetInput()}
 	{#if field}
-		{#if defaultValue === undefined}
+		{#if value === undefined}
 			<input {...inputProps} {...field.as(type)} />
 		{:else}
-			<input {...inputProps} {...field.as(type, defaultValue)} />
+			<input {...inputProps} {...field.as(type, value)} />
 		{/if}
 	{:else}
 		<input {...inputProps} {type} bind:value />
