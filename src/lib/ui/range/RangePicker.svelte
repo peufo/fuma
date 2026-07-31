@@ -1,21 +1,31 @@
 <script lang="ts">
 	import dayjs from 'dayjs'
 	import type { Litepicker } from 'litepicker'
-	import { createEventDispatcher, onDestroy, onMount } from 'svelte'
+	import { onDestroy, onMount } from 'svelte'
 	import type { RangeAsDate, RangeDate } from './types.js'
 
-	export let numberOfMonths = 3
-	export let numberOfColumns = numberOfMonths
-	export let showWeekNumbers = true
-	export let range: RangeAsDate | undefined = undefined
-	export let minDate: Date | number | string | undefined = undefined
-	export let maxDate: Date | number | string | undefined = undefined
+	let {
+		numberOfMonths = 3,
+		numberOfColumns = numberOfMonths,
+		showWeekNumbers = true,
+		range = $bindable(),
+		minDate,
+		maxDate,
+		onchange
+	}: {
+		numberOfMonths?: number
+		numberOfColumns?: number
+		showWeekNumbers?: boolean
+		range?: RangeAsDate
+		minDate?: Date | number | string
+		maxDate?: Date | number | string
+		onchange?: (range: RangeAsDate) => void
+	} = $props()
 
-	let startElement: HTMLInputElement
-	let endElement: HTMLInputElement
+	let startElement: HTMLInputElement = $state()!
+	let endElement: HTMLInputElement = $state()!
+	let parentEl: HTMLDivElement = $state()!
 	let picker: Litepicker
-	let parentEl: HTMLDivElement
-	const dispatch = createEventDispatcher<{ change: RangeAsDate }>()
 
 	onMount(() => {
 		initTimePicker()
@@ -58,7 +68,7 @@
 							`${getAbsoluteDate(date2.dateInstance)}T${getAbsoluteTime(range?.end, '23:59:00')}`
 						)
 					}
-					dispatch('change', range)
+					onchange?.(range)
 				})
 			}
 		})

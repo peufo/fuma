@@ -52,7 +52,7 @@ export function usePopover({
 	const anchorName = `--anchor-${uid}`
 	let content = $state<HTMLElement>()
 	let activator = $state<HTMLElement>()
-	let isOpen = $state(!!content?.matches(':popover-open'))
+	let isOpen = $state(false)
 
 	const hideDebounced = debounce(hide, hideDelay)
 	function show() {

@@ -126,7 +126,7 @@
 			<RangePicker
 				bind:this={rangePicker}
 				numberOfMonths={1}
-				on:change={({ detail: newRange }) => {
+				onchange={(newRange) => {
 					range = newRange
 					updateUrl()
 				}}

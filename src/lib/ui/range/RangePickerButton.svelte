@@ -25,7 +25,7 @@
 		classLabel = ''
 	}: {
 		key?: string
-		range: RangeAsDate
+		range?: RangeAsDate
 		minDate?: Date | number | string
 		maxDate?: Date | number | string
 		class?: string
