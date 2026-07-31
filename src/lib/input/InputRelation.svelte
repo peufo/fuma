@@ -31,11 +31,6 @@
 		selected?: Snippet<[Item]>
 		proposal?: Snippet<[Item, { isSelected: boolean; isFocus: boolean }]>
 		field?: RemoteFormField<string>
-		/**
-		 * L'item sélectionné — et non la valeur soumise, qui s'en dérive par `getValue`.
-		 * Sert donc aussi de sélection initiale: la recherche ne retourne pas forcément
-		 * l'item au premier rendu, son libellé s'affiche quand même.
-		 */
 		value?: NoInfer<Item>
 		placeholder?: string
 		class?: ClassValue

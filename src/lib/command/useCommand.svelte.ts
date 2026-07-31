@@ -21,7 +21,7 @@ export function useCommand({
 
 	function onKeydown(event: KeyboardEvent) {
 		if (!isEnable()) return
-		if (event.key === 'Enter' || event.key === ' ') {
+		if (event.key === 'Enter') {
 			event.preventDefault()
 			onSelect?.(focusIndex)
 			selectedIndex = focusIndex
