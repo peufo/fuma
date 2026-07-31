@@ -64,6 +64,14 @@
 	--radius-box: 0.75rem;
 }
 
+@layer utilities {
+	.input input[type='radio'] {
+		color: red;
+		height: initial;
+		width: initial;
+	}
+}
+
 @layer components {
 	.menu-item {
 		@apply flex cursor-pointer items-center gap-3 rounded-md px-3 py-1.25 text-ellipsis whitespace-nowrap hover:bg-base-200;
