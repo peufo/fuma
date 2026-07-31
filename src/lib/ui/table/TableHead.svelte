@@ -34,7 +34,11 @@
 			{:else if field.type === 'date'}
 				<TableHeadDate {field} />
 			{:else if field.options}
-				<TableHeadSelect {field} options={field.options} />
+				<TableHeadSelect
+					{field}
+					options={field.options}
+					multiSelect={field.type === 'multiselect'}
+				/>
 			{/if}
 		{/each}
 		<TableFieldsEdition {fields} {key} {onCreateField} />

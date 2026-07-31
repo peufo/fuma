@@ -1,4 +1,5 @@
 export * from './button/index.js'
+export * from './copy/index.js'
 export * from './dialog/index.js'
 export * from './drawer/index.js'
 export * from './menu/index.js'

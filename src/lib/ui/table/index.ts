@@ -1,3 +1,4 @@
+export * from './cell/index.js'
 export * from './context.js'
 export type { TableField } from './field.js'
 export * from './field.js'
