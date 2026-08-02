@@ -22,7 +22,11 @@
 		)
 		.default({})
 
-	let { min, max, order } = $derived(paramModel.parse(page.url.searchParams.get(field.key)))
+	// `?? undefined`: `searchParams.get` rend `null` quand le filtre est absent, et un
+	// `.default()` de zod ne couvre que `undefined`.
+	let { min, max, order } = $derived(
+		paramModel.parse(page.url.searchParams.get(field.key) ?? undefined)
+	)
 
 	const updateUrl = debounce(() => {
 		const query: Record<string, string | number> = {}

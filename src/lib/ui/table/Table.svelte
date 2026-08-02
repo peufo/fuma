@@ -1,5 +1,5 @@
 <script lang="ts" generics="Item extends ItemBase">
-	import type { Snippet } from 'svelte'
+	import { type Snippet, untrack } from 'svelte'
 	import { afterNavigate } from '$app/navigation'
 	import {
 		context,
@@ -35,14 +35,11 @@
 		onclick?: (item?: Item) => void
 	} = $props()
 
-	$effect(() => {
-		const { KEY_FIELDS_VISIBLE, KEY_FIELDS_HIDDEN, KEY_FIELDS_ORDER } = createKeys(key)
-		context.set(key, {
-			KEY_FIELDS_VISIBLE,
-			KEY_FIELDS_HIDDEN,
-			KEY_FIELDS_ORDER
-		})
-	})
+	// Posé à l'initialisation et non dans un `$effect`: un effet ne tourne pas au rendu
+	// serveur, et `TableFieldsEdition` lirait un contexte vide. `key` identifie la table
+	// pour toute sa durée de vie.
+	const tableKey = untrack(() => key)
+	context.set(tableKey, createKeys(tableKey))
 
 	const initFields = () => (fields = syncFieldsWithParams(key, fields))
 	initFields()

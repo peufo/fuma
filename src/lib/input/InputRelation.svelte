@@ -21,6 +21,7 @@
 		class: klass,
 		nullable,
 		hint,
+		append,
 		onSelect,
 		hotKey,
 		variant = 'block'
@@ -36,6 +37,8 @@
 		class?: ClassValue
 		nullable?: boolean
 		hint?: Snippet<[Item | undefined]>
+		/** Rendu à droite du champ de recherche: une action « créer », typiquement. */
+		append?: Snippet<[PopoverType]>
 		onSelect?: (item: NoInfer<Item> | undefined, popover: PopoverType) => void
 		hotKey?: string
 		variant?: 'floating' | 'block'
@@ -167,6 +170,7 @@
 					<XIcon />
 				</button>
 			{/if}
+			{@render append?.(popover)}
 		</div>
 
 		<ul class="menu max-h-80 w-full flex-nowrap pt-0">

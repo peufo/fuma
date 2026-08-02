@@ -6,8 +6,8 @@
 
 <td>
 	{#if cell}
-		<CheckIcon class="fill-success" />
+		<CheckIcon class="text-success" />
 	{:else}
-		<XIcon class="fill-error" />
+		<XIcon class="text-error" />
 	{/if}
 </td>

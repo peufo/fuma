@@ -21,6 +21,7 @@
 		placeholder = 'Selectionner des valeurs',
 		class: klass,
 		hint,
+		append,
 		onSelect,
 		hotKey,
 		variant = 'block'
@@ -35,6 +36,8 @@
 		placeholder?: string
 		class?: ClassValue
 		hint?: Snippet<[Item[]]>
+		/** Rendu à droite du champ de recherche: une action « créer », typiquement. */
+		append?: Snippet<[PopoverType]>
 		onSelect?: (items: NoInfer<Item>[], popover: PopoverType) => void
 		hotKey?: string
 		variant?: 'floating' | 'block'
@@ -215,6 +218,7 @@
 					<XIcon />
 				</button>
 			{/if}
+			{@render append?.(popover)}
 		</div>
 
 		<ul
