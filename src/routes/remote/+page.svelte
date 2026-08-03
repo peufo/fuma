@@ -56,15 +56,16 @@
 			description: 'Range constraints for InputNumber and InputRange.'
 		},
 		{
-			name: 'searchItems',
-			type: 'RemoteQueryFunction',
+			name: 'items',
+			type: 'ItemsSource<Item>',
 			required: true,
-			description: 'Search function for InputRelation.'
+			description:
+				'Source of InputSelect / InputMultiSelect: an array, a (async) search function, or a remote query.'
 		},
 		{
 			name: 'getValue',
 			type: '(item: Item) => string',
-			description: 'Value extractor for InputRelation items. Falls back to item.value / item.rowid.'
+			description: 'Value extractor for select items. Falls back to item.id / item.value.'
 		}
 	]
 </script>

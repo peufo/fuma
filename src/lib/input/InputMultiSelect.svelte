@@ -1,6 +1,6 @@
 <script lang="ts" generics="Item">
 	import { CheckIcon, ChevronsUpDownIcon, SearchIcon, XIcon } from '@lucide/svelte'
-	import type { RemoteFormField, RemoteQueryFunction } from '@sveltejs/kit'
+	import type { RemoteFormField } from '@sveltejs/kit'
 	import type { Snippet } from 'svelte'
 	import type { ClassValue } from 'svelte/elements'
 	import { slide } from 'svelte/transition'
@@ -9,11 +9,21 @@
 	import Loading from '../loading/Loading.svelte'
 	import { type PopoverType, usePopover } from '../popover/usePopover.svelte.js'
 	import Issues from './Issues.svelte'
+	import {
+		defaultGetLabel,
+		defaultGetValue,
+		type ItemsSource,
+		useItems
+	} from './useItems.svelte.js'
 
 	let {
 		label,
-		searchItems,
+		items,
 		getValue = defaultGetValue,
+		getLabel = (item) => defaultGetLabel(item, getValue),
+		filter,
+		searchable,
+		debounceMs,
 		selected = defaultSnippet,
 		proposal = defaultSnippet,
 		field,
@@ -26,12 +36,25 @@
 		hotKey,
 		variant = 'block'
 	}: {
-		searchItems: RemoteQueryFunction<{ search: string }, Item[]>
+		/** Un tableau déjà chargé, une fonction (synchrone ou non), ou une remote query. */
+		items: ItemsSource<Item>
 		label?: string
 		getValue?: (item: NoInfer<Item>) => string
+		/** Libellé affiché à défaut de snippet, et base du filtre d'une source tableau. */
+		getLabel?: (item: NoInfer<Item>) => string
+		/** Ne s'applique qu'à une source tableau: une fonction porte son propre filtre. */
+		filter?: (item: NoInfer<Item>, search: string) => boolean
+		/** Par défaut: toujours pour une fonction, au-delà de 7 entrées pour un tableau. */
+		searchable?: boolean
+		debounceMs?: number
 		selected?: Snippet<[Item]>
 		proposal?: Snippet<[Item, { isSelected: boolean; isFocus: boolean }]>
 		field?: RemoteFormField<string[]>
+		/**
+		 * Les items, pas leurs valeurs soumises. Un parent qui les repilote après coup doit
+		 * les lier par `bind:`: passé en simple prop, un `$bindable` cesse de suivre le
+		 * parent dès que le composant y a écrit.
+		 */
 		value?: NoInfer<Item>[]
 		placeholder?: string
 		class?: ClassValue
@@ -47,8 +70,17 @@
 	const listId = `${inputId}-list`
 
 	let search = $state('')
-	const query = $derived.by(() => searchItems({ search }))
-	const items = $derived(query.current || [])
+	// Une énumération courte n'a que faire d'un champ de recherche; une fonction, elle, ne
+	// peut pas s'en passer, puisque le composant ne sait pas la filtrer.
+	const isSearchable = $derived(searchable ?? (Array.isArray(items) ? items.length > 7 : true))
+	const query = useItems({
+		source: () => items,
+		search: () => search,
+		getLabel: (item) => getLabel(item),
+		filter: () => filter,
+		debounceMs: (() => debounceMs)()
+	})
+	const options = $derived(query.current ?? [])
 
 	// `value` porte les items et non les valeurs soumises: celles-ci s'en dérivent par
 	// `getValue`, alors que l'inverse demanderait une requête. C'est aussi ce qui rend
@@ -65,7 +97,7 @@
 	export const command = useCommand({
 		isEnable: () => popover.isOpen,
 		onSelect: (index) => {
-			const item = items[index]
+			const item = options[index]
 			if (item) toggle(item)
 		}
 	})
@@ -89,25 +121,10 @@
 		field?.set(selectedValues)
 		onSelect?.(value, popover)
 	}
-
-	function defaultGetValue(item: Item): string {
-		if (item && typeof item === 'object') {
-			if ('id' in item && typeof item.id === 'string') return item.id
-			if ('value' in item && typeof item.value === 'string') return item.value
-		}
-		return JSON.stringify(item)
-	}
-
-	function getDefaultLabel(item: Item) {
-		if (item && typeof item === 'object' && 'label' in item) {
-			if (typeof item.label === 'string') return item.label
-		}
-		return getValue(item)
-	}
 </script>
 
 {#snippet defaultSnippet(item: Item)}
-	<span>{getDefaultLabel(item)}</span>
+	<span>{getLabel(item)}</span>
 {/snippet}
 
 {#snippet triggerCombobox()}
@@ -132,6 +149,7 @@
 			popover.show()
 		}}
 		{...popover.trigger}
+		{...isSearchable ? {} : command.trigger}
 	>
 		{#if !value.length}
 			<span class="opacity-60">{placeholder}</span>
@@ -193,41 +211,47 @@
 		style="min-width: anchor-size(width);"
 		tabindex="-1"
 	>
-		<div class="sticky top-0 z-10 flex gap-2 bg-base-100/10 p-2 backdrop-blur-md">
-			<label class="input grow input-ghost input-sm">
-				<SearchIcon opacity={0.6} size={20} />
-				<input
-					type="search"
-					placeholder="Recherche"
-					autocomplete="off"
-					bind:value={search}
-					{...command.trigger}
-				/>
-			</label>
-			{#if value.length}
-				<button
-					class="btn btn-square btn-soft btn-sm"
-					type="button"
-					onclick={() => {
-						value = []
-						commit()
-						popover.hide()
-					}}
-					use:tip={{ content: 'Tout désélectionner' }}
-				>
-					<XIcon />
-				</button>
-			{/if}
-			{@render append?.(popover)}
-		</div>
+		{#if isSearchable || value.length || append}
+			<div class="sticky top-0 z-10 flex gap-2 bg-base-100/10 p-2 backdrop-blur-md">
+				{#if isSearchable}
+					<label class="input grow input-ghost input-sm">
+						<SearchIcon opacity={0.6} size={20} />
+						<input
+							type="search"
+							placeholder="Recherche"
+							autocomplete="off"
+							bind:value={search}
+							{...command.trigger}
+						/>
+					</label>
+				{:else}
+					<div class="grow"></div>
+				{/if}
+				{#if value.length}
+					<button
+						class="btn btn-square btn-soft btn-sm"
+						type="button"
+						onclick={() => {
+							value = []
+							commit()
+							popover.hide()
+						}}
+						use:tip={{ content: 'Tout désélectionner' }}
+					>
+						<XIcon />
+					</button>
+				{/if}
+				{@render append?.(popover)}
+			</div>
+		{/if}
 
 		<ul
 			id={listId}
 			role="listbox"
 			aria-multiselectable="true"
-			class="menu max-h-80 w-full flex-nowrap pt-0"
+			class={['menu max-h-80 w-full flex-nowrap', (isSearchable || append) && 'pt-0']}
 		>
-			{#each items as item, index (item)}
+			{#each options as item, index (item)}
 				{@const isSelected = selectedValues.includes(getValue(item))}
 				{@const isFocus = index === command.focusIndex}
 				<li>

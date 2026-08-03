@@ -1,11 +1,12 @@
 <script lang="ts">
 	import { CheckIcon } from '@lucide/svelte'
 	import { fruitsOptions } from '$lib/_doc/data.ts'
-	import { parseOptions } from '$lib/index.ts'
-	import InputSelectNative from '$lib/input/InputSelectNative.svelte'
+	import { type Option, parseOptions } from '$lib/index.ts'
 	import { InputSelect } from '$lib/input/index.ts'
+	import InputSelectNative from '$lib/input/InputSelectNative.svelte'
 
 	const options = parseOptions(fruitsOptions)
+	let fruit = $state<Option>()
 </script>
 
 <div class="p-4">
@@ -13,7 +14,9 @@
 
 	<div class="divider h-12"></div>
 
-	<InputSelect label="Fruits" items={parseOptions(options)} getValue={(item) => item.value}>
+	<!-- Cinq options: la liste s'ouvre sans champ de recherche, et `getValue` se déduit du
+	     `value` de l'option. -->
+	<InputSelect label="Fruits" items={options} bind:value={fruit}>
 		{#snippet selected(item)}
 			<div class="flex gap-2">
 				<item.icon size={18} opacity={0.8} />
@@ -28,4 +31,5 @@
 			{/if}
 		{/snippet}
 	</InputSelect>
+	<p class="mt-2 text-sm opacity-60">Value: {fruit?.value || '-'}</p>
 </div>

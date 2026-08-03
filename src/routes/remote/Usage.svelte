@@ -4,8 +4,8 @@
 	import InputNumber from '$lib/input/InputNumber.svelte'
 	import InputRadio from '$lib/input/InputRadio.svelte'
 	import InputRange from '$lib/input/InputRange.svelte'
-	import InputRelation from '$lib/input/InputRelation.svelte'
-	import InputRelations from '$lib/input/InputRelations.svelte'
+	import InputMultiSelect from '$lib/input/InputMultiSelect.svelte'
+	import InputSelect from '$lib/input/InputSelect.svelte'
 	import InputSelectNative from '$lib/input/InputSelectNative.svelte'
 	import InputString from '$lib/input/InputString.svelte'
 	import InputTextarea from '$lib/input/InputTextarea.svelte'
@@ -31,26 +31,20 @@
 		<InputRadio field={form.fields.gender} label="Genre" options={userGenderOptions} />
 		<InputSelectNative field={form.fields.gender2} label="Genre2" options={userGenderOptions} />
 
-		<InputRelation
-			field={form.fields.loveId}
-			label="Love"
-			searchItems={searchUsers}
-			getValue={(user) => user.id}
-		>
+		<InputSelect field={form.fields.loveId} label="Love" items={searchUsers}>
 			{#snippet selected(user)}<span>{user.name}</span>{/snippet}
 			{#snippet proposal(user)}<span class="grow">{user.name}</span>{/snippet}
-		</InputRelation>
+		</InputSelect>
 
-		<InputRelations
+		<InputMultiSelect
 			field={form.fields.friendIds}
 			value={users.slice(0, 2)}
 			label="Amis"
-			searchItems={searchUsers}
-			getValue={(user) => user.id}
+			items={searchUsers}
 		>
 			{#snippet selected(user)}<span>{user.name}</span>{/snippet}
 			{#snippet proposal(user)}<span class="grow">{user.name}</span>{/snippet}
-		</InputRelations>
+		</InputMultiSelect>
 
 		<button class="btn">Create</button>
 	</form>

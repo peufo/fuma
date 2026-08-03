@@ -74,7 +74,7 @@ src/
 │   ├── data.ts             # Demo/test data (Faker.js) — NOT part of package exports
 │   ├── action/             # Svelte actions (autoSubmit, tip, editable list with DnD)
 │   ├── command/            # Keyboard navigation composable (useCommand)
-│   ├── input/              # Form input components (InputString, InputNumber, InputRelation, etc.)
+│   ├── input/              # Form input components (InputString, InputNumber, InputSelect, etc.)
 │   ├── popover/            # Popover primitive using CSS anchor positioning
 │   ├── search/             # Fuse.js-powered search with highlighted spans
 │   ├── server/             # Server-side utilities (parseQuery, table helpers, SSE)

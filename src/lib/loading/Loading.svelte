@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { GhostIcon, LoaderCircleIcon, TriangleAlertIcon } from '@lucide/svelte'
-	import type { RemoteQuery } from '@sveltejs/kit'
 	import type { ClassValue } from 'svelte/elements'
 	import { fade } from 'svelte/transition'
+	import type { QueryLike } from '../input/useItems.svelte.js'
 
 	let {
 		query,
@@ -10,7 +10,8 @@
 		error = 'Une erreur est survenue',
 		class: klass
 	}: {
-		query: RemoteQuery<unknown>
+		/** Structurel plutôt que `RemoteQuery`: une source locale s'affiche de la même façon. */
+		query: QueryLike<unknown>
 		empty?: string
 		error?: string
 		class?: ClassValue

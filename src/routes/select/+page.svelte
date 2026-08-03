@@ -1,46 +1,46 @@
 <script lang="ts">
-	import InputSelectCode from '$lib/input/InputSelect.svelte?raw'
-	import InputRelationCode from '$lib/input/InputRelation.svelte?raw'
-	import InputRelationsCode from '$lib/input/InputRelations.svelte?raw'
 	import DocExample from '$lib/_doc/DocExample.svelte'
 	import { DocProps, DocSection } from '$lib/_doc/index.ts'
 	import { parseProps } from '$lib/_doc/parse-props.ts'
+	import InputMultiSelectCode from '$lib/input/InputMultiSelect.svelte?raw'
+	import InputSelectCode from '$lib/input/InputSelect.svelte?raw'
 	import Usage from './Usage.svelte'
 	import usageCode from './Usage.svelte?raw'
-	import UsageController from './UsageController.svelte'
-	import usageControllerCode from './UsageController.svelte?raw'
-	import UsageRelation from './UsageRelation.svelte'
-	import usageRelationCode from './UsageRelation.svelte?raw'
-	import UsageRelations from './UsageRelations.svelte'
-	import usageRelationsCode from './UsageRelations.svelte?raw'
+	import UsageItems from './UsageItems.svelte'
+	import usageItemsCode from './UsageItems.svelte?raw'
+	import UsageMulti from './UsageMulti.svelte'
+	import usageMultiCode from './UsageMulti.svelte?raw'
+	import UsageQuery from './UsageQuery.svelte'
+	import usageQueryCode from './UsageQuery.svelte?raw'
+	import UsageSearch from './UsageSearch.svelte'
+	import usageSearchCode from './UsageSearch.svelte?raw'
 </script>
 
-<DocSection title="InputSelect" description="TODO: write a small description">
+<DocSection
+	title="InputSelect"
+	description="`items` accepte les trois façons d'alimenter une liste: un tableau déjà chargé (filtré en local), une fonction — synchrone ou asynchrone — qui porte son propre filtre, ou une remote query filtrée par le serveur. `value` porte l'item lui-même, pas sa valeur soumise: la sélection initiale s'affiche donc sans requête."
+>
 	<DocProps props={parseProps(InputSelectCode)} />
-	<DocExample title="Form mode" code={usageCode}>
+	<DocExample title="Tableau court" code={usageCode}>
 		{#snippet preview()}<Usage />{/snippet}
 	</DocExample>
-	<DocExample title="Controller mode" code={usageControllerCode}>
-		{#snippet preview()}<UsageController />{/snippet}
+	<DocExample title="Tableau, recherche locale" code={usageItemsCode}>
+		{#snippet preview()}<UsageItems />{/snippet}
+	</DocExample>
+	<DocExample title="Fonction asynchrone" code={usageSearchCode}>
+		{#snippet preview()}<UsageSearch />{/snippet}
+	</DocExample>
+	<DocExample title="Remote query" code={usageQueryCode}>
+		{#snippet preview()}<UsageQuery />{/snippet}
 	</DocExample>
 </DocSection>
 
 <DocSection
-	title="InputRelation"
-	description="Same as InputSelect, but items come from a remote query searched on the server"
+	title="InputMultiSelect"
+	description="Même chose, mais sélectionne plusieurs items. Le popover ne se referme pas à chaque choix, et chaque valeur retenue se soumet par une case cochée cachée."
 >
-	<DocProps props={parseProps(InputRelationCode)} />
-	<DocExample title="Query mode" code={usageRelationCode}>
-		{#snippet preview()}<UsageRelation />{/snippet}
-	</DocExample>
-</DocSection>
-
-<DocSection
-	title="InputRelations"
-	description="Same as InputRelation, but selects several items. `value` holds the items themselves, so the initial selection shows its label without an extra query"
->
-	<DocProps props={parseProps(InputRelationsCode)} />
-	<DocExample title="Query mode" code={usageRelationsCode}>
-		{#snippet preview()}<UsageRelations />{/snippet}
+	<DocProps props={parseProps(InputMultiSelectCode)} />
+	<DocExample title="Remote query" code={usageMultiCode}>
+		{#snippet preview()}<UsageMulti />{/snippet}
 	</DocExample>
 </DocSection>

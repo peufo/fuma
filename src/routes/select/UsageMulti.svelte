@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { CheckIcon } from '@lucide/svelte'
 	import { type User, users } from '$lib/_doc/data.ts'
-	import InputRelations from '$lib/input/InputRelations.svelte'
+	import InputMultiSelect from '$lib/input/InputMultiSelect.svelte'
 	import { searchUsers } from './select.remote.ts'
 
 	// `value` porte les items: la sélection initiale s'affiche sans requête, même si la
@@ -9,12 +9,11 @@
 	let selectedUsers = $state<User[]>(users.slice(0, 2))
 </script>
 
-<div class="flex flex-col gap-4 p-4" id="relations-demo">
-	<InputRelations
+<div class="flex flex-col gap-4 p-4" id="multi-select-demo">
+	<InputMultiSelect
 		label="Utilisateurs"
 		placeholder="Selectionner des utilisateurs"
-		searchItems={searchUsers}
-		getValue={(user) => user.id}
+		items={searchUsers}
 		bind:value={selectedUsers}
 		hotKey="k"
 	>
@@ -28,7 +27,7 @@
 				<CheckIcon size={18} />
 			{/if}
 		{/snippet}
-	</InputRelations>
+	</InputMultiSelect>
 
 	<p>Selected: {selectedUsers.map((user) => user.name).join(', ') || '-'}</p>
 </div>
