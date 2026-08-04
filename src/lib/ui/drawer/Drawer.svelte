@@ -12,6 +12,7 @@
 	import { drawerFly } from './drawerFly.js'
 	import { writable } from 'svelte/store'
 	import { useLayer } from './useLayer.svelte.js'
+	import type { ClassValue } from 'svelte/elements'
 
 	let {
 		key,
@@ -27,10 +28,10 @@
 	}: {
 		key: string
 		title?: string
-		class?: string
+		class?: ClassValue
 		maxWidth?: string
-		classHeader?: string
-		classBody?: string
+		classHeader?: ClassValue
+		classBody?: ClassValue
 		duration?: number
 		noOverlay?: boolean
 		zIndex?: number
@@ -82,18 +83,20 @@
 			transform: translateX({-offset * 4}rem);
 			transition-duration: {duration}ms;
 		"
-		class:border-l={noOverlay}
-		class="{klass} fixed
-      		top-0 right-0 bottom-0 z-10 flex
-			w-full flex-col overflow-y-scroll bg-base-100
-			transition-transform
-    	"
+		class={[
+			'fixed top-0 right-0 bottom-0 z-10 flex',
+			'w-full flex-col overflow-y-scroll bg-base-100',
+			'transition-transform',
+			noOverlay && 'border-l',
+			klass
+		]}
 	>
 		<div
-			class="{classHeader}
-				sticky top-0 z-20 flex items-center
-				justify-between gap-2 border-b bg-base-100 p-4 pl-8
-			"
+			class={[
+				'sticky top-0 z-20 flex items-center',
+				'justify-between gap-2 border-b bg-base-100 p-4 pl-8',
+				classHeader
+			]}
 		>
 			<h2 class="title min-w-0 overflow-hidden">{title}</h2>
 			<button onclick={() => close()} class="btn btn-square btn-sm">
@@ -101,7 +104,7 @@
 			</button>
 		</div>
 
-		<div class="{classBody} grow pr-4 pl-8">
+		<div class={['grow pr-4 pl-8', classBody]}>
 			{@render children({ open, close })}
 		</div>
 	</aside>
