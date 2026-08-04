@@ -142,7 +142,7 @@
 	<input {...field.as('hidden', submittedValue)} />
 {/if}
 
-<div>
+<div class="contents">
 	{#if !label}
 		{@render triggerButton()}
 	{:else if variant === 'floating'}

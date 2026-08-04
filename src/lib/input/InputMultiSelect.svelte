@@ -190,7 +190,7 @@
 	{/each}
 {/if}
 
-<div>
+<div class="contents">
 	{#if !label}
 		{@render triggerCombobox()}
 	{:else if variant === 'floating'}
