@@ -89,6 +89,7 @@
 
 	export const popover = usePopover({
 		listenFocus: false,
+		listenFocusout: true,
 		onShow: () => command.focusTrigger(),
 		hotKey: (() => hotKey)()
 	})

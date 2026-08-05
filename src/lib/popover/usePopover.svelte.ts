@@ -27,6 +27,7 @@ export type PopoverOptions = {
 	placement?: Placement
 	listenClick?: boolean
 	listenFocus?: boolean
+	listenFocusout?: boolean
 	listenHover?: boolean
 	/** Only when listenHover={true} */
 	hideDelay?: number
@@ -42,6 +43,7 @@ export function usePopover({
 	placement = 'bottom-start',
 	listenClick = true,
 	listenFocus = true,
+	listenFocusout = false,
 	listenHover = false,
 	hideDelay = 400,
 	onShow,
@@ -82,6 +84,8 @@ export function usePopover({
 		}
 		if (listenFocus) {
 			cleanups.push(on(node, 'focusin', show))
+		}
+		if (listenFocus || listenFocusout) {
 			cleanups.push(on(node, 'focusout', onFocusOut))
 		}
 		if (listenHover) {
@@ -103,7 +107,7 @@ export function usePopover({
 			cleanups.push(on(node, 'mouseenter', onMouseEnter))
 			cleanups.push(on(node, 'mouseleave', hideDebounced))
 		}
-		if (listenFocus) {
+		if (listenFocus || listenFocusout) {
 			cleanups.push(on(node, 'focusout', onFocusOut))
 		}
 		return () => {
