@@ -45,7 +45,13 @@
 	const inputId = $props.id()
 	const inputProps = $derived({ id: inputId, class: 'input w-full', step: 300, ...props })
 
-	const current = $derived(value ? inZone(dayjs(value)) : null)
+	const current = $derived.by(() => {
+		if (!value) return null
+		const date = inZone(dayjs(value))
+		// Une date illisible se traite comme une absence de valeur: `format` rendrait
+		// « Invalid Date » dans les champs, et `toJSON` un `null` que le champ caché refuse.
+		return date.isValid() ? date : null
+	})
 
 	function inZone(date: Dayjs) {
 		return timezone ? date.tz(timezone) : date
@@ -98,11 +104,13 @@
 	}
 </script>
 
-{#if value}
+<!-- Par `current` et non `value`: la valeur passée n'est pas toujours la `Date` annoncée par le
+     type — une date qui a fait l'aller-retour par JSON revient en chaîne ISO. -->
+{#if current}
 	{#if field}
-		<input {...field.as('hidden', value.toJSON())} />
+		<input {...field.as('hidden', current.toJSON())} />
 	{:else if name}
-		<input type="hidden" {name} value={value.toJSON()} />
+		<input type="hidden" {name} value={current.toJSON()} />
 	{/if}
 {/if}
 
