@@ -128,7 +128,7 @@
 		<div
 			class={[
 				'sticky top-0 z-20 flex items-center',
-				'justify-between gap-2 bg-base-100 p-4 pl-8',
+				'justify-between gap-2 bg-base-100 p-4',
 				classHeader
 			]}
 		>
