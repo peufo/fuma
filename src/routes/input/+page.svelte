@@ -1,5 +1,6 @@
 <script lang="ts">
 	import InputBooleanCode from '$lib/input/InputBoolean.svelte?raw'
+	import InputDateTimeCode from '$lib/input/InputDateTime.svelte?raw'
 	import InputNumberCode from '$lib/input/InputNumber.svelte?raw'
 	import InputRadioCode from '$lib/input/InputRadio.svelte?raw'
 	import InputRangeCode from '$lib/input/InputRange.svelte?raw'
@@ -12,6 +13,8 @@
 	import { parseProps } from '$lib/_doc/parse-props.ts'
 	import BooleanExample from './examples/Boolean.svelte'
 	import booleanCode from './examples/Boolean.svelte?raw'
+	import DateTimeExample from './examples/DateTime.svelte'
+	import dateTimeCode from './examples/DateTime.svelte?raw'
 	import NumberExample from './examples/Number.svelte'
 	import numberCode from './examples/Number.svelte?raw'
 	import Radio from './examples/Radio.svelte'
@@ -46,6 +49,13 @@
 	<DocProps props={parseProps(InputBooleanCode)} />
 	<DocExample code={booleanCode}>
 		{#snippet preview()}<BooleanExample />{/snippet}
+	</DocExample>
+</DocSection>
+
+<DocSection title="InputDateTime" description="TODO: write a small description">
+	<DocProps props={parseProps(InputDateTimeCode)} />
+	<DocExample code={dateTimeCode}>
+		{#snippet preview()}<DateTimeExample />{/snippet}
 	</DocExample>
 </DocSection>
 

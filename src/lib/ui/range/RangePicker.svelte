@@ -88,4 +88,6 @@
 <input type="hidden" bind:this={startElement} />
 <input type="hidden" bind:this={endElement} />
 
-<div bind:this={parentEl}></div>
+<!-- Litepicker se pose en `inline-block`: sans conteneur flex il se colle à gauche dès que le
+     parent est plus large que le calendrier. -->
+<div class="flex justify-center" bind:this={parentEl}></div>

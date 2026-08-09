@@ -57,12 +57,19 @@ export function usePopover({
 	let isOpen = $state(false)
 
 	const hideDebounced = debounce(hide, hideDelay)
+	let isHiding = false
 	function show() {
+		// En refermant, le navigateur rend le focus au déclencheur si le focus était dans le
+		// popover — un bouton « Ok » ou « Effacer », typiquement. Sans ce garde, le `focusin`
+		// qui s'ensuit rouvre aussitôt ce qu'on vient de fermer, et `hide()` ne fait rien.
+		if (isHiding) return
 		content?.showPopover()
 		onShow?.()
 	}
 	function hide() {
+		isHiding = true
 		content?.hidePopover()
+		isHiding = false
 		onHide?.()
 	}
 	function onMouseEnter() {
@@ -73,7 +80,11 @@ export function usePopover({
 		isOpen = event.newState === 'open'
 	}
 	function onFocusOut({ relatedTarget }: FocusEvent | MouseEvent) {
-		if (!(relatedTarget instanceof Node)) return hide()
+		// Le focus ne va nulle part — `null`, ou `body` selon le navigateur: typiquement un
+		// `mousedown` sur un élément non focusable, un jour du calendrier par exemple. Fermer ici
+		// escamoterait la cible avant que le `click` ne l'atteigne; hors du popover, le
+		// light-dismiss natif s'en charge de toute façon.
+		if (!(relatedTarget instanceof Node) || relatedTarget === document.body) return
 		if (!content?.contains(relatedTarget) && relatedTarget !== activator) return hide()
 	}
 

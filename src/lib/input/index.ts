@@ -1,4 +1,5 @@
 export { default as InputBoolean } from './InputBoolean.svelte'
+export { default as InputDateTime } from './InputDateTime.svelte'
 export { default as InputMultiSelect } from './InputMultiSelect.svelte'
 export { default as InputNumber } from './InputNumber.svelte'
 export { default as InputRadio } from './InputRadio.svelte'

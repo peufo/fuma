@@ -3,9 +3,10 @@
 	import PeriodPicker from '$lib/ui/range/RangePicker.svelte'
 	import TableHeadDate from '$lib/ui/table/head/TableHeadDate.svelte'
 
-	let range = jsonParse<RangeAsDate>(param.get('range'), {
-		start: null,
-		end: null
+	const parsed = jsonParse<{ start?: string; end?: string }>(param.get('range'), {})
+	let range = $state<RangeAsDate>({
+		start: parsed.start ? new Date(parsed.start) : null,
+		end: parsed.end ? new Date(parsed.end) : null
 	})
 </script>
 
@@ -20,4 +21,12 @@
 
 <div class="divider"></div>
 
-<TableHeadDate field={{ key: 'date', label: 'Date' }} />
+<!-- `TableHeadDate` rend un `<th>`: hors d'un tableau l'analyseur HTML le jette, et
+     l'hydratation échoue sur le popover qu'il contient. -->
+<table class="table">
+	<thead>
+		<tr>
+			<TableHeadDate field={{ key: 'date', label: 'Date' }} />
+		</tr>
+	</thead>
+</table>

@@ -52,7 +52,7 @@
 	<Popover class="p-1">
 		{#snippet trigger(popover)}
 			<button class="menu-item min-h-8 w-full flex-wrap gap-y-1" {...popover.trigger}>
-				<div class="flex gap-2">
+				<div class="flex items-center gap-2">
 					{field.label}
 					{#if !optionsActive.length}
 						<ListFilterIcon size={15} class="opacity-50" />

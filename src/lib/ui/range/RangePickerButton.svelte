@@ -2,6 +2,7 @@
 	import { CalendarRangeIcon } from '@lucide/svelte'
 	import { slide } from 'svelte/transition'
 	import { goto } from '$app/navigation'
+	import { InputDateTime } from '$lib/input/index.js'
 	import { usePopover } from '$lib/popover/index.js'
 	import { param, urlParam } from '$lib/state/param.js'
 	import { formatRangeShort } from '$lib/ui/range/format.js'
@@ -12,12 +13,7 @@
 
 	let {
 		key = 'range',
-		range = $bindable(
-			jsonParse<RangeAsDate>(param.get(key), {
-				start: null,
-				end: null
-			})
-		),
+		range = $bindable(parseRange(param.get(key))),
 		minDate,
 		maxDate,
 		class: klass = '',
@@ -32,6 +28,13 @@
 	} = $props()
 
 	const popover = usePopover()
+
+	// Le paramètre d'URL porte des chaînes ISO: sans cette reprise, `range` contiendrait des
+	// chaînes là où tout le reste — `updateURL`, `InputDateTime` — attend des `Date`.
+	function parseRange(value?: string | null): RangeAsDate {
+		const { start, end } = jsonParse<{ start?: string; end?: string }>(value, {})
+		return { start: start ? new Date(start) : null, end: end ? new Date(end) : null }
+	}
 
 	// Le light-dismiss (clic à l'extérieur) ne passe pas par `hide()`, donc pas par
 	// `onHide`: on suit `isOpen` pour que l'URL soit à jour à chaque fermeture.
@@ -82,11 +85,8 @@
 	<RangePicker bind:this={rangePicker} numberOfMonths={1} bind:range {minDate} {maxDate} />
 
 	<div class="flex gap-2 p-2">
-		<!--
-		<InputString label="A partir de" bind:value={range.start} class="grow" />
-		<InputString label="Jusqu'à" bind:value={range.end} class="grow" />
-		-->
-		<span>TODO: same problème with input...</span>
+		<InputDateTime label="À partir de" bind:value={range.start} class="grow" />
+		<InputDateTime label="Jusqu'à" bind:value={range.end} class="grow" />
 	</div>
 
 	<div class="m-2 flex justify-end gap-2">

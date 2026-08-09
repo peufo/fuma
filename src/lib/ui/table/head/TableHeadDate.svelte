@@ -2,6 +2,7 @@
 	import { CalendarArrowDownIcon, CalendarArrowUpIcon, CalendarSearchIcon } from '@lucide/svelte'
 	import { goto } from '$app/navigation'
 	import { page } from '$app/state'
+	import { InputDateTime } from '$lib/input/index.js'
 	import { Popover, type PopoverType } from '$lib/popover/index.js'
 	import { urlParam } from '$lib/state/param.js'
 	import { formatRange } from '$lib/ui/range/format.js'
@@ -76,7 +77,7 @@
 	<Popover class="p-1">
 		{#snippet trigger(popover)}
 			<button class="menu-item min-h-8 w-full flex-wrap gap-y-1" {...popover.trigger}>
-				<div class="flex gap-2">
+				<div class="flex items-center gap-2">
 					<span>{field.label}</span>
 					{#if !isValidPeriod}
 						<CalendarSearchIcon size={15} class="opacity-50" />
@@ -127,13 +128,21 @@
 					}}
 				/>
 
-				<input class="hidden" type="text" name="start" value={range.start?.toJSON()} />
-				<input class="hidden" type="text" name="end" value={range.end?.toJSON()} />
-
 				<div class="m-2 flex gap-2">
-					<!-- <InputTime label="A partir de" bind:value={range.start} class="grow" on:input={updateUrl} />
-					<InputTime label="Jusqu'à" bind:value={range.end} class="grow" on:input={updateUrl} /> -->
-					<span>TODO: same problème with input...</span>
+					<InputDateTime
+						label="À partir de"
+						name="start"
+						bind:value={range.start}
+						class="grow"
+						onchange={updateUrl}
+					/>
+					<InputDateTime
+						label="Jusqu'à"
+						name="end"
+						bind:value={range.end}
+						class="grow"
+						onchange={updateUrl}
+					/>
 				</div>
 
 				<div class="m-2 flex flex-row-reverse gap-2">
