@@ -61,7 +61,9 @@ export const schemaUser = z.object({
 	age: z.number().min(18).max(120),
 	level: z.number().min(0).max(100),
 	cv: z.string(),
-	isValided: z.literal(true, 'Validation requise'),
+	// Une case non cochée n'envoie rien: `form()` de kit refuse au typage tout booléen non
+	// optionnel. L'entrée est donc optionnelle, et le `pipe` rétablit l'exigence à l'exécution.
+	isValided: z.boolean().optional().pipe(z.literal(true, 'Validation requise')),
 	subscribeAt: z.iso.date(),
 	gender: z.enum(userGenders),
 	gender2: z.enum(userGenders),

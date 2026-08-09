@@ -1,4 +1,4 @@
-import type { RemoteForm, RemoteFormInput } from '@sveltejs/kit'
+import type { RemoteForm, RemoteFormEnhanceCallback, RemoteFormInput } from '@sveltejs/kit'
 import debounce from 'debounce'
 import type { StandardSchemaV1 } from 'runed/kit'
 import { type Attachment, createAttachmentKey } from 'svelte/attachments'
@@ -39,22 +39,23 @@ export function validationOnInput<Input extends RemoteFormInput | undefined, Out
 	return validation
 }
 
-type UseEnhanceCallbackOptions<Input extends RemoteFormInput | void> = {
-	onSuccess?: (data: Input, form: HTMLFormElement) => void
+type UseEnhanceCallbackOptions<Output> = {
+	onSuccess?: (result: Output | undefined, element: HTMLFormElement) => void
 	onError?: (err: unknown) => void
 }
-type EnhanceCallback<Input extends RemoteFormInput | void> = Parameters<
-	RemoteForm<Input, unknown>['enhance']
->[0]
 
-export function useEnhanceCallback<Input extends RemoteFormInput | void>({
+export function useEnhanceCallback<Input extends RemoteFormInput | void, Output>({
 	onSuccess,
 	onError
-}: UseEnhanceCallbackOptions<Input>): EnhanceCallback<Input> {
-	return ({ submit, data, form }) => {
-		submit()
-			.then(() => {
-				onSuccess?.(data, form)
+}: UseEnhanceCallbackOptions<Output>): RemoteFormEnhanceCallback<Input, Output> {
+	// L'instance passée au callback ne porte plus `data` ni `form`: la donnée soumise n'est plus
+	// exposée telle quelle, et l'élément s'appelle désormais `element`.
+	return (form) => {
+		form
+			.submit()
+			.then((succeeded) => {
+				// `submit()` résout `false` quand le préflight ou la validation serveur a échoué.
+				if (succeeded) onSuccess?.(form.result, form.element)
 			})
 			.catch((err) => {
 				console.error(err)
