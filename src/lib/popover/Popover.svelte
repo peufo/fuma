@@ -37,7 +37,6 @@
 	}
 
 	div[popover]:popover-open {
-		inset: 5px;
 		transition-property: opacity, scale;
 		transition-duration: 150ms;
 		opacity: 1;

@@ -136,7 +136,12 @@ export function usePopover({
 				node.style.positionArea = placements[placement]
 				node.style.inset = 'auto'
 				node.style.positionTry = 'flip-x, flip-y'
-				node.style.position = 'relative'
+				// `fixed` et non `relative`: dans le top layer `relative` est absolutisé, le bloc
+				// conteneur devient alors le document et Chrome compense le défilement de page même
+				// quand l'ancre vit dans un sous-arbre `position: fixed` (tiroir, en-tête collant) qui,
+				// lui, ne défile pas — le popover dérivait d'exactement `window.scrollY`. `fixed` cale
+				// le bloc conteneur sur le viewport, ce qui rend aussi `position-try` viewport-relatif.
+				node.style.position = 'fixed'
 				const cleanup = attachPopoverListeners(node)
 				return () => {
 					untrack(() => (content = undefined))

@@ -26,7 +26,7 @@
 	<label
 		class={[
 			'input block not-disabled:cursor-pointer not-disabled:hover:bg-base-200',
-			'group h-auto min-h-10'
+			'group h-auto min-h-10 w-full'
 		]}
 	>
 		<div class="flex h-(--size) items-center gap-2">
