@@ -138,7 +138,7 @@
 			</button>
 		</div>
 
-		<div class={['grow pr-4 pl-8', classBody]}>
+		<div class={['grow px-4', classBody]}>
 			{@render children({ open, close })}
 		</div>
 	</div>
