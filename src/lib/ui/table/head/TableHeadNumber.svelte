@@ -4,8 +4,8 @@
 	import z from 'zod'
 	import { goto } from '$app/navigation'
 	import { page } from '$app/state'
+	import { Popover } from '$lib/popover/index.js'
 	import { urlParam } from '$lib/state/param.js'
-	import { DropDown } from '$lib/ui/menu/index.js'
 	import { zodCoerceJsonRecord } from '$lib/validation/zod.js'
 	import type { ItemBase, TableField } from '../field.js'
 	import OrderButtons from './OrderButtons.svelte'
@@ -50,9 +50,9 @@
 </script>
 
 <th class="p-1">
-	<DropDown hideOnBlur hideOnNav={false} autofocus tippyProps={{ appendTo: () => document.body }}>
-		{#snippet activator()}
-			<button class="menu-item min-h-8 w-full flex-wrap gap-y-1">
+	<Popover class="p-1">
+		{#snippet trigger(popover)}
+			<button class="menu-item min-h-8 w-full flex-wrap gap-y-1" {...popover.trigger}>
 				<div class="flex gap-2">
 					<span>{field.label}</span>
 					{#if min === undefined && max === undefined}
@@ -79,13 +79,13 @@
 			</button>
 		{/snippet}
 
-		{#snippet children({ tip })}
+		{#snippet children(popover)}
 			{#if field.sortable !== false}
 				<OrderButtons
 					bind:order
 					onChange={() => {
 						updateUrl()
-						tip?.hide()
+						popover.hide()
 					}}
 				/>
 				<div class="divider"></div>
@@ -95,10 +95,18 @@
 				class="grid grid-cols-2 gap-2 p-1"
 				onsubmit={(e) => {
 					e.preventDefault()
-					tip?.hide()
+					popover.hide()
 				}}
 			>
-				<input bind:value={min} oninput={updateUrl} placeholder="Min" />
+				<!-- `autofocus`: le popover natif donne le focus à cet élément à l'ouverture. -->
+				<!-- svelte-ignore a11y_autofocus -->
+				<input
+					bind:value={min}
+					oninput={updateUrl}
+					placeholder="Min"
+					autofocus
+					onfocus={(e) => e.currentTarget.select()}
+				/>
 				<input bind:value={max} oninput={updateUrl} placeholder="Max" />
 
 				<div class="col-span-full flex justify-end gap-2">
@@ -108,7 +116,7 @@
 						onclick={() => {
 							min = undefined
 							max = undefined
-							tip?.hide()
+							popover.hide()
 							resetFilter()
 						}}
 					>
@@ -118,5 +126,5 @@
 				</div>
 			</form>
 		{/snippet}
-	</DropDown>
+	</Popover>
 </th>

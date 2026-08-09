@@ -1,6 +1,5 @@
 <script lang="ts">
-	import { PrinterCheckIcon } from '@lucide/svelte'
-	import { ContextMenu, DropDown, DropDownMenu } from '$lib/ui/menu/index.js'
+	import { ContextMenu, DropDown } from '$lib/ui/menu/index.js'
 	import MenuContent from './MenuContent.svelte'
 
 	let contextMenu: ContextMenu
@@ -23,14 +22,5 @@
 <ContextMenu bind:this={contextMenu}>
 	<MenuContent />
 </ContextMenu>
-
-<div class="flex justify-around">
-	<DropDownMenu />
-	<DropDownMenu>
-		<button type="button" class="btn btn-square">
-			<PrinterCheckIcon />
-		</button>
-	</DropDownMenu>
-</div>
 
 <div class="h-60"></div>

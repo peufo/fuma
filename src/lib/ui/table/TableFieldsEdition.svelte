@@ -11,8 +11,8 @@
 	import { page } from '$app/state'
 	import { listEditable } from '$lib/action/list/index.js'
 	import { tip } from '$lib/action/tip.js'
+	import { Popover } from '$lib/popover/index.js'
 	import { param, urlParam } from '$lib/state/param.js'
-	import { DropDown } from '$lib/ui/menu/index.js'
 	import { context } from '$lib/ui/table/context.js'
 	import type { ItemBase, TableField } from '$lib/ui/table/index.js'
 	import { jsonParse } from '$lib/utils/jsonParse.js'
@@ -64,22 +64,19 @@
 </script>
 
 <th class="sticky right-0 z-10 p-0 px-1" align="right">
-	<DropDown
-		hideOnNav={false}
-		class="max-h-none px-0"
-		tippyProps={{ appendTo: () => document.body, placement: 'bottom-end' }}
-	>
-		{#snippet activator()}
+	<Popover placement="bottom-end" class="px-0 py-1">
+		{#snippet trigger(popover)}
 			<button
 				type="button"
 				class="btn btn-square btn-ghost backdrop-blur btn-sm"
 				use:tip={{ content: 'Dénfinir les champs' }}
+				{...popover.trigger}
 			>
 				<EllipsisIcon />
 			</button>
 		{/snippet}
 
-		{#snippet children({ tip })}
+		{#snippet children(popover)}
 			{#if onCreateField}
 				<div class="bordered flex items-center gap-2 border-b pr-1 pb-1 pl-2">
 					<span class=" font-semibold opacity-70">Champs</span>
@@ -88,7 +85,7 @@
 						class="btn ml-auto btn-square btn-sm"
 						onclick={() => {
 							if (onCreateField) onCreateField()
-							tip?.hide()
+							popover.hide()
 						}}
 					>
 						<PlusIcon title="Ajouter un champ" />
@@ -138,5 +135,5 @@
 				</div>
 			</div>
 		{/snippet}
-	</DropDown>
+	</Popover>
 </th>

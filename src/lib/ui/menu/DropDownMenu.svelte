@@ -1,21 +1,23 @@
 <script lang="ts">
 	import { ChevronsUpDownIcon } from '@lucide/svelte'
 	import type { Snippet } from 'svelte'
-	import { DropDown } from '$lib/ui/menu/index.js'
-	import type { TippyProps } from '$lib/utils/tippy.js'
+	import { Popover, type PopoverOptions } from '$lib/popover/index.js'
 
 	let {
-		tippyProps = {},
-		children: childrenProp
+		children: childrenProp,
+		...popoverOptions
 	}: {
-		tippyProps?: Partial<TippyProps>
 		children?: Snippet
-	} = $props()
+	} & PopoverOptions = $props()
 </script>
 
-<DropDown {tippyProps}>
-	{#snippet activator()}
-		<button type="button" class="flex h-12 items-center gap-2 rounded-lg border pr-2 pl-4">
+<Popover {...popoverOptions} class="p-1">
+	{#snippet trigger(popover)}
+		<button
+			type="button"
+			class="flex h-12 items-center gap-2 rounded-lg border pr-2 pl-4"
+			{...popover.trigger}
+		>
 			{#if childrenProp}
 				{@render childrenProp()}
 			{:else}
@@ -43,4 +45,4 @@
 				<span class="pr-4 whitespace-nowrap">{item.label}</span>
 			{/snippet}
 		</SelectorList> -->
-</DropDown>
+</Popover>

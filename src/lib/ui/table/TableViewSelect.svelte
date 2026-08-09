@@ -2,8 +2,8 @@
 	import { ChevronDownIcon, PlusIcon, SaveIcon } from '@lucide/svelte'
 	import { page } from '$app/state'
 
+	import { Popover } from '$lib/popover/index.js'
 	import { Dialog } from '$lib/ui/dialog/index.js'
-	import { DropDown } from '$lib/ui/menu/index.js'
 	import { SvelteURLSearchParams } from 'svelte/reactivity'
 
 	// import { InputText } from '$lib/ui/input/index.js';
@@ -41,69 +41,74 @@
 
 /* eslint-disable @typescript-eslint/no-unused-vars */ /* eslint-disable
 @typescript-eslint/no-unused-vars */
-<DropDown>
-	{#snippet activator()}
+<Popover class="p-1">
+	{#snippet trigger(popover)}
 		<button
 			type="button"
 			class="menu-item bordered gap-1 rounded-lg border font-semibold opacity-90 btn-sm"
+			{...popover.trigger}
 		>
 			<span>{isNewView ? 'Nouvelle vue' : selectedView?.name || 'Vue simple'}</span>
 			<ChevronDownIcon size={20} class="translate-x-1 translate-y-px opacity-90" />
 		</button>
 	{/snippet}
 
-	<ul class="flex flex-col gap-1">
-		{#if isNewView}
-			<li>
-				<button
-					type="button"
-					class="menu-item w-full pr-1.5"
-					onclick={() => {
-						selectedView = undefined
-						dialog?.showModal()
-					}}
-				>
-					<span>Ajouter la nouvelle vue</span>
-					<PlusIcon class="ml-auto opacity-80" size={21} />
-				</button>
-				<hr class="my-1" />
-			</li>
-		{/if}
-
-		<li>
-			<a href={page.url.pathname} class="menu-item" class:active={!query}>
-				<span class="grow">Vue simple</span>
-			</a>
-		</li>
-
-		{#each views as view (view.id)}
-			<li>
-				<a
-					href="{page.url.pathname}?{view.query}"
-					class="menu-item group pr-1"
-					class:active={view.id === selectedView?.id}
-				>
-					<span class="grow">{view.name}</span>
+	{#snippet children(popover)}
+		<ul class="flex flex-col gap-1">
+			{#if isNewView}
+				<li>
 					<button
 						type="button"
-						class="btn btn-square rounded btn-ghost btn-xs"
-						onclick={(e) => {
-							e.preventDefault()
-							selectedView = view
+						class="menu-item w-full pr-1.5"
+						onclick={() => {
+							selectedView = undefined
 							dialog?.showModal()
+							popover.hide()
 						}}
 					>
-						<SaveIcon
-							class="opacity-50 group-hover:opacity-80"
-							size={18}
-							title="Modifier la vue '{view.name}'"
-						/>
+						<span>Ajouter la nouvelle vue</span>
+						<PlusIcon class="ml-auto opacity-80" size={21} />
 					</button>
+					<hr class="my-1" />
+				</li>
+			{/if}
+
+			<li>
+				<a href={page.url.pathname} class="menu-item" class:active={!query} onclick={popover.hide}>
+					<span class="grow">Vue simple</span>
 				</a>
 			</li>
-		{/each}
-	</ul>
-</DropDown>
+
+			{#each views as view (view.id)}
+				<li>
+					<a
+						href="{page.url.pathname}?{view.query}"
+						class="menu-item group pr-1"
+						class:active={view.id === selectedView?.id}
+						onclick={popover.hide}
+					>
+						<span class="grow">{view.name}</span>
+						<button
+							type="button"
+							class="btn btn-square rounded btn-ghost btn-xs"
+							onclick={(e) => {
+								e.preventDefault()
+								selectedView = view
+								dialog?.showModal()
+							}}
+						>
+							<SaveIcon
+								class="opacity-50 group-hover:opacity-80"
+								size={18}
+								title="Modifier la vue '{view.name}'"
+							/>
+						</button>
+					</a>
+				</li>
+			{/each}
+		</ul>
+	{/snippet}
+</Popover>
 
 <Dialog bind:dialog>
 	{#snippet header()}

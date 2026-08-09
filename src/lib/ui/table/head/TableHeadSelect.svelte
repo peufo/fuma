@@ -1,8 +1,8 @@
 <script lang="ts" generics="Item extends ItemBase">
 	import { ListFilterIcon } from '@lucide/svelte'
 	import { page } from '$app/state'
+	import { Popover } from '$lib/popover/index.js'
 	import { param, urlParam } from '$lib/state/param.js'
-	import { DropDown } from '$lib/ui/menu/index.js'
 	import type { ItemBase, TableField } from '$lib/ui/table/index.js'
 	import { jsonParse } from '$lib/utils/jsonParse.js'
 	import { type Options, parseOptions } from '$lib/utils/options.js'
@@ -49,9 +49,9 @@
 </script>
 
 <th class="p-1">
-	<DropDown hideOnBlur hideOnNav={!multiSelect} tippyProps={{ appendTo: () => document.body }}>
-		{#snippet activator()}
-			<button class="menu-item min-h-8 w-full flex-wrap gap-y-1">
+	<Popover class="p-1">
+		{#snippet trigger(popover)}
+			<button class="menu-item min-h-8 w-full flex-wrap gap-y-1" {...popover.trigger}>
 				<div class="flex gap-2">
 					{field.label}
 					{#if !optionsActive.length}
@@ -74,25 +74,28 @@
 			</button>
 		{/snippet}
 
-		<div class="flex flex-col gap-1">
-			{#each options as { isActive, icon: Icon, label, value } (value)}
-				<a
-					href={getHref(value)}
-					class="menu-item px-3 py-2"
-					class:active={isActive}
-					data-sveltekit-noscroll
-					data-sveltekit-replacestate
-				>
-					{#if Icon}
-						<Icon size={18} class="opacity-60" />
-					{/if}
-					<span class="font-normal whitespace-nowrap">{label}</span>
-				</a>
-			{:else}
-				<div class="menu-item disabled px-10">
-					<span class="opacity-40">{placeholder}</span>
-				</div>
-			{/each}
-		</div>
-	</DropDown>
+		{#snippet children(popover)}
+			<div class="flex flex-col gap-1">
+				{#each options as { isActive, icon: Icon, label, value } (value)}
+					<a
+						href={getHref(value)}
+						class="menu-item px-3 py-2"
+						class:active={isActive}
+						data-sveltekit-noscroll
+						data-sveltekit-replacestate
+						onclick={multiSelect ? undefined : popover.hide}
+					>
+						{#if Icon}
+							<Icon size={18} class="opacity-60" />
+						{/if}
+						<span class="font-normal whitespace-nowrap">{label}</span>
+					</a>
+				{:else}
+					<div class="menu-item disabled px-10">
+						<span class="opacity-40">{placeholder}</span>
+					</div>
+				{/each}
+			</div>
+		{/snippet}
+	</Popover>
 </th>

@@ -2,13 +2,12 @@
 	import { CalendarRangeIcon } from '@lucide/svelte'
 	import { slide } from 'svelte/transition'
 	import { goto } from '$app/navigation'
+	import { usePopover } from '$lib/popover/index.js'
 	import { param, urlParam } from '$lib/state/param.js'
-	import { DropDown } from '$lib/ui/menu/index.js'
 	import { formatRangeShort } from '$lib/ui/range/format.js'
 	import { type RangeAsDate, RangePicker } from '$lib/ui/range/index.js'
 	import { jsonParse } from '$lib/utils/jsonParse.js'
 
-	let dropDown: DropDown
 	let rangePicker: RangePicker
 
 	let {
@@ -32,6 +31,17 @@
 		classLabel?: string
 	} = $props()
 
+	const popover = usePopover()
+
+	// Le light-dismiss (clic à l'extérieur) ne passe pas par `hide()`, donc pas par
+	// `onHide`: on suit `isOpen` pour que l'URL soit à jour à chaque fermeture.
+	let wasOpen = false
+	$effect(() => {
+		const { isOpen } = popover
+		if (wasOpen && !isOpen) updateURL()
+		wasOpen = isOpen
+	})
+
 	let isValidPeriod = $derived(!!range.start && !!range.end)
 
 	function getLabel(_range?: Partial<RangeAsDate>) {
@@ -53,21 +63,22 @@
 	}
 </script>
 
-<DropDown bind:this={dropDown} tippyProps={{ onHidden: updateURL }} class="max-h-full">
-	{#snippet activator()}
-		<button class="min-width-0 btn flex-nowrap btn-sm {klass}">
-			<CalendarRangeIcon class="opacity-60" size={20} />
-			{#if isValidPeriod}
-				<span
-					transition:slide={{ axis: 'x', duration: 200 }}
-					class="text-xs font-medium whitespace-nowrap opacity-80 {classLabel}"
-				>
-					{getLabel(range)}
-				</span>
-			{/if}
-		</button>
-	{/snippet}
+<button
+	class={['min-width-0 btn flex-nowrap btn-sm', !isValidPeriod && 'btn-square', klass]}
+	{...popover.trigger}
+>
+	<CalendarRangeIcon class="opacity-70" size={20} />
+	{#if isValidPeriod}
+		<span
+			transition:slide={{ axis: 'x', duration: 200 }}
+			class="text-xs font-medium whitespace-nowrap opacity-80 {classLabel}"
+		>
+			{getLabel(range)}
+		</span>
+	{/if}
+</button>
 
+<div {...popover.content} class="rounded-box border bg-base-100 p-1 shadow-xl">
 	<RangePicker bind:this={rangePicker} numberOfMonths={1} bind:range {minDate} {maxDate} />
 
 	<div class="flex gap-2 p-2">
@@ -86,12 +97,18 @@
 				onclick={() => {
 					range = { start: null, end: null }
 					rangePicker.clear()
-					dropDown.hide()
+					popover.hide()
 				}}
 			>
 				Effacer
 			</button>
 		{/if}
-		<button class="btn" onclick={() => dropDown.hide()}> Valider </button>
+		<button class="btn" onclick={() => popover.hide()}> Valider </button>
 	</div>
-</DropDown>
+</div>
+
+<style>
+	div[popover] {
+		border-color: color-mix(in oklab, var(--color-base-content) 20%, #0000);
+	}
+</style>
