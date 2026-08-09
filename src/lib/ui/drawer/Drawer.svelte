@@ -107,7 +107,7 @@
 			duration,
 			opacity: 1,
 			onTransition(pos) {
-				$transitionX = pos.x
+				if (noOverlay) $transitionX = pos.x
 			}
 		}}
 		style="
