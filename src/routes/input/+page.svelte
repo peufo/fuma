@@ -1,5 +1,6 @@
 <script lang="ts">
 	import InputBooleanCode from '$lib/input/InputBoolean.svelte?raw'
+	import InputCheckboxesCode from '$lib/input/InputCheckboxes.svelte?raw'
 	import InputDateTimeCode from '$lib/input/InputDateTime.svelte?raw'
 	import InputNumberCode from '$lib/input/InputNumber.svelte?raw'
 	import InputRadioCode from '$lib/input/InputRadio.svelte?raw'
@@ -13,6 +14,8 @@
 	import { parseProps } from '$lib/_doc/parse-props.ts'
 	import BooleanExample from './examples/Boolean.svelte'
 	import booleanCode from './examples/Boolean.svelte?raw'
+	import Checkboxes from './examples/Checkboxes.svelte'
+	import checkboxesCode from './examples/Checkboxes.svelte?raw'
 	import DateTimeExample from './examples/DateTime.svelte'
 	import dateTimeCode from './examples/DateTime.svelte?raw'
 	import NumberExample from './examples/Number.svelte'
@@ -77,6 +80,13 @@
 	<DocProps props={parseProps(InputRadioCode)} />
 	<DocExample code={radioCode}>
 		{#snippet preview()}<Radio />{/snippet}
+	</DocExample>
+</DocSection>
+
+<DocSection title="InputCheckboxes" description="TODO: write a small description">
+	<DocProps props={parseProps(InputCheckboxesCode)} />
+	<DocExample code={checkboxesCode}>
+		{#snippet preview()}<Checkboxes />{/snippet}
 	</DocExample>
 </DocSection>
 
