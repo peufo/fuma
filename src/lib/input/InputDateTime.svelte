@@ -43,7 +43,7 @@
 	} & InputProps = $props()
 
 	const inputId = $props.id()
-	const inputProps = $derived({ id: inputId, class: 'input w-full', step: 300, ...props })
+	const inputProps = $derived({ id: inputId, class: 'input w-full', ...props })
 
 	const current = $derived.by(() => {
 		if (!value) return null
