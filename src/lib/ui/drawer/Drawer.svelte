@@ -1,5 +1,6 @@
 <script lang="ts" module>
-	export const transitionX = writable(0)
+	/** Décalage horizontal courant (px) du tiroir `noOverlay` pendant sa transition. */
+	export const transitionX = $state({ current: 0 })
 </script>
 
 <script lang="ts">
@@ -10,7 +11,6 @@
 	import { goto } from '$app/navigation'
 	import { urlParam } from '$lib/state/param.js'
 	import { drawerFly } from './drawerFly.js'
-	import { writable } from 'svelte/store'
 	import { useLayer } from './useLayer.svelte.js'
 	import { inertBackground } from './inertBackground.js'
 	import type { ClassValue } from 'svelte/elements'
@@ -109,7 +109,7 @@
 			duration,
 			opacity: 1,
 			onTransition(pos) {
-				if (noOverlay) $transitionX = pos.x
+				if (noOverlay) transitionX.current = pos.x
 			}
 		}}
 		style="
