@@ -9,8 +9,7 @@ export type Primitive = string | number | boolean | Date
 export type ItemBase = { id: string | number }
 
 export type TableField<Item extends ItemBase> =
-	| (TableFieldCommon<Item> & TableFieldPrimitve)
-	| (TableFieldCommon<Item> & TableFieldSelect)
+	(TableFieldCommon<Item> & TableFieldPrimitve) | (TableFieldCommon<Item> & TableFieldSelect)
 
 type TableFieldCommon<Item extends ItemBase> = {
 	key: string
@@ -23,8 +22,7 @@ type TableFieldCommon<Item extends ItemBase> = {
 	/** Internal usage */
 	_visible?: boolean
 	cell:
-		| ((item: Item) => Snippet<[Item]>)
-		| ((item: Item) => null | undefined | Primitive | Primitive[])
+		((item: Item) => Snippet<[Item]>) | ((item: Item) => null | undefined | Primitive | Primitive[])
 	head?: Snippet<[Item]>
 }
 

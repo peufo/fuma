@@ -2,7 +2,6 @@
 	import type { RemoteFormField } from '@sveltejs/kit'
 	import { type Options, parseOptions } from '$lib/utils/index.js'
 	import Issues from './Issues.svelte'
-	import { CheckIcon } from '@lucide/svelte'
 
 	let {
 		field,

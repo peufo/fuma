@@ -11,11 +11,7 @@ export type Option = {
 } & Omit<InputProps, 'id'> // TODO: accept OptionProps (HTMLOptionAttributes)
 export type OptionRecord<Values extends string> = Record<Values, Omit<Option, 'value'>>
 export type Options =
-	| string
-	| readonly string[]
-	| readonly Option[]
-	| Record<string, string>
-	| OptionRecord<string>
+	string | readonly string[] | readonly Option[] | Record<string, string> | OptionRecord<string>
 
 export function parseOptions(options: Options): Option[] {
 	if (typeof options === 'string') {

@@ -47,7 +47,7 @@
 	class={[
 		btn && [
 			'btn',
-			waitConfirmation ? 'btn-outline btn-error' : 'text-error btn-ghost',
+			waitConfirmation ? 'btn-outline btn-error' : 'btn-ghost text-error',
 			props.disabled && 'btn-disabled'
 		]
 	]}

@@ -3,8 +3,7 @@
 export type GenericObject = Record<PropertyKey, unknown>
 
 type Join<L extends PropertyKey | undefined, R extends PropertyKey | undefined> = L extends
-	| string
-	| number
+	string | number
 	? R extends string | number
 		? `${L}.${R}`
 		: L
