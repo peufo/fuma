@@ -1,10 +1,12 @@
 <script lang="ts" generics="Item extends ItemBase">
 	import {
 		CheckIcon,
-		CircleCheckIcon,
-		CircleIcon,
+		DotIcon,
 		EllipsisIcon,
+		FunnelIcon,
 		GripIcon,
+		LockKeyholeIcon,
+		MoveVerticalIcon,
 		PlusIcon
 	} from '@lucide/svelte'
 	import { goto } from '$app/navigation'
@@ -69,7 +71,7 @@
 			<button
 				type="button"
 				class="btn btn-square btn-ghost backdrop-blur btn-sm"
-				use:tip={{ content: 'Dénfinir les champs' }}
+				use:tip={{ content: 'Modifier les colonnes' }}
 				{...popover.trigger}
 			>
 				<EllipsisIcon />
@@ -105,30 +107,33 @@
 						<a
 							draggable="false"
 							href={getFieldHref(field)}
-							class="menu-item w-full"
+							class="menu-item group w-full pr-1"
 							class:disabled={field.locked}
 							data-sveltekit-keepfocus
 							data-sveltekit-replacestate
 							data-sveltekit-noscroll
 						>
 							{#if field.locked}
-								<CheckIcon class="fill-base-content/50" size={21} />
+								<LockKeyholeIcon class="mx-0.5 text-primary" size={17} />
 							{:else if param.has(field.key)}
-								<CircleCheckIcon class="fill-primary" size={21} />
+								<FunnelIcon class="mx-0.5 text-primary" size={17} />
 							{:else if field._visible}
-								<CheckIcon class="fill-success" size={21} />
+								<CheckIcon class="text-success" size={21} />
 							{:else}
-								<CircleIcon class="fill-base-content/50" size={21} />
+								<DotIcon class="text-base-content/50" size={21} />
 							{/if}
 
-							<span>{field.label}</span>
+							<span class=" font-normal">{field.label}</span>
 
 							<span
-								class="drag-button btn ml-auto btn-square btn-ghost btn-xs"
+								class={[
+									'drag-button btn ml-auto btn-square btn-soft btn-xs',
+									'opacity-0 group-hover:opacity-100'
+								]}
 								onclick={(e) => e.preventDefault()}
 								role="none"
 							>
-								<GripIcon size={18} class="fill-base-content/80" />
+								<MoveVerticalIcon size={18} class="text-base-content/70" />
 							</span>
 						</a>
 					{/each}
