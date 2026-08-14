@@ -13,6 +13,10 @@
 	}: {
 		label: string
 		field?: RemoteFormField<number>
+		/**
+		 * Sans `field`, la valeur liée. Avec, la valeur initiale du champ — celui-ci prend
+		 * ensuite le relais et devient la source de vérité.
+		 */
 		value?: number
 		/** Sans `field`, ce qui nomme la valeur soumise. Avec, `field.as()` s'en charge. */
 		name?: string
@@ -25,7 +29,11 @@
 		<span class="label ml-auto">{field?.value() ?? value}</span>
 	</div>
 	{#if field}
-		<input class={['range w-full range-sm', klass]} {...field.as('range')} {...props} />
+		<input
+			class={['range w-full range-sm', klass]}
+			{...value === undefined ? field.as('range') : field.as('range', value)}
+			{...props}
+		/>
 	{:else}
 		<input class={['range w-full range-sm', klass]} type="range" {name} bind:value {...props} />
 	{/if}
