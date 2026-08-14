@@ -18,7 +18,7 @@
 
 <label>
 	<div class="flex gap-2 px-3 text-sm">
-		<span class="label">{label}</span>
+		<span class="label text-wrap">{label}</span>
 		<span class="ml-auto">{field?.value() ?? value}</span>
 	</div>
 	{#if field}

@@ -153,7 +153,7 @@
 		</label>
 	{:else}
 		<fieldset class="fieldset">
-			<label class="label" for={inputId}>{label}</label>
+			<label class="label text-wrap" for={inputId}>{label}</label>
 			{@render triggerButton()}
 		</fieldset>
 	{/if}

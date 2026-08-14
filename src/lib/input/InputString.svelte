@@ -65,7 +65,7 @@
 	</label>
 {:else}
 	<fieldset class={['fieldset', klass]}>
-		<label class="label" for={inputId}>{label}</label>
+		<label class="label text-wrap" for={inputId}>{label}</label>
 		{@render snippetInput()}
 		<Issues {field} />
 	</fieldset>

@@ -172,7 +172,7 @@
 	</label>
 {:else}
 	<fieldset class={['fieldset', klass]}>
-		<label class="label" for={inputId}>
+		<label class="label text-wrap" for={inputId}>
 			<span>{label}</span>
 			{#if hint}
 				<span class="ml-auto">{hint}</span>

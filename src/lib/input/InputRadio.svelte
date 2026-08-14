@@ -19,7 +19,7 @@
 </script>
 
 <div class="flex flex-col gap-1">
-	<span class="label px-3 text-sm">{label}</span>
+	<span class="label px-3 text-sm text-wrap">{label}</span>
 	<div class="join join-vertical">
 		{#each options as option (option.value)}
 			{@const { class: klass, ...props } = option}

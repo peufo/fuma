@@ -29,8 +29,11 @@
 			'group h-auto min-h-10 w-full'
 		]}
 	>
-		<div class="flex h-(--size) items-center gap-2">
-			<div class="grow">{label}</div>
+		<!-- `.input` de daisyUI pose `white-space: nowrap`: sans `text-wrap`, un libellé un peu
+		     long déborde de la ligne au lieu de passer à la suivante. La hauteur suit donc le
+		     contenu, `--size` n'étant plus qu'un plancher. -->
+		<div class="flex min-h-(--size) items-center gap-2 py-1.5">
+			<div class="grow text-wrap">{label}</div>
 			{#if field}
 				<input {...field.as('checkbox')} class={['peer w-0']} {...props} />
 			{:else}
