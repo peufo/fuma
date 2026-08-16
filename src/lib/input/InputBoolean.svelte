@@ -14,6 +14,10 @@
 	}: {
 		label: string
 		field?: RemoteFormField<boolean>
+		/**
+		 * Sans `field`, l'état lié. Avec, l'état initial du champ — celui-ci prend ensuite
+		 * le relais et devient la source de vérité.
+		 */
 		checked?: boolean
 		hint?: string
 		variant?: 'checkbox' | 'switch'
@@ -35,7 +39,14 @@
 		<div class="flex min-h-(--size) items-center gap-2 py-1.5">
 			<div class="grow text-wrap">{label}</div>
 			{#if field}
-				<input {...field.as('checkbox')} class={['peer w-0']} {...props} />
+				<!-- `as('checkbox')` sans valeur pose `checked: undefined`: la case d'un champ
+				     déjà à `true` partirait décochée, alors que la coche dessinée, elle, suit
+				     `checked`. Les deux ne se contredisent que si l'état initial n'est pas transmis. -->
+				{#if checked === undefined}
+					<input {...field.as('checkbox')} class={['peer w-0']} {...props} />
+				{:else}
+					<input {...field.as('checkbox', checked)} class={['peer w-0']} {...props} />
+				{/if}
 			{:else}
 				<input type="checkbox" class={['peer w-0']} bind:checked {...props} />
 			{/if}
