@@ -17,22 +17,33 @@
 		label: string
 		options: Options
 		field?: RemoteFormField<string | string[]>
+		/**
+		 * Sans `field`, la valeur liée. Avec, la valeur initiale du champ — celui-ci prend
+		 * ensuite le relais et devient la source de vérité.
+		 */
 		value?: string | string[]
 		variant?: 'floating' | 'block'
 	} & SelectProps = $props()
 
 	const options = $derived(parseOptions(optionsProp))
 	const inputId = $props.id()
+
+	// Sans valeur initiale, `as()` rend `value: undefined` tant que le champ n'a rien reçu: le
+	// moindre re-rendu du spread — l'`aria-invalid` d'une soumission refusée, typiquement —
+	// désélectionne alors tout. La liaison, elle, ne rattrape rien: sa source n'a pas bougé.
+	const fieldProps = $derived.by(() => {
+		if (!field) return undefined
+		if (multiple === true) {
+			const initial = Array.isArray(value) ? value : undefined
+			return initial ? field.as('select multiple', initial) : field.as('select multiple')
+		}
+		const initial = typeof value === 'string' ? value : undefined
+		return initial === undefined ? field.as('select') : field.as('select', initial)
+	})
 </script>
 
 {#snippet snippetSelect()}
-	<select
-		id={inputId}
-		class="select w-full"
-		{...field?.as(multiple !== true ? 'select' : 'select multiple')}
-		bind:value
-		{...props}
-	>
+	<select id={inputId} class="select w-full" {...fieldProps} bind:value {...props}>
 		{#each options as option (option.value)}
 			<option value={option.value} class={['', option.class]} disabled={option.disabled}>
 				{#if option.icon}
