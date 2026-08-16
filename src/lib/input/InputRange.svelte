@@ -29,10 +29,14 @@
 		<span class="label ml-auto">{field?.value() ?? value}</span>
 	</div>
 	{#if field}
+		<!-- `props` avant `field.as()`: le navigateur ramène la valeur d'un `range` sur la grille
+		     `min`/`max`/`step` à chaque écriture. Posée en premier, elle est arrondie selon les
+		     bornes par défaut (0–100, pas de 1), et poser les vraies bornes ensuite l'y recale une
+		     seconde fois — au montage côté client, 0.75 finissait sur le minimum. -->
 		<input
 			class={['range w-full range-sm', klass]}
-			{...value === undefined ? field.as('range') : field.as('range', value)}
 			{...props}
+			{...value === undefined ? field.as('range') : field.as('range', value)}
 		/>
 	{:else}
 		<input class={['range w-full range-sm', klass]} type="range" {name} bind:value {...props} />
