@@ -154,15 +154,21 @@
 <div class="contents">
 	{#if !label}
 		{@render triggerButton()}
+		<Issues {field} />
+		{@render hint?.(value)}
 	{:else if variant === 'floating'}
 		<label class="floating-label">
 			<span>{label}</span>
 			{@render triggerButton()}
+			<Issues {field} />
+			{@render hint?.(value)}
 		</label>
 	{:else}
 		<fieldset class="fieldset">
 			<label class="label text-wrap" for={inputId}>{label}</label>
 			{@render triggerButton()}
+			<Issues {field} />
+			{@render hint?.(value)}
 		</fieldset>
 	{/if}
 
@@ -240,8 +246,6 @@
 
 		<Loading {query} />
 	</div>
-	<Issues {field} />
-	{@render hint?.(value)}
 </div>
 
 <style>
