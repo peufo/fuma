@@ -69,8 +69,8 @@
 {@render activator?.({ showModal: () => dialog?.showModal() })}
 
 <dialog bind:this={dialog} class="modal" tabindex="-1">
-	<div class="bordered modal-box flex flex-col rounded-lg border p-0">
-		<div class="relative flex items-center border-b p-4">
+	<div class="border-hard modal-box flex flex-col rounded-lg border p-0">
+		<div class="border-hard relative flex items-center border-b p-4">
 			<div class="grow">
 				{@render header?.()}
 			</div>

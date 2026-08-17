@@ -2,7 +2,7 @@
 	import { ChevronsUpDownIcon, SearchIcon, XIcon } from '@lucide/svelte'
 	import type { RemoteFormField } from '@sveltejs/kit'
 	import type { Snippet } from 'svelte'
-	import type { ClassValue } from 'svelte/elements'
+	import type { ClassValue, HTMLLiAttributes } from 'svelte/elements'
 	import { tip } from '../action/tip.js'
 	import { useCommand } from '../command/useCommand.svelte.js'
 	import Loading from '../loading/Loading.svelte'
@@ -32,9 +32,12 @@
 		nullable,
 		hint,
 		append,
+		header,
+		proposalAppend,
 		onSelect,
 		hotKey,
-		variant = 'block'
+		variant = 'block',
+		propsLi
 	}: {
 		/** Un tableau déjà chargé, une fonction (synchrone ou non), ou une remote query. */
 		items: ItemsSource<Item>
@@ -48,7 +51,10 @@
 		searchable?: boolean
 		debounceMs?: number
 		selected?: Snippet<[Item]>
-		proposal?: Snippet<[Item, { isSelected: boolean; isFocus: boolean }]>
+		proposal?: Snippet<[Item, { popover: PopoverType; isSelected: boolean; isFocus: boolean }]>
+		proposalAppend?: Snippet<
+			[Item, { popover: PopoverType; isSelected: boolean; isFocus: boolean }]
+		>
 		field?: RemoteFormField<string>
 		/**
 		 * L'item, pas sa valeur soumise. Un parent qui le repilote après coup — remise à
@@ -62,9 +68,11 @@
 		hint?: Snippet<[Item | undefined]>
 		/** Rendu à droite du champ de recherche: une action « créer », typiquement. */
 		append?: Snippet<[PopoverType]>
+		header?: Snippet<[PopoverType]>
 		onSelect?: (item: NoInfer<Item> | undefined, popover: PopoverType) => void
 		hotKey?: string
 		variant?: 'floating' | 'block'
+		propsLi?: HTMLLiAttributes
 	} = $props()
 
 	const inputId = $props.id()
@@ -164,54 +172,68 @@
 		style="min-width: anchor-size(width);"
 		tabindex="-1"
 	>
-		{#if isSearchable || isButtonSetNullVisible || append}
-			<div class="sticky top-0 z-10 flex gap-2 bg-base-100/10 p-2 backdrop-blur-md">
-				{#if isSearchable}
-					<label class="input grow input-ghost input-sm">
-						<SearchIcon opacity={0.6} size={20} />
-						<input
-							type="search"
-							placeholder="Recherche"
-							autocomplete="off"
-							bind:value={search}
-							{...command.trigger}
-						/>
-					</label>
+		{#if isSearchable || isButtonSetNullVisible || append || header}
+			<div class="sticky top-0 z-10 flex gap-2 bg-base-100/10 p-1 backdrop-blur-md">
+				{#if header}
+					{@render header(popover)}
 				{:else}
-					<div class="grow"></div>
+					{#if isSearchable}
+						<label class="input grow input-ghost input-sm">
+							<SearchIcon opacity={0.6} size={20} />
+							<input
+								type="search"
+								placeholder="Recherche"
+								autocomplete="off"
+								bind:value={search}
+								{...command.trigger}
+							/>
+						</label>
+					{:else}
+						<div class="grow"></div>
+					{/if}
+					{#if isButtonSetNullVisible}
+						<button
+							class="btn btn-square btn-soft btn-sm"
+							type="button"
+							onclick={() => {
+								setValue(undefined)
+								onSelect?.(undefined, popover)
+								popover.hide()
+							}}
+							use:tip={{ content: 'Pas de sélection' }}
+						>
+							<XIcon />
+						</button>
+					{/if}
+					{@render append?.(popover)}
 				{/if}
-				{#if isButtonSetNullVisible}
-					<button
-						class="btn btn-square btn-soft btn-sm"
-						type="button"
-						onclick={() => {
-							setValue(undefined)
-							onSelect?.(undefined, popover)
-							popover.hide()
-						}}
-						use:tip={{ content: 'Pas de sélection' }}
-					>
-						<XIcon />
-					</button>
-				{/if}
-				{@render append?.(popover)}
 			</div>
 		{/if}
 
-		<ul class={['menu max-h-80 w-full flex-nowrap', (isSearchable || append) && 'pt-0']}>
+		<ul
+			class={[
+				'menu max-h-80 w-full flex-nowrap gap-1 p-1',
+				(isSearchable || append || header) && 'pt-0'
+			]}
+		>
 			{#each options as item, index (item)}
 				{@const isSelected = submittedValue === getValue(item)}
 				{@const isFocus = index === command.focusIndex}
-				<li>
+				<li {...propsLi}>
 					<button
 						{...command.item(index, '')}
-						class={[isSelected && 'border', isFocus && 'menu-focus', 'scroll-mt-13 scroll-mb-2']}
+						class={[
+							isSelected && 'border-hard border',
+							isFocus && 'menu-focus',
+							'grow scroll-mt-13 scroll-mb-2'
+						]}
 						type="button"
 						tabindex="-1"
 						role="option"
 					>
-						{@render proposal(item, { isSelected, isFocus })}
+						{@render proposal(item, { popover, isSelected, isFocus })}
 					</button>
+					{@render proposalAppend?.(item, { popover, isSelected, isFocus })}
 				</li>
 			{/each}
 		</ul>
