@@ -8,6 +8,7 @@
 		formaction = '',
 		onclick: onclickProp,
 		onmouseleave: onmouseleaveProp,
+		class: klass,
 		...props
 	}: {
 		/** Form action URL triggered on confirmation */
@@ -48,7 +49,8 @@
 		btn && [
 			'btn',
 			waitConfirmation ? 'btn-outline btn-error' : 'btn-ghost text-error',
-			props.disabled && 'btn-disabled'
+			props.disabled && 'btn-disabled',
+			klass
 		]
 	]}
 	formaction={waitConfirmation ? formaction : undefined}
