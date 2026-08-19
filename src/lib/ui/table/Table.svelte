@@ -46,7 +46,7 @@
 	afterNavigate(initFields)
 </script>
 
-<div class="{klass} overflow-x-auto rounded-lg border bg-base-100" class:min-h-[320px]={!hideBody}>
+<div class="{klass} overflow-x-auto rounded-box border bg-base-100" class:min-h-[320px]={!hideBody}>
 	<table class="table relative">
 		<TableHead {fields} {key} {onCreateField} />
 		{#if !hideBody && items.length}
