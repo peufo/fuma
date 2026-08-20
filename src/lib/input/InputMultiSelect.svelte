@@ -139,7 +139,7 @@
 		aria-haspopup="listbox"
 		tabindex="0"
 		class={[
-			'input h-auto min-h-10 w-full flex-wrap items-center gap-1 py-1.5',
+			'input h-auto min-h-(--size) w-full flex-wrap items-center gap-1 py-1',
 			'not-disabled:cursor-pointer',
 			field?.issues()?.length && 'input-error',
 			klass
