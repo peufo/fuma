@@ -135,7 +135,7 @@
 		id={inputId}
 		type="button"
 		{disabled}
-		class={['input', field?.issues()?.length && 'input-error', klass]}
+		class={['input w-full', field?.issues()?.length && 'input-error', klass]}
 		{...popover.trigger}
 		{...isSearchable ? {} : command.trigger}
 	>

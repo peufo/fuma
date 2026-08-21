@@ -73,6 +73,10 @@
 
 	const inputId = $props.id()
 	const listId = `${inputId}-list`
+	// `<label for>` ne nomme que les éléments étiquetables, ce qu'un `div` n'est pas: sans
+	// cette référence explicite, le combobox reste sans nom accessible.
+	const labelId = `${inputId}-label`
+	let trigger = $state<HTMLDivElement>()
 
 	let search = $state('')
 	// Une énumération courte n'a que faire d'un champ de recherche; une fonction, elle, ne
@@ -127,6 +131,11 @@
 	function commit() {
 		// Les cases cachées suffisent à soumettre; `set` garde la validation à jour.
 		field?.set(selectedValues)
+		// Un choix n'émet aucun évènement de formulaire: les cases sont écrites par le code,
+		// et le popover reste ouvert — rien ne rend donc la main au déclencheur, contrairement
+		// au select simple. Sans cette annonce, ce qui surveille le formulaire (une barre de
+		// sauvegarde) ne voit la sélection qu'au choix suivant.
+		trigger?.dispatchEvent(new Event('change', { bubbles: true }))
 		onSelect?.(value, popover)
 	}
 </script>
@@ -139,9 +148,11 @@
 	<!-- Un `div` et non un `button`: les puces portent leur propre bouton de retrait, et
 	     un bouton ne peut pas en contenir un autre. -->
 	<div
+		bind:this={trigger}
 		id={inputId}
 		role="combobox"
 		aria-controls={listId}
+		aria-labelledby={label ? labelId : undefined}
 		aria-expanded={popover.isOpen}
 		aria-haspopup="listbox"
 		aria-disabled={disabled}
@@ -207,12 +218,12 @@
 		{@render triggerCombobox()}
 	{:else if variant === 'floating'}
 		<label class="floating-label">
-			<span>{label}</span>
+			<span id={labelId}>{label}</span>
 			{@render triggerCombobox()}
 		</label>
 	{:else}
 		<fieldset class="fieldset">
-			<label class="label text-wrap" for={inputId}>{label}</label>
+			<label id={labelId} class="label text-wrap" for={inputId}>{label}</label>
 			{@render triggerCombobox()}
 		</fieldset>
 	{/if}
