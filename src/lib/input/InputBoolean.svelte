@@ -12,6 +12,7 @@
 		hint,
 		labelAppend,
 		variant = 'checkbox',
+		class: klass,
 		...props
 	}: {
 		label: string
@@ -34,7 +35,8 @@
 	<label
 		class={[
 			'input block not-disabled:cursor-pointer not-disabled:hover:bg-base-200',
-			'group h-auto min-h-10 w-full'
+			'group h-auto min-h-10 w-full',
+			klass
 		]}
 	>
 		<!-- `.input` de daisyUI pose `white-space: nowrap`: sans `text-wrap`, un libellé un peu
