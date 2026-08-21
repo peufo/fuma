@@ -30,6 +30,7 @@
 		value = $bindable([]),
 		placeholder = 'Selectionner des valeurs',
 		class: klass,
+		disabled = false,
 		hint,
 		append,
 		onSelect,
@@ -58,6 +59,8 @@
 		value?: NoInfer<Item>[]
 		placeholder?: string
 		class?: ClassValue
+		/** Les valeurs restent soumises, mais la sélection ne peut plus changer. */
+		disabled?: boolean
 		hint?: Snippet<[Item[]]>
 		/** Rendu à droite du champ de recherche: une action « créer », typiquement. */
 		append?: Snippet<[PopoverType]>
@@ -91,7 +94,9 @@
 		listenFocus: false,
 		listenFocusout: true,
 		onShow: () => command.focusTrigger(),
-		hotKey: (() => hotKey)()
+		// Le déclencheur est un `div`: `disabled` ne le neutralise pas comme un bouton, et
+		// le raccourci ouvrirait un popover qu'aucun geste ne peut plus atteindre.
+		hotKey: (() => (disabled ? undefined : hotKey))()
 	})
 	// Un multi-select ne se referme pas à chaque choix: `popover.hide()` n'est appelé
 	// que par le bouton de fermeture.
@@ -137,20 +142,22 @@
 		aria-controls={listId}
 		aria-expanded={popover.isOpen}
 		aria-haspopup="listbox"
-		tabindex="0"
+		aria-disabled={disabled}
+		tabindex={disabled ? -1 : 0}
 		class={[
 			'input h-auto min-h-(--size) w-full flex-wrap items-center gap-1 py-1',
-			'not-disabled:cursor-pointer',
+			!disabled && 'cursor-pointer',
 			field?.issues()?.length && 'input-error',
 			klass
 		]}
 		onkeydown={(event) => {
+			if (disabled) return
 			if (event.key !== 'Enter' && event.key !== ' ') return
 			event.preventDefault()
 			popover.show()
 		}}
-		{...popover.trigger}
-		{...isSearchable ? {} : command.trigger}
+		{...disabled ? {} : popover.trigger}
+		{...isSearchable || disabled ? {} : command.trigger}
 	>
 		{#if !value.length}
 			<span class="opacity-60">{placeholder}</span>
@@ -162,19 +169,21 @@
 				>
 					<!-- item.icon not rerender if not wrapped in #key -->
 					{#key item}{@render selected(item)}{/key}
-					<button
-						type="button"
-						class="btn btn-circle btn-ghost btn-xs"
-						aria-label="Retirer"
-						use:tip={{ content: 'Retirer' }}
-						onclick={(event) => {
-							// Sans quoi le clic remonte au combobox et rouvre le popover.
-							event.stopPropagation()
-							remove(item)
-						}}
-					>
-						<XIcon size={12} />
-					</button>
+					{#if !disabled}
+						<button
+							type="button"
+							class="btn btn-circle btn-ghost btn-xs"
+							aria-label="Retirer"
+							use:tip={{ content: 'Retirer' }}
+							onclick={(event) => {
+								// Sans quoi le clic remonte au combobox et rouvre le popover.
+								event.stopPropagation()
+								remove(item)
+							}}
+						>
+							<XIcon size={12} />
+						</button>
+					{/if}
 				</span>
 			{/each}
 		{/if}
@@ -282,5 +291,15 @@
 <style>
 	div[popover] {
 		border-color: color-mix(in oklab, var(--color-base-content) 20%, #0000);
+	}
+
+	/* Le déclencheur est un `div`: ni `:disabled` ni `[disabled]` ne s'y appliquent, et le
+	   style désactivé de daisyUI passe à côté. Reproduit ici sur `aria-disabled`, le seul
+	   marqueur valide sur un `role="combobox"`. */
+	div[aria-disabled='true'] {
+		cursor: not-allowed;
+		background-color: var(--color-base-200);
+		border-color: var(--color-base-200);
+		box-shadow: none;
 	}
 </style>

@@ -30,6 +30,7 @@
 		placeholder = 'Selectionner une valeur',
 		class: klass,
 		nullable,
+		disabled = false,
 		hint,
 		append,
 		header,
@@ -65,6 +66,8 @@
 		placeholder?: string
 		class?: ClassValue
 		nullable?: boolean
+		/** La valeur reste soumise, mais la sélection ne peut plus changer. */
+		disabled?: boolean
 		hint?: Snippet<[Item | undefined]>
 		/** Rendu à droite du champ de recherche: une action « créer », typiquement. */
 		append?: Snippet<[PopoverType]>
@@ -99,7 +102,9 @@
 		listenFocus: false,
 		listenFocusout: true,
 		onShow: () => command.focusTrigger(),
-		hotKey: (() => hotKey)()
+		// Un bouton désactivé n'émet plus ni clic ni focus; le raccourci, lui, écoute la
+		// fenêtre et ouvrirait un popover qu'aucun geste ne peut plus atteindre.
+		hotKey: (() => (disabled ? undefined : hotKey))()
 	})
 	export const command = useCommand({
 		isEnable: () => popover.isOpen,
@@ -129,6 +134,7 @@
 	<button
 		id={inputId}
 		type="button"
+		{disabled}
 		class={['input', field?.issues()?.length && 'input-error', klass]}
 		{...popover.trigger}
 		{...isSearchable ? {} : command.trigger}
