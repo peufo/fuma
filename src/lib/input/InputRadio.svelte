@@ -23,7 +23,7 @@
 </script>
 
 <div class="flex flex-col gap-1">
-	<span class="label px-3 text-sm text-wrap">
+	<span class="label text-xs text-wrap">
 		<span>{label}</span>
 		{@render labelAppend?.()}
 	</span>
