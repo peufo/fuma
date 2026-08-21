@@ -1,6 +1,5 @@
 <script lang="ts" generics="Item extends ItemBase">
 	import { type Snippet, untrack } from 'svelte'
-	import { afterNavigate } from '$app/navigation'
 	import {
 		context,
 		createKeys,
@@ -41,16 +40,20 @@
 	const tableKey = untrack(() => key)
 	context.set(tableKey, createKeys(tableKey))
 
-	const initFields = () => (fields = syncFieldsWithParams(key, fields))
-	initFields()
-	afterNavigate(initFields)
+	// Dérivé, et non écrit dans la prop `fields`: Svelte annule l'écriture locale d'une prop
+	// non liée dès que le parent en recalcule la valeur. Un parent qui déclare ses colonnes
+	// dans un `$derived` les reproduit à chaque rafraîchissement de `load` — celui que
+	// déclenche une remote function, sans navigation — et la table repartait alors sans
+	// `_visible`, donc sans une seule colonne. `syncFieldsWithParams` lit `page.url`: le
+	// dérivé suit aussi les changements de paramètres, ce dont `afterNavigate` se chargeait.
+	const fieldsSynced = $derived(syncFieldsWithParams(tableKey, fields))
 </script>
 
 <div class="{klass} overflow-x-auto rounded-box border bg-base-100" class:min-h-[320px]={!hideBody}>
 	<table class="table relative">
-		<TableHead {fields} {key} {onCreateField} />
+		<TableHead fields={fieldsSynced} {key} {onCreateField} />
 		{#if !hideBody && items.length}
-			<TableBody {fields} {items} {actions} {classRow} {onclick} />
+			<TableBody fields={fieldsSynced} {items} {actions} {classRow} {onclick} />
 		{/if}
 	</table>
 
