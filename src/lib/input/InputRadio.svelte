@@ -2,24 +2,31 @@
 	import type { RemoteFormField } from '@sveltejs/kit'
 	import { type Options, parseOptions } from '$lib/utils/index.js'
 	import Issues from './Issues.svelte'
+	import type { Snippet } from 'svelte'
 
 	let {
 		field,
 		label,
 		value = $bindable(),
-		options: optionsProp
+		options: optionsProp,
+		labelAppend
 	}: {
 		field?: RemoteFormField<string>
 		label: string
 		value?: string
 		options: Options
+		/** Rendu à droite du libellé. */
+		labelAppend?: Snippet
 	} = $props()
 
 	const options = $derived(parseOptions(optionsProp))
 </script>
 
 <div class="flex flex-col gap-1">
-	<span class="label px-3 text-sm text-wrap">{label}</span>
+	<span class="label px-3 text-sm text-wrap">
+		<span>{label}</span>
+		{@render labelAppend?.()}
+	</span>
 	<div class="join join-vertical">
 		{#each options as option (option.value)}
 			{@const { class: klass, ...props } = option}

@@ -34,6 +34,7 @@
 		disabled = false,
 		hint,
 		append,
+		labelAppend,
 		onSelect,
 		hotKey,
 		variant = 'block'
@@ -66,6 +67,8 @@
 		hint?: Snippet<[Item[]]>
 		/** Rendu à droite du champ de recherche: une action « créer », typiquement. */
 		append?: Snippet<[PopoverType]>
+		/** Rendu à droite du libellé. Sans effet sur la variante `floating`. */
+		labelAppend?: Snippet
 		onSelect?: (items: NoInfer<Item>[], popover: PopoverType) => void
 		hotKey?: string
 		variant?: 'floating' | 'block'
@@ -223,7 +226,10 @@
 		</label>
 	{:else}
 		<fieldset class="fieldset">
-			<label id={labelId} class="label text-wrap" for={inputId}>{label}</label>
+			<label id={labelId} class="label text-wrap" for={inputId}>
+				<span>{label}</span>
+				{@render labelAppend?.()}
+			</label>
 			{@render triggerCombobox()}
 		</fieldset>
 	{/if}

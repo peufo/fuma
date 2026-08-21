@@ -3,12 +3,14 @@
 	import type { RemoteFormField } from '@sveltejs/kit'
 	import Issues from './Issues.svelte'
 	import type { InputProps } from './type.js'
+	import type { Snippet } from 'svelte'
 
 	let {
 		field,
 		label,
 		checked = $bindable(),
 		hint,
+		labelAppend,
 		variant = 'checkbox',
 		...props
 	}: {
@@ -20,6 +22,8 @@
 		 */
 		checked?: boolean
 		hint?: string
+		/** Rendu à droite du libellé, dans le `label`: un clic dessus bascule la case. */
+		labelAppend?: Snippet
 		variant?: 'checkbox' | 'switch'
 	} & InputProps = $props()
 
@@ -38,6 +42,7 @@
 		     contenu, `--size` n'étant plus qu'un plancher. -->
 		<div class="flex min-h-(--size) items-center gap-2 py-1.5">
 			<div class="grow text-wrap">{label}</div>
+			{@render labelAppend?.()}
 			{#if field}
 				<!-- `as('checkbox')` sans valeur pose `checked: undefined`: la case d'un champ
 				     déjà à `true` partirait décochée, alors que la coche dessinée, elle, suit

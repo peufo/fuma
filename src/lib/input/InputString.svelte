@@ -2,6 +2,7 @@
 	import type { RemoteFormField } from '@sveltejs/kit'
 	import Issues from './Issues.svelte'
 	import type { InputProps } from './type.js'
+	import type { Snippet } from 'svelte'
 
 	let {
 		label,
@@ -10,6 +11,7 @@
 		type = 'text',
 		class: klass,
 		variant = 'block',
+		labelAppend,
 		...props
 	}: {
 		label: string
@@ -20,6 +22,8 @@
 		 */
 		value?: string
 		variant?: 'floating' | 'block'
+		/** Rendu à droite du libellé. Sans effet sur la variante `floating`. */
+		labelAppend?: Snippet
 		type?:
 			| 'text'
 			| 'email'
@@ -65,7 +69,10 @@
 	</label>
 {:else}
 	<fieldset class={['fieldset', klass]}>
-		<label class="label text-wrap" for={inputId}>{label}</label>
+		<label class="label text-wrap" for={inputId}>
+			<span>{label}</span>
+			{@render labelAppend?.()}
+		</label>
 		{@render snippetInput()}
 		<Issues {field} />
 	</fieldset>

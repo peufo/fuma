@@ -3,6 +3,7 @@
 	import { TextareaAutosize } from 'runed'
 	import Issues from './Issues.svelte'
 	import type { TextareaProps } from './type.js'
+	import type { Snippet } from 'svelte'
 
 	let {
 		label,
@@ -11,6 +12,7 @@
 		class: klass,
 		maxHeight = 200,
 		variant = 'block',
+		labelAppend,
 		...props
 	}: {
 		label: string
@@ -22,6 +24,8 @@
 		value?: string
 		maxHeight?: number
 		variant?: 'floating' | 'block'
+		/** Rendu à droite du libellé. Sans effet sur la variante `floating`. */
+		labelAppend?: Snippet
 	} & TextareaProps = $props()
 
 	let textarea = $state<HTMLTextAreaElement>()
@@ -62,7 +66,10 @@
 	</label>
 {:else}
 	<fieldset class={['fieldset', klass]}>
-		<label class="label text-wrap" for={inputId}>{label}</label>
+		<label class="label text-wrap" for={inputId}>
+			<span>{label}</span>
+			{@render labelAppend?.()}
+		</label>
 		{@render snippetInput()}
 		<Issues {field} />
 	</fieldset>

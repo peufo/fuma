@@ -6,6 +6,7 @@
 	import utcPlugin from 'dayjs/plugin/utc.js'
 	import Issues from './Issues.svelte'
 	import type { InputProps } from './type.js'
+	import type { Snippet } from 'svelte'
 
 	dayjs.extend(utcPlugin)
 	dayjs.extend(timezonePlugin)
@@ -19,6 +20,7 @@
 		layout = 'split',
 		variant = 'block',
 		hint,
+		labelAppend,
 		transform = (v) => v,
 		onchange,
 		class: klass,
@@ -37,6 +39,8 @@
 		/** Sans effet sur `split`, dont la ligne de label porte le `hint`. */
 		variant?: 'floating' | 'block'
 		hint?: string
+		/** Rendu à droite du libellé, après le `hint`. */
+		labelAppend?: Snippet
 		/** Ajuste la valeur avant qu'elle ne soit posée — borne, arrondi, décalage. */
 		transform?: (value: Date) => Date
 		onchange?: (value: Date) => void
@@ -177,6 +181,7 @@
 			{#if hint}
 				<span class="ml-auto">{hint}</span>
 			{/if}
+			{@render labelAppend?.()}
 		</label>
 		{#if layout === 'datetime'}
 			{@render inputDateTime()}

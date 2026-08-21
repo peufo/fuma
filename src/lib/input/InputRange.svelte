@@ -2,12 +2,14 @@
 	import type { RemoteFormField } from '@sveltejs/kit'
 	import Issues from './Issues.svelte'
 	import type { InputProps } from './type.js'
+	import type { Snippet } from 'svelte'
 
 	let {
 		label,
 		field,
 		value = $bindable(),
 		name,
+		labelAppend,
 		class: klass,
 		...props
 	}: {
@@ -20,12 +22,15 @@
 		value?: number
 		/** Sans `field`, ce qui nomme la valeur soumise. Avec, `field.as()` s'en charge. */
 		name?: string
+		/** Rendu à droite du libellé, avant la valeur courante. */
+		labelAppend?: Snippet
 	} & InputProps = $props()
 </script>
 
 <label>
 	<div class="flex gap-2 px-3 text-sm">
 		<span class="label text-wrap">{label}</span>
+		{@render labelAppend?.()}
 		<span class="label ml-auto">{field?.value() ?? value}</span>
 	</div>
 	{#if field}

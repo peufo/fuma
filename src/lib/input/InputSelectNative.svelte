@@ -3,6 +3,7 @@
 	import { type Options, parseOptions } from '$lib/index.js'
 	import Issues from './Issues.svelte'
 	import type { SelectProps } from './type.js'
+	import type { Snippet } from 'svelte'
 
 	let {
 		label,
@@ -12,6 +13,7 @@
 		class: klass,
 		multiple,
 		variant = 'block',
+		labelAppend,
 		...props
 	}: {
 		label: string
@@ -23,6 +25,8 @@
 		 */
 		value?: string | string[]
 		variant?: 'floating' | 'block'
+		/** Rendu à droite du libellé. Sans effet sur la variante `floating`. */
+		labelAppend?: Snippet
 	} & SelectProps = $props()
 
 	const options = $derived(parseOptions(optionsProp))
@@ -63,7 +67,10 @@
 	</label>
 {:else}
 	<fieldset class={['fieldset', klass]}>
-		<label class="label text-wrap" for={inputId}>{label}</label>
+		<label class="label text-wrap" for={inputId}>
+			<span>{label}</span>
+			{@render labelAppend?.()}
+		</label>
 		{@render snippetSelect()}
 		<Issues {field} />
 	</fieldset>

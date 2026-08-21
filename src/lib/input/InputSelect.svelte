@@ -33,6 +33,7 @@
 		disabled = false,
 		hint,
 		append,
+		labelAppend,
 		header,
 		proposalAppend,
 		onSelect,
@@ -71,6 +72,8 @@
 		hint?: Snippet<[Item | undefined]>
 		/** Rendu à droite du champ de recherche: une action « créer », typiquement. */
 		append?: Snippet<[PopoverType]>
+		/** Rendu à droite du libellé. Sans effet sur la variante `floating`. */
+		labelAppend?: Snippet
 		header?: Snippet<[PopoverType]>
 		onSelect?: (item: NoInfer<Item> | undefined, popover: PopoverType) => void
 		hotKey?: string
@@ -171,7 +174,10 @@
 		</label>
 	{:else}
 		<fieldset class="fieldset">
-			<label class="label text-wrap" for={inputId}>{label}</label>
+			<label class="label text-wrap" for={inputId}>
+				<span>{label}</span>
+				{@render labelAppend?.()}
+			</label>
 			{@render triggerButton()}
 			<Issues {field} />
 			{@render hint?.(value)}
