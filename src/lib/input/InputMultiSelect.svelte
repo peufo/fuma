@@ -29,6 +29,7 @@
 		field,
 		value = $bindable([]),
 		placeholder = 'Selectionner des valeurs',
+		canReset = false,
 		class: klass,
 		disabled = false,
 		hint,
@@ -58,6 +59,7 @@
 		 */
 		value?: NoInfer<Item>[]
 		placeholder?: string
+		canReset?: boolean
 		class?: ClassValue
 		/** Les valeurs restent soumises, mais la sélection ne peut plus changer. */
 		disabled?: boolean
@@ -221,7 +223,7 @@
 		style="min-width: anchor-size(width);"
 		tabindex="-1"
 	>
-		{#if isSearchable || value.length || append}
+		{#if isSearchable || (canReset && value.length) || append}
 			<div class="sticky top-0 z-10 flex gap-2 bg-base-100/10 p-2 backdrop-blur-md">
 				{#if isSearchable}
 					<label class="input grow input-ghost input-sm">
@@ -237,7 +239,7 @@
 				{:else}
 					<div class="grow"></div>
 				{/if}
-				{#if value.length}
+				{#if canReset && value.length}
 					<button
 						class="btn btn-square btn-soft btn-sm"
 						type="button"
