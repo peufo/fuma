@@ -80,7 +80,7 @@
 
 		{#snippet children(popover)}
 			{#if onCreateField}
-				<div class="bordered flex items-center gap-2 border-b pr-1 pb-1 pl-2">
+				<div class="flex items-center gap-2 border-b pr-1 pb-1 pl-2">
 					<span class=" font-semibold opacity-70">Champs</span>
 					<button
 						type="button"

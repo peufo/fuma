@@ -17,7 +17,8 @@
 		btn?: boolean
 		/** Custom button content */
 		children?: Snippet<[{ waitConfirmation: boolean }]>
-	} & HTMLButtonAttributes = $props()
+		// `children` de `HTMLButtonAttributes` est un `Snippet<[]>`: l'intersection interdirait le paramètre.
+	} & Omit<HTMLButtonAttributes, 'children'> = $props()
 
 	let button: HTMLButtonElement
 	let waitConfirmation = $state(false)
@@ -49,9 +50,9 @@
 		btn && [
 			'btn',
 			waitConfirmation ? 'btn-outline btn-error' : 'btn-ghost text-error',
-			props.disabled && 'btn-disabled',
-			klass
-		]
+			props.disabled && 'btn-disabled'
+		],
+		klass
 	]}
 	formaction={waitConfirmation ? formaction : undefined}
 	{onclick}
