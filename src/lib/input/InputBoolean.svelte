@@ -13,6 +13,7 @@
 		labelAppend,
 		variant = 'checkbox',
 		class: klass,
+		disabled,
 		...props
 	}: {
 		label: string
@@ -50,12 +51,12 @@
 				     déjà à `true` partirait décochée, alors que la coche dessinée, elle, suit
 				     `checked`. Les deux ne se contredisent que si l'état initial n'est pas transmis. -->
 				{#if checked === undefined}
-					<input {...field.as('checkbox')} class={['peer w-0']} {...props} />
+					<input {...field.as('checkbox')} class={['peer w-0']} {disabled} {...props} />
 				{:else}
-					<input {...field.as('checkbox', checked)} class={['peer w-0']} {...props} />
+					<input {...field.as('checkbox', checked)} class={['peer w-0']} {disabled} {...props} />
 				{/if}
 			{:else}
-				<input type="checkbox" class={['peer w-0']} bind:checked {...props} />
+				<input type="checkbox" class={['peer w-0']} bind:checked {disabled} {...props} />
 			{/if}
 			{#if variant === 'checkbox'}
 				{@render variantCheckbox()}
@@ -74,6 +75,13 @@
 			</div>
 		{/if}
 	</label>
+	{#if field && !isChecked && !disabled}
+		<!-- Une case décochée ne transmet rien: sans ce relais, le serveur ne distinguerait pas
+		     « décochée » de « champ non rendu », et une valeur ne pourrait jamais repasser à faux.
+		     Il porte la clé de la case, d'où l'exclusion mutuelle — SvelteKit refuse un formulaire
+		     où une clé apparaît deux fois. Un contrôle désactivé, lui, ne transmet toujours rien. -->
+		<input {...field.as('hidden', false)} />
+	{/if}
 	<Issues {field} />
 </div>
 
