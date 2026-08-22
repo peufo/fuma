@@ -7,11 +7,15 @@
 		order = $bindable(),
 		IconAsc = ArrowDownNarrowWideIcon,
 		IconDesc = ArrowDownWideNarrowIcon,
+		labelAsc = 'Ascendant',
+		labelDesc = 'Descendant',
 		onChange
 	}: {
 		order: Order
 		IconAsc?: Component<IconProps>
 		IconDesc?: Component<IconProps>
+		labelAsc?: string
+		labelDesc?: string
 		onChange?: (order: Order) => void
 	} = $props()
 
@@ -22,24 +26,21 @@
 	}
 </script>
 
-<div class="p-1 pt-2">
-	<span class="text-sm font-semibold opacity-70">Ordre:</span>
-	<div class="grid grid-cols-2 gap-2 pt-2">
-		<button
-			class="btn ring-primary"
-			class:ring-2={order === 'asc'}
-			onclick={handleOrderClick('asc')}
-		>
-			<IconAsc />
-			<span>Ascendant</span>
-		</button>
-		<button
-			class="btn ring-primary"
-			class:ring-2={order === 'desc'}
-			onclick={handleOrderClick('desc')}
-		>
-			<IconDesc />
-			<span>Descendant</span>
-		</button>
-	</div>
+<div class="m-2 grid grid-cols-2 gap-1">
+	<button
+		class="btn ring-primary btn-sm"
+		class:ring-2={order === 'asc'}
+		onclick={handleOrderClick('asc')}
+	>
+		<IconAsc size={16} />
+		<span>{labelAsc}</span>
+	</button>
+	<button
+		class="btn ring-primary btn-sm"
+		class:ring-2={order === 'desc'}
+		onclick={handleOrderClick('desc')}
+	>
+		<IconDesc size={16} />
+		<span>{labelDesc}</span>
+	</button>
 </div>

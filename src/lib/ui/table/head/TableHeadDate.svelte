@@ -90,9 +90,9 @@
 					</span>
 				{/if}
 				{#if order === 'asc'}
-					<CalendarArrowDownIcon size={18} class="fill-primary" />
+					<CalendarArrowDownIcon size={15} class="text-primary" />
 				{:else if order === 'desc'}
-					<CalendarArrowUpIcon size={18} class="fill-primary" />
+					<CalendarArrowUpIcon size={15} class="text-primary" />
 				{/if}
 			</button>
 		{/snippet}
@@ -107,6 +107,8 @@
 					}}
 					IconAsc={CalendarArrowDownIcon}
 					IconDesc={CalendarArrowUpIcon}
+					labelAsc="Ancien d'abord"
+					labelDesc="Récent d'abord"
 				/>
 			{/if}
 
