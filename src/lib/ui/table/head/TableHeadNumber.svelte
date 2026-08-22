@@ -82,9 +82,9 @@
 					</span>
 				{/if}
 				{#if order === 'asc'}
-					<ArrowDownNarrowWideIcon size={18} class="fill-primary" />
+					<ArrowDownNarrowWideIcon size={18} class="text-primary" />
 				{:else if order === 'desc'}
-					<ArrowDownWideNarrowIcon size={18} class="fill-primary" />
+					<ArrowDownWideNarrowIcon size={18} class="text-primary" />
 				{/if}
 			</button>
 		{/snippet}

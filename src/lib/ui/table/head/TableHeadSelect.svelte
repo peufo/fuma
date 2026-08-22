@@ -64,7 +64,7 @@
 						{#each optionsActive as option (option.value)}
 							<span class="badge badge-xs text-[0.7rem] font-normal text-white badge-primary">
 								{#if option.icon}
-									<option.icon size={10} class="-translate-x-1 fill-white/80" />
+									<option.icon size={10} class="-translate-x-1 text-white/80" />
 								{/if}
 								{option.label}
 							</span>

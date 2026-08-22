@@ -22,7 +22,7 @@
 
 				{#if searchValue}
 					<span class="badge badge-xs text-[0.7rem] font-normal text-white badge-primary">
-						<SearchIcon size={10} class="-translate-x-1 fill-white/80" />
+						<SearchIcon size={10} class="-translate-x-1 text-white/80" />
 						<span>{searchValue}</span>
 					</span>
 				{/if}
