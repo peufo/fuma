@@ -23,8 +23,14 @@
 		 */
 		value?: string
 		maxHeight?: number
-		variant?: 'floating' | 'block'
-		/** Rendu à droite du libellé. Sans effet sur la variante `floating`. */
+		/**
+		 * `bare` ne rend que le champ, sans enveloppe ni libellé visible: `label` devient le
+		 * placeholder et le nom accessible, et `class` s'applique au `<textarea>`. C'est la
+		 * variante d'un champ posé dans une barre de saisie, où l'appelant place lui-même ce qui
+		 * l'accompagne.
+		 */
+		variant?: 'floating' | 'block' | 'bare'
+		/** Rendu à droite du libellé. Sans effet sur les variantes `floating` et `bare`. */
 		labelAppend?: Snippet
 	} & TextareaProps = $props()
 
@@ -38,10 +44,11 @@
 	const inputId = $props.id()
 	const textareaProps = $derived({
 		id: inputId,
-		class: 'textarea w-full',
-		placeholder: variant === 'floating' ? label : '',
+		placeholder: variant === 'block' ? '' : label,
+		'aria-label': variant === 'bare' ? label : undefined,
 		...props
 	})
+	const textareaClass = $derived(['textarea w-full', variant === 'bare' && klass])
 </script>
 
 {#snippet snippetInput()}
@@ -51,10 +58,11 @@
 		<textarea
 			bind:this={textarea}
 			{...textareaProps}
+			class={textareaClass}
 			{...value === undefined ? field.as('text') : field.as('text', value)}
 		></textarea>
 	{:else}
-		<textarea bind:this={textarea} {...textareaProps} bind:value></textarea>
+		<textarea bind:this={textarea} {...textareaProps} class={textareaClass} bind:value></textarea>
 	{/if}
 {/snippet}
 
@@ -64,6 +72,9 @@
 		{@render snippetInput()}
 		<Issues {field} />
 	</label>
+{:else if variant === 'bare'}
+	{@render snippetInput()}
+	<Issues {field} />
 {:else}
 	<fieldset class={['fieldset', klass]}>
 		<label class="label text-wrap" for={inputId}>
