@@ -26,8 +26,8 @@ export const zodJsonRecord: z.core.$ZodType<JsonRecord> = z.record(z.string(), z
 export const zodCoerceJson = z.string().transform((str, ctx) => {
 	try {
 		return JSON.parse(str)
-	} catch (e) {
-		console.error(e)
+	} catch (err) {
+		void err
 		ctx.addIssue({ code: 'custom', message: 'Invalid JSON' })
 		return z.NEVER
 	}
