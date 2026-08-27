@@ -120,7 +120,7 @@
 		"
 		class={[
 			'fixed top-0 right-0 bottom-0 z-10 flex',
-			'w-full flex-col overflow-y-scroll overscroll-contain bg-base-100',
+			'w-full flex-col overflow-y-auto overscroll-contain bg-base-100',
 			'transition-transform',
 			klass
 		]}
