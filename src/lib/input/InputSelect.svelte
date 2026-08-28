@@ -1,7 +1,7 @@
 <script lang="ts" generics="Item">
 	import { ChevronsUpDownIcon, SearchIcon, XIcon } from '@lucide/svelte'
 	import type { RemoteFormField } from '@sveltejs/kit'
-	import type { Snippet } from 'svelte'
+	import { untrack, type Snippet } from 'svelte'
 	import type { ClassValue, HTMLLiAttributes } from 'svelte/elements'
 	import { tip } from '../action/tip.js'
 	import { useCommand } from '../command/useCommand.svelte.js'
@@ -82,6 +82,7 @@
 	} = $props()
 
 	const inputId = $props.id()
+	let trigger = $state<HTMLButtonElement>()
 
 	let search = $state('')
 	// Une énumération courte n'a que faire d'un champ de recherche; une fonction, elle, ne
@@ -116,15 +117,26 @@
 			const item = options[index]
 			onSelect?.(item, popover)
 			if (!item) return
-			setValue(item)
+			value = item
 		}
 	})
 
-	function setValue(item: Item | undefined) {
-		value = item
+	// L'annonce suit la valeur et non le geste: le parent peut l'écrire lui-même par `bind:`
+	// — un item créé dans un tiroir — sans passer par la liste.
+	//
+	// La ligne de base est prise au montage: annoncer la valeur initiale l'écrirait dans
+	// l'état du champ, qui cesserait dès lors de consulter la valeur passée à `as()`.
+	let announced = untrack(() => submittedValue)
+	$effect(() => {
+		if (submittedValue === announced) return
+		announced = submittedValue
 		// L'input caché suffit à soumettre; `set` garde la validation du formulaire à jour.
-		field?.set(item && getValue(item))
-	}
+		field?.set(submittedValue)
+		// Un choix n'émet aucun évènement de formulaire: l'input caché est écrit par le code.
+		// Sans cette annonce, ce qui surveille le formulaire (une barre de sauvegarde) ne voit
+		// pas une valeur que le parent a posée lui-même.
+		trigger?.dispatchEvent(new Event('change', { bubbles: true }))
+	})
 
 	const isButtonSetNullVisible = $derived(nullable && value)
 </script>
@@ -135,6 +147,7 @@
 
 {#snippet triggerButton()}
 	<button
+		bind:this={trigger}
 		id={inputId}
 		type="button"
 		{disabled}
@@ -214,7 +227,7 @@
 							class="btn btn-square btn-soft btn-sm"
 							type="button"
 							onclick={() => {
-								setValue(undefined)
+								value = undefined
 								onSelect?.(undefined, popover)
 								popover.hide()
 							}}

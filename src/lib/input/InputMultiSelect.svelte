@@ -1,7 +1,7 @@
 <script lang="ts" generics="Item">
 	import { CheckIcon, ChevronsUpDownIcon, SearchIcon, XIcon } from '@lucide/svelte'
 	import type { RemoteFormField } from '@sveltejs/kit'
-	import type { Snippet } from 'svelte'
+	import { untrack, type Snippet } from 'svelte'
 	import type { ClassValue } from 'svelte/elements'
 	import { slide } from 'svelte/transition'
 	import { tip } from '../action/tip.js'
@@ -122,16 +122,25 @@
 		value = selectedValues.includes(itemValue)
 			? value.filter((selectedItem) => getValue(selectedItem) !== itemValue)
 			: [...value, item]
-		commit()
+		onSelect?.(value, popover)
 	}
 
 	function remove(item: Item) {
 		const itemValue = getValue(item)
 		value = value.filter((selectedItem) => getValue(selectedItem) !== itemValue)
-		commit()
+		onSelect?.(value, popover)
 	}
 
-	function commit() {
+	// L'annonce suit la valeur et non le geste: le parent peut l'écrire lui-même par `bind:`
+	// — un item créé dans un tiroir — et `toggle` n'est alors jamais appelé.
+	//
+	// La ligne de base est prise au montage: annoncer la sélection initiale l'écrirait dans
+	// l'état du champ, qui cesserait dès lors de consulter la valeur passée à `as()`.
+	let announced = untrack(() => selectedValues.join('\n'))
+	$effect(() => {
+		const signature = selectedValues.join('\n')
+		if (signature === announced) return
+		announced = signature
 		// Les cases cachées suffisent à soumettre; `set` garde la validation à jour.
 		field?.set(selectedValues)
 		// Un choix n'émet aucun évènement de formulaire: les cases sont écrites par le code,
@@ -139,8 +148,7 @@
 		// au select simple. Sans cette annonce, ce qui surveille le formulaire (une barre de
 		// sauvegarde) ne voit la sélection qu'au choix suivant.
 		trigger?.dispatchEvent(new Event('change', { bubbles: true }))
-		onSelect?.(value, popover)
-	}
+	})
 </script>
 
 {#snippet defaultSnippet(item: Item)}
@@ -262,7 +270,7 @@
 						type="button"
 						onclick={() => {
 							value = []
-							commit()
+							onSelect?.(value, popover)
 							popover.hide()
 						}}
 						use:tip={{ content: 'Tout désélectionner' }}
