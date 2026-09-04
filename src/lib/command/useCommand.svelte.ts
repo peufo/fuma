@@ -89,9 +89,12 @@ export function useCommand({
 			}
 		},
 		focusTrigger,
-		item: (index: number, scrollMargin = '8px') => ({
+		/**
+		 * Le dégagement du défilement appartient à l'appelant: `scroll-mt-*` / `scroll-mb-*`
+		 * sur l'item, puisque lui seul connaît la hauteur de son en-tête collant.
+		 */
+		item: (index: number) => ({
 			[createAttachmentKey()]: (node: HTMLElement) => {
-				node.style.scrollMargin = scrollMargin
 				if (!items.includes(node)) items.splice(index, 0, node)
 				const cleanup = on(node, 'click', () => {
 					focusIndex = selectedIndex = items.indexOf(node)

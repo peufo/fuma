@@ -293,7 +293,7 @@
 				{@const isFocus = index === command.focusIndex}
 				<li>
 					<button
-						{...command.item(index, '')}
+						{...command.item(index)}
 						class={[isSelected && 'border', isFocus && 'menu-focus', 'scroll-mt-13 scroll-mb-2']}
 						type="button"
 						tabindex="-1"

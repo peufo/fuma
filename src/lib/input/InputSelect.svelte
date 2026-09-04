@@ -252,7 +252,7 @@
 				{@const isFocus = index === command.focusIndex}
 				<li {...propsLi}>
 					<button
-						{...command.item(index, '')}
+						{...command.item(index)}
 						class={[
 							isSelected && 'border-hard border',
 							isFocus && 'menu-focus',
