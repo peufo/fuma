@@ -24,6 +24,7 @@
 		classBody = '',
 		duration = 180,
 		noOverlay = false,
+		autofocus = true,
 		zIndex = 50,
 		inertSkip = '[data-sonner-toaster], :has(> [data-sonner-toaster])',
 		children
@@ -36,6 +37,8 @@
 		classBody?: ClassValue
 		duration?: number
 		noOverlay?: boolean
+		/** Poser le focus sur le premier champ du corps à l'ouverture, s'il y en a un. */
+		autofocus?: boolean
 		zIndex?: number
 		/** Sélecteur des éléments d'arrière-plan qui restent interactifs quand le tiroir est ouvert. */
 		inertSkip?: string
@@ -102,7 +105,7 @@
 		aria-modal={!noOverlay}
 		aria-label={title}
 		tabindex={-1}
-		{@attach noOverlay ? () => {} : inertBackground({ key, skip: inertSkip })}
+		{@attach noOverlay ? () => {} : inertBackground({ key, skip: inertSkip, autofocus })}
 		bind:clientWidth
 		transition:drawerFly|local={{
 			x: clientWidth,
@@ -138,7 +141,7 @@
 			</button>
 		</div>
 
-		<div class={['grow px-4', classBody]}>
+		<div data-drawer-body class={['grow px-4', classBody]}>
 			{@render children({ open, close })}
 		</div>
 	</div>

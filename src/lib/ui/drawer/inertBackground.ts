@@ -1,4 +1,5 @@
 import type { Attachment } from 'svelte/attachments'
+import { drawerFocusTarget } from './focusTarget.js'
 
 // Compteur par élément: deux tiroirs empilés marquent les mêmes frères, et le second à se fermer
 // ne doit lever `inert` que si le premier l'a déjà relâché. Un `WeakMap` évite de retenir les
@@ -10,6 +11,8 @@ export type InertBackgroundOptions = {
 	key: string
 	/** Sélecteur des frères à laisser interactifs, par ex. le conteneur des toasts. */
 	skip?: string
+	/** Descendre au premier champ du corps, plutôt que de s'arrêter sur le panneau. */
+	autofocus?: boolean
 }
 
 /**
@@ -17,7 +20,11 @@ export type InertBackgroundOptions = {
  * les frères, jusqu'à `<body>`. Aucun nœud n'est déplacé — poser `inert` sur un conteneur racine
  * serait impossible ici, le tiroir étant rendu à l'intérieur de ce conteneur.
  */
-export function inertBackground({ key, skip }: InertBackgroundOptions): Attachment<HTMLElement> {
+export function inertBackground({
+	key,
+	skip,
+	autofocus = true
+}: InertBackgroundOptions): Attachment<HTMLElement> {
 	return (node) => {
 		const marked: HTMLElement[] = []
 
@@ -34,18 +41,21 @@ export function inertBackground({ key, skip }: InertBackgroundOptions): Attachme
 			}
 		}
 
+		const focus = () => (autofocus ? drawerFocusTarget(node) : node).focus({ preventScroll: true })
+
 		// Relevé avant la mise en `inert`: le focus courant est souvent sur le déclencheur, qui
 		// appartient à l'arrière-plan et perdrait le focus au profit de `<body>`.
 		const previous = document.activeElement
-		node.focus({ preventScroll: true })
+		focus()
 
 		// SvelteKit remet le focus sur `<body>` à la fin de la navigation qui ouvre le tiroir. Les
 		// `goto` de `open()`/`close()` passent `keepFocus`, mais un tiroir ouvert par un simple
 		// `<a href>` n'en profite pas: on repasse après coup, et seulement si personne d'autre n'a
-		// pris le focus entre-temps.
+		// pris le focus entre-temps. Le panneau ne compte pas comme quelqu'un: le corps peut n'avoir
+		// été monté qu'après l'attachement, et le champ visé n'existait alors pas encore.
 		const timer = setTimeout(() => {
 			const active = document.activeElement
-			if (!active || active === document.body) node.focus({ preventScroll: true })
+			if (!active || active === document.body || active === node) focus()
 		})
 
 		return () => {
