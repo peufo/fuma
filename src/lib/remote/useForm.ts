@@ -1,4 +1,4 @@
-import type { RemoteForm, RemoteFormEnhanceCallback, RemoteFormInput } from '@sveltejs/kit'
+import type { RemoteForm, RemoteFormEnhanceCallback, RemoteFormInput } from '$app/server'
 import debounce from 'debounce'
 import type { StandardSchemaV1 } from 'runed/kit'
 import { type Attachment, createAttachmentKey } from 'svelte/attachments'

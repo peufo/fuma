@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { CheckIcon } from '@lucide/svelte'
-	import type { RemoteFormField } from '@sveltejs/kit'
+	import type { RemoteFormField } from '$app/server'
 	import Issues from './Issues.svelte'
 	import type { InputProps } from './type.js'
 	import type { Snippet } from 'svelte'

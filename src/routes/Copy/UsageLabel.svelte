@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { PrinterCheckIcon } from '@lucide/svelte'
-	import { ButtonCopy } from '$lib/ui/copy/index.js'
+	import { ButtonCopy } from '#lib/ui/copy/index.js'
 </script>
 
 <ButtonCopy title="Copy with label" value="Labeled copy" label="Copy" />

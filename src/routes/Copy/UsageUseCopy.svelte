@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { useCopy } from '$lib/ui/copy/index.js'
+	import { useCopy } from '#lib/ui/copy/index.js'
 
 	let value = $state('Hey 👋')
 	const copy = useCopy({ value: () => value })

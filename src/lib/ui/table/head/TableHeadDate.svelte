@@ -2,13 +2,13 @@
 	import { CalendarArrowDownIcon, CalendarArrowUpIcon, CalendarSearchIcon } from '@lucide/svelte'
 	import { goto } from '$app/navigation'
 	import { page } from '$app/state'
-	import { InputDateTime } from '$lib/input/index.js'
-	import { Popover, type PopoverType } from '$lib/popover/index.js'
-	import { urlParam } from '$lib/state/param.js'
-	import { formatRange } from '$lib/ui/range/format.js'
-	import { type RangeAsDate, RangePicker } from '$lib/ui/range/index.js'
-	import type { ItemBase, TableField } from '$lib/ui/table/index.js'
-	import { jsonParse } from '$lib/utils/jsonParse.js'
+	import { InputDateTime } from '#lib/input/index.js'
+	import { Popover, type PopoverType } from '#lib/popover/index.js'
+	import { urlParam } from '#lib/state/param.js'
+	import { formatRange } from '#lib/ui/range/format.js'
+	import { type RangeAsDate, RangePicker } from '#lib/ui/range/index.js'
+	import type { ItemBase, TableField } from '#lib/ui/table/index.js'
+	import { jsonParse } from '#lib/utils/jsonParse.js'
 	import OrderButtons from './OrderButtons.svelte'
 
 	let { field }: { field: Omit<TableField<Item>, 'cell'> } = $props()
@@ -33,9 +33,8 @@
 		isValidPeriod = !!range.start && !!range.end
 		if (!isValidPeriod && !order) {
 			goto(urlParam.without(field.key, 'skip', 'take'), {
-				replaceState: true,
-				noScroll: true,
-				keepFocus: true
+				replace: true,
+				reset: false
 			})
 			return
 		}
@@ -55,7 +54,7 @@
 				'skip',
 				'take'
 			),
-			{ replaceState: true, noScroll: true, keepFocus: true }
+			{ replace: true, reset: false }
 		)
 	}
 
@@ -66,9 +65,8 @@
 		popover.hide()
 		rangePicker.clear()
 		goto(urlParam.without(field.key, 'skip', 'take'), {
-			replaceState: true,
-			noScroll: true,
-			keepFocus: true
+			replace: true,
+			reset: false
 		})
 	}
 </script>

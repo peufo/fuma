@@ -5,7 +5,7 @@ import { SvelteURLSearchParams } from 'svelte/reactivity'
 export const param = {
 	get with() {
 		return (params: Record<string, string | number>, ...keysToRemove: string[]) => {
-			const searchParams = new SvelteURLSearchParams(page.url.searchParams)
+			const searchParams = new SvelteURLSearchParams(page.url.search)
 			Object.entries(params).forEach(([key, value]) => {
 				searchParams.set(key, String(value))
 			})
@@ -17,7 +17,7 @@ export const param = {
 	},
 	get without() {
 		return (...keys: string[]) => {
-			const searchParams = new SvelteURLSearchParams(page.url.searchParams)
+			const searchParams = new SvelteURLSearchParams(page.url.search)
 			keys.forEach((key) => {
 				searchParams.delete(key)
 			})
@@ -26,7 +26,7 @@ export const param = {
 	},
 	get toggle() {
 		return (params: Record<string, string>, ...keysToRemove: string[]) => {
-			const searchParams = new SvelteURLSearchParams(page.url.searchParams)
+			const searchParams = new SvelteURLSearchParams(page.url.search)
 			Object.entries(params).forEach(([key, value]) => {
 				if (searchParams.get(key) === value) searchParams.delete(key)
 				else searchParams.set(key, value)

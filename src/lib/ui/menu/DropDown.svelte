@@ -1,13 +1,13 @@
 <script lang="ts" module>
 	import type { CreateSingletonInstance } from 'tippy.js'
-	import { createSingleton, type TippyInstance } from '$lib/utils/tippy.js'
+	import { createSingleton, type TippyInstance } from '#lib/utils/tippy.js'
 
 	let sigleton: CreateSingletonInstance | null = null
 	const tips: TippyInstance[] = []
 </script>
 
 <script lang="ts">
-	import { tippy, type TippyProps } from '$lib/utils/tippy.js'
+	import { tippy, type TippyProps } from '#lib/utils/tippy.js'
 	import { onMount, type Snippet } from 'svelte'
 	import { beforeNavigate } from '$app/navigation'
 	import './dropdown.css'
@@ -45,7 +45,12 @@
 
 	let activatorElement: HTMLDivElement | undefined = $state()
 
-	beforeNavigate(() => hideOnNav && hide())
+	// Kit 3 fait passer les navigations superficielles (`goto(..., { shallow: true })`) par le cycle
+	// de navigation: sans ce garde, un simple changement de `page.state` fermerait le menu.
+	beforeNavigate(({ shallow }) => {
+		if (shallow) return
+		return hideOnNav && hide()
+	})
 
 	onMount(() => {
 		if (disable || !activatorElement) return

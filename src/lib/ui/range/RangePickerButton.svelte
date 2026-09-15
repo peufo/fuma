@@ -2,12 +2,12 @@
 	import { CalendarRangeIcon } from '@lucide/svelte'
 	import { slide } from 'svelte/transition'
 	import { goto } from '$app/navigation'
-	import { InputDateTime } from '$lib/input/index.js'
-	import { usePopover } from '$lib/popover/index.js'
-	import { param, urlParam } from '$lib/state/param.js'
-	import { formatRangeShort } from '$lib/ui/range/format.js'
-	import { type RangeAsDate, RangePicker } from '$lib/ui/range/index.js'
-	import { jsonParse } from '$lib/utils/jsonParse.js'
+	import { InputDateTime } from '#lib/input/index.js'
+	import { usePopover } from '#lib/popover/index.js'
+	import { param, urlParam } from '#lib/state/param.js'
+	import { formatRangeShort } from '#lib/ui/range/format.js'
+	import { type RangeAsDate, RangePicker } from '#lib/ui/range/index.js'
+	import { jsonParse } from '#lib/utils/jsonParse.js'
 
 	let rangePicker: RangePicker
 
@@ -62,7 +62,7 @@
 							end: range.end?.toJSON()
 						})
 					})
-		return goto(url, { replaceState: true, noScroll: true })
+		return goto(url, { replace: true, reset: false })
 	}
 </script>
 

@@ -1,11 +1,11 @@
 <script lang="ts" generics="Item extends ItemBase">
 	import { ListFilterIcon } from '@lucide/svelte'
 	import { page } from '$app/state'
-	import { Popover } from '$lib/popover/index.js'
-	import { param, urlParam } from '$lib/state/param.js'
-	import type { ItemBase, TableField } from '$lib/ui/table/index.js'
-	import { jsonParse } from '$lib/utils/jsonParse.js'
-	import { type Options, parseOptions } from '$lib/utils/options.js'
+	import { Popover } from '#lib/popover/index.js'
+	import { param, urlParam } from '#lib/state/param.js'
+	import type { ItemBase, TableField } from '#lib/ui/table/index.js'
+	import { jsonParse } from '#lib/utils/jsonParse.js'
+	import { type Options, parseOptions } from '#lib/utils/options.js'
 
 	let {
 		field,
@@ -81,8 +81,8 @@
 						href={getHref(value)}
 						class="menu-item px-3 py-2"
 						class:active={isActive}
-						data-sveltekit-noscroll
 						data-sveltekit-replacestate
+						data-sveltekit-reset="false"
 						onclick={multiSelect ? undefined : popover.hide}
 					>
 						{#if Icon}

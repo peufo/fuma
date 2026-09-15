@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { type User, users } from '$lib/_doc/data.ts'
-	import { InputSelect } from '$lib/input/index.ts'
+	import { type User, users } from '#lib/_doc/data.ts'
+	import { InputSelect } from '#lib/input/index.ts'
 
 	let user = $state<User>()
 

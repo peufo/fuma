@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { fruitsOptions } from '$lib/_doc/data.ts'
-	import { InputRadio } from '$lib/input/index.ts'
+	import { fruitsOptions } from '#lib/_doc/data.ts'
+	import { InputRadio } from '#lib/input/index.ts'
 
 	let value = $state('apple')
 </script>

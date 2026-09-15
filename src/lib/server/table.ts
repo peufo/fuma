@@ -1,6 +1,6 @@
 import { redirect } from '@sveltejs/kit'
-import { createKeys } from '$lib/ui/table/context.js'
-import { jsonParse } from '$lib/utils/jsonParse.js'
+import { createKeys } from '#lib/ui/table/context.js'
+import { jsonParse } from '#lib/utils/jsonParse.js'
 
 export function ensureFieldsWithFilterAreVisibles(
 	tableKey: string,

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { InputBoolean } from '$lib/input/index.ts'
+	import { InputBoolean } from '#lib/input/index.ts'
 
 	let checked = $state(true)
 </script>

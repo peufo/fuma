@@ -2,7 +2,7 @@
 	import { CopyIcon, type IconProps } from '@lucide/svelte'
 	import type { Component } from 'svelte'
 	import type { ClassValue } from 'svelte/elements'
-	import { tip } from '$lib/action/tip.js'
+	import { tip } from '#lib/action/tip.js'
 	import { type UseCopyOptions, useCopy } from './useCopy.svelte.js'
 
 	let {

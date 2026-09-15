@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { CheckIcon } from '@lucide/svelte'
-	import { fruitsOptions } from '$lib/_doc/data.ts'
-	import { type Option, parseOptions } from '$lib/index.ts'
-	import { InputSelect } from '$lib/input/index.ts'
+	import { fruitsOptions } from '#lib/_doc/data.ts'
+	import { type Option, parseOptions } from '#lib/index.ts'
+	import { InputSelect } from '#lib/input/index.ts'
 
 	const options = parseOptions(fruitsOptions)
 	// `value` porte l'option, pas sa valeur: la sélection initiale s'affiche sans réconciliation.

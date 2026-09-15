@@ -4,8 +4,8 @@
 		TableCellBoolean,
 		TableCellNumber,
 		TableCellString
-	} from '$lib/ui/table/cell/index.js'
-	import type { ItemBase, TableField } from '$lib/ui/table/index.js'
+	} from '#lib/ui/table/cell/index.js'
+	import type { ItemBase, TableField } from '#lib/ui/table/index.js'
 	import TableCellDate from './cell/TableCellDate.svelte'
 
 	let { item, field }: { item: Item; field: TableField<Item> } = $props()

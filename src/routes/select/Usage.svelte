@@ -1,9 +1,9 @@
 <script lang="ts">
 	import { CheckIcon } from '@lucide/svelte'
-	import { fruitsOptions } from '$lib/_doc/data.ts'
-	import { type Option, parseOptions } from '$lib/index.ts'
-	import { InputSelect } from '$lib/input/index.ts'
-	import InputSelectNative from '$lib/input/InputSelectNative.svelte'
+	import { fruitsOptions } from '#lib/_doc/data.ts'
+	import { type Option, parseOptions } from '#lib/index.ts'
+	import { InputSelect } from '#lib/input/index.ts'
+	import InputSelectNative from '#lib/input/InputSelectNative.svelte'
 
 	const options = parseOptions(fruitsOptions)
 	let fruit = $state<Option>()

@@ -8,7 +8,7 @@
 		TableBody,
 		type TableField,
 		TableHead
-	} from '$lib/ui/table/index.js'
+	} from '#lib/ui/table/index.js'
 
 	let {
 		key = 'table',

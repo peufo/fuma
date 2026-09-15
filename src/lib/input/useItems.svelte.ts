@@ -1,4 +1,4 @@
-import type { RemoteQueryFunction } from '@sveltejs/kit'
+import type { RemoteQueryFunction } from '$app/server'
 import debounce from 'debounce'
 
 /**

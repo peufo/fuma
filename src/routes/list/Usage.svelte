@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { GripIcon } from '@lucide/svelte'
-	import { listEditable } from '$lib/index.js'
+	import { listEditable } from '#lib/index.js'
 
 	let items = Array(16)
 		.fill(0)

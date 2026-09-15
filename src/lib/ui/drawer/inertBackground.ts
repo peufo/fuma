@@ -49,7 +49,7 @@ export function inertBackground({
 		focus()
 
 		// SvelteKit remet le focus sur `<body>` à la fin de la navigation qui ouvre le tiroir. Les
-		// `goto` de `open()`/`close()` passent `keepFocus`, mais un tiroir ouvert par un simple
+		// `goto` de `open()`/`close()` passent `reset: false`, mais un tiroir ouvert par un simple
 		// `<a href>` n'en profite pas: on repasse après coup, et seulement si personne d'autre n'a
 		// pris le focus entre-temps. Le panneau ne compte pas comme quelqu'un: le corps peut n'avoir
 		// été monté qu'après l'attachement, et le champ visé n'existait alors pas encore.

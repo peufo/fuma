@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { InputNumber } from '$lib/input/index.ts'
+	import { InputNumber } from '#lib/input/index.ts'
 
 	let value = $state(42)
 </script>

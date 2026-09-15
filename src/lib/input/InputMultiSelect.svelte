@@ -1,6 +1,6 @@
 <script lang="ts" generics="Item">
 	import { CheckIcon, ChevronsUpDownIcon, SearchIcon, XIcon } from '@lucide/svelte'
-	import type { RemoteFormField } from '@sveltejs/kit'
+	import type { RemoteFormField } from '$app/server'
 	import { untrack, type Snippet } from 'svelte'
 	import type { ClassValue } from 'svelte/elements'
 	import { slide } from 'svelte/transition'

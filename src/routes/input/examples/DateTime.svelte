@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { InputDateTime } from '$lib/input/index.ts'
+	import { InputDateTime } from '#lib/input/index.ts'
 
 	let value = $state<Date | null>(new Date())
 	let empty = $state<Date | null>(null)

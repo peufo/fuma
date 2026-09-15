@@ -4,9 +4,9 @@
 	import z from 'zod'
 	import { goto } from '$app/navigation'
 	import { page } from '$app/state'
-	import { Popover } from '$lib/popover/index.js'
-	import { urlParam } from '$lib/state/param.js'
-	import { zodCoerceJsonRecord } from '$lib/validation/zod.js'
+	import { Popover } from '#lib/popover/index.js'
+	import { urlParam } from '#lib/state/param.js'
+	import { zodCoerceJsonRecord } from '#lib/validation/zod.js'
 	import type { ItemBase, TableField } from '../field.js'
 	import OrderButtons from './OrderButtons.svelte'
 
@@ -43,8 +43,7 @@
 		if (isSet(max)) query.max = max
 		if (!Object.keys(query).length) return resetFilter()
 		goto(urlParam.with({ [field.key]: JSON.stringify(query) }, 'skip', 'take'), {
-			noScroll: true,
-			keepFocus: true
+			reset: false
 		})
 	}, 250)
 
@@ -52,9 +51,8 @@
 		// Une frappe encore en attente réécrirait le filtre qu'on vient d'effacer.
 		updateUrl.clear()
 		return goto(urlParam.without(field.key, 'skip', 'take'), {
-			replaceState: true,
-			noScroll: true,
-			keepFocus: true
+			replace: true,
+			reset: false
 		})
 	}
 </script>
