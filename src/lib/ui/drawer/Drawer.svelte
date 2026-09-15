@@ -9,7 +9,7 @@
 	import { XIcon } from '@lucide/svelte'
 
 	import { goto } from '$app/navigation'
-	import { urlParam } from '$lib/state/param.js'
+	import { urlParam } from '#lib/state/param.js'
 	import { drawerFly } from './drawerFly.js'
 	import { useLayer } from './useLayer.svelte.js'
 	import { inertBackground } from './inertBackground.js'
@@ -46,23 +46,22 @@
 	} = $props()
 
 	type GotoOptions = Parameters<typeof goto>[1]
-	// `keepFocus`: sans lui SvelteKit renvoie le focus sur `<body>` après chaque navigation
-	// client, ce qui écraserait le focus placé dans le tiroir (et sa restauration à la fermeture).
+	// `reset: false`: sans lui SvelteKit remonte le scroll et renvoie le focus sur `<body>` après
+	// chaque navigation client, ce qui écraserait le focus placé dans le tiroir (et sa restauration
+	// à la fermeture).
 	export function open(value = 1, options: GotoOptions = {}) {
 		return goto(urlParam.with({ [key]: value }), {
 			...options,
-			replaceState: true,
-			noScroll: true,
-			keepFocus: true
+			replace: true,
+			reset: false
 		})
 	}
 
 	export function close(options: GotoOptions = {}) {
 		return goto(urlParam.without(key), {
 			...options,
-			replaceState: true,
-			noScroll: true,
-			keepFocus: true
+			replace: true,
+			reset: false
 		})
 	}
 	let { offset, index, isActive } = $derived(useLayer(key))

@@ -1,5 +1,5 @@
 <script lang="ts" generics="Item extends ItemBase">
-	import { type ItemBase, type TableField, TableFieldsEdition } from '$lib/ui/table/index.js'
+	import { type ItemBase, type TableField, TableFieldsEdition } from '#lib/ui/table/index.js'
 	import {
 		TableHeadBoolean,
 		TableHeadDate,

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { param, urlParam } from '$lib/state/index.ts'
+	import { param, urlParam } from '#lib/state/index.ts'
 
 	let value = $state('')
 </script>

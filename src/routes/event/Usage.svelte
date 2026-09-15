@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { createEventEmitter } from '$lib/utils/eventEmitter.js'
+	import { createEventEmitter } from '#lib/utils/eventEmitter.js'
 
 	type Item = { name: string }
 	class Foo {

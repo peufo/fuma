@@ -1,7 +1,7 @@
 import type { Snippet } from 'svelte'
 import { page } from '$app/state'
-import { jsonParse } from '$lib/utils/jsonParse.js'
-import type { Options } from '$lib/utils/options.js'
+import { jsonParse } from '#lib/utils/jsonParse.js'
+import type { Options } from '#lib/utils/options.js'
 import { createKeys } from './context.js'
 
 export type Primitive = string | number | boolean | Date

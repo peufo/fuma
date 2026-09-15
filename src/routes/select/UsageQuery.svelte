@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { CheckIcon } from '@lucide/svelte'
-	import type { User } from '$lib/_doc/data.ts'
-	import InputSelect from '$lib/input/InputSelect.svelte'
+	import type { User } from '#lib/_doc/data.ts'
+	import InputSelect from '#lib/input/InputSelect.svelte'
 	import { searchUsers } from './select.remote.ts'
 
 	let user = $state<User>()

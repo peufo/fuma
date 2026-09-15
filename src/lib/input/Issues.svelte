@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { RemoteFormField, RemoteFormFieldValue } from '@sveltejs/kit'
+	import type { RemoteFormField, RemoteFormFieldValue } from '$app/server'
 	import { slide } from 'svelte/transition'
 
 	let {

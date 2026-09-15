@@ -1,4 +1,4 @@
-import { type TippyInstance, type TippyProps, tippy } from '$lib/utils/tippy.js'
+import { type TippyInstance, type TippyProps, tippy } from '#lib/utils/tippy.js'
 
 type TipOptions = Partial<TippyProps> & { disable?: boolean }
 

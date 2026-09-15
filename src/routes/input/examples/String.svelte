@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { InputString } from '$lib/input/index.ts'
+	import { InputString } from '#lib/input/index.ts'
 
 	let value = $state('Hello')
 </script>

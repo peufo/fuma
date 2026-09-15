@@ -2,7 +2,7 @@
 	import '../app.css'
 
 	import { Toaster } from 'svelte-sonner'
-	import { ToggleMode } from '$lib/ui/mode/index.js'
+	import { ToggleMode } from '#lib/ui/mode/index.js'
 	import Tree from './Tree.svelte'
 
 	let tree = Object.keys(import.meta.glob('./**/+page.svelte'))

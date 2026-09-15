@@ -10,13 +10,13 @@
 	} from '@lucide/svelte'
 	import { goto } from '$app/navigation'
 	import { page } from '$app/state'
-	import { listEditable } from '$lib/action/list/index.js'
-	import { tip } from '$lib/action/tip.js'
-	import { Popover } from '$lib/popover/index.js'
-	import { param, urlParam } from '$lib/state/param.js'
-	import { context } from '$lib/ui/table/context.js'
-	import type { ItemBase, TableField } from '$lib/ui/table/index.js'
-	import { jsonParse } from '$lib/utils/jsonParse.js'
+	import { listEditable } from '#lib/action/list/index.js'
+	import { tip } from '#lib/action/tip.js'
+	import { Popover } from '#lib/popover/index.js'
+	import { param, urlParam } from '#lib/state/param.js'
+	import { context } from '#lib/ui/table/context.js'
+	import type { ItemBase, TableField } from '#lib/ui/table/index.js'
+	import { jsonParse } from '#lib/utils/jsonParse.js'
 	import type { ResolvedPathname } from '$app/types'
 
 	let {
@@ -43,7 +43,7 @@
 	}
 
 	function toggleParam(paramKey: string, fieldKey: string): URL {
-		const url = new URL(page.url)
+		const url = new URL(page.url.href)
 		const fieldsKeys = jsonParse<string[]>(page.url.searchParams.get(paramKey), [])
 		if (!fieldsKeys.includes(fieldKey)) fieldsKeys.push(fieldKey)
 		else fieldsKeys.splice(fieldsKeys.indexOf(fieldKey), 1)
@@ -60,7 +60,7 @@
 		const newUrl = urlParam.with({
 			[KEY_FIELDS_ORDER]: JSON.stringify(fieldsOrder)
 		})
-		goto(newUrl, { replaceState: true, noScroll: true, keepFocus: true })
+		goto(newUrl, { replace: true, reset: false })
 	}
 </script>
 
@@ -108,9 +108,8 @@
 							href={getFieldHref(field)}
 							class="menu-item group w-full pr-1"
 							class:disabled={field.locked}
-							data-sveltekit-keepfocus
 							data-sveltekit-replacestate
-							data-sveltekit-noscroll
+							data-sveltekit-reset="false"
 						>
 							{#if field.locked}
 								<LockKeyholeIcon class="mx-0.5 text-primary" size={17} />

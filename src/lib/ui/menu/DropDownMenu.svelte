@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { ChevronsUpDownIcon } from '@lucide/svelte'
 	import type { Snippet } from 'svelte'
-	import { Popover, type PopoverOptions } from '$lib/popover/index.js'
+	import { Popover, type PopoverOptions } from '#lib/popover/index.js'
 
 	let {
 		children: childrenProp,

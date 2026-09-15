@@ -1,6 +1,6 @@
 <script lang="ts" generics="Item extends ItemBase">
 	import type { Snippet } from 'svelte'
-	import { type ItemBase, TableCell, type TableField } from '$lib/ui/table/index.js'
+	import { type ItemBase, TableCell, type TableField } from '#lib/ui/table/index.js'
 
 	let {
 		items,

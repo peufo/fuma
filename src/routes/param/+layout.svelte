@@ -1,7 +1,7 @@
 <script lang="ts">
-	import DocExample from '$lib/_doc/DocExample.svelte'
-	import { DocSection } from '$lib/_doc/index.ts'
-	import { fruitsOptions } from '$lib/_doc/data.ts'
+	import DocExample from '#lib/_doc/DocExample.svelte'
+	import { DocSection } from '#lib/_doc/index.ts'
+	import { fruitsOptions } from '#lib/_doc/data.ts'
 	import Usage from './Usage.svelte'
 	import usageCode from './Usage.svelte?raw'
 	import { resolve } from '$app/paths'
@@ -17,7 +17,7 @@
 
 <span>Pages :</span>
 <div class="flex gap-2">
-	<a class="btn" href={resolve('/param/')}>
+	<a class="btn" href={resolve('/param')}>
 		<span>/</span>
 	</a>
 	{#each Object.entries(fruitsOptions) as [fruit, option] (fruit)}

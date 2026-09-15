@@ -1,8 +1,8 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte'
 	import { MediaQuery } from 'svelte/reactivity'
-	import { type PopoverOptions, usePopover } from '$lib/popover/index.js'
-	import { Dialog } from '$lib/ui/dialog/index.js'
+	import { type PopoverOptions, usePopover } from '#lib/popover/index.js'
+	import { Dialog } from '#lib/ui/dialog/index.js'
 
 	let {
 		class: klass = '',

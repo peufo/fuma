@@ -1,5 +1,5 @@
 import './index.css'
-import { createEventEmitter } from '$lib/utils/eventEmitter.js'
+import { createEventEmitter } from '#lib/utils/eventEmitter.js'
 import { CLASSNAME_DRAG_ACTIVE, type ListEditableOptions } from './index.js'
 import { scroll } from './store.js'
 import { initDragStyle, resetDragStyle } from './style.js'

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { InputTextarea } from '$lib/input/index.ts'
+	import { InputTextarea } from '#lib/input/index.ts'
 
 	let value = $state('Line 1\nLine 2')
 </script>

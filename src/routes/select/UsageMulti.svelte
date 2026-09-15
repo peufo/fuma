@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { CheckIcon } from '@lucide/svelte'
-	import { type User, users } from '$lib/_doc/data.ts'
-	import InputMultiSelect from '$lib/input/InputMultiSelect.svelte'
+	import { type User, users } from '#lib/_doc/data.ts'
+	import InputMultiSelect from '#lib/input/InputMultiSelect.svelte'
 	import { searchUsers } from './select.remote.ts'
 
 	// `value` porte les items: la sélection initiale s'affiche sans requête, même si la

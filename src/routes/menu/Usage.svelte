@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { ContextMenu, DropDown } from '$lib/ui/menu/index.js'
+	import { ContextMenu, DropDown } from '#lib/ui/menu/index.js'
 	import MenuContent from './MenuContent.svelte'
 
 	let contextMenu: ContextMenu

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { MinusIcon, PlusIcon } from '@lucide/svelte'
-	import type { RemoteFormField } from '@sveltejs/kit'
+	import type { RemoteFormField } from '$app/server'
 	import dayjs, { type Dayjs } from 'dayjs'
 	import timezonePlugin from 'dayjs/plugin/timezone.js'
 	import utcPlugin from 'dayjs/plugin/utc.js'

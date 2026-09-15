@@ -1,6 +1,6 @@
 <script lang="ts">
-	import type { RemoteFormField } from '@sveltejs/kit'
-	import { type Options, parseOptions } from '$lib/utils/index.js'
+	import type { RemoteFormField } from '$app/server'
+	import { type Options, parseOptions } from '#lib/utils/index.js'
 	import Issues from './Issues.svelte'
 	import type { InputProps } from './type.js'
 	import type { Snippet } from 'svelte'

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { RemoteFormField } from '@sveltejs/kit'
+	import type { RemoteFormField } from '$app/server'
 	import { TextareaAutosize } from 'runed'
 	import Issues from './Issues.svelte'
 	import type { TextareaProps } from './type.js'

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { ButtonCopy } from '$lib/ui/copy/index.js'
+	import { ButtonCopy } from '#lib/ui/copy/index.js'
 
 	async function getValue() {
 		await wait(1500)
