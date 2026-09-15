@@ -3,7 +3,7 @@
 	import type { ItemBase, TableField } from '#lib/ui/table/index.js'
 	import TableHeadSelect from './TableHeadSelect.svelte'
 
-	export let field: TableField<Item>
+	let { field }: { field: TableField<Item> } = $props()
 </script>
 
 <TableHeadSelect
