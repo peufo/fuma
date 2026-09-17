@@ -10,6 +10,8 @@
 	import usageItemsCode from './UsageItems.svelte?raw'
 	import UsageMulti from './UsageMulti.svelte'
 	import usageMultiCode from './UsageMulti.svelte?raw'
+	import UsageMultiCount from './UsageMultiCount.svelte'
+	import usageMultiCountCode from './UsageMultiCount.svelte?raw'
 	import UsageQuery from './UsageQuery.svelte'
 	import usageQueryCode from './UsageQuery.svelte?raw'
 	import UsageSearch from './UsageSearch.svelte'
@@ -42,5 +44,8 @@
 	<DocProps props={parseProps(InputMultiSelectCode)} />
 	<DocExample title="Remote query" code={usageMultiCode}>
 		{#snippet preview()}<UsageMulti />{/snippet}
+	</DocExample>
+	<DocExample title="Compteur seul" code={usageMultiCountCode}>
+		{#snippet preview()}<UsageMultiCount />{/snippet}
 	</DocExample>
 </DocSection>

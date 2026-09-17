@@ -30,6 +30,7 @@
 		value = $bindable([]),
 		placeholder = 'Selectionner des valeurs',
 		canReset = false,
+		countOnly = false,
 		class: klass,
 		disabled = false,
 		hint,
@@ -61,6 +62,11 @@
 		value?: NoInfer<Item>[]
 		placeholder?: string
 		canReset?: boolean
+		/**
+		 * N'affiche que le nombre d'items sélectionnés à la place des puces. Retirer un item
+		 * se fait alors depuis le popover.
+		 */
+		countOnly?: boolean
 		class?: ClassValue
 		/** Les valeurs restent soumises, mais la sélection ne peut plus changer. */
 		disabled?: boolean
@@ -185,6 +191,8 @@
 	>
 		{#if !value.length}
 			<span class="opacity-60">{placeholder}</span>
+		{:else if countOnly}
+			<span>{value.length} sélectionné{value.length > 1 ? 's' : ''}</span>
 		{:else}
 			{#each value as item (getValue(item))}
 				<span
