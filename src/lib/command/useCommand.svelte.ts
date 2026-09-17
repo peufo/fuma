@@ -96,8 +96,12 @@ export function useCommand({
 		item: (index: number) => ({
 			[createAttachmentKey()]: (node: HTMLElement) => {
 				if (!items.includes(node)) items.splice(index, 0, node)
-				const cleanup = on(node, 'click', () => {
+				const cleanup = on(node, 'click', (event) => {
 					focusIndex = selectedIndex = items.indexOf(node)
+					// Un lien navigue par son `href`, modificateurs compris (cmd+clic, nouvel
+					// onglet): le clic ne fait que poser le curseur. `onSelect` reste la voie du
+					// clavier, et celle d'un clic dont le lien a été annulé.
+					if (node instanceof HTMLAnchorElement && node.href && !event.defaultPrevented) return
 					onSelect?.(selectedIndex)
 				})
 				return () => {
