@@ -23,7 +23,7 @@
 
 @layer components {
 	.menu-item {
-		@apply flex cursor-pointer items-center gap-3 rounded-md px-3 py-1.25 text-ellipsis whitespace-nowrap hover:bg-base-200;
+		@apply flex cursor-pointer items-center gap-3 rounded-field px-3 py-1.25 text-ellipsis whitespace-nowrap hover:bg-base-200;
 	}
 	.menu-item.active {
 		@apply bg-base-300/80;
@@ -37,10 +37,10 @@
 	}
 
 	.title-sm {
-		@apply text-xs font-bold text-base-content/60;
+		@apply text-xs font-bold text-base-content/90;
 	}
 
 	.title-md {
-		@apply font-semibold text-base-content/60;
+		@apply font-semibold text-base-content/80;
 	}
 }
