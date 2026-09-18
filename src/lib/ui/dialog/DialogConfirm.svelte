@@ -39,7 +39,7 @@
 	<p>{message}</p>
 
 	{#snippet footer()}
-		<div class="border-hard flex flex-wrap gap-2 border-t p-4">
+		<div class="flex flex-wrap gap-2 border-t border-hard p-4">
 			<button
 				type="button"
 				class="btn mr-auto btn-ghost"

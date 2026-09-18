@@ -1,0 +1,46 @@
+/* Styles requis par les composants fuma. À importer dans l'`app.css` du consommateur, après
+   `@plugin 'daisyui'`, pour que Tailwind les inline dans la feuille racine :
+
+   @import 'fuma/css';
+*/
+
+@utility border-soft {
+	border-color: color-mix(in oklab, var(--color-base-content) 18%, #0000);
+}
+
+@utility border-hard {
+	border-color: color-mix(in oklab, var(--color-base-content) 25%, #0000);
+}
+
+@layer utilities {
+	/* DaisyUI force `.input input { width: 100%; height: 100% }` ; le radio d'InputRadio est
+	   caché en `w-0`. */
+	.input input[type='radio'] {
+		height: initial;
+		width: initial;
+	}
+}
+
+@layer components {
+	.menu-item {
+		@apply flex cursor-pointer items-center gap-3 rounded-md px-3 py-1.25 text-ellipsis whitespace-nowrap hover:bg-base-200;
+	}
+	.menu-item.active {
+		@apply bg-base-300/80;
+	}
+	.menu-item.disabled {
+		@apply cursor-default bg-base-200/50 hover:bg-base-200/50;
+	}
+
+	.title {
+		@apply text-xl font-semibold text-base-content/70;
+	}
+
+	.title-sm {
+		@apply text-xs font-bold text-base-content/60;
+	}
+
+	.title-md {
+		@apply font-semibold text-base-content/60;
+	}
+}

@@ -55,7 +55,7 @@
 	{/if}
 
 	{#snippet footer()}
-		<div bind:this={actions} class="border-hard flex flex-row-reverse flex-wrap gap-2 border-t p-4">
+		<div bind:this={actions} class="flex flex-row-reverse flex-wrap gap-2 border-t border-hard p-4">
 			{#each options as option (option.value)}
 				{@const { value, label, icon: Icon, disabled, class: klass } = option}
 				<button

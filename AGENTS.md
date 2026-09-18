@@ -74,11 +74,24 @@ before publishing or consuming locally.
 
 ## Package Exports
 
-`package.json` exposes **only two entry points**:
+`package.json` exposes **only three entry points**:
 
 - `fuma` → the root barrel `src/lib/index.ts`, which re-exports `action`, `command`, `input`,
   `loading`, `popover`, `remote`, `search`, `state`, `ui`, `utils`, `validation`.
 - `fuma/server` → `src/lib/server/`.
+- `fuma/css` → `src/lib/fuma.css`, the Tailwind styles the components rely on (`border-soft`,
+  `border-hard`, `menu-item`, `title`, `title-sm`, `title-md`, the radio fix inside `.input`).
+  The consuming app imports it into its root stylesheet, after DaisyUI, so Tailwind inlines it:
+
+  ```css
+  @import 'tailwindcss';
+  @plugin 'daisyui';
+  @import 'fuma/css';
+  @source '../node_modules/fuma/dist';
+  ```
+
+  Any class a fuma component uses must be defined there, not in `src/app.css` — `src/app.css`
+  is the playground stylesheet and is not packaged.
 
 There are no `fuma/ui`, `fuma/utils`, `fuma/state`, … subpaths — everything but the server code
 is imported from `fuma` directly.

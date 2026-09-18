@@ -151,7 +151,7 @@
 			</button>
 			<input
 				type="date"
-				class="border-soft input join-item border-x-0 input-ghost input-xs"
+				class="input join-item border-x-0 input-ghost border-soft input-xs"
 				value={current ? current.format('YYYY-MM-DD') : ''}
 				oninput={(event) => setDate(event.currentTarget.value)}
 			/>

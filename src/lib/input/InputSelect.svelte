@@ -254,7 +254,7 @@
 					<button
 						{...command.item(index)}
 						class={[
-							isSelected && 'border-hard border',
+							isSelected && 'border border-hard',
 							isFocus && 'menu-focus',
 							'grow scroll-mt-13 scroll-mb-2'
 						]}

@@ -64,37 +64,10 @@
 	--radius-box: 0.75rem;
 }
 
-@layer utilities {
-	.input input[type='radio'] {
-		color: red;
-		height: initial;
-		width: initial;
-	}
-}
+/* Styles requis par les composants de la lib, exposés aux consommateurs en `fuma/css`. */
+@import './lib/fuma.css';
 
 @layer components {
-	.menu-item {
-		@apply flex cursor-pointer items-center gap-3 rounded-md px-3 py-1.25 text-ellipsis whitespace-nowrap hover:bg-base-200;
-	}
-	.menu-item.active {
-		@apply bg-base-300/80;
-	}
-	.menu-item.disabled {
-		@apply cursor-default bg-base-200/50 hover:bg-base-200/50;
-	}
-
-	.title {
-		@apply text-xl font-semibold text-base-content/70;
-	}
-
-	.title-sm {
-		@apply text-xs font-bold text-base-content/60;
-	}
-
-	.title-md {
-		@apply font-semibold text-base-content/60;
-	}
-
 	.btn-primary {
 		@apply text-white;
 	}
