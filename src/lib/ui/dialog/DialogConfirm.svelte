@@ -30,6 +30,7 @@
 <Dialog
 	onOpen={() => (danger ? cancelButton : confirmButton)?.focus()}
 	onClose={() => resolve(false)}
+	hideCloseButton
 >
 	{#snippet header()}
 		<h3 class="title">{title}</h3>
@@ -38,10 +39,10 @@
 	<p>{message}</p>
 
 	{#snippet footer()}
-		<div class="border-hard flex justify-end gap-2 border-t p-4">
+		<div class="border-hard flex flex-wrap gap-2 border-t p-4">
 			<button
 				type="button"
-				class="btn btn-ghost"
+				class="btn mr-auto btn-ghost"
 				bind:this={cancelButton}
 				onclick={() => resolve(false)}
 			>

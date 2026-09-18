@@ -1,6 +1,8 @@
 import { flushSync, mount, unmount, type Component, type ComponentProps } from 'svelte'
 import { on } from 'svelte/events'
+import type { Options } from '$lib/utils/options.js'
 import DialogConfirm from './DialogConfirm.svelte'
+import DialogSelect from './DialogSelect.svelte'
 
 /** Props reçues par tout composant ouvert via `openDialog`. */
 export type DialogProps<T> = { resolve: (value: T) => void }
@@ -79,9 +81,35 @@ export function openDialog<P extends DialogProps<never>>(
 	})
 }
 
-export type ConfirmOptions = Omit<ComponentProps<typeof DialogConfirm>, 'resolve'>
+export type ConfirmDialogOptions = Omit<ComponentProps<typeof DialogConfirm>, 'resolve'>
 
 /** Dialogue de confirmation: `true` si confirmé, `false` sinon (annulé, Échap, backdrop…). */
-export async function confirmDialog(options: ConfirmOptions = {}): Promise<boolean> {
+export async function confirmDialog(options: ConfirmDialogOptions = {}): Promise<boolean> {
 	return (await openDialog(DialogConfirm, options)) === true
+}
+
+export type SelectDialogOptions<O extends Options = Options> = Omit<
+	ComponentProps<typeof DialogSelect>,
+	'resolve' | 'options'
+> & { options: O }
+
+/** Valeurs d'une `Options` littérale: `'a' | 'b'` pour `['a', 'b']`, `{ a: … }` ou `[{ value: 'a' }]`. */
+export type OptionValues<O extends Options> = O extends string
+	? string
+	: O extends readonly (infer I)[]
+		? I extends string
+			? I
+			: I extends { value: infer V extends string }
+				? V
+				: never
+		: keyof O & string
+
+/**
+ * Liste d'options: la valeur choisie, ou `undefined` (annulé, Échap, backdrop…). Le type de
+ * la valeur s'infère d'une liste littérale; une `Options` quelconque retombe sur `string`.
+ */
+export async function selectDialog<const O extends Options>(
+	options: SelectDialogOptions<O>
+): Promise<OptionValues<O> | undefined> {
+	return (await openDialog(DialogSelect, options)) as OptionValues<O> | undefined
 }

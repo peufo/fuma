@@ -1,6 +1,7 @@
 <script lang="ts">
 	import DialogCode from '$lib/ui/dialog/Dialog.svelte?raw'
 	import DialogConfirmCode from '$lib/ui/dialog/DialogConfirm.svelte?raw'
+	import DialogSelectCode from '$lib/ui/dialog/DialogSelect.svelte?raw'
 	import DocExample from '$lib/_doc/DocExample.svelte'
 	import { DocProps, DocSection } from '$lib/_doc/index.ts'
 	import { parseProps } from '$lib/_doc/parse-props.ts'
@@ -24,10 +25,11 @@
 </DocSection>
 
 <DocSection
-	title="openDialog / confirmDialog"
-	description="Version impérative: `openDialog(Composant, props)` monte le composant à la demande et retourne une `Promise` réglée par sa prop `resolve` — ou `undefined` s'il est fermé autrement (Échap, backdrop, bouton X). `confirmDialog(options)` en est le raccourci `Promise<boolean>` bâti sur `DialogConfirm`."
+	title="openDialog / confirmDialog / selectDialog"
+	description="Version impérative: `openDialog(Composant, props)` monte le composant à la demande et retourne une `Promise` réglée par sa prop `resolve` — ou `undefined` s'il est fermé autrement (Échap, backdrop, bouton X). `confirmDialog(options)` en est le raccourci `Promise<boolean>` bâti sur `DialogConfirm`; `selectDialog(options)` propose une liste (`options: Options`, comme les inputs) et résout avec la valeur choisie, typée d'après les options."
 >
 	<DocProps props={parseProps(DialogConfirmCode)} />
+	<DocProps props={parseProps(DialogSelectCode)} />
 	<DocExample title="Appel" code={usageCallableCode}>
 		{#snippet preview()}<UsageCallable />{/snippet}
 	</DocExample>

@@ -4,7 +4,6 @@
 		DotIcon,
 		EllipsisIcon,
 		FunnelIcon,
-		GripIcon,
 		LockKeyholeIcon,
 		MoveVerticalIcon,
 		PlusIcon

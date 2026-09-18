@@ -7,7 +7,7 @@
 	let value = $state('')
 </script>
 
-<Dialog>
+<Dialog hideCloseButton>
 	{#snippet header()}
 		<h3 class="title">{label}</h3>
 	{/snippet}
@@ -23,8 +23,8 @@
 	</form>
 
 	{#snippet footer()}
-		<div class="border-hard flex justify-end gap-2 border-t p-4">
-			<button type="button" class="btn btn-ghost" onclick={() => resolve(undefined)}>
+		<div class="border-hard flex flex-wrap gap-2 border-t p-4">
+			<button type="button" class="btn mr-auto btn-ghost" onclick={() => resolve(undefined)}>
 				Annuler
 			</button>
 			<button type="submit" form="prompt" class="btn btn-primary">Valider</button>
