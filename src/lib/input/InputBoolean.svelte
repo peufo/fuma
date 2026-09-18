@@ -4,6 +4,7 @@
 	import Issues from './Issues.svelte'
 	import type { InputProps } from './type.js'
 	import type { Snippet } from 'svelte'
+	import './squircle.css'
 
 	let {
 		field,
@@ -86,7 +87,6 @@
 </div>
 
 {#snippet variantCheckbox()}
-	<!-- https://developer.mozilla.org/en-US/docs/Web/CSS/corner-shape  -->
 	<div class={['squircle', 'h-5 w-5 outline', 'bg-base-100']}>
 		<div
 			class={[
@@ -121,10 +121,6 @@
 		transition-property: translate background-color opacity;
 		transition-timing-function: cubic-bezier(0.275, 0.485, 0.515, 1.45);
 		transition-duration: 200ms;
-	}
-	.squircle {
-		corner-shape: squircle;
-		border-radius: 100%;
 	}
 
 	label:has(input[aria-invalid='true']) {

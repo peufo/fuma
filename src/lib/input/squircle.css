@@ -1,0 +1,5 @@
+/* https://developer.mozilla.org/en-US/docs/Web/CSS/corner-shape */
+.squircle {
+	corner-shape: squircle;
+	border-radius: 100%;
+}
