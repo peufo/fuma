@@ -73,7 +73,7 @@
 	}
 
 	function setDate(date: string) {
-		if (!date) return
+		if (!date) return clear()
 		const [y, m, d] = date.split('-').map(Number)
 		setValue(
 			base()
@@ -84,7 +84,7 @@
 	}
 
 	function setDateTime(datetime: string) {
-		if (!datetime) return
+		if (!datetime) return clear()
 		const [date, time] = datetime.split('T')
 		const [y, M, d] = date.split('-').map(Number)
 		const [h, m] = time.split(':').map(Number)
@@ -106,16 +106,24 @@
 		field?.set(date.toJSON())
 		onchange?.(date)
 	}
+
+	/**
+	 * Vider la date vide la valeur; vider l'heure seule ne touche à rien. Le champ caché part alors
+	 * à blanc, ce qui laisse le schéma distinguer « effacé » d'« intact ».
+	 */
+	function clear() {
+		value = null
+		field?.set('')
+	}
 </script>
 
 <!-- Par `current` et non `value`: la valeur passée n'est pas toujours la `Date` annoncée par le
-     type — une date qui a fait l'aller-retour par JSON revient en chaîne ISO. -->
-{#if current}
-	{#if field}
-		<input {...field.as('hidden', current.toJSON())} />
-	{:else if name}
-		<input type="hidden" {name} value={current.toJSON()} />
-	{/if}
+     type — une date qui a fait l'aller-retour par JSON revient en chaîne ISO. Sans date le champ
+     caché est soumis vide: absent, une date effacée passerait pour intacte. -->
+{#if field}
+	<input {...field.as('hidden', current?.toJSON() ?? '')} />
+{:else if name}
+	<input type="hidden" {name} value={current?.toJSON() ?? ''} />
 {/if}
 
 {#snippet inputDateTime()}
