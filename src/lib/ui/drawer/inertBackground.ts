@@ -1,4 +1,6 @@
+import { untrack } from 'svelte'
 import type { Attachment } from 'svelte/attachments'
+import { page } from '$app/state'
 import { drawerFocusTarget } from './focusTarget.js'
 
 // Compteur par élément: deux tiroirs empilés marquent les mêmes frères, et le second à se fermer
@@ -7,7 +9,10 @@ import { drawerFocusTarget } from './focusTarget.js'
 const marks = new WeakMap<HTMLElement, number>()
 
 export type InertBackgroundOptions = {
-	/** Les frères portant `data-drawer` de cette valeur sont préservés (overlay et tiroir courant). */
+	/**
+	 * Les frères portant `data-drawer` de cette valeur sont préservés (overlay et tiroir courant),
+	 * comme ceux des tiroirs placés plus haut dans la pile.
+	 */
 	key: string
 	/** Sélecteur des frères à laisser interactifs, par ex. le conteneur des toasts. */
 	skip?: string
@@ -28,10 +33,20 @@ export function inertBackground({
 	return (node) => {
 		const marked: HTMLElement[] = []
 
+		// La pile suit l'ordre des paramètres d'URL. Un tiroir ne rend pas inerte celui qui est
+		// au-dessus de lui : ouverts l'un après l'autre, le second n'existe pas encore quand le
+		// premier s'attache ; mais chargés directement par l'URL, les deux s'attachent au même
+		// passage et se rendraient inertes l'un l'autre. L'URL et non l'`index` de `useLayer`, qui
+		// dépend d'effets pas encore joués à l'hydratation. Hors suivi : l'attachement ne doit pas
+		// se rejouer à chaque navigation.
+		const stack = untrack(() => [...page.url.searchParams.keys()])
+		const isAbove = (other: string) => stack.indexOf(other) > stack.indexOf(key)
+
 		for (let el: HTMLElement | null = node; el && el !== document.body; el = el.parentElement) {
 			for (const sibling of el.parentElement?.children ?? []) {
 				if (sibling === el || !(sibling instanceof HTMLElement)) continue
-				if (sibling.dataset.drawer === key) continue
+				const drawer = sibling.dataset.drawer
+				if (drawer !== undefined && (drawer === key || isAbove(drawer))) continue
 				if (skip && sibling.matches(skip)) continue
 
 				const count = marks.get(sibling) ?? 0
