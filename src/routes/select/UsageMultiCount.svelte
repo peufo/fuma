@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { type User, users } from '$lib/_doc/data.ts'
-	import InputMultiSelect from '$lib/input/InputMultiSelect.svelte'
+	import { type User, users } from '#lib/_doc/data.ts'
+	import InputMultiSelect from '#lib/input/InputMultiSelect.svelte'
 
 	const candidates = users.slice(0, 10)
 	let selectedUsers = $state<User[]>(candidates.slice(0, 3))

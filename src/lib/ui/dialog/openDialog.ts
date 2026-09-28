@@ -1,6 +1,6 @@
 import { flushSync, mount, unmount, type Component, type ComponentProps } from 'svelte'
 import { on } from 'svelte/events'
-import type { Options } from '$lib/utils/options.js'
+import type { Options } from '#lib/utils/options.js'
 import DialogConfirm from './DialogConfirm.svelte'
 import DialogSelect from './DialogSelect.svelte'
 
