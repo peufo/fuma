@@ -11,6 +11,7 @@
 		value = $bindable(),
 		options: optionsProp,
 		labelAppend,
+		orientation = 'vertical',
 		...props
 	}: {
 		field?: RemoteFormField<string>
@@ -23,6 +24,8 @@
 		options: Options
 		/** Rendu à droite du libellé. */
 		labelAppend?: Snippet
+		/** Disposition des options. En `horizontal`, elles se partagent la largeur du parent à parts égales. */
+		orientation?: 'horizontal' | 'vertical'
 	} & InputProps = $props()
 
 	const options = $derived(parseOptions(optionsProp))
@@ -33,7 +36,7 @@
 		<span>{label}</span>
 		{@render labelAppend?.()}
 	</span>
-	<div class="join join-vertical">
+	<div class={['join', orientation === 'vertical' ? 'join-vertical' : 'join-horizontal']}>
 		{#each options as option (option.value)}
 			{@const {
 				class: klass,
@@ -49,11 +52,16 @@
 					'group h-auto min-h-10'
 				]}
 			>
-				<div class="flex h-(--size) grow items-center gap-2">
+				<div
+					class={[
+						'flex h-(--size) grow items-center gap-2',
+						orientation === 'horizontal' && 'min-w-0'
+					]}
+				>
 					{#if Icon}
 						<Icon size={18} opacity={0.8} />
 					{/if}
-					<span class="grow">{optionLabel}</span>
+					<span class={['grow', orientation === 'horizontal' && 'truncate']}>{optionLabel}</span>
 					<!-- Le `checked` explicite prime sur celui de `as()`, qui lit `field.value()`:
 					     sans lui la valeur initiale ne cocherait rien, et un groupe décoché ne
 					     part pas dans le `FormData`. -->
@@ -95,6 +103,18 @@
 		transition-property: translate background-color opacity;
 		transition-timing-function: cubic-bezier(0.275, 0.485, 0.515, 1.45);
 		transition-duration: 200ms;
+	}
+
+	/* Hors `@layer`, l'emporte sur le `display: inline-flex` de `.join`. Le min à 0 garde les
+	   colonnes égales quand la place manque, les libellés étant alors tronqués. */
+	.join-horizontal {
+		display: grid;
+		grid-auto-flow: column;
+		grid-auto-columns: minmax(0, 1fr);
+	}
+	.join-horizontal > label {
+		/* `.input` impose `clamp(3rem, 20rem, 100%)` ; `auto` remplit la colonne. */
+		width: auto;
 	}
 
 	label:has(input[aria-invalid='true']) {
