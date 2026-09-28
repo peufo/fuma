@@ -14,8 +14,14 @@ export function createPlaceholder({ listElement, itemElement, indexFrom }: Creat
 	const placeholderEl = document.createElement('div')
 
 	placeholderEl.classList.add(CLASSNAME_PLACEHOLDER)
-	placeholderEl.style.height = itemElement.style.height
-	placeholderEl.style.width = itemElement.style.width
+	const style = getComputedStyle(itemElement)
+	placeholderEl.style.height = style.height
+	placeholderEl.style.width = style.width
+	placeholderEl.style.margin = style.margin
+	placeholderEl.style.borderRadius = style.borderRadius
+	placeholderEl.style.backgroundColor = style.backgroundColor
+	placeholderEl.style.opacity = '0.3'
+
 	listElement.insertBefore(placeholderEl, itemElement)
 
 	const moveTo = (index: number) => {
