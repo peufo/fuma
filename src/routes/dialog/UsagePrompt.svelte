@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Dialog, type DialogProps } from '$lib/ui/dialog/index.js'
+	import { Dialog, type DialogProps } from '#lib/ui/dialog/index.js'
 
 	// Un dialogue sur mesure: rend un `<Dialog>` et appelle `resolve` avec sa valeur.
 	let { label, resolve }: { label: string } & DialogProps<string | undefined> = $props()

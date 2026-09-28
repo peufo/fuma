@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { CheckIcon, MailsIcon } from '@lucide/svelte'
 	import { toast } from 'svelte-sonner'
-	import { confirmDialog, openDialog, selectDialog } from '$lib/ui/dialog/index.js'
+	import { confirmDialog, openDialog, selectDialog } from '#lib/ui/dialog/index.js'
 	import UsagePrompt from './UsagePrompt.svelte'
 
 	async function remove() {

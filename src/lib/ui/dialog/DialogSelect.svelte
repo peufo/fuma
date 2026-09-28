@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { type Options, parseOptions } from '$lib/utils/options.js'
+	import { type Options, parseOptions } from '#lib/utils/options.js'
 	import Dialog from './Dialog.svelte'
 	import type { DialogProps } from './openDialog.js'
 
