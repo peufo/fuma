@@ -115,6 +115,7 @@
 			}
 		}}
 		style="
+			--drawer-offset: {offset};
 			z-index: {zIndex + index};
 			max-width: min(100%, {maxWidth});
 			transform: translateX({-offset * 4}rem);
