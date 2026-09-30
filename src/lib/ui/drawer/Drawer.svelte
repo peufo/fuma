@@ -97,7 +97,11 @@
 
 {#if isActive}
 	<!-- `<div>` et non `<aside>`: `role="dialog"` remplace de toute façon le rôle implicite, et
-	     Svelte refuse un rôle interactif sur un élément qui ne l'est pas. -->
+	     Svelte refuse un rôle interactif sur un élément qui ne l'est pas.
+	     La pile décale par `translate` et `scale`, seuls en transition CSS; le glissement de
+	     `drawerFly` anime `transform`. Une transition CSS sur `transform` passerait devant
+	     l'animation (les transitions l'emportent dans la cascade) et, sous Firefox, ferait
+	     reculer le tiroir pendant son ouverture. -->
 	<div
 		data-drawer={key}
 		role="dialog"
@@ -118,13 +122,13 @@
 			--drawer-offset: {offset};
 			z-index: {zIndex + index};
 			max-width: min(100%, {maxWidth});
-			transform: translateX({-offset * 4}rem);
+			translate: {-offset * 4}rem 0;
 			transition-duration: {duration}ms;
 		"
 		class={[
 			'fixed top-0 right-0 bottom-0 z-10 flex',
 			'w-full flex-col overflow-y-auto overscroll-contain bg-base-100',
-			'transition-transform',
+			'transition-[translate,scale]',
 			klass
 		]}
 	>
