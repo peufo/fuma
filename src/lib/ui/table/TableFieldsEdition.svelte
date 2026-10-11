@@ -113,23 +113,27 @@
 							data-sveltekit-noscroll
 						>
 							{#if field.locked}
-								<LockKeyholeIcon class="mx-0.5 text-primary" size={17} />
+								<LockKeyholeIcon class="mx-0.5 shrink-0 text-primary" size={17} />
 							{:else if param.has(field.key)}
-								<FunnelIcon class="mx-0.5 text-primary" size={17} />
+								<FunnelIcon class="mx-0.5 shrink-0 text-primary" size={17} />
 							{:else if field._visible}
-								<CheckIcon class="text-success" size={21} />
+								<CheckIcon class="shrink-0 text-success" size={21} />
 							{:else}
-								<DotIcon class="text-base-content/50" size={21} />
+								<DotIcon class="shrink-0 text-base-content/50" size={21} />
 							{/if}
 
 							<span class=" font-normal">{field.label}</span>
 
+							<!-- `onclickcapture` et non `onclick`: `listEditable` arrête la propagation du clic
+							     sur la poignée, et un `onclick` délégué n'est alors jamais appelé. Le lien
+							     suivrait son `href` hors du routeur: la page se rechargerait au clic qui
+							     termine chaque glisser. -->
 							<span
 								class={[
 									'drag-button btn ml-auto btn-square btn-soft btn-xs',
 									'opacity-0 group-hover:opacity-100'
 								]}
-								onclick={(e) => e.preventDefault()}
+								onclickcapture={(e) => e.preventDefault()}
 								role="none"
 							>
 								<MoveVerticalIcon size={18} class="text-base-content/70" />

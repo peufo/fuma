@@ -76,6 +76,21 @@ export function usePopover({
 		hideDebounced.clear()
 		show()
 	}
+	// Un appui focalise le déclencheur dès `pointerdown`. Ouvrir à ce moment est perdu: au
+	// `pointerup`, le light-dismiss natif referme le popover, qui ne compte pas le déclencheur
+	// parmi ses invocateurs, puis le `click` le rouvre et l'animation joue deux fois. Quand le
+	// clic est écouté, c'est donc lui qui ouvre, et le focus n'ouvre que venu du clavier.
+	let isPressing = false
+	function onPointerDown() {
+		isPressing = true
+		const release = () => (isPressing = false)
+		on(window, 'pointerup', release, { once: true, capture: true })
+		on(window, 'pointercancel', release, { once: true, capture: true })
+	}
+	function onFocusIn() {
+		if (listenClick && isPressing) return
+		show()
+	}
 	function onToggle(event: ToggleEvent) {
 		isOpen = event.newState === 'open'
 	}
@@ -94,7 +109,8 @@ export function usePopover({
 			cleanups.push(on(node, 'click', show))
 		}
 		if (listenFocus) {
-			cleanups.push(on(node, 'focusin', show))
+			cleanups.push(on(node, 'pointerdown', onPointerDown))
+			cleanups.push(on(node, 'focusin', onFocusIn))
 		}
 		if (listenFocus || listenFocusout) {
 			cleanups.push(on(node, 'focusout', onFocusOut))
