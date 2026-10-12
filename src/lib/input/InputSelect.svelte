@@ -155,7 +155,9 @@
 		{...popover.trigger}
 		{...isSearchable ? {} : command.trigger}
 	>
-		<div class="grow text-left">
+		<!-- Le libellé ne pèse rien dans la largeur intrinsèque: un texte long se tronque au lieu
+		     d'élargir le champ et son conteneur. -->
+		<div class="grow truncate text-left contain-inline-size">
 			{#if !value}
 				<span class="opacity-60">{placeholder}</span>
 			{:else}
