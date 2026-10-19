@@ -2,7 +2,8 @@
 	import { ChevronsUpDownIcon, SearchIcon, XIcon } from '@lucide/svelte'
 	import type { RemoteFormField } from '$app/server'
 	import { untrack, type Snippet } from 'svelte'
-	import type { ClassValue, HTMLLiAttributes } from 'svelte/elements'
+	import { createAttachmentKey } from 'svelte/attachments'
+	import type { ClassValue, HTMLButtonAttributes, HTMLLiAttributes } from 'svelte/elements'
 	import { tip } from '../action/tip.js'
 	import { useCommand } from '../command/useCommand.svelte.js'
 	import Loading from '../loading/Loading.svelte'
@@ -34,6 +35,7 @@
 		hint,
 		append,
 		labelAppend,
+		trigger: triggerSnippet,
 		header,
 		proposalAppend,
 		onSelect,
@@ -74,6 +76,11 @@
 		append?: Snippet<[PopoverType]>
 		/** Rendu à droite du libellé. Sans effet sur la variante `floating`. */
 		labelAppend?: Snippet
+		/**
+		 * Remplace le faux champ qui ouvre la liste: un bouton « Ajouter », typiquement, quand
+		 * choisir ajoute une ligne au lieu de remplir le champ. `props` s'étale sur le bouton.
+		 */
+		trigger?: Snippet<[{ props: HTMLButtonAttributes; value: Item | undefined }]>
 		header?: Snippet<[PopoverType]>
 		onSelect?: (item: NoInfer<Item> | undefined, popover: PopoverType) => void
 		hotKey?: string
@@ -139,6 +146,23 @@
 	})
 
 	const isButtonSetNullVisible = $derived(nullable && value)
+
+	// Une clé créée une fois: recréée à chaque calcul, l'attachment se rejouerait.
+	const captureTrigger = {
+		[createAttachmentKey()]: (node: HTMLButtonElement) => {
+			trigger = node
+			return () => (trigger = undefined)
+		}
+	}
+	// Ce que porte le déclencheur, qu'il soit le faux champ ou celui du snippet `trigger`.
+	const triggerProps = $derived<HTMLButtonAttributes>({
+		id: inputId,
+		type: 'button',
+		disabled,
+		...popover.trigger,
+		...(isSearchable ? {} : command.trigger),
+		...captureTrigger
+	})
 </script>
 
 {#snippet defaultSnippet(item: Item)}
@@ -146,27 +170,26 @@
 {/snippet}
 
 {#snippet triggerButton()}
-	<button
-		bind:this={trigger}
-		id={inputId}
-		type="button"
-		{disabled}
-		class={['input w-full', field?.issues()?.length && 'input-error', klass]}
-		{...popover.trigger}
-		{...isSearchable ? {} : command.trigger}
-	>
-		<!-- Le libellé ne pèse rien dans la largeur intrinsèque: un texte long se tronque au lieu
-		     d'élargir le champ et son conteneur. -->
-		<div class="grow truncate text-left contain-inline-size">
-			{#if !value}
-				<span class="opacity-60">{placeholder}</span>
-			{:else}
-				<!-- item.icon not rerender if not wrapped in #key -->
-				{#key value}{@render selected(value)}{/key}
-			{/if}
-		</div>
-		<ChevronsUpDownIcon size={14} opacity={0.7} />
-	</button>
+	{#if triggerSnippet}
+		{@render triggerSnippet({ props: triggerProps, value })}
+	{:else}
+		<button
+			{...triggerProps}
+			class={['input w-full', field?.issues()?.length && 'input-error', klass]}
+		>
+			<!-- Le libellé ne pèse rien dans la largeur intrinsèque: un texte long se tronque au lieu
+			     d'élargir le champ et son conteneur. -->
+			<div class="grow truncate text-left contain-inline-size">
+				{#if !value}
+					<span class="opacity-60">{placeholder}</span>
+				{:else}
+					<!-- item.icon not rerender if not wrapped in #key -->
+					{#key value}{@render selected(value)}{/key}
+				{/if}
+			</div>
+			<ChevronsUpDownIcon size={14} opacity={0.7} />
+		</button>
+	{/if}
 {/snippet}
 
 <!-- Rien à soumettre tant qu'aucune valeur n'est choisie: `as('hidden')` refuse une

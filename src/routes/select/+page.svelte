@@ -16,6 +16,8 @@
 	import usageQueryCode from './UsageQuery.svelte?raw'
 	import UsageSearch from './UsageSearch.svelte'
 	import usageSearchCode from './UsageSearch.svelte?raw'
+	import UsageTrigger from './UsageTrigger.svelte'
+	import usageTriggerCode from './UsageTrigger.svelte?raw'
 </script>
 
 <DocSection
@@ -34,6 +36,9 @@
 	</DocExample>
 	<DocExample title="Remote query" code={usageQueryCode}>
 		{#snippet preview()}<UsageQuery />{/snippet}
+	</DocExample>
+	<DocExample title="Bouton d'ajout" code={usageTriggerCode}>
+		{#snippet preview()}<UsageTrigger />{/snippet}
 	</DocExample>
 </DocSection>
 
