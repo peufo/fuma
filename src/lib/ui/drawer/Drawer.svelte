@@ -5,6 +5,7 @@
 
 <script lang="ts">
 	import { type Snippet } from 'svelte'
+	import { prefersReducedMotion } from 'svelte/motion'
 	import { fade } from 'svelte/transition'
 	import { XIcon } from '@lucide/svelte'
 
@@ -64,6 +65,8 @@
 			reset: false
 		})
 	}
+	// Sans animation pour qui la refuse (`prefers-reduced-motion`): le tiroir paraît et disparaît.
+	let motion = $derived(prefersReducedMotion.current ? 0 : duration)
 	let { offset, index, isActive } = $derived(useLayer(key))
 	let clientWidth = $state(0)
 
@@ -87,7 +90,7 @@
 		data-drawer-overlay
 		aria-hidden="true"
 		onclick={() => close()}
-		transition:fade={{ duration }}
+		transition:fade={{ duration: motion }}
 		style="z-index: {zIndex + index};"
 		class="
 			fixed inset-0 bg-black/15 backdrop-blur-[1.5px]
@@ -112,7 +115,7 @@
 		bind:clientWidth
 		transition:drawerFly|local={{
 			x: clientWidth,
-			duration,
+			duration: motion,
 			opacity: 1,
 			onTransition(pos) {
 				if (noOverlay) transitionX.current = pos.x
@@ -123,7 +126,7 @@
 			z-index: {zIndex + index};
 			max-width: min(100%, {maxWidth});
 			translate: {-offset * 4}rem 0;
-			transition-duration: {duration}ms;
+			transition-duration: {motion}ms;
 		"
 		class={[
 			'fixed top-0 right-0 bottom-0 z-10 flex',
