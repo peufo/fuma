@@ -272,7 +272,7 @@
 				(isSearchable || append || header) && 'pt-0'
 			]}
 		>
-			{#each options as item, index (item)}
+			{#each options as item, index (getValue(item))}
 				{@const isSelected = submittedValue === getValue(item)}
 				{@const isFocus = index === command.focusIndex}
 				<li {...propsLi}>

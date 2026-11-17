@@ -296,7 +296,7 @@
 			aria-multiselectable="true"
 			class={['menu max-h-80 w-full flex-nowrap', (isSearchable || append) && 'pt-0']}
 		>
-			{#each options as item, index (item)}
+			{#each options as item, index (getValue(item))}
 				{@const isSelected = selectedValues.includes(getValue(item))}
 				{@const isFocus = index === command.focusIndex}
 				<li>
