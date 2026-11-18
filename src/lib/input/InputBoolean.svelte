@@ -76,12 +76,14 @@
 			</div>
 		{/if}
 	</label>
-	{#if field && !isChecked && !disabled}
+	{#if field && (disabled || !isChecked)}
 		<!-- Une case décochée ne transmet rien: sans ce relais, le serveur ne distinguerait pas
 		     « décochée » de « champ non rendu », et une valeur ne pourrait jamais repasser à faux.
-		     Il porte la clé de la case, d'où l'exclusion mutuelle — SvelteKit refuse un formulaire
-		     où une clé apparaît deux fois. Un contrôle désactivé, lui, ne transmet toujours rien. -->
-		<input {...field.as('hidden', false)} />
+		     Désactivée, cochée ou non, elle ne transmet rien non plus: le relais porte alors sa
+		     valeur, comme le champ caché d'un `InputSelect` désactivé. Il porte la clé de la case,
+		     d'où l'exclusion mutuelle — SvelteKit refuse un formulaire où une clé apparaît deux
+		     fois ; une case désactivée n'y entre pas. -->
+		<input {...disabled && isChecked ? field.as('hidden', true) : field.as('hidden', false)} />
 	{/if}
 	<Issues {field} />
 </div>
