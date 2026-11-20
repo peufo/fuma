@@ -42,17 +42,34 @@ export function inertBackground({
 		const stack = untrack(() => [...page.url.searchParams.keys()])
 		const isAbove = (other: string) => stack.indexOf(other) > stack.indexOf(key)
 
+		const mark = (el: HTMLElement) => {
+			const count = marks.get(el) ?? 0
+			marks.set(el, count + 1)
+			if (count === 0) el.inert = true
+			marked.push(el)
+		}
+
+		// Un `<dialog>` de l'arrière-plan peut s'ouvrir par-dessus le tiroir (le recadrage d'une
+		// image déposée dans une médiathèque): il ne doit hériter d'aucun `inert`. Chromium laisse
+		// un dialogue modal échapper à celui d'un ancêtre, mais pas Playwright, qui refuse alors d'y
+		// saisir, et aucun navigateur à celui posé sur le dialogue lui-même. On descend donc jusqu'aux
+		// branches qui n'en contiennent pas. Fermé, un dialogue n'est pas affiché; ouvert en modal,
+		// il rend lui-même le reste inerte. Seuls comptent les dialogues présents à l'ouverture.
+		const markOutsideDialogs = (el: HTMLElement) => {
+			if (el instanceof HTMLDialogElement) return
+			if (!el.querySelector('dialog')) return mark(el)
+			for (const child of el.children) {
+				if (child instanceof HTMLElement) markOutsideDialogs(child)
+			}
+		}
+
 		for (let el: HTMLElement | null = node; el && el !== document.body; el = el.parentElement) {
 			for (const sibling of el.parentElement?.children ?? []) {
 				if (sibling === el || !(sibling instanceof HTMLElement)) continue
 				const drawer = sibling.dataset.drawer
 				if (drawer !== undefined && (drawer === key || isAbove(drawer))) continue
 				if (skip && sibling.matches(skip)) continue
-
-				const count = marks.get(sibling) ?? 0
-				marks.set(sibling, count + 1)
-				if (count === 0) sibling.inert = true
-				marked.push(sibling)
+				markOutsideDialogs(sibling)
 			}
 		}
 
