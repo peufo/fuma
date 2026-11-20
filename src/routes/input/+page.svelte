@@ -3,6 +3,7 @@
 	import InputCheckboxesCode from '#lib/input/InputCheckboxes.svelte?raw'
 	import InputDateTimeCode from '#lib/input/InputDateTime.svelte?raw'
 	import InputNumberCode from '#lib/input/InputNumber.svelte?raw'
+	import InputPasswordCode from '#lib/input/InputPassword.svelte?raw'
 	import InputRadioCode from '#lib/input/InputRadio.svelte?raw'
 	import InputRangeCode from '#lib/input/InputRange.svelte?raw'
 	import InputSelectCode from '#lib/input/InputSelect.svelte?raw'
@@ -20,6 +21,8 @@
 	import dateTimeCode from './examples/DateTime.svelte?raw'
 	import NumberExample from './examples/Number.svelte'
 	import numberCode from './examples/Number.svelte?raw'
+	import PasswordExample from './examples/Password.svelte'
+	import passwordCode from './examples/Password.svelte?raw'
 	import Radio from './examples/Radio.svelte'
 	import radioCode from './examples/Radio.svelte?raw'
 	import Range from './examples/Range.svelte'
@@ -38,6 +41,16 @@
 	<DocProps props={parseProps(InputStringCode)} />
 	<DocExample code={stringCode}>
 		{#snippet preview()}<StringExample />{/snippet}
+	</DocExample>
+</DocSection>
+
+<DocSection
+	title="InputPassword"
+	description="A password field with a button inside it to show or hide what was typed."
+>
+	<DocProps props={parseProps(InputPasswordCode)} />
+	<DocExample code={passwordCode}>
+		{#snippet preview()}<PasswordExample />{/snippet}
 	</DocExample>
 </DocSection>
 
